@@ -8,7 +8,7 @@ part 'tipo_atividade_dao.g.dart';
 @DriftAccessor(tables: [TipoAtividadeTable])
 class TipoAtividadeDao extends DatabaseAccessor<AppDatabase>
     with _$TipoAtividadeDaoMixin {
-  TipoAtividadeDao(AppDatabase db) : super(db);
+  TipoAtividadeDao(super.db);
 
   Future<void> inserirOuAtualizar(TipoAtividadeTableCompanion data) async {
     AppLogger.d('Inserindo/Atualizando TipoAtividade: ${data.toString()}',

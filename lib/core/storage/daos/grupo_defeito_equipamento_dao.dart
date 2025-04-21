@@ -8,7 +8,7 @@ part 'grupo_defeito_equipamento_dao.g.dart';
 @DriftAccessor(tables: [GrupoDefeitoEquipamentoTable])
 class GrupoDefeitoEquipamentoDao extends DatabaseAccessor<AppDatabase>
     with _$GrupoDefeitoEquipamentoDaoMixin {
-  GrupoDefeitoEquipamentoDao(AppDatabase db) : super(db);
+  GrupoDefeitoEquipamentoDao(super.db);
 
   Future<void> inserirOuAtualizar(
       GrupoDefeitoEquipamentoTableCompanion data) async {

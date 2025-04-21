@@ -16,9 +16,11 @@ import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
 import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/subgrupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart';
+import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 import 'dart:io';
 
-import 'package:sympla_app/core/storage/tables/usuario_table.dart';
+import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_converter.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 
 // ignore: uri_does_not_exist
 part 'app_database.g.dart';

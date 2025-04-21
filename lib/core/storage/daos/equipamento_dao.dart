@@ -8,7 +8,7 @@ part 'equipamento_dao.g.dart';
 @DriftAccessor(tables: [EquipamentoTable])
 class EquipamentoDao extends DatabaseAccessor<AppDatabase>
     with _$EquipamentoDaoMixin {
-  EquipamentoDao(AppDatabase db) : super(db);
+  EquipamentoDao(super.db);
 
   Future<void> inserirOuAtualizar(EquipamentoTableCompanion data) async {
     AppLogger.d('🔄 Inserindo/Atualizando Equipamento: ${data.toString()}',

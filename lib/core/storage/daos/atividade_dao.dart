@@ -8,7 +8,7 @@ part 'atividade_dao.g.dart';
 @DriftAccessor(tables: [AtividadeTable])
 class AtividadeDao extends DatabaseAccessor<AppDatabase>
     with _$AtividadeDaoMixin {
-  AtividadeDao(AppDatabase db) : super(db);
+  AtividadeDao(super.db);
 
   Future<void> inserirOuAtualizar(AtividadeTableCompanion data) async {
     AppLogger.d('🔄 Inserindo/Atualizando Atividade: ${data.toString()}',
