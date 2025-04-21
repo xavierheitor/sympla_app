@@ -4,13 +4,13 @@ abstract class Failure {
 }
 
 class NetworkFailure extends Failure {
-  NetworkFailure(String message) : super(message);
+  NetworkFailure(super.message);
 }
 
 class DatabaseFailure extends Failure {
-  DatabaseFailure(String message) : super(message);
+  DatabaseFailure(super.message);
 }
 
 class UnknownFailure extends Failure {
-  UnknownFailure(String message) : super(message);
+  UnknownFailure(super.message);
 }

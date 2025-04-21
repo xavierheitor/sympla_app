@@ -1,6 +1,6 @@
 name: sympla_app
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -10,14 +10,18 @@ dependencies:
   flutter:
     sdk: flutter
   dio: ^5.8.0+1
-  drift: ^2.26.0
+  drift: ^2.13.0
+  sqlite3_flutter_libs: ^0.5.13
   path: ^1.9.0
   path_provider: ^2.1.5
+  get: ^4.7.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+  build_runner: ^2.3.3
+  drift_dev: ^2.13.0
 
 flutter:
   uses-material-design: true
