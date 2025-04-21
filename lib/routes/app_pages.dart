@@ -5,6 +5,7 @@ import 'package:sympla_app/modules/login/login_binding.dart';
 import 'package:sympla_app/modules/login/login_page.dart';
 import 'package:sympla_app/modules/splash/splash_binding.dart';
 import 'package:sympla_app/modules/splash/splash_page.dart';
+import 'package:sympla_app/routes/middleware/auth_middleware.dart';
 
 class AppPages {
   static const initial = '/home';
@@ -14,6 +15,7 @@ class AppPages {
       name: '/home',
       page: () => HomePage(),
       binding: HomeBinding(),
+      middlewares: [AuthMiddleware()],
     ),
     GetPage(
       name: '/login',
@@ -24,11 +26,6 @@ class AppPages {
       name: '/splash',
       page: () => SplashPage(),
       binding: SplashBinding(),
-    ),
-    GetPage(
-      name: '/home',
-      page: () => HomePage(),
-      binding: HomeBinding(),
     ),
     // Adicione outras rotas aqui
   ];
