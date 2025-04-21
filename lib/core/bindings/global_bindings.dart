@@ -18,12 +18,12 @@ class GlobalBinding extends Bindings {
   void dependencies() {
     // Core
     Get.put<AppDatabase>(AppDatabase(), permanent: true);
-    Get.lazyPut<DioClient>(() => DioClient(), fenix: true);
+    Get.lazyPut(() => DioClient(Get.find<SessionManager>()));
 
     // Repositórios
     Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(Get.find()));
     Get.lazyPut<AuthRepository>(
-        () => AuthRepositoryImpl(Get.find<DioClient>().dio));
+        () => AuthRepositoryImpl(Get.find<DioClient>()));
 
     // Services
     Get.lazyPut<AuthService>(() => AuthService(Get.find(), Get.find()));
