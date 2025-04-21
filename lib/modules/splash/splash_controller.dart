@@ -12,20 +12,28 @@ class SplashController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
 
-    await Get.putAsync<SessionManager>(() async {
+    await _inicializarSessao();
+    await _verificarSessao();
+  }
+
+  Future<void> _inicializarSessao() async {
+    if (!Get.isRegistered<SessionManager>()) {
       final db = Get.find<AppDatabase>();
       final auth = Get.find<AuthService>();
-      return await SessionManager(db: db, authService: auth).init();
-    });
 
-    await _verificarSessao();
+      await Get.putAsync<SessionManager>(() async {
+        return await SessionManager(db: db, authService: auth).init();
+      });
+
+      AppLogger.i('SessionManager registrado e inicializado', tag: 'Splash');
+    }
   }
 
   Future<void> _verificarSessao() async {
     final session = Get.find<SessionManager>();
 
     if (session.estaLogado) {
-      await _sincronizarDados();
+      await _sincronizarDados(); // se desejar
       Get.offAllNamed('/home');
     } else {
       Get.offAllNamed('/login');
