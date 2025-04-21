@@ -25,6 +25,11 @@ class AppPages {
       page: () => SplashPage(),
       binding: SplashBinding(),
     ),
+    GetPage(
+      name: '/home',
+      page: () => HomePage(),
+      binding: HomeBinding(),
+    ),
     // Adicione outras rotas aqui
   ];
 }

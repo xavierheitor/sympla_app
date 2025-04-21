@@ -10,8 +10,18 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Sympla Home')),
-      body: const Center(child: Text('Bem-vindo ao Sympla App')),
+      appBar: AppBar(
+        title: const Text('Sympla Home'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: controller.sair,
+          )
+        ],
+      ),
+      body: Center(
+        child: Text('Bem-vindo, ${controller.nomeUsuario}!'),
+      ),
     );
   }
 }

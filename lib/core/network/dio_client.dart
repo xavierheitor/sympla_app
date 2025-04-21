@@ -9,7 +9,7 @@ class DioClient {
 
   DioClient._internal() {
     dio = Dio(BaseOptions(
-      baseUrl: 'https://suaapi.com/api', // substitua pela real
+      baseUrl: 'http://10.0.2.2:3001/api', // substitua pela real
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       sendTimeout: const Duration(seconds: 10),
