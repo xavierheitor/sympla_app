@@ -11,6 +11,7 @@ class SessionManager extends GetxService {
 
   UsuarioTableData? _usuario;
   UsuarioTableData? get usuario => _usuario;
+  bool _inicializado = false;
 
   Future<void> init() async {
     AppLogger.d('📥 Buscando usuários locais...');
@@ -43,9 +44,15 @@ class SessionManager extends GetxService {
         await logout();
       }
     }
+    _inicializado = true;
   }
 
   bool get estaLogado {
+    if (!_inicializado) {
+      AppLogger.d('⚠️ estaLogado acessado antes de init!');
+      return false;
+    }
+
     if (_usuario == null) {
       AppLogger.d('🔐 Nenhum usuário encontrado');
       return false;

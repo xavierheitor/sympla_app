@@ -12,7 +12,7 @@ class GlobalBinding extends Bindings {
   @override
   void dependencies() {
     // Core
-    Get.lazyPut<AppDatabase>(() => AppDatabase(), fenix: true);
+    Get.put<AppDatabase>(AppDatabase(), permanent: true);
     Get.lazyPut<DioClient>(() => DioClient(), fenix: true);
 
     // Repositórios

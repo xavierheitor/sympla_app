@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
 import 'dart:io';
 
@@ -29,7 +30,9 @@ LazyDatabase _openConnection() {
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase() : super(_openConnection()) {
+    AppLogger.d('🗃️ AppDatabase iniciado');
+  }
 
   @override
   int get schemaVersion => 1;
