@@ -13,9 +13,13 @@ class SessionManager extends GetxService {
   UsuarioTableData? get usuario => _usuario;
 
   Future<void> init() async {
+    AppLogger.d('📥 Buscando usuários locais...');
     final usuarios = await db.usuarioDao.getAllUsuarios();
+    AppLogger.d('📥 Encontrado ${usuarios.length} usuário(s)');
+
     if (usuarios.isNotEmpty) {
       final local = usuarios.first;
+      AppLogger.d('📋 Usuário carregado: ${local.nome}');
       _usuario = local;
 
       final now = DateTime.now();
@@ -42,12 +46,19 @@ class SessionManager extends GetxService {
   }
 
   bool get estaLogado {
-    if (_usuario == null) return false;
+    if (_usuario == null) {
+      AppLogger.d('🔐 Nenhum usuário encontrado');
+      return false;
+    }
 
     final ultimoLogin = _usuario!.ultimoLogin;
-    if (ultimoLogin == null) return false;
+    if (ultimoLogin == null) {
+      AppLogger.d('🔐 Nenhum login encontrado');
+      return false;
+    }
 
     final diff = DateTime.now().difference(ultimoLogin).inHours;
+    AppLogger.d('🔐 Diferença de tempo: $diff horas');
     return diff < 24;
   }
 
