@@ -50,4 +50,35 @@ class DioClient {
       },
     ));
   }
+
+  Future<Response> get(
+    String path, {
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      AppLogger.d('', tag: 'API');
+      AppLogger.d('➡️ REQUEST: [GET] $path', tag: 'API');
+      AppLogger.d('🔍 Query: $queryParameters', tag: 'API');
+      AppLogger.d('🔍 Headers: $headers', tag: 'API');
+
+      final response = await dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: Options(headers: headers),
+      );
+
+      AppLogger.d('✅ RESPONSE: [${response.statusCode}] $path', tag: 'API');
+      AppLogger.d('🔍 Response Data: ${response.data}', tag: 'API');
+      AppLogger.d('', tag: 'API');
+
+      return response;
+    } on DioException catch (e, s) {
+      AppLogger.e('❌ ERROR: [${e.response?.statusCode}] $path',
+          tag: 'API', error: e, stackTrace: s);
+      AppLogger.d('🔍 Error Response Body: ${e.response?.data}', tag: 'API');
+      AppLogger.d('', tag: 'API');
+      rethrow;
+    }
+  }
 }
