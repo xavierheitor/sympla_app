@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 
 class SplashController extends GetxController {
@@ -25,7 +26,11 @@ class SplashController extends GetxController {
 
   Future<void> _sincronizarDados() async {
     status.value = 'Sincronizando dados...';
-    await Future.delayed(const Duration(milliseconds: 500));
+
+    // Simulação de delay para sincronização real
+    await Future.delayed(const Duration(seconds: 3));
+
+    AppLogger.i('Sincronização finalizada', tag: 'Splash');
     // você pode adicionar syncs reais aqui
   }
 }
