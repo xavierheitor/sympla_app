@@ -1,6 +1,10 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
+import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
+import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
+import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
+import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
@@ -32,6 +36,27 @@ class GlobalBinding extends Bindings {
       permanent: true, // opcional, mas útil aqui
     );
 
+    Get.lazyPut(() => TipoAtividadeSyncService(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().tipoAtividadeDao,
+        ));
+
+    Get.lazyPut(() => EquipamentoSyncService(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().equipamentoDao,
+        ));
+
+    Get.lazyPut(() => GrupoDefeitoSyncService(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().grupoDefeitoEquipamentoDao,
+        ));
+
+    Get.lazyPut(() => SubgrupoDefeitoSyncService(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().subgrupoDefeitoEquipamentoDao,
+        ));
+
+// Deve ser o último!
     Get.lazyPut(() => SyncOrchestratorService(
           tipoAtividadeSyncService: Get.find(),
           equipamentoSyncService: Get.find(),

@@ -74,4 +74,8 @@ class SessionManager extends GetxService {
     _usuario = null;
     AppLogger.i('Usuário deslogado', tag: 'Sessão');
   }
+
+  Future<String?> get token async {
+    return usuario?.token ?? '';
+  }
 }
