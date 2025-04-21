@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
+import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
@@ -22,5 +23,12 @@ class GlobalBinding extends Bindings {
 
     // Services
     Get.lazyPut<AuthService>(() => AuthService(Get.find(), Get.find()));
+
+    // Após registrar AuthService
+    Get.putAsync<SessionManager>(() async {
+      final db = Get.find<AppDatabase>();
+      final auth = Get.find<AuthService>();
+      return await SessionManager(db: db, authService: auth).init();
+    });
   }
 }
