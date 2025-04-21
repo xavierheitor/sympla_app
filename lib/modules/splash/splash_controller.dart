@@ -9,15 +9,14 @@ class SplashController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
-    await _verificarSessao(); // 2. só então usa
+    await _sincronizarDados();
+    await _verificarSessao(); // ← redireciona só após sincronização
   }
 
   Future<void> _verificarSessao() async {
     final session = Get.find<SessionManager>();
-    await session.init();
 
     if (session.estaLogado) {
-      await _sincronizarDados();
       Get.offAllNamed('/home');
     } else {
       Get.offAllNamed('/login');
