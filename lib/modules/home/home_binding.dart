@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
-import 'home_controller.dart';
+import 'package:sympla_app/modules/home/home_controller.dart';
 
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => HomeController());
+    Get.lazyPut(() => HomeController(Get.find()));
   }
 }

@@ -2,7 +2,9 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 
 class HomeController extends GetxController {
-  final session = Get.find<SessionManager>();
+  final SessionManager session;
+
+  HomeController(this.session);
 
   String get nomeUsuario => session.usuario?.nome ?? 'Usuário';
 
