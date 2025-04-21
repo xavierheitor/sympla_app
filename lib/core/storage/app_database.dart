@@ -5,7 +5,17 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
+import 'package:sympla_app/core/storage/daos/equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/grupo_defeito_equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/subgrupo_defeito_equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
+import 'package:sympla_app/core/storage/tables/atividade_table.dart';
+import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
+import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/subgrupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart';
 import 'dart:io';
 
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
@@ -24,9 +34,19 @@ LazyDatabase _openConnection() {
 @DriftDatabase(
   tables: [
     UsuarioTable,
+    TipoAtividadeTable,
+    AtividadeTable,
+    EquipamentoTable,
+    GrupoDefeitoEquipamentoTable,
+    SubgrupoDefeitoEquipamentoTable,
   ],
   daos: [
     UsuarioDao,
+    TipoAtividadeDao,
+    AtividadeDao,
+    EquipamentoDao,
+    GrupoDefeitoEquipamentoDao,
+    SubgrupoDefeitoEquipamentoDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {
