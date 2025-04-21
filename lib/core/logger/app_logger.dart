@@ -1,6 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
 
 enum LogLevel { verbose, debug, info, warning, error }
+
+const _reset = '\x1B[0m';
+const _red = '\x1B[31m';
+const _yellow = '\x1B[33m';
+const _green = '\x1B[32m';
+const _blue = '\x1B[34m';
+const _magenta = '\x1B[35m';
+const _cinza = '\x1B[90m';
 
 class AppLogger {
   static void log(
@@ -29,20 +40,39 @@ class AppLogger {
     debugPrint(buffer.toString());
   }
 
-  // Atalhos
-  static void v(String message, {String tag = 'APP'}) =>
-      log(message, level: LogLevel.verbose, tag: tag);
-  static void d(String message, {String tag = 'APP'}) =>
-      log(message, level: LogLevel.debug, tag: tag);
-  static void i(String message, {String tag = 'APP'}) =>
-      log(message, level: LogLevel.info, tag: tag);
-  static void w(String message, {String tag = 'APP'}) =>
-      log(message, level: LogLevel.warning, tag: tag);
-  static void e(String message,
-          {String tag = 'APP', dynamic error, StackTrace? stackTrace}) =>
-      log(message,
-          level: LogLevel.error,
-          tag: tag,
-          error: error,
-          stackTrace: stackTrace);
+  static void i(dynamic msg, {String? tag}) => _log(msg, 'INFO', _green, tag);
+  static void d(dynamic msg, {String? tag}) => _log(msg, 'DEBUG', _blue, tag);
+  static void w(dynamic msg, {String? tag}) => _log(msg, 'WARN', _yellow, tag);
+  static void e(dynamic msg,
+      {String? tag, dynamic error, StackTrace? stackTrace}) {
+    _log(msg, 'ERROR', _red, tag);
+    if (error != null) _log(error.toString(), 'ERROR', _red, tag);
+    if (stackTrace != null) _log(stackTrace.toString(), 'STACK', _magenta, tag);
+  }
+
+  static void v(dynamic msg, {String? tag}) =>
+      _log(msg, 'VERBOSE', _cinza, tag);
+
+  static Future<void> _log(dynamic msg, String level, String color,
+      [String? tag]) async {
+    final now = DateTime.now().toIso8601String();
+    final formatted = "[$level] ${tag != null ? '[$tag] ' : ''}$msg";
+
+    // Mostra com cor no terminal
+    debugPrint('$color[$now] $formatted$_reset');
+
+    // Salva em arquivo
+    await _writeToFile("[$now] $formatted");
+  }
+
+  static Future<void> _writeToFile(String content) async {
+    try {
+      final dir = await getApplicationDocumentsDirectory();
+      final file = File('${dir.path}/app.log');
+      await file.writeAsString('$content\n',
+          mode: FileMode.append, flush: true);
+    } catch (_) {
+      // falha silenciosa
+    }
+  }
 }
