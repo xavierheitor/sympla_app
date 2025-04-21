@@ -3,6 +3,8 @@ import 'package:sympla_app/modules/home/home_binding.dart';
 import 'package:sympla_app/modules/home/home_page.dart';
 import 'package:sympla_app/modules/login/login_binding.dart';
 import 'package:sympla_app/modules/login/login_page.dart';
+import 'package:sympla_app/modules/splash/splash_binding.dart';
+import 'package:sympla_app/modules/splash/splash_page.dart';
 
 class AppPages {
   static const initial = '/home';
@@ -17,6 +19,11 @@ class AppPages {
       name: '/login',
       page: () => LoginPage(),
       binding: LoginBinding(),
+    ),
+    GetPage(
+      name: '/splash',
+      page: () => SplashPage(),
+      binding: SplashBinding(),
     ),
     // Adicione outras rotas aqui
   ];

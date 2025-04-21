@@ -17,4 +17,9 @@ class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {
       into(usuarioTable).insert(usuario);
   Future deleteUsuario(int id) =>
       (delete(usuarioTable)..where((tbl) => tbl.id.equals(id))).go();
+
+  // ✅ Novo método
+  Future<void> limparUsuarios() async {
+    await delete(usuarioTable).go();
+  }
 }
