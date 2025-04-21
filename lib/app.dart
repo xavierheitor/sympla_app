@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/bindings/global_bindings.dart';
 import 'package:sympla_app/routes/app_pages.dart';
 
 class SymplaApp extends StatelessWidget {
@@ -12,6 +13,7 @@ class SymplaApp extends StatelessWidget {
       initialRoute: AppPages.initial,
       getPages: AppPages.routes,
       debugShowCheckedModeBanner: false,
+      initialBinding: GlobalBinding(),
     );
   }
 }
