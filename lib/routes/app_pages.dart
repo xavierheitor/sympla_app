@@ -8,7 +8,7 @@ import 'package:sympla_app/modules/splash/splash_page.dart';
 import 'package:sympla_app/routes/middleware/auth_middleware.dart';
 
 class AppPages {
-  static const initial = '/home';
+  static const initial = '/splash';
 
   static final routes = [
     GetPage(
