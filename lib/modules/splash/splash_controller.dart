@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/services/auth_service.dart';
 
 class SplashController extends GetxController {
   final status = ''.obs;
@@ -9,6 +11,13 @@ class SplashController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+
+    await Get.putAsync<SessionManager>(() async {
+      final db = Get.find<AppDatabase>();
+      final auth = Get.find<AuthService>();
+      return await SessionManager(db: db, authService: auth).init();
+    });
+
     await _verificarSessao();
   }
 

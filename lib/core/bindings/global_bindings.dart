@@ -11,22 +11,17 @@ import 'package:sympla_app/core/session/session_manager.dart';
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(() => AppDatabase(), fenix: true);
-    Get.lazyPut(() => DioClient(), fenix: true);
+    // Inicializa banco e Dio
+    Get.lazyPut<AppDatabase>(() => AppDatabase(), fenix: true);
+    Get.lazyPut<DioClient>(() => DioClient(), fenix: true);
 
-    // Repositórios base
-    Get.lazyPut(() => UsuarioRepositoryImpl(Get.find()));
+    // Repositórios
+    Get.lazyPut<UsuarioRepository>(
+        () => UsuarioRepositoryImpl(Get.find<AppDatabase>()));
     Get.lazyPut<AuthRepository>(
         () => AuthRepositoryImpl(Get.find<DioClient>().dio));
-    Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(Get.find()));
 
-    // Inicializa a sessão de forma assíncrona
-    Get.putAsync<SessionManager>(() async {
-      final db = Get.find<AppDatabase>();
-      final authService = Get.find<AuthService>();
-      Get.lazyPut(() => AuthService(Get.find(), Get.find()));
-
-      return await SessionManager(db: db, authService: authService).init();
-    });
+    // Services
+    Get.lazyPut<AuthService>(() => AuthService(Get.find(), Get.find()));
   }
 }
