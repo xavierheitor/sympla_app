@@ -29,4 +29,31 @@ class TipoAtividadeDao extends DatabaseAccessor<AppDatabase>
     AppLogger.w('Deletando todas as TipoAtividades', tag: 'TipoAtividadeDAO');
     await delete(tipoAtividadeTable).go();
   }
+
+  Future<void> sincronizarComApi(
+      List<TipoAtividadeTableCompanion> tiposApi) async {
+    AppLogger.d('🔄 Sincronizando ${tiposApi.length} tipos de atividade da API',
+        tag: 'TipoAtividadeDAO');
+
+    await batch((batch) {
+      batch.update(
+        tipoAtividadeTable,
+        const TipoAtividadeTableCompanion(sincronizado: Value(false)),
+      );
+
+      batch.insertAllOnConflictUpdate(
+        tipoAtividadeTable,
+        tiposApi
+            .map((e) => e.copyWith(sincronizado: const Value(true)))
+            .toList(),
+      );
+    });
+
+    final removidos = await (delete(tipoAtividadeTable)
+          ..where((t) => t.sincronizado.equals(false)))
+        .go();
+
+    AppLogger.d('🧹 Removidos $removidos tipos obsoletos',
+        tag: 'TipoAtividadeDAO');
+  }
 }

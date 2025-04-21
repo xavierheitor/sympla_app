@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
+import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
@@ -30,5 +31,12 @@ class GlobalBinding extends Bindings {
       ),
       permanent: true, // opcional, mas útil aqui
     );
+
+    Get.lazyPut(() => SyncOrchestratorService(
+          tipoAtividadeSyncService: Get.find(),
+          equipamentoSyncService: Get.find(),
+          grupoDefeitoSyncService: Get.find(),
+          subgrupoDefeitoSyncService: Get.find(),
+        ));
   }
 }
