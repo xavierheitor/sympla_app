@@ -10,10 +10,12 @@ class LoginResponse {
   });
 
   factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    final usuario = json['usuario'] ?? {};
+
     return LoginResponse(
-      token: json['token'],
-      refreshToken: json['refreshToken'],
-      nome: json['nome'],
+      token: json['token'] ?? '',
+      refreshToken: json['refreshToken'] ?? '',
+      nome: usuario['nome'] ?? '',
     );
   }
 }

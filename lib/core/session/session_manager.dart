@@ -41,7 +41,15 @@ class SessionManager extends GetxService {
     }
   }
 
-  bool get estaLogado => _usuario != null;
+  bool get estaLogado {
+    if (_usuario == null) return false;
+
+    final ultimoLogin = _usuario!.ultimoLogin;
+    if (ultimoLogin == null) return false;
+
+    final diff = DateTime.now().difference(ultimoLogin).inHours;
+    return diff < 24;
+  }
 
   Future<void> logout() async {
     await db.usuarioDao.limparUsuarios();
