@@ -10,7 +10,7 @@ class LoginBinding extends Bindings {
   @override
   void dependencies() {
     final db = Get.find<AppDatabase>();
-    final dio = DioClient().dio; // ← pegando do centralizador
+    final dio = Get.find<DioClient>(); // ← pegando do centralizador
 
     Get.lazyPut(() => UsuarioRepositoryImpl(db));
     Get.lazyPut(() => AuthRepositoryImpl(dio));
