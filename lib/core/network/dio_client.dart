@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:sympla_app/core/constants/api_constants.dart';
 
 class DioClient {
   final Dio _dio;
 
   DioClient(String? Function() tokenProvider)
-      : _dio = Dio(BaseOptions(baseUrl: "http://10.0.2.2:3001")) {
+      : _dio = Dio(BaseOptions(baseUrl: ApiConstants.baseUrl)) {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
@@ -18,29 +19,23 @@ class DioClient {
     );
   }
 
-  String get baseUrl => _dio.options.baseUrl;
-
-  Future<Response> get(
-    String path, {
-    Map<String, dynamic>? queryParameters,
-    Map<String, dynamic>? headers,
-  }) async {
-    return await _dio.get(
-      path,
-      queryParameters: queryParameters,
-      options: Options(headers: headers),
-    );
+  // Métodos simplificados
+  Future<Response> get(String path, {Map<String, dynamic>? queryParameters}) {
+    return _dio.get(path, queryParameters: queryParameters);
   }
 
-  Future<Response> post(
-    String path, {
-    dynamic data,
-    Map<String, dynamic>? headers,
-  }) async {
-    return await _dio.post(
-      path,
-      data: data,
-      options: Options(headers: headers),
-    );
+  Future<Response> post(String path, {dynamic data}) {
+    return _dio.post(path, data: data);
   }
+
+  Future<Response> put(String path, {dynamic data}) {
+    return _dio.put(path, data: data);
+  }
+
+  Future<Response> delete(String path) {
+    return _dio.delete(path);
+  }
+
+  // Expor Dio completo apenas se necessário
+  Dio get client => _dio;
 }
