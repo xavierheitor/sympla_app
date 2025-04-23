@@ -22,7 +22,12 @@ class SplashController extends GetxController {
 
     AppLogger.d('🌀 Após init. Usuario: ${session.usuario}');
 
-    await _sincronizarDados();
+    if (session.estaLogado) {
+      AppLogger.i('🔐 Sessão válida encontrada. Iniciando sincronização...');
+      await _sincronizarDados();
+    } else {
+      AppLogger.w('🔐 Nenhum usuário logado. Pulando sincronização.');
+    }
 
     AppLogger.d('🌀 Após sincronização. Verificando sessão...');
 
