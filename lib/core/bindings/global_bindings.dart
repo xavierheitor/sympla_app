@@ -77,7 +77,7 @@ class GlobalBinding extends Bindings {
     Get.lazyPut(() => SubgrupoDefeitoSyncService(Get.find()));
 
     // Orquestrador
-    Get.lazyPut(() => SyncOrchestratorService(
+    Get.put(() => SyncOrchestratorService(
           tipoAtividadeSyncService: Get.find(),
           equipamentoSyncService: Get.find(),
           grupoDefeitoSyncService: Get.find(),
