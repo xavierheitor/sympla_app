@@ -27,32 +27,29 @@ class GlobalBinding extends Bindings {
     // Banco de dados
     Get.put<AppDatabase>(AppDatabase(), permanent: true);
 
-    // Repositório de usuário
+    // Repositório do usuário
     Get.lazyPut<UsuarioRepository>(
         () => UsuarioRepositoryImpl(Get.find<AppDatabase>()));
 
-    // Repositório Auth inicial (sem Dio ainda, será reescrito depois)
-    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<DioClient>()),
+    // SessionManager
+    Get.lazyPut(
+        () => SessionManager(Get.find<AppDatabase>(),
+            db: Get.find<AppDatabase>(), authService: Get.find<AuthService>()),
         fenix: true);
 
-    // Serviço de autenticação
+    // DioClient com tokenProvider do SessionManager
+    Get.lazyPut(() => DioClient(() => Get.find<SessionManager>().tokenSync),
+        fenix: true);
+
+    // AuthRepository/Service
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<DioClient>()),
+        fenix: true);
     Get.lazyPut(
         () => AuthService(
             Get.find<AuthRepository>(), Get.find<UsuarioRepository>()),
         fenix: true);
 
-    // Gerenciador de sessão
-    Get.lazyPut(() => SessionManager(Get.find<AppDatabase>(),
-        db: Get.find<AppDatabase>(), authService: Get.find<AuthService>()));
-
-    // DioClient com SessionManager resolvido
-    Get.lazyPut(() => DioClient(Get.find<SessionManager>()), fenix: true);
-
-    // Rebind do AuthRepository com Dio resolvido
-    Get.lazyReplace<AuthRepository>(
-        () => AuthRepositoryImpl(Get.find<DioClient>()));
-
-    // Repositórios principais
+    // Repositórios
     Get.lazyPut<EquipamentoRepository>(() => EquipamentoRepositoryImpl(
           dio: Get.find(),
           dao: Get.find<AppDatabase>().equipamentoDao,

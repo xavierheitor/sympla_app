@@ -79,4 +79,6 @@ class SessionManager extends GetxService {
   Future<String?> get token async {
     return usuario?.token ?? '';
   }
+
+  String? get tokenSync => _usuario?.token;
 }
