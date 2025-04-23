@@ -12,14 +12,31 @@ class DioClient {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
+          // // Só adiciona token se não for login ou refresh
+          // final isAuthRoute = options.path.contains('/auth/login') ||
+          //     options.path.contains('/auth/refresh');
+
+          // if (!isAuthRoute) {
+          //   final sessionManager = g.Get.find<SessionManager>();
+          //   final token = sessionManager.tokenSync;
+
+          //   AppLogger.d('🔐 Token: $token');
+
+          //   if (token != null && token.isNotEmpty) {
+          //     options.headers['Authorization'] = 'Bearer $token';
+          //   }
+          // }
           final sessionManager = g.Get.find<SessionManager>();
           final token = sessionManager.tokenSync;
-          AppLogger.i('🔐 Token: $token');
+
+          AppLogger.d('🔐 Token: $token');
 
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
             options.headers['Content-Type'] = 'application/json';
-            AppLogger.i('🔐 Token adicionado ao header: $token');
+            AppLogger.d('🔐 Token adicionado ao header: $token');
+          } else {
+            AppLogger.d('🔐 Token não adicionado ao header: $token');
           }
 
           handler.next(options);
