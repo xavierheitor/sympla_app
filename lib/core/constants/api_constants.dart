@@ -1,5 +1,5 @@
 abstract class ApiConstants {
-  static const baseUrl = 'http://10.0.2.2:3001';
+  static const baseUrl = 'http://10.0.2.2:3001/api/';
 
   static const login = '/api/auth/login';
   static const refreshToken = '/api/auth/refresh';
