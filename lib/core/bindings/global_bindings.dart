@@ -27,16 +27,15 @@ import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-    // Core
+    // Core resources
     Get.put(AppDatabase(), permanent: true);
     Get.put(DioClient(), permanent: true);
 
-    // Repositories fixos
-    Get.put<AuthRepository>(AuthRepositoryImpl(Get.find()), permanent: true);
-    Get.put<UsuarioRepository>(UsuarioRepositoryImpl(Get.find()),
-        permanent: true);
-
-    // Repositories lazy
+    // repositories
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find()),
+        fenix: true);
+    Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(Get.find()),
+        fenix: true);
     Get.lazyPut<TipoAtividadeRepository>(
       () => TipoAtividadeRepositoryImpl(dio: Get.find(), db: Get.find()),
       fenix: true,
@@ -74,5 +73,7 @@ class GlobalBinding extends Bindings {
               subgrupoDefeitoSyncService: Get.find(),
             ),
         fenix: true);
+
+    // futuros services adicione aqui
   }
 }
