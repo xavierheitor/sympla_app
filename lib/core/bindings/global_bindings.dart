@@ -18,50 +18,41 @@ import 'package:sympla_app/services/auth_service.dart';
 import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
 import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
-import "package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart";
+import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-    // 🗃️ Banco de dados
+    // Banco de dados
     Get.put<AppDatabase>(AppDatabase(), permanent: true);
 
-    // 🔁 Repositórios
+    // Repositório de usuário
     Get.lazyPut<UsuarioRepository>(
         () => UsuarioRepositoryImpl(Get.find<AppDatabase>()));
 
-    // ⚠️ Quebra temporária de ciclo: injeta com Dio null
-    Get.lazyPut<AuthRepository>(
-        () => AuthRepositoryImpl(
-              Get.find<DioClient>(),
-            ),
+    // Repositório Auth inicial (sem Dio ainda, será reescrito depois)
+    Get.lazyPut<AuthRepository>(() => AuthRepositoryImpl(Get.find<DioClient>()),
         fenix: true);
 
-    // Serviços de domínio
+    // Serviço de autenticação
     Get.lazyPut(
         () => AuthService(
             Get.find<AuthRepository>(), Get.find<UsuarioRepository>()),
         fenix: true);
 
-    // Sessão
-    Get.lazyPut(
-        () => SessionManager(
-              Get.find<AppDatabase>(),
-              Get.find<UsuarioRepository>(),
-              db: Get.find<AppDatabase>(),
-              authService: Get.find<AuthService>(),
-            ),
-        fenix: true);
+    // Gerenciador de sessão
+    Get.lazyPut(() => SessionManager(Get.find<AppDatabase>(),
+        db: Get.find<AppDatabase>(), authService: Get.find<AuthService>()));
 
-    // DioClient agora pode ser injetado (SessionManager já disponível)
+    // DioClient com SessionManager resolvido
     Get.lazyPut(() => DioClient(Get.find<SessionManager>()), fenix: true);
 
-    // Substitui AuthRepository com Dio correto
+    // Rebind do AuthRepository com Dio resolvido
     Get.lazyReplace<AuthRepository>(
         () => AuthRepositoryImpl(Get.find<DioClient>()));
 
-    // Demais repositórios
+    // Repositórios principais
     Get.lazyPut<EquipamentoRepository>(() => EquipamentoRepositoryImpl(
           dio: Get.find(),
           dao: Get.find<AppDatabase>().equipamentoDao,
@@ -88,6 +79,7 @@ class GlobalBinding extends Bindings {
     Get.lazyPut(() => GrupoDefeitoSyncService(Get.find()));
     Get.lazyPut(() => SubgrupoDefeitoSyncService(Get.find()));
 
+    // Orquestrador
     Get.lazyPut(() => SyncOrchestratorService(
           tipoAtividadeSyncService: Get.find(),
           equipamentoSyncService: Get.find(),
