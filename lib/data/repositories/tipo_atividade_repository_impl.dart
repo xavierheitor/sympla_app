@@ -9,11 +9,12 @@ import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_convert
 class TipoAtividadeRepositoryImpl implements TipoAtividadeRepository {
   final DioClient dio;
   final TipoAtividadeDao dao;
+  final AppDatabase db;
 
   TipoAtividadeRepositoryImpl({
     required this.dio,
-    required this.dao,
-  });
+    required this.db,
+  }) : dao = db.tipoAtividadeDao;
 
   @override
   Future<List<TipoAtividadeTableCompanion>> buscarDaApi() async {

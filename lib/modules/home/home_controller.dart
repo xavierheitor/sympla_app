@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 
 class HomeController extends GetxController {
@@ -9,7 +11,14 @@ class HomeController extends GetxController {
   String get nomeUsuario => session.usuario?.nome ?? 'Usuário';
 
   Future<void> sair() async {
-    await session.logout();
-    Get.offAllNamed('/login');
+    AppLogger.i('Saindo...', tag: 'HomeController');
+    final result = await session.logout();
+    if (result) {
+      Get.offAllNamed('/login');
+    } else {
+      AppLogger.e('Erro ao deslogar', tag: 'HomeController');
+      Get.snackbar('Erro', 'Erro ao sair',
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
   }
 }

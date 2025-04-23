@@ -19,7 +19,12 @@ class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {
       (delete(usuarioTable)..where((tbl) => tbl.id.equals(id))).go();
 
   // ✅ Novo método
-  Future<void> limparUsuarios() async {
-    await delete(usuarioTable).go();
+  Future<bool> limparUsuarios() async {
+    try {
+      await delete(usuarioTable).go();
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 }

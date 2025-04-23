@@ -7,12 +7,13 @@ import 'package:sympla_app/domain/repositories/grupo_defeito_repository.dart';
 
 class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
   final DioClient dio;
+  final AppDatabase db;
   final GrupoDefeitoEquipamentoDao dao;
 
   GrupoDefeitoRepositoryImpl({
     required this.dio,
-    required this.dao,
-  });
+    required this.db,
+  }) : dao = db.grupoDefeitoEquipamentoDao;
 
   @override
   Future<List<GrupoDefeitoEquipamentoTableCompanion>> buscarDaApi() async {

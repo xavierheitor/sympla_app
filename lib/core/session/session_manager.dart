@@ -70,10 +70,19 @@ class SessionManager extends GetxService {
     return diff < 24;
   }
 
-  Future<void> logout() async {
-    await db.usuarioDao.limparUsuarios();
-    _usuario = null;
-    AppLogger.i('Usuário deslogado', tag: 'Sessão');
+  Future<bool> logout() async {
+    try {
+      final result = await db.usuarioDao.limparUsuarios();
+      AppLogger.i('Usuário deslogado', tag: 'Sessão');
+      if (result) {
+        _usuario = null;
+        return true;
+      }
+      return false;
+    } catch (e) {
+      AppLogger.e('Erro ao deslogar: $e', tag: 'Sessão');
+      return false;
+    }
   }
 
   Future<String?> get token async {

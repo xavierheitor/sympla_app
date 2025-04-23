@@ -7,12 +7,13 @@ import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
 
 class EquipamentoRepositoryImpl implements EquipamentoRepository {
   final DioClient dio;
+  final AppDatabase db;
   final EquipamentoDao dao;
 
   EquipamentoRepositoryImpl({
     required this.dio,
-    required this.dao,
-  });
+    required this.db,
+  }) : dao = db.equipamentoDao;
 
   @override
   Future<List<EquipamentoTableCompanion>> buscarDaApi() async {

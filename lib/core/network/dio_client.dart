@@ -7,8 +7,7 @@ import 'package:sympla_app/core/session/session_manager.dart';
 class DioClient {
   final dio.Dio _dio;
 
-  DioClient(String? Function() tokenProvider)
-      : _dio = dio.Dio(dio.BaseOptions(baseUrl: ApiConstants.baseUrl)) {
+  DioClient() : _dio = dio.Dio(dio.BaseOptions(baseUrl: ApiConstants.baseUrl)) {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
