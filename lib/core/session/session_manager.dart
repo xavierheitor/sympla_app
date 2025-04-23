@@ -7,7 +7,8 @@ class SessionManager extends GetxService {
   final AppDatabase db;
   final AuthService authService;
 
-  SessionManager({required this.db, required this.authService});
+  SessionManager(AppDatabase find,
+      {required this.db, required this.authService});
 
   UsuarioTableData? _usuario;
   UsuarioTableData? get usuario => _usuario;

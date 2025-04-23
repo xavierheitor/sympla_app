@@ -1,12 +1,12 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
-import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
-import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
-import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
+import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
+import 'package:sympla_app/data/repositories/equipamento_repository_impl.dart';
+import 'package:sympla_app/data/repositories/grupo_defeito_repository_impl.dart';
+import 'package:sympla_app/data/repositories/subgrupo_defeito_repository_impl.dart';
+import 'package:sympla_app/data/repositories/tipo_atividade_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
 import 'package:sympla_app/domain/repositories/auth_repository.dart';
 import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
@@ -15,54 +15,79 @@ import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart'
 import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
 import 'package:sympla_app/domain/repositories/usuario_repository.dart';
 import 'package:sympla_app/services/auth_service.dart';
-import 'package:sympla_app/core/session/session_manager.dart';
+import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
+import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
+import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
+import "package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart";
+import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
-    // Core
+    // 🗃️ Banco de dados
     Get.put<AppDatabase>(AppDatabase(), permanent: true);
+
+    // 🔁 Repositórios
+    Get.lazyPut<UsuarioRepository>(
+        () => UsuarioRepositoryImpl(Get.find<AppDatabase>()));
+
+    // ⚠️ Quebra temporária de ciclo: injeta com Dio null
     Get.lazyPut<AuthRepository>(
+        () => AuthRepositoryImpl(
+              Get.find<DioClient>(),
+            ),
+        fenix: true);
+
+    // Serviços de domínio
+    Get.lazyPut(
+        () => AuthService(
+            Get.find<AuthRepository>(), Get.find<UsuarioRepository>()),
+        fenix: true);
+
+    // Sessão
+    Get.lazyPut(
+        () => SessionManager(
+              Get.find<AppDatabase>(),
+              Get.find<UsuarioRepository>(),
+              db: Get.find<AppDatabase>(),
+              authService: Get.find<AuthService>(),
+            ),
+        fenix: true);
+
+    // DioClient agora pode ser injetado (SessionManager já disponível)
+    Get.lazyPut(() => DioClient(Get.find<SessionManager>()), fenix: true);
+
+    // Substitui AuthRepository com Dio correto
+    Get.lazyReplace<AuthRepository>(
         () => AuthRepositoryImpl(Get.find<DioClient>()));
-    Get.lazyPut<AuthService>(() => AuthService(Get.find(), Get.find()));
-    Get.put<SessionManager>(
-        SessionManager(
-          db: Get.find<AppDatabase>(),
-          authService: Get.find<AuthService>(),
-        ),
-        permanent: true);
-    Get.lazyPut(() => DioClient(Get.find<SessionManager>()));
 
-    // Repositórios
-    Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(Get.find()));
-
-    // Services
-
-    Get.put<SessionManager>(
-      SessionManager(
-        db: Get.find<AppDatabase>(),
-        authService: Get.find<AuthService>(),
-      ),
-      permanent: true, // opcional, mas útil aqui
-    );
-
-    Get.lazyPut(() => TipoAtividadeSyncService(
-          Get.find<TipoAtividadeRepository>(),
+    // Demais repositórios
+    Get.lazyPut<EquipamentoRepository>(() => EquipamentoRepositoryImpl(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().equipamentoDao,
         ));
 
-    Get.lazyPut(() => EquipamentoSyncService(
-          Get.find<EquipamentoRepository>(),
+    Get.lazyPut<TipoAtividadeRepository>(() => TipoAtividadeRepositoryImpl(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().tipoAtividadeDao,
         ));
 
-    Get.lazyPut(() => GrupoDefeitoSyncService(
-          Get.find<GrupoDefeitoRepository>(),
+    Get.lazyPut<GrupoDefeitoRepository>(() => GrupoDefeitoRepositoryImpl(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().grupoDefeitoEquipamentoDao,
         ));
 
-    Get.lazyPut(() => SubgrupoDefeitoSyncService(
-          Get.find<SubgrupoDefeitoRepository>(),
+    Get.lazyPut<SubgrupoDefeitoRepository>(() => SubgrupoDefeitoRepositoryImpl(
+          dio: Get.find(),
+          dao: Get.find<AppDatabase>().subgrupoDefeitoEquipamentoDao,
         ));
 
-// Deve ser o último!
+    // Serviços de sincronização
+    Get.lazyPut(() => EquipamentoSyncService(Get.find()));
+    Get.lazyPut(() => TipoAtividadeSyncService(Get.find()));
+    Get.lazyPut(() => GrupoDefeitoSyncService(Get.find()));
+    Get.lazyPut(() => SubgrupoDefeitoSyncService(Get.find()));
+
     Get.lazyPut(() => SyncOrchestratorService(
           tipoAtividadeSyncService: Get.find(),
           equipamentoSyncService: Get.find(),
