@@ -4,7 +4,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/login/login_controller.dart';
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
-import 'package:sympla_app/services/auth_service.dart';
+import 'package:sympla_app/core/services/auth_service.dart';
 
 class LoginBinding extends Bindings {
   @override

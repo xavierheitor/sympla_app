@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/helpers/error_helper.dart';
-import 'package:sympla_app/services/auth_service.dart';
+import 'package:sympla_app/core/services/auth_service.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
 class LoginController extends GetxController {

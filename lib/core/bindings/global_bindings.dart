@@ -16,7 +16,7 @@ import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart'
 import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
 import 'package:sympla_app/domain/repositories/usuario_repository.dart';
 
-import 'package:sympla_app/services/auth_service.dart';
+import 'package:sympla_app/core/services/auth_service.dart';
 
 import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
 import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
