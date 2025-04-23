@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/modules/home/home_binding.dart';
 import 'package:sympla_app/modules/home/home_page.dart';
 import 'package:sympla_app/modules/login/login_binding.dart';
@@ -8,22 +9,22 @@ import 'package:sympla_app/modules/splash/splash_page.dart';
 import 'package:sympla_app/routes/middleware/auth_middleware.dart';
 
 class AppPages {
-  static const initial = '/splash';
+  static const initial = Routes.splash;
 
   static final routes = [
     GetPage(
-      name: '/home',
+      name: Routes.home,
       page: () => HomePage(),
       binding: HomeBinding(),
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
-      name: '/login',
+      name: Routes.login,
       page: () => LoginPage(),
       binding: LoginBinding(),
     ),
     GetPage(
-      name: '/splash',
+      name: Routes.splash,
       page: () => SplashPage(),
       binding: SplashBinding(),
     ),
