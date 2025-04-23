@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:sympla_app/core/constants/api_constants.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 
 class DioClient {
   final Dio _dio;
@@ -10,8 +11,10 @@ class DioClient {
       InterceptorsWrapper(
         onRequest: (options, handler) {
           final token = tokenProvider();
+          AppLogger.i('🔐 Token: $token');
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
+            AppLogger.i('🔐 Token adicionado ao header: $token');
           }
           handler.next(options);
         },
