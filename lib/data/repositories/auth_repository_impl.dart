@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
@@ -13,7 +14,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<LoginResponse> login(String matricula, String senha) async {
     try {
       final response = await dio.post(
-        'auth/login',
+        ApiConstants.login,
         data: {
           'matricula': matricula,
           'senha': senha,
@@ -32,7 +33,7 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<LoginResponse> refreshToken(String refreshToken) async {
     try {
       final response = await dio.post(
-        '/auth/refresh',
+        ApiConstants.refreshToken,
         data: {'refreshToken': refreshToken},
       );
       return LoginResponse.fromJson(response.data);

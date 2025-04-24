@@ -22,10 +22,11 @@ class DioClient {
           final sessionManager = g.Get.find<SessionManager>();
           final token = sessionManager.tokenSync;
 
-          AppLogger.v(
-              '➡️ [API] REQUEST: [${options.method}] ${options.baseUrl}${options.path}');
-          AppLogger.v('🔍 [API] Headers: ${options.headers}');
-          AppLogger.v('🔍 [API] Body: ${options.data}');
+          AppLogger.v('➡️ [API REQUEST]');
+          AppLogger.v('🔹 Method: ${options.method}');
+          AppLogger.v('🔹 URL: ${options.baseUrl}${options.path}');
+          AppLogger.v('🔹 Headers: ${options.headers}');
+          AppLogger.v('🔹 Body: ${options.data}');
 
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -38,20 +39,26 @@ class DioClient {
           handler.next(options);
         },
         onResponse: (response, handler) {
-          AppLogger.i(
-              '✅ [API] RESPONSE: [${response.statusCode}] ${response.requestOptions.uri}');
-          AppLogger.v('🔍 [API] Response Data: ${response.data}');
+          AppLogger.i('✅ [API RESPONSE]');
+          AppLogger.v('🔸 Status: ${response.statusCode}');
+          AppLogger.v('🔸 URL: ${response.requestOptions.uri}');
+          AppLogger.v('🔸 Data: ${response.data}');
           handler.next(response);
         },
         onError: (error, handler) {
           final status = error.response?.statusCode;
           final uri = error.requestOptions.uri;
 
-          AppLogger.e('❌ [API] ❌ ERROR: [$status] $uri',
+          final tratado = ErrorHandler.tratar(error, error.stackTrace);
+
+          AppLogger.e('❌ [API ERROR]');
+          AppLogger.e('🔻 Status: $status');
+          AppLogger.e('🔻 URL: $uri');
+          AppLogger.e('🔻 Mensagem tratada: ${tratado.mensagem}',
               error: error, stackTrace: error.stackTrace);
+
           if (error.response != null) {
-            AppLogger.v(
-                '🔍 [API] Error Response Body: ${error.response?.data}');
+            AppLogger.v('🔻 Body: ${error.response?.data}');
           }
 
           handler.next(error);
@@ -60,7 +67,7 @@ class DioClient {
     );
   }
 
-  // Métodos padronizados com try/catch
+  // Métodos HTTP com tratamento de erro
   Future<dio.Response> get(String path,
       {Map<String, dynamic>? queryParameters}) async {
     try {
@@ -72,7 +79,7 @@ class DioClient {
 
   Future<dio.Response> post(String path, {dynamic data}) async {
     try {
-      AppLogger.d('➡️ [API] POST: $path');
+      AppLogger.d('➡️ [API CALL] POST: $path');
       return await _dio.post(path, data: data);
     } catch (e, s) {
       throw ErrorHandler.tratar(e, s);

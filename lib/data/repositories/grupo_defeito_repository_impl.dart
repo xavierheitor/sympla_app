@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
@@ -19,7 +20,7 @@ class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
   @override
   Future<List<GrupoDefeitoEquipamentoTableCompanion>> buscarDaApi() async {
     try {
-      final response = await dio.get('/grupos-defeito');
+      final response = await dio.get(ApiConstants.gruposDefeito);
       final dados = response.data as List;
 
       return dados.map<GrupoDefeitoEquipamentoTableCompanion>((json) {

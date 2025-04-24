@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
@@ -19,7 +20,7 @@ class EquipamentoRepositoryImpl implements EquipamentoRepository {
   @override
   Future<List<EquipamentoTableCompanion>> buscarDaApi() async {
     try {
-      final response = await dio.get('/equipamentos');
+      final response = await dio.get(ApiConstants.equipamentos);
       final dados = response.data as List;
 
       AppLogger.d('🔍 Recebidos ${dados.length} equipamentos da API',
