@@ -4,6 +4,7 @@ import 'package:sympla_app/modules/home/home_binding.dart';
 import 'package:sympla_app/modules/home/home_page.dart';
 import 'package:sympla_app/modules/login/login_binding.dart';
 import 'package:sympla_app/modules/login/login_page.dart';
+import 'package:sympla_app/modules/splash/erro_splash_page.dart';
 import 'package:sympla_app/modules/splash/splash_binding.dart';
 import 'package:sympla_app/modules/splash/splash_page.dart';
 import 'package:sympla_app/routes/middleware/auth_middleware.dart';
@@ -27,6 +28,10 @@ class AppPages {
       name: Routes.splash,
       page: () => SplashPage(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: Routes.erroSplash,
+      page: () => const ErroSplashPage(),
     ),
     // Adicione outras rotas aqui
   ];
