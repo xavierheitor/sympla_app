@@ -95,6 +95,6 @@ class SplashController extends GetxController {
     final estaVazio = await syncService.estaVazio();
     AppLogger.d('📦 Banco local está vazio? $estaVazio');
 
-    return !estaVazio;
+    return estaVazio;
   }
 }

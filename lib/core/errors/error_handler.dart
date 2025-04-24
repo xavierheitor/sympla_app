@@ -10,7 +10,13 @@ class ErrorHandler {
     if (error is DioException) {
       if (error.type == DioExceptionType.connectionTimeout ||
           error.type == DioExceptionType.unknown) {
-        return NetworkException("Sem conexão com a internet", stack: stack);
+        return NetworkException(
+          _mensagemParaCodigo(error.response?.statusCode),
+          uri: error.requestOptions.uri,
+          statusCode: error.response?.statusCode,
+          response: error.response?.data,
+          stack: stack,
+        );
       }
 
       final statusCode = error.response?.statusCode;
@@ -53,5 +59,20 @@ class ErrorHandler {
       titulo: 'Erro desconhecido',
       descricao: 'Ocorreu um erro inesperado.',
     );
+  }
+
+  static String _mensagemParaCodigo(int? statusCode) {
+    switch (statusCode) {
+      case 400:
+        return 'Requisição inválida';
+      case 401:
+        return 'Não autorizado';
+      case 404:
+        return 'Recurso não encontrado';
+      case 500:
+        return 'Erro interno no servidor';
+      default:
+        return 'Erro de conexão';
+    }
   }
 }

@@ -15,7 +15,22 @@ class ApiException extends AppException {
 }
 
 class NetworkException extends AppException {
-  NetworkException(super.mensagem, {super.stack}) : super(tipo: TipoErro.api);
+  final Uri? uri;
+  final int? statusCode;
+  final dynamic response;
+
+  NetworkException(
+    super.mensagem, {
+    this.uri,
+    this.statusCode,
+    this.response,
+    super.stack,
+  }) : super(tipo: TipoErro.api);
+
+  @override
+  String toString() {
+    return 'NetworkException: $mensagem\n→ URL: $uri\n→ Status: $statusCode\n→ Response: $response';
+  }
 }
 
 class AuthException extends AppException {

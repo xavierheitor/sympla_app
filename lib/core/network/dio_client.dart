@@ -54,6 +54,7 @@ class DioClient {
           AppLogger.e('❌ [API ERROR]');
           AppLogger.e('🔻 Status: $status');
           AppLogger.e('🔻 URL: $uri');
+          AppLogger.e('🔻 StatusCode: ${error.response?.statusCode}');
           AppLogger.e('🔻 Mensagem tratada: ${tratado.mensagem}',
               error: error, stackTrace: error.stackTrace);
 

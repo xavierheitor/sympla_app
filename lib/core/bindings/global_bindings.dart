@@ -4,25 +4,11 @@ import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
 import 'package:sympla_app/data/repositories/auth_repository_impl.dart';
-import 'package:sympla_app/data/repositories/equipamento_repository_impl.dart';
-import 'package:sympla_app/data/repositories/grupo_defeito_repository_impl.dart';
-import 'package:sympla_app/data/repositories/subgrupo_defeito_repository_impl.dart';
-import 'package:sympla_app/data/repositories/tipo_atividade_repository_impl.dart';
 import 'package:sympla_app/data/repositories/usuario_repository_impl.dart';
 import 'package:sympla_app/domain/repositories/auth_repository.dart';
-import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
-import 'package:sympla_app/domain/repositories/grupo_defeito_repository.dart';
-import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart';
-import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
 import 'package:sympla_app/domain/repositories/usuario_repository.dart';
 
 import 'package:sympla_app/core/services/auth_service.dart';
-
-import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
-import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
-import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 
 class GlobalBinding extends Bindings {
   @override
