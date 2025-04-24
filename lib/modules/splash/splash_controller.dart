@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
@@ -68,7 +69,10 @@ class SplashController extends GetxController {
     try {
       final result = await InternetAddress.lookup('google.com');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
-    } catch (_) {
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('Erro ao verificar conexão',
+          tag: 'Splash', error: erro.mensagem, stackTrace: erro.stack);
       return false;
     }
   }

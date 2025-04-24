@@ -1,5 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/helpers/error_helper.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/services/auth_service.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
@@ -25,11 +26,15 @@ class LoginController extends GetxController {
       AppLogger.i("Login realizado com sucesso", tag: "Login");
       Get.offAllNamed('/splash');
     } catch (e, stack) {
+      final erro = ErrorHandler.tratar(e, stack);
       AppLogger.e("Erro ao realizar login",
-          tag: "Login", error: e, stackTrace: stack);
+          tag: "LoginController - login", error: e, stackTrace: stack);
 
       // Preenche o erro de forma amigável
-      erro.value = ErrorHelper.getUserMessage(e);
+      final mensagem = ErrorHandler.mensagemUsuario(erro);
+
+      Get.snackbar(mensagem.titulo, mensagem.descricao,
+          backgroundColor: Colors.red, colorText: Colors.white);
     } finally {
       carregando.value = false;
     }
