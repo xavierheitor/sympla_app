@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -6,30 +7,35 @@ import 'package:sympla_app/app.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded(() {
+    FlutterError.onError = (FlutterErrorDetails details) {
+      AppLogger.e('[FlutterError]',
+          tag: 'GlobalError',
+          error: details.exception,
+          stackTrace: details.stack);
+    };
 
-  FlutterError.onError = (FlutterErrorDetails details) {
-    AppLogger.e('[FlutterError]',
-        tag: 'GlobalError',
-        error: details.exception,
-        stackTrace: details.stack);
-  };
+    PlatformDispatcher.instance.onError = (error, stack) {
+      AppLogger.e('[PlatformError]',
+          tag: 'GlobalError', error: error, stackTrace: stack);
+      return true;
+    };
 
-  PlatformDispatcher.instance.onError = (error, stack) {
-    AppLogger.e('[PlatformError]',
+    Get.config(
+      enableLog: true,
+      logWriterCallback: (text, {bool isError = false}) {
+        if (isError) {
+          AppLogger.e('[GETX] $text', tag: 'GetX');
+        } else {
+          AppLogger.d('[GETX] $text', tag: 'GetX');
+        }
+      },
+    );
+
+    WidgetsFlutterBinding.ensureInitialized();
+    runApp(const SymplaApp());
+  }, (error, stack) {
+    AppLogger.e('[GlobalError]',
         tag: 'GlobalError', error: error, stackTrace: stack);
-    return true;
-  };
-
-  Get.config(
-    enableLog: true,
-    logWriterCallback: (text, {bool isError = false}) {
-      if (isError) {
-        AppLogger.e('[GETX] $text', tag: 'GetX');
-      } else {
-        AppLogger.d('[GETX] $text', tag: 'GetX');
-      }
-    },
-  );
-  runApp(const SymplaApp());
+  });
 }
