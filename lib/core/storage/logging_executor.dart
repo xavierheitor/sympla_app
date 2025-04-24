@@ -10,6 +10,7 @@ class LoggingExecutor extends QueryExecutor {
   @override
   Future<void> runBatched(BatchedStatements statements) async {
     try {
+      AppLogger.v('📦 [Drift] BATCH: $statements');
       return await _inner.runBatched(statements);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em batch',
@@ -21,6 +22,7 @@ class LoggingExecutor extends QueryExecutor {
   @override
   Future<void> runCustom(String statement, [List<Object?>? args]) async {
     try {
+      AppLogger.v('📦 [Drift] CUSTOM: $statement\nArgs: $args');
       return await _inner.runCustom(statement, args);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em custom SQL',
@@ -32,6 +34,7 @@ class LoggingExecutor extends QueryExecutor {
   @override
   Future<int> runInsert(String statement, List<Object?> args) async {
     try {
+      AppLogger.v('📦 [Drift] INSERT: $statement\nArgs: $args');
       return await _inner.runInsert(statement, args);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em insert',
@@ -44,6 +47,7 @@ class LoggingExecutor extends QueryExecutor {
   Future<List<Map<String, Object?>>> runSelect(
       String statement, List<Object?> args) async {
     try {
+      AppLogger.v('📦 [Drift] SELECT: $statement\nArgs: $args');
       return await _inner.runSelect(statement, args);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em select',
@@ -55,6 +59,7 @@ class LoggingExecutor extends QueryExecutor {
   @override
   Future<int> runUpdate(String statement, List<Object?> args) async {
     try {
+      AppLogger.v('📦 [Drift] UPDATE: $statement\nArgs: $args');
       return await _inner.runUpdate(statement, args);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em update',
@@ -66,6 +71,7 @@ class LoggingExecutor extends QueryExecutor {
   @override
   Future<int> runDelete(String statement, List<Object?> args) async {
     try {
+      AppLogger.v('📦 [Drift] DELETE: $statement\nArgs: $args');
       return await _inner.runDelete(statement, args);
     } catch (e, s) {
       AppLogger.e('[DB] Erro em delete',
@@ -76,16 +82,19 @@ class LoggingExecutor extends QueryExecutor {
 
   @override
   TransactionExecutor beginTransaction() {
+    AppLogger.v('📦 [Drift] BEGIN TRANSACTION');
     return _inner.beginTransaction();
   }
 
   @override
   QueryExecutor beginExclusive() {
+    AppLogger.v('📦 [Drift] BEGIN EXCLUSIVE');
     return _inner.beginExclusive();
   }
 
   @override
   Future<bool> ensureOpen(QueryExecutorUser user) {
+    AppLogger.v('📦 [Drift] ENSURE OPEN');
     return _inner.ensureOpen(user);
   }
 
