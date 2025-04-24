@@ -42,4 +42,9 @@ class GrupoDefeitoEquipamentoDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🧹 Removidos $apagados grupos obsoletos',
         tag: 'GrupoDefeitoDAO');
   }
+
+  Future<bool> estaVazio() async {
+    final result = await select(grupoDefeitoEquipamentoTable).get();
+    return result.isEmpty;
+  }
 }

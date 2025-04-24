@@ -56,4 +56,9 @@ class TipoAtividadeDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🧹 Removidos $removidos tipos obsoletos',
         tag: 'TipoAtividadeDAO');
   }
+
+  Future<bool> estaVazio() async {
+    final result = await select(tipoAtividadeTable).get();
+    return result.isEmpty;
+  }
 }

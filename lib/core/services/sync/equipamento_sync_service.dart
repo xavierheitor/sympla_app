@@ -23,4 +23,8 @@ class EquipamentoSyncService {
       rethrow;
     }
   }
+
+  Future<bool> estaVazio() async {
+    return await repository.estaVazio();
+  }
 }

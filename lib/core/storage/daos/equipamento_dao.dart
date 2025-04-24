@@ -56,4 +56,9 @@ class EquipamentoDao extends DatabaseAccessor<AppDatabase>
         tag: 'EquipamentoDAO');
     await delete(equipamentoTable).go();
   }
+
+  Future<bool> estaVazio() async {
+    final result = await select(equipamentoTable).get();
+    return result.isEmpty;
+  }
 }

@@ -39,4 +39,11 @@ class SyncOrchestratorService {
       rethrow;
     }
   }
+
+  Future<bool> estaVazio() async {
+    return await tipoAtividadeSyncService.estaVazio() ||
+        await equipamentoSyncService.estaVazio() ||
+        await grupoDefeitoSyncService.estaVazio() ||
+        await subgrupoDefeitoSyncService.estaVazio();
+  }
 }

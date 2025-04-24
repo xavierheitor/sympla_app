@@ -43,4 +43,9 @@ class SubgrupoDefeitoEquipamentoDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🧹 Removidos $apagados subgrupos obsoletos',
         tag: 'SubgrupoDefeitoDAO');
   }
+
+  Future<bool> estaVazio() async {
+    final result = await select(subgrupoDefeitoEquipamentoTable).get();
+    return result.isEmpty;
+  }
 }

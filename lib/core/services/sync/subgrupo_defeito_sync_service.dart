@@ -27,4 +27,8 @@ class SubgrupoDefeitoSyncService {
       rethrow;
     }
   }
+
+  Future<bool> estaVazio() async {
+    return await repository.estaVazio();
+  }
 }

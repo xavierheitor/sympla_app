@@ -4,4 +4,5 @@ abstract class SubgrupoDefeitoRepository {
   Future<List<SubgrupoDefeitoEquipamentoTableCompanion>> buscarDaApi();
   Future<void> salvarNoBanco(
       List<SubgrupoDefeitoEquipamentoTableCompanion> dados);
+  Future<bool> estaVazio();
 }

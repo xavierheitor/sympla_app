@@ -72,4 +72,9 @@ class TipoAtividadeRepositoryImpl implements TipoAtividadeRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> estaVazio() async {
+    return await dao.estaVazio();
+  }
 }

@@ -6,14 +6,12 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
 class SplashController extends GetxController {
   final status = ''.obs;
   final carregando = true.obs;
 
   final syncService = Get.find<SyncOrchestratorService>();
-  final db = Get.find<AppDatabase>();
 
   @override
   Future<void> onInit() async {
@@ -94,12 +92,7 @@ class SplashController extends GetxController {
   }
 
   Future<bool> _dadosLocaisEstaoVazios() async {
-    // final atividades = await db.atividadeDao.getAll();
-    // final equipamentos = await db.equipamentoDao.getAll();
-    // final tipos = await db.tipoAtividadeDao.getAll();
-
-    // final estaVazio = atividades.isEmpty || equipamentos.isEmpty || tipos.isEmpty;
-    const estaVazio = false;
+    final estaVazio = await syncService.estaVazio();
     AppLogger.d('📦 Banco local está vazio? $estaVazio');
 
     return estaVazio;

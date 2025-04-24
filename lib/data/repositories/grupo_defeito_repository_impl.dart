@@ -61,4 +61,9 @@ class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> estaVazio() async {
+    return await dao.estaVazio();
+  }
 }

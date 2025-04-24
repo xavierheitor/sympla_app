@@ -61,4 +61,9 @@ class SubgrupoDefeitoRepositoryImpl implements SubgrupoDefeitoRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> estaVazio() async {
+    return await dao.estaVazio();
+  }
 }

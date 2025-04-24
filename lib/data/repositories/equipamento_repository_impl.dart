@@ -68,4 +68,9 @@ class EquipamentoRepositoryImpl implements EquipamentoRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> estaVazio() async {
+    return await dao.estaVazio();
+  }
 }

@@ -24,4 +24,8 @@ class GrupoDefeitoSyncService {
       rethrow;
     }
   }
+
+  Future<bool> estaVazio() async {
+    return await repository.estaVazio();
+  }
 }
