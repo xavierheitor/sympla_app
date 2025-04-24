@@ -11,6 +11,7 @@ import 'package:sympla_app/core/storage/daos/grupo_defeito_equipamento_dao.dart'
 import 'package:sympla_app/core/storage/daos/subgrupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
+import 'package:sympla_app/core/storage/logging_executor.dart';
 import 'package:sympla_app/core/storage/tables/atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
 import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
@@ -29,7 +30,9 @@ LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'sympla.sqlite'));
-    return NativeDatabase(file);
+
+    final nativeDb = NativeDatabase(file, logStatements: true);
+    return LoggingExecutor(nativeDb);
   });
 }
 

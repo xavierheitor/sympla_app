@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
 
@@ -16,8 +17,10 @@ class EquipamentoSyncService {
       AppLogger.i('✅ Equipamentos sincronizados com sucesso',
           tag: 'EquipamentoSync');
     } catch (e, s) {
-      AppLogger.e('Erro ao sincronizar Equipamentos',
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[equipamento_sync_service - sincronizar] ${erro.mensagem}',
           tag: 'EquipamentoSync', error: e, stackTrace: s);
+      rethrow;
     }
   }
 }

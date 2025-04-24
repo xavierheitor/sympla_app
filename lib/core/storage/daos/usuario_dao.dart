@@ -11,6 +11,7 @@ class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {
   UsuarioDao(this.db) : super(db);
 
   Future<List<UsuarioTableData>> getAllUsuarios() => select(usuarioTable).get();
+
   Stream<List<UsuarioTableData>> watchAllUsuarios() =>
       select(usuarioTable).watch();
   Future insertUsuario(UsuarioTableCompanion usuario) =>
@@ -26,5 +27,14 @@ class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<UsuarioTableData?> buscarPorMatricula(String matricula) {
+    return (select(usuarioTable)..where((u) => u.matricula.equals(matricula)))
+        .getSingleOrNull();
+  }
+
+  Future<int> salvarUsuario(UsuarioTableCompanion usuario) {
+    return into(usuarioTable).insertOnConflictUpdate(usuario);
   }
 }

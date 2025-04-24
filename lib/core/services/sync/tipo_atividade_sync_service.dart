@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
 
@@ -17,8 +18,13 @@ class TipoAtividadeSyncService {
       AppLogger.i('✅ Tipos de Atividade sincronizados com sucesso',
           tag: 'TipoAtividadeSync');
     } catch (e, s) {
-      AppLogger.e('Erro ao sincronizar Tipos de Atividade',
-          tag: 'TipoAtividadeSync', error: e, stackTrace: s);
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[tipo_atividade_sync_service - sincronizar] ${erro.mensagem}',
+          tag: 'TipoAtividadeSync',
+          error: e,
+          stackTrace: s);
+      rethrow;
     }
   }
 }

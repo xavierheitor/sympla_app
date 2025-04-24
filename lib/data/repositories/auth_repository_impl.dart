@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/data/models/login_response.dart';
@@ -19,18 +20,27 @@ class AuthRepositoryImpl implements AuthRepository {
         },
       );
       return LoginResponse.fromJson(response.data);
-    } catch (e) {
-      AppLogger.e('Erro ao fazer login: $e');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[auth_repository_impl - login] ${erro.mensagem}',
+          tag: 'AuthRepositoryImpl', error: e, stackTrace: s);
       rethrow;
     }
   }
 
   @override
   Future<LoginResponse> refreshToken(String refreshToken) async {
-    final response = await dio.post(
-      '/auth/refresh',
-      data: {'refreshToken': refreshToken},
-    );
-    return LoginResponse.fromJson(response.data);
+    try {
+      final response = await dio.post(
+        '/auth/refresh',
+        data: {'refreshToken': refreshToken},
+      );
+      return LoginResponse.fromJson(response.data);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[auth_repository_impl - refreshToken] ${erro.mensagem}',
+          tag: 'AuthRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
   }
 }

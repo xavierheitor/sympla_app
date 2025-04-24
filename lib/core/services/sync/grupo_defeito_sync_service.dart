@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/domain/repositories/grupo_defeito_repository.dart';
 
@@ -17,8 +18,10 @@ class GrupoDefeitoSyncService {
       AppLogger.i('✅ Grupos de Defeito sincronizados com sucesso',
           tag: 'GrupoDefeitoSync');
     } catch (e, s) {
-      AppLogger.e('Erro ao sincronizar Grupos de Defeito',
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[grupo_defeito_sync_service - sincronizar] ${erro.mensagem}',
           tag: 'GrupoDefeitoSync', error: e, stackTrace: s);
+      rethrow;
     }
   }
 }

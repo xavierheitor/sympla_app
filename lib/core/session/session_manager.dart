@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/services/auth_service.dart';
@@ -15,35 +16,43 @@ class SessionManager extends GetxService {
   bool _inicializado = false;
 
   Future<void> init() async {
-    AppLogger.d('📥 Buscando usuários locais...');
-    final usuarios = await db.usuarioDao.getAllUsuarios();
-    AppLogger.d('📥 Encontrado ${usuarios.length} usuário(s)');
+    AppLogger.d('[session_manager - init] Buscando usuários locais...');
+    try {
+      final usuarios = await db.usuarioDao.getAllUsuarios();
+      AppLogger.d(
+          '[session_manager - init] Encontrado ${usuarios.length} usuário(s)');
 
-    if (usuarios.isNotEmpty) {
-      final local = usuarios.first;
-      AppLogger.d('📋 Usuário carregado: ${local.nome}');
-      _usuario = local;
+      if (usuarios.isNotEmpty) {
+        final local = usuarios.first;
+        AppLogger.d('📋 Usuário carregado: ${local.nome}');
+        _usuario = local;
 
-      final now = DateTime.now();
-      final diff = now.difference(local.ultimoLogin ?? now).inHours;
+        final now = DateTime.now();
+        final diff = now.difference(local.ultimoLogin ?? now).inHours;
 
-      AppLogger.i('Último login há $diff horas', tag: 'Sessão');
+        AppLogger.i('Último login há $diff horas', tag: 'Sessão');
 
-      if (local.refreshToken != null && diff < 24) {
-        try {
-          await authService.refresh(local.refreshToken!);
-          final atualizado = await db.usuarioDao.getAllUsuarios();
-          _usuario = atualizado.first;
-          AppLogger.i('Token renovado com sucesso', tag: 'Sessão');
-        } catch (e) {
-          AppLogger.w('Falha ao renovar token, mantendo login offline',
-              tag: 'Sessão');
+        if (local.refreshToken != null && diff < 24) {
+          try {
+            await authService.refresh(local.refreshToken!);
+            final atualizado = await db.usuarioDao.getAllUsuarios();
+            _usuario = atualizado.first;
+            AppLogger.i('Token renovado com sucesso', tag: 'Sessão');
+          } catch (e) {
+            AppLogger.w('Falha ao renovar token, mantendo login offline',
+                tag: 'Sessão');
+          }
+        }
+
+        if (diff >= 24) {
+          await logout();
         }
       }
-
-      if (diff >= 24) {
-        await logout();
-      }
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[session_manager - init] ${erro.mensagem}',
+          tag: 'SessionManager', error: e, stackTrace: s);
+      rethrow;
     }
     _inicializado = true;
   }
@@ -79,8 +88,10 @@ class SessionManager extends GetxService {
         return true;
       }
       return false;
-    } catch (e) {
-      AppLogger.e('Erro ao deslogar: $e', tag: 'Sessão');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[session_manager - logout] ${erro.mensagem}',
+          tag: 'SessionManager', error: e, stackTrace: s);
       return false;
     }
   }
