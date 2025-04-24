@@ -36,43 +36,11 @@ class GlobalBinding extends Bindings {
         fenix: true);
     Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(Get.find()),
         fenix: true);
-    Get.lazyPut<TipoAtividadeRepository>(
-      () => TipoAtividadeRepositoryImpl(dio: Get.find(), db: Get.find()),
-      fenix: true,
-    );
-    Get.lazyPut<EquipamentoRepository>(
-      () => EquipamentoRepositoryImpl(dio: Get.find(), db: Get.find()),
-      fenix: true,
-    );
-    Get.lazyPut<GrupoDefeitoRepository>(
-      () => GrupoDefeitoRepositoryImpl(dio: Get.find(), db: Get.find()),
-      fenix: true,
-    );
-    Get.lazyPut<SubgrupoDefeitoRepository>(
-      () => SubgrupoDefeitoRepositoryImpl(dio: Get.find(), db: Get.find()),
-      fenix: true,
-    );
 
     // Core ervices
     Get.put(AuthService(Get.find(), Get.find()), permanent: true);
     Get.put(SessionManager(Get.find(), db: Get.find(), authService: Get.find()),
         permanent: true);
-
-    // Sync Services (recriados automaticamente se deletados)
-    Get.lazyPut(() => TipoAtividadeSyncService(Get.find()), fenix: true);
-    Get.lazyPut(() => EquipamentoSyncService(Get.find()), fenix: true);
-    Get.lazyPut(() => GrupoDefeitoSyncService(Get.find()), fenix: true);
-    Get.lazyPut(() => SubgrupoDefeitoSyncService(Get.find()), fenix: true);
-
-    // Orquestrador
-    Get.lazyPut(
-        () => SyncOrchestratorService(
-              tipoAtividadeSyncService: Get.find(),
-              equipamentoSyncService: Get.find(),
-              grupoDefeitoSyncService: Get.find(),
-              subgrupoDefeitoSyncService: Get.find(),
-            ),
-        fenix: true);
 
     // futuros services adicione aqui
   }
