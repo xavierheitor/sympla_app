@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
 
-part 'equipamento_dao.g.dart';
+part 'generated/equipamento_dao.g.dart';
 
 @DriftAccessor(tables: [EquipamentoTable])
 class EquipamentoDao extends DatabaseAccessor<AppDatabase>

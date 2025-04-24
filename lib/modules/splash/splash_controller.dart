@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
@@ -60,7 +61,14 @@ class SplashController extends GetxController {
     status.value = 'Sincronizando dados...';
     // await Future.delayed(const Duration(seconds: 3));
 
-    await syncService.sincronizarTudo();
+    try {
+      await syncService.sincronizarTudo();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('Erro ao sincronizar dados',
+          tag: 'Splash', error: erro.mensagem, stackTrace: erro.stack);
+      Get.offAllNamed(Routes.erroSplash);
+    }
 
     AppLogger.i('Sincronização finalizada com sucesso', tag: 'Splash');
   }
