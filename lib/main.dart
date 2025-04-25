@@ -39,3 +39,7 @@ void main() {
         tag: 'GlobalError', error: error, stackTrace: stack);
   });
 }
+
+
+
+// TODO - INVERTER A ORDEM DO LOG DE HEADER COM A INSERCAO DO TOKEN AUTH, PRA NAO APARECER OS HEADERS VAZIOS E DEPOIS INSERIDO O TOKEN

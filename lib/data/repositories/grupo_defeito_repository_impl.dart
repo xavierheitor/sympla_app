@@ -25,11 +25,11 @@ class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
 
       return dados.map<GrupoDefeitoEquipamentoTableCompanion>((json) {
         return GrupoDefeitoEquipamentoTableCompanion(
-          id: Value(json['id']),
-          uuid: Value(json['uuid']),
-          nome: Value(json['nome']),
-          createdAt: Value(DateTime.parse(json['createdAt'])),
-          updatedAt: Value(DateTime.parse(json['updatedAt'])),
+          id: Value(json['id'] ?? 0),
+          uuid: Value(json['uuid'] ?? ''),
+          nome: Value(json['nome'] ?? ''),
+          createdAt: Value(DateTime.parse(json['createdAt'] ?? '')),
+          updatedAt: Value(DateTime.parse(json['updatedAt'] ?? '')),
           sincronizado: const Value(true),
         );
       }).toList();
