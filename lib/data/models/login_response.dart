@@ -3,6 +3,7 @@ class LoginResponse {
   final String refreshToken;
   final DateTime expiresAt;
   final DateTime refreshTokenExpiresAt;
+  final int id;
   final String nome;
   final String matricula;
 
@@ -11,6 +12,7 @@ class LoginResponse {
     required this.refreshToken,
     required this.expiresAt,
     required this.refreshTokenExpiresAt,
+    required this.id,
     required this.nome,
     required this.matricula,
   });
@@ -22,6 +24,7 @@ class LoginResponse {
       refreshToken: json['refreshToken'] ?? '',
       expiresAt: DateTime.parse(json['expiresAt']),
       refreshTokenExpiresAt: DateTime.parse(json['refreshTokenExpiresAt']),
+      id: usuario['id'] ?? 0,
       nome: usuario['nome'] ?? '',
       matricula: usuario['matricula'] ?? '',
     );

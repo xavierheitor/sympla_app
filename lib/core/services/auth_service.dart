@@ -17,6 +17,7 @@ class AuthService {
       final response = await authRepository.login(matricula, senha);
 
       final usuario = UsuarioTableCompanion(
+        id: Value(response.id),
         nome: Value(response.nome),
         matricula: Value(response.matricula),
         token: Value(response.token),
@@ -39,6 +40,7 @@ class AuthService {
       final response = await authRepository.refreshToken(token);
 
       final usuario = UsuarioTableCompanion(
+        id: Value(response.id),
         nome: Value(response.nome),
         matricula: Value(response.matricula),
         token: Value(response.token),
