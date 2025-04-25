@@ -7,6 +7,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_converter.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
+import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
 import 'package:sympla_app/domain/repositories/atividade_repository.dart';
 
 class AtividadeRepositoryImpl implements AtividadeRepository {
@@ -91,6 +92,21 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeRepositoryImpl - buscarTodas] ${erro.mensagem}',
           tag: 'AtividadeRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<List<AtividadeComEquipamento>> buscarComEquipamento() async {
+    try {
+      return await dao.buscarComEquipamento();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeRepositoryImpl - buscarComEquipamento] ${erro.mensagem}',
+          tag: 'AtividadeRepositoryImpl',
+          error: e,
+          stackTrace: s);
       rethrow;
     }
   }

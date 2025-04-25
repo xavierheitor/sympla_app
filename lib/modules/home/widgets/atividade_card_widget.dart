@@ -7,10 +7,12 @@ import 'package:sympla_app/modules/home/widgets/atividade_descricao_widget.dart'
 
 class AtividadeCard extends StatelessWidget {
   final AtividadeTableData atividade;
+  final EquipamentoTableData equipamento;
 
   const AtividadeCard({
     super.key,
     required this.atividade,
+    required this.equipamento,
   });
 
   @override
@@ -112,8 +114,8 @@ class AtividadeCard extends StatelessWidget {
                     ),
                     AtividadeDescricaoItem(
                       icon: Icons.build,
-                      label: 'Equipamento ID',
-                      value: atividade.equipamentoId.toString(),
+                      label: 'Equipamento',
+                      value: equipamento.nome,
                     ),
                     if (atividade.ordemServico.isNotEmpty)
                       AtividadeDescricaoItem(

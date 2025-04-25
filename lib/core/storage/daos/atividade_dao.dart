@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/atividade_table.dart';
+import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
 
 part 'generated/atividade_dao.g.dart';
 
@@ -61,5 +62,20 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
   Future<bool> estaVazio() async {
     final result = await select(atividadeTable).get();
     return result.isEmpty;
+  }
+
+  Future<List<AtividadeComEquipamento>> buscarComEquipamento() {
+    final query = select(atividadeTable).join([
+      innerJoin(equipamentoTable,
+          equipamentoTable.id.equalsExp(atividadeTable.equipamentoId)),
+    ]);
+
+    return query.map((row) {
+      final atividade = row.readTable(atividadeTable);
+      final equipamento = row.readTable(equipamentoTable);
+
+      return AtividadeComEquipamento(
+          atividade: atividade, equipamento: equipamento);
+    }).get();
   }
 }

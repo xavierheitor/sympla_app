@@ -1,6 +1,7 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
 import 'package:sympla_app/domain/repositories/atividade_repository.dart';
 
 class AtividadeSyncService {
@@ -40,6 +41,20 @@ class AtividadeSyncService {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeSyncService - buscarTodas] ${erro.mensagem}',
           tag: 'AtividadeSync', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<List<AtividadeComEquipamento>> buscarComEquipamento() async {
+    try {
+      return await repository.buscarComEquipamento();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeSyncService - buscarComEquipamento] ${erro.mensagem}',
+          tag: 'AtividadeSync',
+          error: e,
+          stackTrace: s);
       rethrow;
     }
   }

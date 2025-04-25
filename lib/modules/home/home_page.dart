@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
 
         final atividadeEmAndamento = atividadeCtrl.atividadeEmAndamento.value;
         final outrasAtividades = atividadeCtrl.atividades
-            .where((a) => a.id != atividadeEmAndamento?.id)
+            .where((a) => a.atividade.id != atividadeEmAndamento?.atividade.id)
             .toList();
 
         return Column(
@@ -55,7 +55,8 @@ class HomePage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: AtividadeCard(
-                  atividade: atividadeEmAndamento,
+                  atividade: atividadeEmAndamento.atividade,
+                  equipamento: atividadeEmAndamento.equipamento,
                 ),
               )
             else
@@ -75,7 +76,9 @@ class HomePage extends StatelessWidget {
                 itemCount: outrasAtividades.length,
                 itemBuilder: (context, index) {
                   final atividade = outrasAtividades[index];
-                  return AtividadeCard(atividade: atividade);
+                  return AtividadeCard(
+                      atividade: atividade.atividade,
+                      equipamento: atividade.equipamento);
                 },
               ),
             ),

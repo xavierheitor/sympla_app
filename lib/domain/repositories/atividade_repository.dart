@@ -1,8 +1,10 @@
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
 
 abstract class AtividadeRepository {
   Future<List<AtividadeTableCompanion>> buscarDaApi();
   Future<void> salvarNoBanco(List<AtividadeTableCompanion> dados);
   Future<bool> estaVazio();
   Future<List<AtividadeTableData>> buscarTodas();
+  Future<List<AtividadeComEquipamento>> buscarComEquipamento();
 }
