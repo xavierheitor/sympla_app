@@ -22,3 +22,20 @@ class StatusAtividadeConverter extends TypeConverter<StatusAtividade, String> {
   @override
   String toSql(StatusAtividade value) => value.name;
 }
+
+extension StatusAtividadeExt on StatusAtividade {
+  String get label {
+    switch (this) {
+      case StatusAtividade.pendente:
+        return 'Pendente';
+      case StatusAtividade.emAndamento:
+        return 'Em Andamento';
+      case StatusAtividade.concluido:
+        return 'Concluído';
+      case StatusAtividade.cancelado:
+        return 'Cancelado';
+      case StatusAtividade.sincronizado:
+        return 'Sincronizado';
+    }
+  }
+}

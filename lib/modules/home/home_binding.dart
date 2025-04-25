@@ -1,4 +1,6 @@
+// HomeBinding
 import 'package:get/get.dart';
+import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/data/repositories/atividade_repository_impl.dart';
 import 'package:sympla_app/domain/repositories/atividade_repository.dart';
@@ -13,7 +15,8 @@ class HomeBinding extends Bindings {
         ));
 
     Get.lazyPut(() => AtividadeSyncService(Get.find()));
-
-    Get.lazyPut(() => HomeController(Get.find(), Get.find()));
+    Get.lazyPut(() => AtividadeController(atividadeSyncService: Get.find()),
+        fenix: true);
+    Get.lazyPut(() => HomeController(Get.find(), Get.find()), fenix: true);
   }
 }
