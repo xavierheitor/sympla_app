@@ -2194,6 +2194,15 @@ class $AtividadeTableTable extends AtividadeTable
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 3),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _equipamentoIdMeta =
+      const VerificationMeta('equipamentoId');
+  @override
+  late final GeneratedColumn<int> equipamentoId = GeneratedColumn<int>(
+      'equipamento_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES equipamento_table (id)'));
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<StatusAtividade, String> status =
@@ -2222,15 +2231,15 @@ class $AtividadeTableTable extends AtividadeTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES tipo_atividade_table (id)'));
-  static const VerificationMeta _equipamentoIdMeta =
-      const VerificationMeta('equipamentoId');
+  static const VerificationMeta _tipoAtividadeMobileMeta =
+      const VerificationMeta('tipoAtividadeMobile');
   @override
-  late final GeneratedColumn<int> equipamentoId = GeneratedColumn<int>(
-      'equipamento_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES equipamento_table (id)'));
+  late final GeneratedColumnWithTypeConverter<TipoAtividadeMobile, String>
+      tipoAtividadeMobile = GeneratedColumn<String>(
+              'tipo_atividade_mobile', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<TipoAtividadeMobile>(
+              $AtividadeTableTable.$convertertipoAtividadeMobile);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2243,11 +2252,12 @@ class $AtividadeTableTable extends AtividadeTable
         descricao,
         dataLimite,
         subestacao,
+        equipamentoId,
         status,
         dataInicio,
         dataFim,
         tipoAtividadeId,
-        equipamentoId
+        tipoAtividadeMobile
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2322,6 +2332,14 @@ class $AtividadeTableTable extends AtividadeTable
     } else if (isInserting) {
       context.missing(_subestacaoMeta);
     }
+    if (data.containsKey('equipamento_id')) {
+      context.handle(
+          _equipamentoIdMeta,
+          equipamentoId.isAcceptableOrUnknown(
+              data['equipamento_id']!, _equipamentoIdMeta));
+    } else if (isInserting) {
+      context.missing(_equipamentoIdMeta);
+    }
     context.handle(_statusMeta, const VerificationResult.success());
     if (data.containsKey('data_inicio')) {
       context.handle(
@@ -2341,14 +2359,8 @@ class $AtividadeTableTable extends AtividadeTable
     } else if (isInserting) {
       context.missing(_tipoAtividadeIdMeta);
     }
-    if (data.containsKey('equipamento_id')) {
-      context.handle(
-          _equipamentoIdMeta,
-          equipamentoId.isAcceptableOrUnknown(
-              data['equipamento_id']!, _equipamentoIdMeta));
-    } else if (isInserting) {
-      context.missing(_equipamentoIdMeta);
-    }
+    context.handle(
+        _tipoAtividadeMobileMeta, const VerificationResult.success());
     return context;
   }
 
@@ -2378,6 +2390,8 @@ class $AtividadeTableTable extends AtividadeTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}data_limite'])!,
       subestacao: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}subestacao'])!,
+      equipamentoId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}equipamento_id'])!,
       status: $AtividadeTableTable.$converterstatus.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}status'])!),
@@ -2387,8 +2401,9 @@ class $AtividadeTableTable extends AtividadeTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}data_fim']),
       tipoAtividadeId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tipo_atividade_id'])!,
-      equipamentoId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}equipamento_id'])!,
+      tipoAtividadeMobile: $AtividadeTableTable.$convertertipoAtividadeMobile
+          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
+              data['${effectivePrefix}tipo_atividade_mobile'])!),
     );
   }
 
@@ -2399,6 +2414,8 @@ class $AtividadeTableTable extends AtividadeTable
 
   static TypeConverter<StatusAtividade, String> $converterstatus =
       const StatusAtividadeConverter();
+  static TypeConverter<TipoAtividadeMobile, String>
+      $convertertipoAtividadeMobile = const TipoAtividadeMobileConverter();
 }
 
 class AtividadeTableData extends DataClass
@@ -2413,11 +2430,12 @@ class AtividadeTableData extends DataClass
   final String descricao;
   final DateTime dataLimite;
   final String subestacao;
+  final int equipamentoId;
   final StatusAtividade status;
   final DateTime? dataInicio;
   final DateTime? dataFim;
   final int tipoAtividadeId;
-  final int equipamentoId;
+  final TipoAtividadeMobile tipoAtividadeMobile;
   const AtividadeTableData(
       {required this.id,
       required this.uuid,
@@ -2429,11 +2447,12 @@ class AtividadeTableData extends DataClass
       required this.descricao,
       required this.dataLimite,
       required this.subestacao,
+      required this.equipamentoId,
       required this.status,
       this.dataInicio,
       this.dataFim,
       required this.tipoAtividadeId,
-      required this.equipamentoId});
+      required this.tipoAtividadeMobile});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2447,6 +2466,7 @@ class AtividadeTableData extends DataClass
     map['descricao'] = Variable<String>(descricao);
     map['data_limite'] = Variable<DateTime>(dataLimite);
     map['subestacao'] = Variable<String>(subestacao);
+    map['equipamento_id'] = Variable<int>(equipamentoId);
     {
       map['status'] =
           Variable<String>($AtividadeTableTable.$converterstatus.toSql(status));
@@ -2458,7 +2478,11 @@ class AtividadeTableData extends DataClass
       map['data_fim'] = Variable<DateTime>(dataFim);
     }
     map['tipo_atividade_id'] = Variable<int>(tipoAtividadeId);
-    map['equipamento_id'] = Variable<int>(equipamentoId);
+    {
+      map['tipo_atividade_mobile'] = Variable<String>($AtividadeTableTable
+          .$convertertipoAtividadeMobile
+          .toSql(tipoAtividadeMobile));
+    }
     return map;
   }
 
@@ -2474,6 +2498,7 @@ class AtividadeTableData extends DataClass
       descricao: Value(descricao),
       dataLimite: Value(dataLimite),
       subestacao: Value(subestacao),
+      equipamentoId: Value(equipamentoId),
       status: Value(status),
       dataInicio: dataInicio == null && nullToAbsent
           ? const Value.absent()
@@ -2482,7 +2507,7 @@ class AtividadeTableData extends DataClass
           ? const Value.absent()
           : Value(dataFim),
       tipoAtividadeId: Value(tipoAtividadeId),
-      equipamentoId: Value(equipamentoId),
+      tipoAtividadeMobile: Value(tipoAtividadeMobile),
     );
   }
 
@@ -2500,11 +2525,13 @@ class AtividadeTableData extends DataClass
       descricao: serializer.fromJson<String>(json['descricao']),
       dataLimite: serializer.fromJson<DateTime>(json['dataLimite']),
       subestacao: serializer.fromJson<String>(json['subestacao']),
+      equipamentoId: serializer.fromJson<int>(json['equipamentoId']),
       status: serializer.fromJson<StatusAtividade>(json['status']),
       dataInicio: serializer.fromJson<DateTime?>(json['dataInicio']),
       dataFim: serializer.fromJson<DateTime?>(json['dataFim']),
       tipoAtividadeId: serializer.fromJson<int>(json['tipoAtividadeId']),
-      equipamentoId: serializer.fromJson<int>(json['equipamentoId']),
+      tipoAtividadeMobile:
+          serializer.fromJson<TipoAtividadeMobile>(json['tipoAtividadeMobile']),
     );
   }
   @override
@@ -2521,11 +2548,13 @@ class AtividadeTableData extends DataClass
       'descricao': serializer.toJson<String>(descricao),
       'dataLimite': serializer.toJson<DateTime>(dataLimite),
       'subestacao': serializer.toJson<String>(subestacao),
+      'equipamentoId': serializer.toJson<int>(equipamentoId),
       'status': serializer.toJson<StatusAtividade>(status),
       'dataInicio': serializer.toJson<DateTime?>(dataInicio),
       'dataFim': serializer.toJson<DateTime?>(dataFim),
       'tipoAtividadeId': serializer.toJson<int>(tipoAtividadeId),
-      'equipamentoId': serializer.toJson<int>(equipamentoId),
+      'tipoAtividadeMobile':
+          serializer.toJson<TipoAtividadeMobile>(tipoAtividadeMobile),
     };
   }
 
@@ -2540,11 +2569,12 @@ class AtividadeTableData extends DataClass
           String? descricao,
           DateTime? dataLimite,
           String? subestacao,
+          int? equipamentoId,
           StatusAtividade? status,
           Value<DateTime?> dataInicio = const Value.absent(),
           Value<DateTime?> dataFim = const Value.absent(),
           int? tipoAtividadeId,
-          int? equipamentoId}) =>
+          TipoAtividadeMobile? tipoAtividadeMobile}) =>
       AtividadeTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -2556,11 +2586,12 @@ class AtividadeTableData extends DataClass
         descricao: descricao ?? this.descricao,
         dataLimite: dataLimite ?? this.dataLimite,
         subestacao: subestacao ?? this.subestacao,
+        equipamentoId: equipamentoId ?? this.equipamentoId,
         status: status ?? this.status,
         dataInicio: dataInicio.present ? dataInicio.value : this.dataInicio,
         dataFim: dataFim.present ? dataFim.value : this.dataFim,
         tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
-        equipamentoId: equipamentoId ?? this.equipamentoId,
+        tipoAtividadeMobile: tipoAtividadeMobile ?? this.tipoAtividadeMobile,
       );
   AtividadeTableData copyWithCompanion(AtividadeTableCompanion data) {
     return AtividadeTableData(
@@ -2580,6 +2611,9 @@ class AtividadeTableData extends DataClass
           data.dataLimite.present ? data.dataLimite.value : this.dataLimite,
       subestacao:
           data.subestacao.present ? data.subestacao.value : this.subestacao,
+      equipamentoId: data.equipamentoId.present
+          ? data.equipamentoId.value
+          : this.equipamentoId,
       status: data.status.present ? data.status.value : this.status,
       dataInicio:
           data.dataInicio.present ? data.dataInicio.value : this.dataInicio,
@@ -2587,9 +2621,9 @@ class AtividadeTableData extends DataClass
       tipoAtividadeId: data.tipoAtividadeId.present
           ? data.tipoAtividadeId.value
           : this.tipoAtividadeId,
-      equipamentoId: data.equipamentoId.present
-          ? data.equipamentoId.value
-          : this.equipamentoId,
+      tipoAtividadeMobile: data.tipoAtividadeMobile.present
+          ? data.tipoAtividadeMobile.value
+          : this.tipoAtividadeMobile,
     );
   }
 
@@ -2606,11 +2640,12 @@ class AtividadeTableData extends DataClass
           ..write('descricao: $descricao, ')
           ..write('dataLimite: $dataLimite, ')
           ..write('subestacao: $subestacao, ')
+          ..write('equipamentoId: $equipamentoId, ')
           ..write('status: $status, ')
           ..write('dataInicio: $dataInicio, ')
           ..write('dataFim: $dataFim, ')
           ..write('tipoAtividadeId: $tipoAtividadeId, ')
-          ..write('equipamentoId: $equipamentoId')
+          ..write('tipoAtividadeMobile: $tipoAtividadeMobile')
           ..write(')'))
         .toString();
   }
@@ -2627,11 +2662,12 @@ class AtividadeTableData extends DataClass
       descricao,
       dataLimite,
       subestacao,
+      equipamentoId,
       status,
       dataInicio,
       dataFim,
       tipoAtividadeId,
-      equipamentoId);
+      tipoAtividadeMobile);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2646,11 +2682,12 @@ class AtividadeTableData extends DataClass
           other.descricao == this.descricao &&
           other.dataLimite == this.dataLimite &&
           other.subestacao == this.subestacao &&
+          other.equipamentoId == this.equipamentoId &&
           other.status == this.status &&
           other.dataInicio == this.dataInicio &&
           other.dataFim == this.dataFim &&
           other.tipoAtividadeId == this.tipoAtividadeId &&
-          other.equipamentoId == this.equipamentoId);
+          other.tipoAtividadeMobile == this.tipoAtividadeMobile);
 }
 
 class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
@@ -2664,11 +2701,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
   final Value<String> descricao;
   final Value<DateTime> dataLimite;
   final Value<String> subestacao;
+  final Value<int> equipamentoId;
   final Value<StatusAtividade> status;
   final Value<DateTime?> dataInicio;
   final Value<DateTime?> dataFim;
   final Value<int> tipoAtividadeId;
-  final Value<int> equipamentoId;
+  final Value<TipoAtividadeMobile> tipoAtividadeMobile;
   const AtividadeTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -2680,11 +2718,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     this.descricao = const Value.absent(),
     this.dataLimite = const Value.absent(),
     this.subestacao = const Value.absent(),
+    this.equipamentoId = const Value.absent(),
     this.status = const Value.absent(),
     this.dataInicio = const Value.absent(),
     this.dataFim = const Value.absent(),
     this.tipoAtividadeId = const Value.absent(),
-    this.equipamentoId = const Value.absent(),
+    this.tipoAtividadeMobile = const Value.absent(),
   });
   AtividadeTableCompanion.insert({
     this.id = const Value.absent(),
@@ -2697,11 +2736,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     required String descricao,
     required DateTime dataLimite,
     required String subestacao,
+    required int equipamentoId,
     required StatusAtividade status,
     this.dataInicio = const Value.absent(),
     this.dataFim = const Value.absent(),
     required int tipoAtividadeId,
-    required int equipamentoId,
+    required TipoAtividadeMobile tipoAtividadeMobile,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
@@ -2710,9 +2750,10 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
         descricao = Value(descricao),
         dataLimite = Value(dataLimite),
         subestacao = Value(subestacao),
+        equipamentoId = Value(equipamentoId),
         status = Value(status),
         tipoAtividadeId = Value(tipoAtividadeId),
-        equipamentoId = Value(equipamentoId);
+        tipoAtividadeMobile = Value(tipoAtividadeMobile);
   static Insertable<AtividadeTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -2724,11 +2765,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     Expression<String>? descricao,
     Expression<DateTime>? dataLimite,
     Expression<String>? subestacao,
+    Expression<int>? equipamentoId,
     Expression<String>? status,
     Expression<DateTime>? dataInicio,
     Expression<DateTime>? dataFim,
     Expression<int>? tipoAtividadeId,
-    Expression<int>? equipamentoId,
+    Expression<String>? tipoAtividadeMobile,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2741,11 +2783,13 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       if (descricao != null) 'descricao': descricao,
       if (dataLimite != null) 'data_limite': dataLimite,
       if (subestacao != null) 'subestacao': subestacao,
+      if (equipamentoId != null) 'equipamento_id': equipamentoId,
       if (status != null) 'status': status,
       if (dataInicio != null) 'data_inicio': dataInicio,
       if (dataFim != null) 'data_fim': dataFim,
       if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
-      if (equipamentoId != null) 'equipamento_id': equipamentoId,
+      if (tipoAtividadeMobile != null)
+        'tipo_atividade_mobile': tipoAtividadeMobile,
     });
   }
 
@@ -2760,11 +2804,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       Value<String>? descricao,
       Value<DateTime>? dataLimite,
       Value<String>? subestacao,
+      Value<int>? equipamentoId,
       Value<StatusAtividade>? status,
       Value<DateTime?>? dataInicio,
       Value<DateTime?>? dataFim,
       Value<int>? tipoAtividadeId,
-      Value<int>? equipamentoId}) {
+      Value<TipoAtividadeMobile>? tipoAtividadeMobile}) {
     return AtividadeTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -2776,11 +2821,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       descricao: descricao ?? this.descricao,
       dataLimite: dataLimite ?? this.dataLimite,
       subestacao: subestacao ?? this.subestacao,
+      equipamentoId: equipamentoId ?? this.equipamentoId,
       status: status ?? this.status,
       dataInicio: dataInicio ?? this.dataInicio,
       dataFim: dataFim ?? this.dataFim,
       tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
-      equipamentoId: equipamentoId ?? this.equipamentoId,
+      tipoAtividadeMobile: tipoAtividadeMobile ?? this.tipoAtividadeMobile,
     );
   }
 
@@ -2817,6 +2863,9 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     if (subestacao.present) {
       map['subestacao'] = Variable<String>(subestacao.value);
     }
+    if (equipamentoId.present) {
+      map['equipamento_id'] = Variable<int>(equipamentoId.value);
+    }
     if (status.present) {
       map['status'] = Variable<String>(
           $AtividadeTableTable.$converterstatus.toSql(status.value));
@@ -2830,8 +2879,10 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     if (tipoAtividadeId.present) {
       map['tipo_atividade_id'] = Variable<int>(tipoAtividadeId.value);
     }
-    if (equipamentoId.present) {
-      map['equipamento_id'] = Variable<int>(equipamentoId.value);
+    if (tipoAtividadeMobile.present) {
+      map['tipo_atividade_mobile'] = Variable<String>($AtividadeTableTable
+          .$convertertipoAtividadeMobile
+          .toSql(tipoAtividadeMobile.value));
     }
     return map;
   }
@@ -2849,11 +2900,12 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
           ..write('descricao: $descricao, ')
           ..write('dataLimite: $dataLimite, ')
           ..write('subestacao: $subestacao, ')
+          ..write('equipamentoId: $equipamentoId, ')
           ..write('status: $status, ')
           ..write('dataInicio: $dataInicio, ')
           ..write('dataFim: $dataFim, ')
           ..write('tipoAtividadeId: $tipoAtividadeId, ')
-          ..write('equipamentoId: $equipamentoId')
+          ..write('tipoAtividadeMobile: $tipoAtividadeMobile')
           ..write(')'))
         .toString();
   }
@@ -4504,11 +4556,12 @@ typedef $$AtividadeTableTableCreateCompanionBuilder = AtividadeTableCompanion
   required String descricao,
   required DateTime dataLimite,
   required String subestacao,
+  required int equipamentoId,
   required StatusAtividade status,
   Value<DateTime?> dataInicio,
   Value<DateTime?> dataFim,
   required int tipoAtividadeId,
-  required int equipamentoId,
+  required TipoAtividadeMobile tipoAtividadeMobile,
 });
 typedef $$AtividadeTableTableUpdateCompanionBuilder = AtividadeTableCompanion
     Function({
@@ -4522,31 +4575,18 @@ typedef $$AtividadeTableTableUpdateCompanionBuilder = AtividadeTableCompanion
   Value<String> descricao,
   Value<DateTime> dataLimite,
   Value<String> subestacao,
+  Value<int> equipamentoId,
   Value<StatusAtividade> status,
   Value<DateTime?> dataInicio,
   Value<DateTime?> dataFim,
   Value<int> tipoAtividadeId,
-  Value<int> equipamentoId,
+  Value<TipoAtividadeMobile> tipoAtividadeMobile,
 });
 
 final class $$AtividadeTableTableReferences extends BaseReferences<
     _$AppDatabase, $AtividadeTableTable, AtividadeTableData> {
   $$AtividadeTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
-
-  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
-      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
-          db.atividadeTable.tipoAtividadeId, db.tipoAtividadeTable.id));
-
-  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
-    final manager =
-        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
-            .filter((f) => f.id($_item.tipoAtividadeId));
-    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
 
   static $EquipamentoTableTable _equipamentoIdTable(_$AppDatabase db) =>
       db.equipamentoTable.createAlias($_aliasNameGenerator(
@@ -4557,6 +4597,20 @@ final class $$AtividadeTableTableReferences extends BaseReferences<
         $$EquipamentoTableTableTableManager($_db, $_db.equipamentoTable)
             .filter((f) => f.id($_item.equipamentoId));
     final item = $_typedResult.readTableOrNull(_equipamentoIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
+      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
+          db.atividadeTable.tipoAtividadeId, db.tipoAtividadeTable.id));
+
+  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
+    final manager =
+        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
+            .filter((f) => f.id($_item.tipoAtividadeId));
+    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
@@ -4613,25 +4667,11 @@ class $$AtividadeTableTableFilterComposer
   ColumnFilters<DateTime> get dataFim => $composableBuilder(
       column: $table.dataFim, builder: (column) => ColumnFilters(column));
 
-  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableFilterComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
+  ColumnWithTypeConverterFilters<TipoAtividadeMobile, TipoAtividadeMobile,
+          String>
+      get tipoAtividadeMobile => $composableBuilder(
+          column: $table.tipoAtividadeMobile,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   $$EquipamentoTableTableFilterComposer get equipamentoId {
     final $$EquipamentoTableTableFilterComposer composer = $composerBuilder(
@@ -4645,6 +4685,26 @@ class $$AtividadeTableTableFilterComposer
             $$EquipamentoTableTableFilterComposer(
               $db: $db,
               $table: $db.equipamentoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -4704,25 +4764,9 @@ class $$AtividadeTableTableOrderingComposer
   ColumnOrderings<DateTime> get dataFim => $composableBuilder(
       column: $table.dataFim, builder: (column) => ColumnOrderings(column));
 
-  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
+  ColumnOrderings<String> get tipoAtividadeMobile => $composableBuilder(
+      column: $table.tipoAtividadeMobile,
+      builder: (column) => ColumnOrderings(column));
 
   $$EquipamentoTableTableOrderingComposer get equipamentoId {
     final $$EquipamentoTableTableOrderingComposer composer = $composerBuilder(
@@ -4736,6 +4780,26 @@ class $$AtividadeTableTableOrderingComposer
             $$EquipamentoTableTableOrderingComposer(
               $db: $db,
               $table: $db.equipamentoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
               joinBuilder: joinBuilder,
               $removeJoinBuilderFromRootComposer:
@@ -4793,26 +4857,9 @@ class $$AtividadeTableTableAnnotationComposer
   GeneratedColumn<DateTime> get dataFim =>
       $composableBuilder(column: $table.dataFim, builder: (column) => column);
 
-  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.tipoAtividadeId,
-            referencedTable: $db.tipoAtividadeTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$TipoAtividadeTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.tipoAtividadeTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
+  GeneratedColumnWithTypeConverter<TipoAtividadeMobile, String>
+      get tipoAtividadeMobile => $composableBuilder(
+          column: $table.tipoAtividadeMobile, builder: (column) => column);
 
   $$EquipamentoTableTableAnnotationComposer get equipamentoId {
     final $$EquipamentoTableTableAnnotationComposer composer = $composerBuilder(
@@ -4833,6 +4880,27 @@ class $$AtividadeTableTableAnnotationComposer
             ));
     return composer;
   }
+
+  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.tipoAtividadeId,
+            referencedTable: $db.tipoAtividadeTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$TipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.tipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
 }
 
 class $$AtividadeTableTableTableManager extends RootTableManager<
@@ -4846,7 +4914,7 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
     $$AtividadeTableTableUpdateCompanionBuilder,
     (AtividadeTableData, $$AtividadeTableTableReferences),
     AtividadeTableData,
-    PrefetchHooks Function({bool tipoAtividadeId, bool equipamentoId})> {
+    PrefetchHooks Function({bool equipamentoId, bool tipoAtividadeId})> {
   $$AtividadeTableTableTableManager(
       _$AppDatabase db, $AtividadeTableTable table)
       : super(TableManagerState(
@@ -4869,11 +4937,13 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             Value<String> descricao = const Value.absent(),
             Value<DateTime> dataLimite = const Value.absent(),
             Value<String> subestacao = const Value.absent(),
+            Value<int> equipamentoId = const Value.absent(),
             Value<StatusAtividade> status = const Value.absent(),
             Value<DateTime?> dataInicio = const Value.absent(),
             Value<DateTime?> dataFim = const Value.absent(),
             Value<int> tipoAtividadeId = const Value.absent(),
-            Value<int> equipamentoId = const Value.absent(),
+            Value<TipoAtividadeMobile> tipoAtividadeMobile =
+                const Value.absent(),
           }) =>
               AtividadeTableCompanion(
             id: id,
@@ -4886,11 +4956,12 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             descricao: descricao,
             dataLimite: dataLimite,
             subestacao: subestacao,
+            equipamentoId: equipamentoId,
             status: status,
             dataInicio: dataInicio,
             dataFim: dataFim,
             tipoAtividadeId: tipoAtividadeId,
-            equipamentoId: equipamentoId,
+            tipoAtividadeMobile: tipoAtividadeMobile,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -4903,11 +4974,12 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             required String descricao,
             required DateTime dataLimite,
             required String subestacao,
+            required int equipamentoId,
             required StatusAtividade status,
             Value<DateTime?> dataInicio = const Value.absent(),
             Value<DateTime?> dataFim = const Value.absent(),
             required int tipoAtividadeId,
-            required int equipamentoId,
+            required TipoAtividadeMobile tipoAtividadeMobile,
           }) =>
               AtividadeTableCompanion.insert(
             id: id,
@@ -4920,11 +4992,12 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             descricao: descricao,
             dataLimite: dataLimite,
             subestacao: subestacao,
+            equipamentoId: equipamentoId,
             status: status,
             dataInicio: dataInicio,
             dataFim: dataFim,
             tipoAtividadeId: tipoAtividadeId,
-            equipamentoId: equipamentoId,
+            tipoAtividadeMobile: tipoAtividadeMobile,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
@@ -4933,7 +5006,7 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {tipoAtividadeId = false, equipamentoId = false}) {
+              {equipamentoId = false, tipoAtividadeId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -4950,17 +5023,6 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic>>(state) {
-                if (tipoAtividadeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.tipoAtividadeId,
-                    referencedTable: $$AtividadeTableTableReferences
-                        ._tipoAtividadeIdTable(db),
-                    referencedColumn: $$AtividadeTableTableReferences
-                        ._tipoAtividadeIdTable(db)
-                        .id,
-                  ) as T;
-                }
                 if (equipamentoId) {
                   state = state.withJoin(
                     currentTable: table,
@@ -4969,6 +5031,17 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                         $$AtividadeTableTableReferences._equipamentoIdTable(db),
                     referencedColumn: $$AtividadeTableTableReferences
                         ._equipamentoIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (tipoAtividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.tipoAtividadeId,
+                    referencedTable: $$AtividadeTableTableReferences
+                        ._tipoAtividadeIdTable(db),
+                    referencedColumn: $$AtividadeTableTableReferences
+                        ._tipoAtividadeIdTable(db)
                         .id,
                   ) as T;
                 }
@@ -4994,7 +5067,7 @@ typedef $$AtividadeTableTableProcessedTableManager = ProcessedTableManager<
     $$AtividadeTableTableUpdateCompanionBuilder,
     (AtividadeTableData, $$AtividadeTableTableReferences),
     AtividadeTableData,
-    PrefetchHooks Function({bool tipoAtividadeId, bool equipamentoId})>;
+    PrefetchHooks Function({bool equipamentoId, bool tipoAtividadeId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;

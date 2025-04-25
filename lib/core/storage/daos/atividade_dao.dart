@@ -57,4 +57,9 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         tag: 'AtividadeDAO');
     await delete(atividadeTable).go();
   }
+
+  Future<bool> estaVazio() async {
+    final result = await select(atividadeTable).get();
+    return result.isEmpty;
+  }
 }

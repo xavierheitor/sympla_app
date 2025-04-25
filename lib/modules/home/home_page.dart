@@ -19,9 +19,26 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Center(
-        child: Text('Bem-vindo, ${controller.nomeUsuario}!'),
-      ),
+      body: Obx(() {
+        if (controller.isLoading.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (controller.atividades.isEmpty) {
+          return const Center(child: Text('Nenhuma atividade encontrada'));
+        }
+
+        return ListView.builder(
+          itemCount: controller.atividades.length,
+          itemBuilder: (context, index) {
+            final atividade = controller.atividades[index];
+            return ListTile(
+              title: Text(atividade.titulo),
+              subtitle: Text('Subestação: ${atividade.subestacao}'),
+            );
+          },
+        );
+      }),
     );
   }
 }
