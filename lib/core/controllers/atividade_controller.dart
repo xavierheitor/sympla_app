@@ -24,24 +24,32 @@ class AtividadeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+    await carregarAtividades();
+  }
 
+  Future<void> carregarAtividades() async {
     try {
       isLoading.value = true;
 
-      // Se o banco está vazio, sincroniza primeiro
+      // Verifica se banco está vazio -> sincroniza se necessário
       final vazio = await atividadeSyncService.estaVazio();
       if (vazio) {
         await atividadeSyncService.sincronizar();
       }
 
-      // Busca com join no banco
+      // Carrega atividades do banco (join com equipamento)
       final listaComEquipamento =
           await atividadeSyncService.buscarComEquipamento();
       atividades.assignAll(listaComEquipamento);
+
+      // Atualiza contadores
       atualizarContadores();
+
+      // Garante que a atividade em andamento seja buscada e setada corretamente
+      await buscarAtividadeEmAndamento();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AtividadeController - onInit] ${erro.mensagem}',
+      AppLogger.e('[AtividadeController - carregarAtividades] ${erro.mensagem}',
           tag: 'AtividadeController', error: e, stackTrace: s);
       Get.snackbar('Erro', 'Erro ao carregar atividades',
           backgroundColor: Colors.red, colorText: Colors.white);
@@ -55,7 +63,6 @@ class AtividadeController extends GetxController {
     atividadesConcluidas.value = 0;
     atividadesCanceladas.value = 0;
     atividadesEmAndamento.value = 0;
-    atividadeEmAndamento.value = null;
 
     for (var atividade in atividades) {
       switch (atividade.status) {
@@ -70,11 +77,23 @@ class AtividadeController extends GetxController {
           break;
         case StatusAtividade.emAndamento:
           atividadesEmAndamento.value++;
-          atividadeEmAndamento.value = atividade;
           break;
         case StatusAtividade.sincronizado:
           break;
       }
+    }
+  }
+
+  Future<void> buscarAtividadeEmAndamento() async {
+    try {
+      final atividade = await atividadeSyncService.buscarAtividadeEmAndamento();
+      atividadeEmAndamento.value = atividade;
+    } catch (e, s) {
+      AppLogger.e(
+          '[AtividadeController - buscarAtividadeEmAndamento] Erro ao buscar atividade em andamento',
+          tag: 'AtividadeController',
+          error: e,
+          stackTrace: s);
     }
   }
 }

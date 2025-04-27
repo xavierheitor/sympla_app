@@ -7,4 +7,5 @@ abstract class AtividadeRepository {
   Future<bool> estaVazio();
   Future<List<AtividadeTableData>> buscarTodas();
   Future<List<AtividadeModel>> buscarComEquipamento();
+  Future<AtividadeModel?> buscarEmAndamento();
 }

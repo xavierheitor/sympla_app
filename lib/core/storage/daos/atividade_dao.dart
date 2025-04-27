@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/tables/atividade_table.dart';
 import 'package:sympla_app/data/models/atividade_model.dart';
 
@@ -84,5 +85,29 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         equipamento: equipamento,
       );
     }).toList(); // <-- transforma a lista de objetos mapeados em uma lista final
+  }
+
+  Future<AtividadeModel?> buscarEmAndamento() async {
+    final query = select(atividadeTable).join([
+      innerJoin(
+        equipamentoTable,
+        equipamentoTable.id.equalsExp(atividadeTable.equipamentoId),
+      ),
+    ])
+      ..where(atividadeTable.status.equals(StatusAtividade.emAndamento.name));
+
+    final row = await query.getSingleOrNull();
+
+    if (row == null) {
+      return null;
+    }
+
+    final atividade = row.readTable(atividadeTable);
+    final equipamento = row.readTable(equipamentoTable);
+
+    return AtividadeModel.fromJoin(
+      atividade: atividade,
+      equipamento: equipamento,
+    );
   }
 }

@@ -110,4 +110,19 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<AtividadeModel?> buscarEmAndamento() {
+    try {
+      return dao.buscarEmAndamento();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeRepositoryImpl - buscarEmAndamento] ${erro.mensagem}',
+          tag: 'AtividadeRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

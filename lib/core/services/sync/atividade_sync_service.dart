@@ -58,4 +58,18 @@ class AtividadeSyncService {
       rethrow;
     }
   }
+
+  buscarAtividadeEmAndamento() async {
+    try {
+      return await repository.buscarEmAndamento();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeSyncService - buscarAtividadeEmAndamento] ${erro.mensagem}',
+          tag: 'AtividadeSync',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }
