@@ -15,8 +15,10 @@ class HomeBinding extends Bindings {
         ));
 
     Get.lazyPut(() => AtividadeSyncService(Get.find()));
-    Get.lazyPut(() => AtividadeController(atividadeSyncService: Get.find()),
-        fenix: true);
+    Get.lazyPut(
+      () => AtividadeController(atividadeSyncService: Get.find()),
+      fenix: true,
+    );
     Get.lazyPut(() => HomeController(Get.find(), Get.find()), fenix: true);
   }
 }
