@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
+import 'package:sympla_app/data/models/atividade_model.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_descricao_widget.dart';
 
 class AtividadeCard extends StatelessWidget {
-  final AtividadeTableData atividade;
-  final EquipamentoTableData equipamento;
+  final AtividadeModel atividade;
 
   const AtividadeCard({
     super.key,
     required this.atividade,
-    required this.equipamento,
   });
 
   @override
@@ -115,7 +113,7 @@ class AtividadeCard extends StatelessWidget {
                     AtividadeDescricaoItem(
                       icon: Icons.build,
                       label: 'Equipamento',
-                      value: equipamento.nome,
+                      value: atividade.nomeEquipamento ?? 'N/A',
                     ),
                     if (atividade.ordemServico.isNotEmpty)
                       AtividadeDescricaoItem(
@@ -172,7 +170,7 @@ class AtividadeCard extends StatelessWidget {
   }
 
   void _mostrarDialogoConfirmacao(BuildContext context,
-      AtividadeTableData atividade, AtividadeController controller) {
+      AtividadeModel atividade, AtividadeController controller) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

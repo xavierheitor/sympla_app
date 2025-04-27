@@ -3,6 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/atividade_table.dart';
 import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
+import 'package:sympla_app/data/models/atividade_model.dart';
 
 part 'generated/atividade_dao.g.dart';
 
@@ -64,18 +65,25 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     return result.isEmpty;
   }
 
-  Future<List<AtividadeComEquipamento>> buscarComEquipamento() {
+  Future<List<AtividadeModel>> buscarComEquipamento() async {
     final query = select(atividadeTable).join([
-      innerJoin(equipamentoTable,
-          equipamentoTable.id.equalsExp(atividadeTable.equipamentoId)),
+      innerJoin(
+        equipamentoTable,
+        equipamentoTable.id.equalsExp(atividadeTable.equipamentoId),
+      ),
     ]);
 
-    return query.map((row) {
+    final results =
+        await query.get(); // <-- Espera trazer todos os dados primeiro
+
+    return results.map((row) {
       final atividade = row.readTable(atividadeTable);
       final equipamento = row.readTable(equipamentoTable);
 
-      return AtividadeComEquipamento(
-          atividade: atividade, equipamento: equipamento);
-    }).get();
+      return AtividadeModel.fromJoin(
+        atividade: atividade,
+        equipamento: equipamento,
+      );
+    }).toList(); // <-- transforma a lista de objetos mapeados em uma lista final
   }
 }

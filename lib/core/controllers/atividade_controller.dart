@@ -4,13 +4,12 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
-import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
+import 'package:sympla_app/data/models/atividade_model.dart';
 
 class AtividadeController extends GetxController {
   final AtividadeSyncService atividadeSyncService;
 
-  final RxList<AtividadeComEquipamento> atividades =
-      <AtividadeComEquipamento>[].obs;
+  final RxList<AtividadeModel> atividades = <AtividadeModel>[].obs;
   final RxBool isLoading = false.obs;
 
   final RxInt atividadesPendentes = 0.obs;
@@ -18,8 +17,7 @@ class AtividadeController extends GetxController {
   final RxInt atividadesCanceladas = 0.obs;
   final RxInt atividadesEmAndamento = 0.obs;
 
-  final Rx<AtividadeComEquipamento?> atividadeEmAndamento =
-      Rx<AtividadeComEquipamento?>(null);
+  final Rx<AtividadeModel?> atividadeEmAndamento = Rx<AtividadeModel?>(null);
 
   AtividadeController({required this.atividadeSyncService});
 
@@ -60,7 +58,7 @@ class AtividadeController extends GetxController {
     atividadeEmAndamento.value = null;
 
     for (var atividade in atividades) {
-      switch (atividade.atividade.status) {
+      switch (atividade.status) {
         case StatusAtividade.pendente:
           atividadesPendentes.value++;
           break;

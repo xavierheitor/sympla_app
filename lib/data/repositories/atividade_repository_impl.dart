@@ -7,7 +7,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_converter.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
-import 'package:sympla_app/data/models/atividade_com_equipamento.dart';
+import 'package:sympla_app/data/models/atividade_model.dart';
 import 'package:sympla_app/domain/repositories/atividade_repository.dart';
 
 class AtividadeRepositoryImpl implements AtividadeRepository {
@@ -97,7 +97,7 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
   }
 
   @override
-  Future<List<AtividadeComEquipamento>> buscarComEquipamento() async {
+  Future<List<AtividadeModel>> buscarComEquipamento() async {
     try {
       return await dao.buscarComEquipamento();
     } catch (e, s) {
