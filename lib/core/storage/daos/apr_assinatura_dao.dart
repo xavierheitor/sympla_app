@@ -27,13 +27,14 @@ class AprAssinaturaDao extends DatabaseAccessor<AppDatabase>
     return result;
   }
 
-  Future<int> contarAssinaturas(int aprPreenchidaId) async {
+  Future<int> contarPorAprPreenchida(int aprPreenchidaId) async {
     final query = selectOnly(aprAssinaturaTable)
       ..addColumns([aprAssinaturaTable.id.count()])
       ..where(aprAssinaturaTable.aprPreenchidaId.equals(aprPreenchidaId));
-    final count = await query
-        .map((row) => row.read(aprAssinaturaTable.id.count()) ?? 0)
-        .getSingle();
+
+    final result = await query.getSingle();
+    final count = result.read(aprAssinaturaTable.id.count()) ?? 0;
+
     AppLogger.d(
         '🔢 Contou $count assinaturas da aprPreenchidaId=$aprPreenchidaId',
         tag: 'AprAssinaturaDao');

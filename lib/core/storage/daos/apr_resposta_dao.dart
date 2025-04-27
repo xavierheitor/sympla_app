@@ -10,10 +10,13 @@ class AprRespostaDao extends DatabaseAccessor<AppDatabase>
     with _$AprRespostaDaoMixin {
   AprRespostaDao(super.db);
 
-  Future<void> inserirOuAtualizar(AprRespostaTableCompanion entry) async {
-    AppLogger.d('💾 Salvando Resposta APR: ${entry.toString()}',
+  Future<void> inserirOuAtualizarTodas(
+      List<AprRespostaTableCompanion> entries) async {
+    AppLogger.d('💾 Salvando ${entries.length} respostas de APR',
         tag: 'AprRespostaDao');
-    await into(aprRespostaTable).insertOnConflictUpdate(entry);
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(aprRespostaTable, entries);
+    });
   }
 
   Future<List<AprRespostaTableData>> buscarPorAprPreenchida(
