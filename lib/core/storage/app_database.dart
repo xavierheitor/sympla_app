@@ -5,17 +5,31 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
+import 'package:sympla_app/core/storage/daos/apr_assinatura_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr_pergunta_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr_preenchida_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr_resposta_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/subgrupo_defeito_equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/tecnicos_dao.dart';
 import 'package:sympla_app/core/storage/daos/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
 import 'package:sympla_app/core/storage/logging_executor.dart';
+import 'package:sympla_app/core/storage/tables/apr_assinatura_table.dart';
+import 'package:sympla_app/core/storage/tables/apr_pergunta_relacionamento_table.dart';
+import 'package:sympla_app/core/storage/tables/apr_preenchida_table.dart';
+import 'package:sympla_app/core/storage/tables/apr_question_table.dart';
+import 'package:sympla_app/core/storage/tables/apr_resposta_table.dart';
+import 'package:sympla_app/core/storage/tables/apr_table.dart';
 import 'package:sympla_app/core/storage/tables/atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
 import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/subgrupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/tecnicos_table.dart';
 import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 import 'dart:io';
@@ -29,7 +43,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla2.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla4.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -47,6 +61,13 @@ LazyDatabase _openConnection() {
     EquipamentoTable,
     GrupoDefeitoEquipamentoTable,
     SubgrupoDefeitoEquipamentoTable,
+    AprTable,
+    AprQuestionTable,
+    AprRespostaTable,
+    AprPerguntaRelacionamentoTable,
+    AprPreenchidaTable,
+    AprAssinaturaTable,
+    TecnicosTable,
   ],
   daos: [
     UsuarioDao,
@@ -55,6 +76,12 @@ LazyDatabase _openConnection() {
     EquipamentoDao,
     GrupoDefeitoEquipamentoDao,
     SubgrupoDefeitoEquipamentoDao,
+    AprDao,
+    AprPerguntaDao,
+    AprRespostaDao,
+    AprPreenchidaDao,
+    AprAssinaturaDao,
+    TecnicosDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {

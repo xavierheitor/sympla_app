@@ -2911,6 +2911,2605 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
   }
 }
 
+class $AprTableTable extends AprTable
+    with TableInfo<$AprTableTable, AprTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
+  @override
+  late final GeneratedColumn<String> nome = GeneratedColumn<String>(
+      'nome', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _descricaoMeta =
+      const VerificationMeta('descricao');
+  @override
+  late final GeneratedColumn<String> descricao = GeneratedColumn<String>(
+      'descricao', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, descricao];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<AprTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('nome')) {
+      context.handle(
+          _nomeMeta, nome.isAcceptableOrUnknown(data['nome']!, _nomeMeta));
+    } else if (isInserting) {
+      context.missing(_nomeMeta);
+    }
+    if (data.containsKey('descricao')) {
+      context.handle(_descricaoMeta,
+          descricao.isAcceptableOrUnknown(data['descricao']!, _descricaoMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      nome: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
+      descricao: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}descricao']),
+    );
+  }
+
+  @override
+  $AprTableTable createAlias(String alias) {
+    return $AprTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprTableData extends DataClass implements Insertable<AprTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String nome;
+  final String? descricao;
+  const AprTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.nome,
+      this.descricao});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['nome'] = Variable<String>(nome);
+    if (!nullToAbsent || descricao != null) {
+      map['descricao'] = Variable<String>(descricao);
+    }
+    return map;
+  }
+
+  AprTableCompanion toCompanion(bool nullToAbsent) {
+    return AprTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      nome: Value(nome),
+      descricao: descricao == null && nullToAbsent
+          ? const Value.absent()
+          : Value(descricao),
+    );
+  }
+
+  factory AprTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      nome: serializer.fromJson<String>(json['nome']),
+      descricao: serializer.fromJson<String?>(json['descricao']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'nome': serializer.toJson<String>(nome),
+      'descricao': serializer.toJson<String?>(descricao),
+    };
+  }
+
+  AprTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? nome,
+          Value<String?> descricao = const Value.absent()}) =>
+      AprTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        nome: nome ?? this.nome,
+        descricao: descricao.present ? descricao.value : this.descricao,
+      );
+  AprTableData copyWithCompanion(AprTableCompanion data) {
+    return AprTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      nome: data.nome.present ? data.nome.value : this.nome,
+      descricao: data.descricao.present ? data.descricao.value : this.descricao,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('descricao: $descricao')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, nome, descricao);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.nome == this.nome &&
+          other.descricao == this.descricao);
+}
+
+class AprTableCompanion extends UpdateCompanion<AprTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> nome;
+  final Value<String?> descricao;
+  const AprTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.nome = const Value.absent(),
+    this.descricao = const Value.absent(),
+  });
+  AprTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String nome,
+    this.descricao = const Value.absent(),
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        nome = Value(nome);
+  static Insertable<AprTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? nome,
+    Expression<String>? descricao,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (nome != null) 'nome': nome,
+      if (descricao != null) 'descricao': descricao,
+    });
+  }
+
+  AprTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? nome,
+      Value<String?>? descricao}) {
+    return AprTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      nome: nome ?? this.nome,
+      descricao: descricao ?? this.descricao,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (nome.present) {
+      map['nome'] = Variable<String>(nome.value);
+    }
+    if (descricao.present) {
+      map['descricao'] = Variable<String>(descricao.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('descricao: $descricao')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprQuestionTableTable extends AprQuestionTable
+    with TableInfo<$AprQuestionTableTable, AprQuestionTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprQuestionTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _textoMeta = const VerificationMeta('texto');
+  @override
+  late final GeneratedColumn<String> texto = GeneratedColumn<String>(
+      'texto', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, texto];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_question_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprQuestionTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('texto')) {
+      context.handle(
+          _textoMeta, texto.isAcceptableOrUnknown(data['texto']!, _textoMeta));
+    } else if (isInserting) {
+      context.missing(_textoMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprQuestionTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprQuestionTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      texto: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}texto'])!,
+    );
+  }
+
+  @override
+  $AprQuestionTableTable createAlias(String alias) {
+    return $AprQuestionTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprQuestionTableData extends DataClass
+    implements Insertable<AprQuestionTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String texto;
+  const AprQuestionTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.texto});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['texto'] = Variable<String>(texto);
+    return map;
+  }
+
+  AprQuestionTableCompanion toCompanion(bool nullToAbsent) {
+    return AprQuestionTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      texto: Value(texto),
+    );
+  }
+
+  factory AprQuestionTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprQuestionTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      texto: serializer.fromJson<String>(json['texto']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'texto': serializer.toJson<String>(texto),
+    };
+  }
+
+  AprQuestionTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? texto}) =>
+      AprQuestionTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        texto: texto ?? this.texto,
+      );
+  AprQuestionTableData copyWithCompanion(AprQuestionTableCompanion data) {
+    return AprQuestionTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      texto: data.texto.present ? data.texto.value : this.texto,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprQuestionTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('texto: $texto')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, uuid, createdAt, updatedAt, sincronizado, texto);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprQuestionTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.texto == this.texto);
+}
+
+class AprQuestionTableCompanion extends UpdateCompanion<AprQuestionTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> texto;
+  const AprQuestionTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.texto = const Value.absent(),
+  });
+  AprQuestionTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String texto,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        texto = Value(texto);
+  static Insertable<AprQuestionTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? texto,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (texto != null) 'texto': texto,
+    });
+  }
+
+  AprQuestionTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? texto}) {
+    return AprQuestionTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      texto: texto ?? this.texto,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (texto.present) {
+      map['texto'] = Variable<String>(texto.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprQuestionTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('texto: $texto')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprPreenchidaTableTable extends AprPreenchidaTable
+    with TableInfo<$AprPreenchidaTableTable, AprPreenchidaTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprPreenchidaTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _atividadeIdMeta =
+      const VerificationMeta('atividadeId');
+  @override
+  late final GeneratedColumn<int> atividadeId = GeneratedColumn<int>(
+      'atividade_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES atividade_table (id)'));
+  static const VerificationMeta _aprIdMeta = const VerificationMeta('aprId');
+  @override
+  late final GeneratedColumn<int> aprId = GeneratedColumn<int>(
+      'apr_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES apr_table (id)'));
+  static const VerificationMeta _usuarioIdMeta =
+      const VerificationMeta('usuarioId');
+  @override
+  late final GeneratedColumn<int> usuarioId = GeneratedColumn<int>(
+      'usuario_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES usuario_table (id)'));
+  static const VerificationMeta _dataPreenchimentoMeta =
+      const VerificationMeta('dataPreenchimento');
+  @override
+  late final GeneratedColumn<DateTime> dataPreenchimento =
+      GeneratedColumn<DateTime>('data_preenchimento', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, atividadeId, aprId, usuarioId, dataPreenchimento];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_preenchida_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprPreenchidaTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('atividade_id')) {
+      context.handle(
+          _atividadeIdMeta,
+          atividadeId.isAcceptableOrUnknown(
+              data['atividade_id']!, _atividadeIdMeta));
+    } else if (isInserting) {
+      context.missing(_atividadeIdMeta);
+    }
+    if (data.containsKey('apr_id')) {
+      context.handle(
+          _aprIdMeta, aprId.isAcceptableOrUnknown(data['apr_id']!, _aprIdMeta));
+    } else if (isInserting) {
+      context.missing(_aprIdMeta);
+    }
+    if (data.containsKey('usuario_id')) {
+      context.handle(_usuarioIdMeta,
+          usuarioId.isAcceptableOrUnknown(data['usuario_id']!, _usuarioIdMeta));
+    } else if (isInserting) {
+      context.missing(_usuarioIdMeta);
+    }
+    if (data.containsKey('data_preenchimento')) {
+      context.handle(
+          _dataPreenchimentoMeta,
+          dataPreenchimento.isAcceptableOrUnknown(
+              data['data_preenchimento']!, _dataPreenchimentoMeta));
+    } else if (isInserting) {
+      context.missing(_dataPreenchimentoMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprPreenchidaTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprPreenchidaTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      atividadeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}atividade_id'])!,
+      aprId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}apr_id'])!,
+      usuarioId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}usuario_id'])!,
+      dataPreenchimento: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}data_preenchimento'])!,
+    );
+  }
+
+  @override
+  $AprPreenchidaTableTable createAlias(String alias) {
+    return $AprPreenchidaTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprPreenchidaTableData extends DataClass
+    implements Insertable<AprPreenchidaTableData> {
+  final int id;
+  final int atividadeId;
+  final int aprId;
+  final int usuarioId;
+  final DateTime dataPreenchimento;
+  const AprPreenchidaTableData(
+      {required this.id,
+      required this.atividadeId,
+      required this.aprId,
+      required this.usuarioId,
+      required this.dataPreenchimento});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['atividade_id'] = Variable<int>(atividadeId);
+    map['apr_id'] = Variable<int>(aprId);
+    map['usuario_id'] = Variable<int>(usuarioId);
+    map['data_preenchimento'] = Variable<DateTime>(dataPreenchimento);
+    return map;
+  }
+
+  AprPreenchidaTableCompanion toCompanion(bool nullToAbsent) {
+    return AprPreenchidaTableCompanion(
+      id: Value(id),
+      atividadeId: Value(atividadeId),
+      aprId: Value(aprId),
+      usuarioId: Value(usuarioId),
+      dataPreenchimento: Value(dataPreenchimento),
+    );
+  }
+
+  factory AprPreenchidaTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprPreenchidaTableData(
+      id: serializer.fromJson<int>(json['id']),
+      atividadeId: serializer.fromJson<int>(json['atividadeId']),
+      aprId: serializer.fromJson<int>(json['aprId']),
+      usuarioId: serializer.fromJson<int>(json['usuarioId']),
+      dataPreenchimento:
+          serializer.fromJson<DateTime>(json['dataPreenchimento']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'atividadeId': serializer.toJson<int>(atividadeId),
+      'aprId': serializer.toJson<int>(aprId),
+      'usuarioId': serializer.toJson<int>(usuarioId),
+      'dataPreenchimento': serializer.toJson<DateTime>(dataPreenchimento),
+    };
+  }
+
+  AprPreenchidaTableData copyWith(
+          {int? id,
+          int? atividadeId,
+          int? aprId,
+          int? usuarioId,
+          DateTime? dataPreenchimento}) =>
+      AprPreenchidaTableData(
+        id: id ?? this.id,
+        atividadeId: atividadeId ?? this.atividadeId,
+        aprId: aprId ?? this.aprId,
+        usuarioId: usuarioId ?? this.usuarioId,
+        dataPreenchimento: dataPreenchimento ?? this.dataPreenchimento,
+      );
+  AprPreenchidaTableData copyWithCompanion(AprPreenchidaTableCompanion data) {
+    return AprPreenchidaTableData(
+      id: data.id.present ? data.id.value : this.id,
+      atividadeId:
+          data.atividadeId.present ? data.atividadeId.value : this.atividadeId,
+      aprId: data.aprId.present ? data.aprId.value : this.aprId,
+      usuarioId: data.usuarioId.present ? data.usuarioId.value : this.usuarioId,
+      dataPreenchimento: data.dataPreenchimento.present
+          ? data.dataPreenchimento.value
+          : this.dataPreenchimento,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprPreenchidaTableData(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('aprId: $aprId, ')
+          ..write('usuarioId: $usuarioId, ')
+          ..write('dataPreenchimento: $dataPreenchimento')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, atividadeId, aprId, usuarioId, dataPreenchimento);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprPreenchidaTableData &&
+          other.id == this.id &&
+          other.atividadeId == this.atividadeId &&
+          other.aprId == this.aprId &&
+          other.usuarioId == this.usuarioId &&
+          other.dataPreenchimento == this.dataPreenchimento);
+}
+
+class AprPreenchidaTableCompanion
+    extends UpdateCompanion<AprPreenchidaTableData> {
+  final Value<int> id;
+  final Value<int> atividadeId;
+  final Value<int> aprId;
+  final Value<int> usuarioId;
+  final Value<DateTime> dataPreenchimento;
+  const AprPreenchidaTableCompanion({
+    this.id = const Value.absent(),
+    this.atividadeId = const Value.absent(),
+    this.aprId = const Value.absent(),
+    this.usuarioId = const Value.absent(),
+    this.dataPreenchimento = const Value.absent(),
+  });
+  AprPreenchidaTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int atividadeId,
+    required int aprId,
+    required int usuarioId,
+    required DateTime dataPreenchimento,
+  })  : atividadeId = Value(atividadeId),
+        aprId = Value(aprId),
+        usuarioId = Value(usuarioId),
+        dataPreenchimento = Value(dataPreenchimento);
+  static Insertable<AprPreenchidaTableData> custom({
+    Expression<int>? id,
+    Expression<int>? atividadeId,
+    Expression<int>? aprId,
+    Expression<int>? usuarioId,
+    Expression<DateTime>? dataPreenchimento,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (atividadeId != null) 'atividade_id': atividadeId,
+      if (aprId != null) 'apr_id': aprId,
+      if (usuarioId != null) 'usuario_id': usuarioId,
+      if (dataPreenchimento != null) 'data_preenchimento': dataPreenchimento,
+    });
+  }
+
+  AprPreenchidaTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? atividadeId,
+      Value<int>? aprId,
+      Value<int>? usuarioId,
+      Value<DateTime>? dataPreenchimento}) {
+    return AprPreenchidaTableCompanion(
+      id: id ?? this.id,
+      atividadeId: atividadeId ?? this.atividadeId,
+      aprId: aprId ?? this.aprId,
+      usuarioId: usuarioId ?? this.usuarioId,
+      dataPreenchimento: dataPreenchimento ?? this.dataPreenchimento,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (atividadeId.present) {
+      map['atividade_id'] = Variable<int>(atividadeId.value);
+    }
+    if (aprId.present) {
+      map['apr_id'] = Variable<int>(aprId.value);
+    }
+    if (usuarioId.present) {
+      map['usuario_id'] = Variable<int>(usuarioId.value);
+    }
+    if (dataPreenchimento.present) {
+      map['data_preenchimento'] = Variable<DateTime>(dataPreenchimento.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprPreenchidaTableCompanion(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('aprId: $aprId, ')
+          ..write('usuarioId: $usuarioId, ')
+          ..write('dataPreenchimento: $dataPreenchimento')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprRespostaTableTable extends AprRespostaTable
+    with TableInfo<$AprRespostaTableTable, AprRespostaTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprRespostaTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _aprPreenchidaIdMeta =
+      const VerificationMeta('aprPreenchidaId');
+  @override
+  late final GeneratedColumn<int> aprPreenchidaId = GeneratedColumn<int>(
+      'apr_preenchida_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES apr_preenchida_table (id)'));
+  static const VerificationMeta _perguntaIdMeta =
+      const VerificationMeta('perguntaId');
+  @override
+  late final GeneratedColumn<int> perguntaId = GeneratedColumn<int>(
+      'pergunta_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES apr_question_table (id)'));
+  static const VerificationMeta _respostaMeta =
+      const VerificationMeta('resposta');
+  @override
+  late final GeneratedColumnWithTypeConverter<RespostaApr, String> resposta =
+      GeneratedColumn<String>('resposta', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<RespostaApr>(
+              $AprRespostaTableTable.$converterresposta);
+  static const VerificationMeta _observacaoMeta =
+      const VerificationMeta('observacao');
+  @override
+  late final GeneratedColumn<String> observacao = GeneratedColumn<String>(
+      'observacao', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, aprPreenchidaId, perguntaId, resposta, observacao];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_resposta_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprRespostaTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('apr_preenchida_id')) {
+      context.handle(
+          _aprPreenchidaIdMeta,
+          aprPreenchidaId.isAcceptableOrUnknown(
+              data['apr_preenchida_id']!, _aprPreenchidaIdMeta));
+    } else if (isInserting) {
+      context.missing(_aprPreenchidaIdMeta);
+    }
+    if (data.containsKey('pergunta_id')) {
+      context.handle(
+          _perguntaIdMeta,
+          perguntaId.isAcceptableOrUnknown(
+              data['pergunta_id']!, _perguntaIdMeta));
+    } else if (isInserting) {
+      context.missing(_perguntaIdMeta);
+    }
+    context.handle(_respostaMeta, const VerificationResult.success());
+    if (data.containsKey('observacao')) {
+      context.handle(
+          _observacaoMeta,
+          observacao.isAcceptableOrUnknown(
+              data['observacao']!, _observacaoMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprRespostaTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprRespostaTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      aprPreenchidaId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}apr_preenchida_id'])!,
+      perguntaId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}pergunta_id'])!,
+      resposta: $AprRespostaTableTable.$converterresposta.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}resposta'])!),
+      observacao: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}observacao']),
+    );
+  }
+
+  @override
+  $AprRespostaTableTable createAlias(String alias) {
+    return $AprRespostaTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<RespostaApr, String> $converterresposta =
+      const RespostaAprConverter();
+}
+
+class AprRespostaTableData extends DataClass
+    implements Insertable<AprRespostaTableData> {
+  final int id;
+  final int aprPreenchidaId;
+  final int perguntaId;
+  final RespostaApr resposta;
+  final String? observacao;
+  const AprRespostaTableData(
+      {required this.id,
+      required this.aprPreenchidaId,
+      required this.perguntaId,
+      required this.resposta,
+      this.observacao});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['apr_preenchida_id'] = Variable<int>(aprPreenchidaId);
+    map['pergunta_id'] = Variable<int>(perguntaId);
+    {
+      map['resposta'] = Variable<String>(
+          $AprRespostaTableTable.$converterresposta.toSql(resposta));
+    }
+    if (!nullToAbsent || observacao != null) {
+      map['observacao'] = Variable<String>(observacao);
+    }
+    return map;
+  }
+
+  AprRespostaTableCompanion toCompanion(bool nullToAbsent) {
+    return AprRespostaTableCompanion(
+      id: Value(id),
+      aprPreenchidaId: Value(aprPreenchidaId),
+      perguntaId: Value(perguntaId),
+      resposta: Value(resposta),
+      observacao: observacao == null && nullToAbsent
+          ? const Value.absent()
+          : Value(observacao),
+    );
+  }
+
+  factory AprRespostaTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprRespostaTableData(
+      id: serializer.fromJson<int>(json['id']),
+      aprPreenchidaId: serializer.fromJson<int>(json['aprPreenchidaId']),
+      perguntaId: serializer.fromJson<int>(json['perguntaId']),
+      resposta: serializer.fromJson<RespostaApr>(json['resposta']),
+      observacao: serializer.fromJson<String?>(json['observacao']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'aprPreenchidaId': serializer.toJson<int>(aprPreenchidaId),
+      'perguntaId': serializer.toJson<int>(perguntaId),
+      'resposta': serializer.toJson<RespostaApr>(resposta),
+      'observacao': serializer.toJson<String?>(observacao),
+    };
+  }
+
+  AprRespostaTableData copyWith(
+          {int? id,
+          int? aprPreenchidaId,
+          int? perguntaId,
+          RespostaApr? resposta,
+          Value<String?> observacao = const Value.absent()}) =>
+      AprRespostaTableData(
+        id: id ?? this.id,
+        aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+        perguntaId: perguntaId ?? this.perguntaId,
+        resposta: resposta ?? this.resposta,
+        observacao: observacao.present ? observacao.value : this.observacao,
+      );
+  AprRespostaTableData copyWithCompanion(AprRespostaTableCompanion data) {
+    return AprRespostaTableData(
+      id: data.id.present ? data.id.value : this.id,
+      aprPreenchidaId: data.aprPreenchidaId.present
+          ? data.aprPreenchidaId.value
+          : this.aprPreenchidaId,
+      perguntaId:
+          data.perguntaId.present ? data.perguntaId.value : this.perguntaId,
+      resposta: data.resposta.present ? data.resposta.value : this.resposta,
+      observacao:
+          data.observacao.present ? data.observacao.value : this.observacao,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprRespostaTableData(')
+          ..write('id: $id, ')
+          ..write('aprPreenchidaId: $aprPreenchidaId, ')
+          ..write('perguntaId: $perguntaId, ')
+          ..write('resposta: $resposta, ')
+          ..write('observacao: $observacao')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, aprPreenchidaId, perguntaId, resposta, observacao);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprRespostaTableData &&
+          other.id == this.id &&
+          other.aprPreenchidaId == this.aprPreenchidaId &&
+          other.perguntaId == this.perguntaId &&
+          other.resposta == this.resposta &&
+          other.observacao == this.observacao);
+}
+
+class AprRespostaTableCompanion extends UpdateCompanion<AprRespostaTableData> {
+  final Value<int> id;
+  final Value<int> aprPreenchidaId;
+  final Value<int> perguntaId;
+  final Value<RespostaApr> resposta;
+  final Value<String?> observacao;
+  const AprRespostaTableCompanion({
+    this.id = const Value.absent(),
+    this.aprPreenchidaId = const Value.absent(),
+    this.perguntaId = const Value.absent(),
+    this.resposta = const Value.absent(),
+    this.observacao = const Value.absent(),
+  });
+  AprRespostaTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int aprPreenchidaId,
+    required int perguntaId,
+    required RespostaApr resposta,
+    this.observacao = const Value.absent(),
+  })  : aprPreenchidaId = Value(aprPreenchidaId),
+        perguntaId = Value(perguntaId),
+        resposta = Value(resposta);
+  static Insertable<AprRespostaTableData> custom({
+    Expression<int>? id,
+    Expression<int>? aprPreenchidaId,
+    Expression<int>? perguntaId,
+    Expression<String>? resposta,
+    Expression<String>? observacao,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (aprPreenchidaId != null) 'apr_preenchida_id': aprPreenchidaId,
+      if (perguntaId != null) 'pergunta_id': perguntaId,
+      if (resposta != null) 'resposta': resposta,
+      if (observacao != null) 'observacao': observacao,
+    });
+  }
+
+  AprRespostaTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? aprPreenchidaId,
+      Value<int>? perguntaId,
+      Value<RespostaApr>? resposta,
+      Value<String?>? observacao}) {
+    return AprRespostaTableCompanion(
+      id: id ?? this.id,
+      aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+      perguntaId: perguntaId ?? this.perguntaId,
+      resposta: resposta ?? this.resposta,
+      observacao: observacao ?? this.observacao,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (aprPreenchidaId.present) {
+      map['apr_preenchida_id'] = Variable<int>(aprPreenchidaId.value);
+    }
+    if (perguntaId.present) {
+      map['pergunta_id'] = Variable<int>(perguntaId.value);
+    }
+    if (resposta.present) {
+      map['resposta'] = Variable<String>(
+          $AprRespostaTableTable.$converterresposta.toSql(resposta.value));
+    }
+    if (observacao.present) {
+      map['observacao'] = Variable<String>(observacao.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprRespostaTableCompanion(')
+          ..write('id: $id, ')
+          ..write('aprPreenchidaId: $aprPreenchidaId, ')
+          ..write('perguntaId: $perguntaId, ')
+          ..write('resposta: $resposta, ')
+          ..write('observacao: $observacao')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprPerguntaRelacionamentoTableTable
+    extends AprPerguntaRelacionamentoTable
+    with
+        TableInfo<$AprPerguntaRelacionamentoTableTable,
+            AprPerguntaRelacionamentoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprPerguntaRelacionamentoTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _aprIdMeta = const VerificationMeta('aprId');
+  @override
+  late final GeneratedColumn<int> aprId = GeneratedColumn<int>(
+      'apr_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES apr_table (id)'));
+  static const VerificationMeta _perguntaIdMeta =
+      const VerificationMeta('perguntaId');
+  @override
+  late final GeneratedColumn<int> perguntaId = GeneratedColumn<int>(
+      'pergunta_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES apr_question_table (id)'));
+  static const VerificationMeta _ordemMeta = const VerificationMeta('ordem');
+  @override
+  late final GeneratedColumn<int> ordem = GeneratedColumn<int>(
+      'ordem', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, aprId, perguntaId, ordem];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_pergunta_relacionamento_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprPerguntaRelacionamentoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('apr_id')) {
+      context.handle(
+          _aprIdMeta, aprId.isAcceptableOrUnknown(data['apr_id']!, _aprIdMeta));
+    } else if (isInserting) {
+      context.missing(_aprIdMeta);
+    }
+    if (data.containsKey('pergunta_id')) {
+      context.handle(
+          _perguntaIdMeta,
+          perguntaId.isAcceptableOrUnknown(
+              data['pergunta_id']!, _perguntaIdMeta));
+    } else if (isInserting) {
+      context.missing(_perguntaIdMeta);
+    }
+    if (data.containsKey('ordem')) {
+      context.handle(
+          _ordemMeta, ordem.isAcceptableOrUnknown(data['ordem']!, _ordemMeta));
+    } else if (isInserting) {
+      context.missing(_ordemMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprPerguntaRelacionamentoTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprPerguntaRelacionamentoTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      aprId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}apr_id'])!,
+      perguntaId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}pergunta_id'])!,
+      ordem: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}ordem'])!,
+    );
+  }
+
+  @override
+  $AprPerguntaRelacionamentoTableTable createAlias(String alias) {
+    return $AprPerguntaRelacionamentoTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprPerguntaRelacionamentoTableData extends DataClass
+    implements Insertable<AprPerguntaRelacionamentoTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final int aprId;
+  final int perguntaId;
+  final int ordem;
+  const AprPerguntaRelacionamentoTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.aprId,
+      required this.perguntaId,
+      required this.ordem});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['apr_id'] = Variable<int>(aprId);
+    map['pergunta_id'] = Variable<int>(perguntaId);
+    map['ordem'] = Variable<int>(ordem);
+    return map;
+  }
+
+  AprPerguntaRelacionamentoTableCompanion toCompanion(bool nullToAbsent) {
+    return AprPerguntaRelacionamentoTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      aprId: Value(aprId),
+      perguntaId: Value(perguntaId),
+      ordem: Value(ordem),
+    );
+  }
+
+  factory AprPerguntaRelacionamentoTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprPerguntaRelacionamentoTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      aprId: serializer.fromJson<int>(json['aprId']),
+      perguntaId: serializer.fromJson<int>(json['perguntaId']),
+      ordem: serializer.fromJson<int>(json['ordem']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'aprId': serializer.toJson<int>(aprId),
+      'perguntaId': serializer.toJson<int>(perguntaId),
+      'ordem': serializer.toJson<int>(ordem),
+    };
+  }
+
+  AprPerguntaRelacionamentoTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          int? aprId,
+          int? perguntaId,
+          int? ordem}) =>
+      AprPerguntaRelacionamentoTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        aprId: aprId ?? this.aprId,
+        perguntaId: perguntaId ?? this.perguntaId,
+        ordem: ordem ?? this.ordem,
+      );
+  AprPerguntaRelacionamentoTableData copyWithCompanion(
+      AprPerguntaRelacionamentoTableCompanion data) {
+    return AprPerguntaRelacionamentoTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      aprId: data.aprId.present ? data.aprId.value : this.aprId,
+      perguntaId:
+          data.perguntaId.present ? data.perguntaId.value : this.perguntaId,
+      ordem: data.ordem.present ? data.ordem.value : this.ordem,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprPerguntaRelacionamentoTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('aprId: $aprId, ')
+          ..write('perguntaId: $perguntaId, ')
+          ..write('ordem: $ordem')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, aprId, perguntaId, ordem);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprPerguntaRelacionamentoTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.aprId == this.aprId &&
+          other.perguntaId == this.perguntaId &&
+          other.ordem == this.ordem);
+}
+
+class AprPerguntaRelacionamentoTableCompanion
+    extends UpdateCompanion<AprPerguntaRelacionamentoTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<int> aprId;
+  final Value<int> perguntaId;
+  final Value<int> ordem;
+  const AprPerguntaRelacionamentoTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.aprId = const Value.absent(),
+    this.perguntaId = const Value.absent(),
+    this.ordem = const Value.absent(),
+  });
+  AprPerguntaRelacionamentoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required int aprId,
+    required int perguntaId,
+    required int ordem,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        aprId = Value(aprId),
+        perguntaId = Value(perguntaId),
+        ordem = Value(ordem);
+  static Insertable<AprPerguntaRelacionamentoTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<int>? aprId,
+    Expression<int>? perguntaId,
+    Expression<int>? ordem,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (aprId != null) 'apr_id': aprId,
+      if (perguntaId != null) 'pergunta_id': perguntaId,
+      if (ordem != null) 'ordem': ordem,
+    });
+  }
+
+  AprPerguntaRelacionamentoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<int>? aprId,
+      Value<int>? perguntaId,
+      Value<int>? ordem}) {
+    return AprPerguntaRelacionamentoTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      aprId: aprId ?? this.aprId,
+      perguntaId: perguntaId ?? this.perguntaId,
+      ordem: ordem ?? this.ordem,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (aprId.present) {
+      map['apr_id'] = Variable<int>(aprId.value);
+    }
+    if (perguntaId.present) {
+      map['pergunta_id'] = Variable<int>(perguntaId.value);
+    }
+    if (ordem.present) {
+      map['ordem'] = Variable<int>(ordem.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprPerguntaRelacionamentoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('aprId: $aprId, ')
+          ..write('perguntaId: $perguntaId, ')
+          ..write('ordem: $ordem')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $TecnicosTableTable extends TecnicosTable
+    with TableInfo<$TecnicosTableTable, TecnicosTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TecnicosTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
+  @override
+  late final GeneratedColumn<String> nome = GeneratedColumn<String>(
+      'nome', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _matriculaMeta =
+      const VerificationMeta('matricula');
+  @override
+  late final GeneratedColumn<String> matricula = GeneratedColumn<String>(
+      'matricula', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, matricula];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tecnicos_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<TecnicosTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('nome')) {
+      context.handle(
+          _nomeMeta, nome.isAcceptableOrUnknown(data['nome']!, _nomeMeta));
+    } else if (isInserting) {
+      context.missing(_nomeMeta);
+    }
+    if (data.containsKey('matricula')) {
+      context.handle(_matriculaMeta,
+          matricula.isAcceptableOrUnknown(data['matricula']!, _matriculaMeta));
+    } else if (isInserting) {
+      context.missing(_matriculaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TecnicosTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TecnicosTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      nome: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
+      matricula: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}matricula'])!,
+    );
+  }
+
+  @override
+  $TecnicosTableTable createAlias(String alias) {
+    return $TecnicosTableTable(attachedDatabase, alias);
+  }
+}
+
+class TecnicosTableData extends DataClass
+    implements Insertable<TecnicosTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String nome;
+  final String matricula;
+  const TecnicosTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.nome,
+      required this.matricula});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['nome'] = Variable<String>(nome);
+    map['matricula'] = Variable<String>(matricula);
+    return map;
+  }
+
+  TecnicosTableCompanion toCompanion(bool nullToAbsent) {
+    return TecnicosTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      nome: Value(nome),
+      matricula: Value(matricula),
+    );
+  }
+
+  factory TecnicosTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TecnicosTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      nome: serializer.fromJson<String>(json['nome']),
+      matricula: serializer.fromJson<String>(json['matricula']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'nome': serializer.toJson<String>(nome),
+      'matricula': serializer.toJson<String>(matricula),
+    };
+  }
+
+  TecnicosTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? nome,
+          String? matricula}) =>
+      TecnicosTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        nome: nome ?? this.nome,
+        matricula: matricula ?? this.matricula,
+      );
+  TecnicosTableData copyWithCompanion(TecnicosTableCompanion data) {
+    return TecnicosTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      nome: data.nome.present ? data.nome.value : this.nome,
+      matricula: data.matricula.present ? data.matricula.value : this.matricula,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TecnicosTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('matricula: $matricula')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, nome, matricula);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TecnicosTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.nome == this.nome &&
+          other.matricula == this.matricula);
+}
+
+class TecnicosTableCompanion extends UpdateCompanion<TecnicosTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> nome;
+  final Value<String> matricula;
+  const TecnicosTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.nome = const Value.absent(),
+    this.matricula = const Value.absent(),
+  });
+  TecnicosTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String nome,
+    required String matricula,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        nome = Value(nome),
+        matricula = Value(matricula);
+  static Insertable<TecnicosTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? nome,
+    Expression<String>? matricula,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (nome != null) 'nome': nome,
+      if (matricula != null) 'matricula': matricula,
+    });
+  }
+
+  TecnicosTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? nome,
+      Value<String>? matricula}) {
+    return TecnicosTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      nome: nome ?? this.nome,
+      matricula: matricula ?? this.matricula,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (nome.present) {
+      map['nome'] = Variable<String>(nome.value);
+    }
+    if (matricula.present) {
+      map['matricula'] = Variable<String>(matricula.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TecnicosTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('matricula: $matricula')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprAssinaturaTableTable extends AprAssinaturaTable
+    with TableInfo<$AprAssinaturaTableTable, AprAssinaturaTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprAssinaturaTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _aprPreenchidaIdMeta =
+      const VerificationMeta('aprPreenchidaId');
+  @override
+  late final GeneratedColumn<int> aprPreenchidaId = GeneratedColumn<int>(
+      'apr_preenchida_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES apr_preenchida_table (id)'));
+  static const VerificationMeta _usuarioIdMeta =
+      const VerificationMeta('usuarioId');
+  @override
+  late final GeneratedColumn<int> usuarioId = GeneratedColumn<int>(
+      'usuario_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES usuario_table (id)'));
+  static const VerificationMeta _dataAssinaturaMeta =
+      const VerificationMeta('dataAssinatura');
+  @override
+  late final GeneratedColumn<DateTime> dataAssinatura =
+      GeneratedColumn<DateTime>('data_assinatura', aliasedName, false,
+          type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _tecnicoIdMeta =
+      const VerificationMeta('tecnicoId');
+  @override
+  late final GeneratedColumn<int> tecnicoId = GeneratedColumn<int>(
+      'tecnico_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES tecnicos_table (id)'));
+  static const VerificationMeta _assinaturaMeta =
+      const VerificationMeta('assinatura');
+  @override
+  late final GeneratedColumn<String> assinatura = GeneratedColumn<String>(
+      'assinatura', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _assinaturaPathMeta =
+      const VerificationMeta('assinaturaPath');
+  @override
+  late final GeneratedColumn<String> assinaturaPath = GeneratedColumn<String>(
+      'assinatura_path', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        aprPreenchidaId,
+        usuarioId,
+        dataAssinatura,
+        tecnicoId,
+        assinatura,
+        assinaturaPath
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_assinatura_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprAssinaturaTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('apr_preenchida_id')) {
+      context.handle(
+          _aprPreenchidaIdMeta,
+          aprPreenchidaId.isAcceptableOrUnknown(
+              data['apr_preenchida_id']!, _aprPreenchidaIdMeta));
+    } else if (isInserting) {
+      context.missing(_aprPreenchidaIdMeta);
+    }
+    if (data.containsKey('usuario_id')) {
+      context.handle(_usuarioIdMeta,
+          usuarioId.isAcceptableOrUnknown(data['usuario_id']!, _usuarioIdMeta));
+    } else if (isInserting) {
+      context.missing(_usuarioIdMeta);
+    }
+    if (data.containsKey('data_assinatura')) {
+      context.handle(
+          _dataAssinaturaMeta,
+          dataAssinatura.isAcceptableOrUnknown(
+              data['data_assinatura']!, _dataAssinaturaMeta));
+    } else if (isInserting) {
+      context.missing(_dataAssinaturaMeta);
+    }
+    if (data.containsKey('tecnico_id')) {
+      context.handle(_tecnicoIdMeta,
+          tecnicoId.isAcceptableOrUnknown(data['tecnico_id']!, _tecnicoIdMeta));
+    } else if (isInserting) {
+      context.missing(_tecnicoIdMeta);
+    }
+    if (data.containsKey('assinatura')) {
+      context.handle(
+          _assinaturaMeta,
+          assinatura.isAcceptableOrUnknown(
+              data['assinatura']!, _assinaturaMeta));
+    } else if (isInserting) {
+      context.missing(_assinaturaMeta);
+    }
+    if (data.containsKey('assinatura_path')) {
+      context.handle(
+          _assinaturaPathMeta,
+          assinaturaPath.isAcceptableOrUnknown(
+              data['assinatura_path']!, _assinaturaPathMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprAssinaturaTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprAssinaturaTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      aprPreenchidaId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}apr_preenchida_id'])!,
+      usuarioId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}usuario_id'])!,
+      dataAssinatura: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}data_assinatura'])!,
+      tecnicoId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}tecnico_id'])!,
+      assinatura: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}assinatura'])!,
+      assinaturaPath: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}assinatura_path']),
+    );
+  }
+
+  @override
+  $AprAssinaturaTableTable createAlias(String alias) {
+    return $AprAssinaturaTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprAssinaturaTableData extends DataClass
+    implements Insertable<AprAssinaturaTableData> {
+  final int id;
+  final int aprPreenchidaId;
+  final int usuarioId;
+  final DateTime dataAssinatura;
+  final int tecnicoId;
+  final String assinatura;
+  final String? assinaturaPath;
+  const AprAssinaturaTableData(
+      {required this.id,
+      required this.aprPreenchidaId,
+      required this.usuarioId,
+      required this.dataAssinatura,
+      required this.tecnicoId,
+      required this.assinatura,
+      this.assinaturaPath});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['apr_preenchida_id'] = Variable<int>(aprPreenchidaId);
+    map['usuario_id'] = Variable<int>(usuarioId);
+    map['data_assinatura'] = Variable<DateTime>(dataAssinatura);
+    map['tecnico_id'] = Variable<int>(tecnicoId);
+    map['assinatura'] = Variable<String>(assinatura);
+    if (!nullToAbsent || assinaturaPath != null) {
+      map['assinatura_path'] = Variable<String>(assinaturaPath);
+    }
+    return map;
+  }
+
+  AprAssinaturaTableCompanion toCompanion(bool nullToAbsent) {
+    return AprAssinaturaTableCompanion(
+      id: Value(id),
+      aprPreenchidaId: Value(aprPreenchidaId),
+      usuarioId: Value(usuarioId),
+      dataAssinatura: Value(dataAssinatura),
+      tecnicoId: Value(tecnicoId),
+      assinatura: Value(assinatura),
+      assinaturaPath: assinaturaPath == null && nullToAbsent
+          ? const Value.absent()
+          : Value(assinaturaPath),
+    );
+  }
+
+  factory AprAssinaturaTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprAssinaturaTableData(
+      id: serializer.fromJson<int>(json['id']),
+      aprPreenchidaId: serializer.fromJson<int>(json['aprPreenchidaId']),
+      usuarioId: serializer.fromJson<int>(json['usuarioId']),
+      dataAssinatura: serializer.fromJson<DateTime>(json['dataAssinatura']),
+      tecnicoId: serializer.fromJson<int>(json['tecnicoId']),
+      assinatura: serializer.fromJson<String>(json['assinatura']),
+      assinaturaPath: serializer.fromJson<String?>(json['assinaturaPath']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'aprPreenchidaId': serializer.toJson<int>(aprPreenchidaId),
+      'usuarioId': serializer.toJson<int>(usuarioId),
+      'dataAssinatura': serializer.toJson<DateTime>(dataAssinatura),
+      'tecnicoId': serializer.toJson<int>(tecnicoId),
+      'assinatura': serializer.toJson<String>(assinatura),
+      'assinaturaPath': serializer.toJson<String?>(assinaturaPath),
+    };
+  }
+
+  AprAssinaturaTableData copyWith(
+          {int? id,
+          int? aprPreenchidaId,
+          int? usuarioId,
+          DateTime? dataAssinatura,
+          int? tecnicoId,
+          String? assinatura,
+          Value<String?> assinaturaPath = const Value.absent()}) =>
+      AprAssinaturaTableData(
+        id: id ?? this.id,
+        aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+        usuarioId: usuarioId ?? this.usuarioId,
+        dataAssinatura: dataAssinatura ?? this.dataAssinatura,
+        tecnicoId: tecnicoId ?? this.tecnicoId,
+        assinatura: assinatura ?? this.assinatura,
+        assinaturaPath:
+            assinaturaPath.present ? assinaturaPath.value : this.assinaturaPath,
+      );
+  AprAssinaturaTableData copyWithCompanion(AprAssinaturaTableCompanion data) {
+    return AprAssinaturaTableData(
+      id: data.id.present ? data.id.value : this.id,
+      aprPreenchidaId: data.aprPreenchidaId.present
+          ? data.aprPreenchidaId.value
+          : this.aprPreenchidaId,
+      usuarioId: data.usuarioId.present ? data.usuarioId.value : this.usuarioId,
+      dataAssinatura: data.dataAssinatura.present
+          ? data.dataAssinatura.value
+          : this.dataAssinatura,
+      tecnicoId: data.tecnicoId.present ? data.tecnicoId.value : this.tecnicoId,
+      assinatura:
+          data.assinatura.present ? data.assinatura.value : this.assinatura,
+      assinaturaPath: data.assinaturaPath.present
+          ? data.assinaturaPath.value
+          : this.assinaturaPath,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprAssinaturaTableData(')
+          ..write('id: $id, ')
+          ..write('aprPreenchidaId: $aprPreenchidaId, ')
+          ..write('usuarioId: $usuarioId, ')
+          ..write('dataAssinatura: $dataAssinatura, ')
+          ..write('tecnicoId: $tecnicoId, ')
+          ..write('assinatura: $assinatura, ')
+          ..write('assinaturaPath: $assinaturaPath')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, aprPreenchidaId, usuarioId,
+      dataAssinatura, tecnicoId, assinatura, assinaturaPath);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprAssinaturaTableData &&
+          other.id == this.id &&
+          other.aprPreenchidaId == this.aprPreenchidaId &&
+          other.usuarioId == this.usuarioId &&
+          other.dataAssinatura == this.dataAssinatura &&
+          other.tecnicoId == this.tecnicoId &&
+          other.assinatura == this.assinatura &&
+          other.assinaturaPath == this.assinaturaPath);
+}
+
+class AprAssinaturaTableCompanion
+    extends UpdateCompanion<AprAssinaturaTableData> {
+  final Value<int> id;
+  final Value<int> aprPreenchidaId;
+  final Value<int> usuarioId;
+  final Value<DateTime> dataAssinatura;
+  final Value<int> tecnicoId;
+  final Value<String> assinatura;
+  final Value<String?> assinaturaPath;
+  const AprAssinaturaTableCompanion({
+    this.id = const Value.absent(),
+    this.aprPreenchidaId = const Value.absent(),
+    this.usuarioId = const Value.absent(),
+    this.dataAssinatura = const Value.absent(),
+    this.tecnicoId = const Value.absent(),
+    this.assinatura = const Value.absent(),
+    this.assinaturaPath = const Value.absent(),
+  });
+  AprAssinaturaTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int aprPreenchidaId,
+    required int usuarioId,
+    required DateTime dataAssinatura,
+    required int tecnicoId,
+    required String assinatura,
+    this.assinaturaPath = const Value.absent(),
+  })  : aprPreenchidaId = Value(aprPreenchidaId),
+        usuarioId = Value(usuarioId),
+        dataAssinatura = Value(dataAssinatura),
+        tecnicoId = Value(tecnicoId),
+        assinatura = Value(assinatura);
+  static Insertable<AprAssinaturaTableData> custom({
+    Expression<int>? id,
+    Expression<int>? aprPreenchidaId,
+    Expression<int>? usuarioId,
+    Expression<DateTime>? dataAssinatura,
+    Expression<int>? tecnicoId,
+    Expression<String>? assinatura,
+    Expression<String>? assinaturaPath,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (aprPreenchidaId != null) 'apr_preenchida_id': aprPreenchidaId,
+      if (usuarioId != null) 'usuario_id': usuarioId,
+      if (dataAssinatura != null) 'data_assinatura': dataAssinatura,
+      if (tecnicoId != null) 'tecnico_id': tecnicoId,
+      if (assinatura != null) 'assinatura': assinatura,
+      if (assinaturaPath != null) 'assinatura_path': assinaturaPath,
+    });
+  }
+
+  AprAssinaturaTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? aprPreenchidaId,
+      Value<int>? usuarioId,
+      Value<DateTime>? dataAssinatura,
+      Value<int>? tecnicoId,
+      Value<String>? assinatura,
+      Value<String?>? assinaturaPath}) {
+    return AprAssinaturaTableCompanion(
+      id: id ?? this.id,
+      aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+      usuarioId: usuarioId ?? this.usuarioId,
+      dataAssinatura: dataAssinatura ?? this.dataAssinatura,
+      tecnicoId: tecnicoId ?? this.tecnicoId,
+      assinatura: assinatura ?? this.assinatura,
+      assinaturaPath: assinaturaPath ?? this.assinaturaPath,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (aprPreenchidaId.present) {
+      map['apr_preenchida_id'] = Variable<int>(aprPreenchidaId.value);
+    }
+    if (usuarioId.present) {
+      map['usuario_id'] = Variable<int>(usuarioId.value);
+    }
+    if (dataAssinatura.present) {
+      map['data_assinatura'] = Variable<DateTime>(dataAssinatura.value);
+    }
+    if (tecnicoId.present) {
+      map['tecnico_id'] = Variable<int>(tecnicoId.value);
+    }
+    if (assinatura.present) {
+      map['assinatura'] = Variable<String>(assinatura.value);
+    }
+    if (assinaturaPath.present) {
+      map['assinatura_path'] = Variable<String>(assinaturaPath.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprAssinaturaTableCompanion(')
+          ..write('id: $id, ')
+          ..write('aprPreenchidaId: $aprPreenchidaId, ')
+          ..write('usuarioId: $usuarioId, ')
+          ..write('dataAssinatura: $dataAssinatura, ')
+          ..write('tecnicoId: $tecnicoId, ')
+          ..write('assinatura: $assinatura, ')
+          ..write('assinaturaPath: $assinaturaPath')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2925,6 +5524,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $EquipamentoTableTable equipamentoTable =
       $EquipamentoTableTable(this);
   late final $AtividadeTableTable atividadeTable = $AtividadeTableTable(this);
+  late final $AprTableTable aprTable = $AprTableTable(this);
+  late final $AprQuestionTableTable aprQuestionTable =
+      $AprQuestionTableTable(this);
+  late final $AprPreenchidaTableTable aprPreenchidaTable =
+      $AprPreenchidaTableTable(this);
+  late final $AprRespostaTableTable aprRespostaTable =
+      $AprRespostaTableTable(this);
+  late final $AprPerguntaRelacionamentoTableTable
+      aprPerguntaRelacionamentoTable =
+      $AprPerguntaRelacionamentoTableTable(this);
+  late final $TecnicosTableTable tecnicosTable = $TecnicosTableTable(this);
+  late final $AprAssinaturaTableTable aprAssinaturaTable =
+      $AprAssinaturaTableTable(this);
   late final UsuarioDao usuarioDao = UsuarioDao(this as AppDatabase);
   late final TipoAtividadeDao tipoAtividadeDao =
       TipoAtividadeDao(this as AppDatabase);
@@ -2935,6 +5547,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       GrupoDefeitoEquipamentoDao(this as AppDatabase);
   late final SubgrupoDefeitoEquipamentoDao subgrupoDefeitoEquipamentoDao =
       SubgrupoDefeitoEquipamentoDao(this as AppDatabase);
+  late final AprDao aprDao = AprDao(this as AppDatabase);
+  late final AprPerguntaDao aprPerguntaDao =
+      AprPerguntaDao(this as AppDatabase);
+  late final AprRespostaDao aprRespostaDao =
+      AprRespostaDao(this as AppDatabase);
+  late final AprPreenchidaDao aprPreenchidaDao =
+      AprPreenchidaDao(this as AppDatabase);
+  late final AprAssinaturaDao aprAssinaturaDao =
+      AprAssinaturaDao(this as AppDatabase);
+  late final TecnicosDao tecnicosDao = TecnicosDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2945,7 +5567,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         grupoDefeitoEquipamentoTable,
         subgrupoDefeitoEquipamentoTable,
         equipamentoTable,
-        atividadeTable
+        atividadeTable,
+        aprTable,
+        aprQuestionTable,
+        aprPreenchidaTable,
+        aprRespostaTable,
+        aprPerguntaRelacionamentoTable,
+        tecnicosTable,
+        aprAssinaturaTable
       ];
 }
 
@@ -2969,6 +5598,47 @@ typedef $$UsuarioTableTableUpdateCompanionBuilder = UsuarioTableCompanion
   Value<DateTime?> ultimoLogin,
   Value<DateTime> createdAt,
 });
+
+final class $$UsuarioTableTableReferences extends BaseReferences<_$AppDatabase,
+    $UsuarioTableTable, UsuarioTableData> {
+  $$UsuarioTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$AprPreenchidaTableTable,
+      List<AprPreenchidaTableData>> _aprPreenchidaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprPreenchidaTable,
+          aliasName: $_aliasNameGenerator(
+              db.usuarioTable.id, db.aprPreenchidaTable.usuarioId));
+
+  $$AprPreenchidaTableTableProcessedTableManager get aprPreenchidaTableRefs {
+    final manager =
+        $$AprPreenchidaTableTableTableManager($_db, $_db.aprPreenchidaTable)
+            .filter((f) => f.usuarioId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprPreenchidaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$AprAssinaturaTableTable,
+      List<AprAssinaturaTableData>> _aprAssinaturaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprAssinaturaTable,
+          aliasName: $_aliasNameGenerator(
+              db.usuarioTable.id, db.aprAssinaturaTable.usuarioId));
+
+  $$AprAssinaturaTableTableProcessedTableManager get aprAssinaturaTableRefs {
+    final manager =
+        $$AprAssinaturaTableTableTableManager($_db, $_db.aprAssinaturaTable)
+            .filter((f) => f.usuarioId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprAssinaturaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
 
 class $$UsuarioTableTableFilterComposer
     extends Composer<_$AppDatabase, $UsuarioTableTable> {
@@ -2999,6 +5669,48 @@ class $$UsuarioTableTableFilterComposer
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> aprPreenchidaTableRefs(
+      Expression<bool> Function($$AprPreenchidaTableTableFilterComposer f) f) {
+    final $$AprPreenchidaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.usuarioId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> aprAssinaturaTableRefs(
+      Expression<bool> Function($$AprAssinaturaTableTableFilterComposer f) f) {
+    final $$AprAssinaturaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprAssinaturaTable,
+        getReferencedColumn: (t) => t.usuarioId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprAssinaturaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprAssinaturaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$UsuarioTableTableOrderingComposer
@@ -3062,6 +5774,50 @@ class $$UsuarioTableTableAnnotationComposer
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> aprPreenchidaTableRefs<T extends Object>(
+      Expression<T> Function($$AprPreenchidaTableTableAnnotationComposer a) f) {
+    final $$AprPreenchidaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPreenchidaTable,
+            getReferencedColumn: (t) => t.usuarioId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPreenchidaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> aprAssinaturaTableRefs<T extends Object>(
+      Expression<T> Function($$AprAssinaturaTableTableAnnotationComposer a) f) {
+    final $$AprAssinaturaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprAssinaturaTable,
+            getReferencedColumn: (t) => t.usuarioId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprAssinaturaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprAssinaturaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$UsuarioTableTableTableManager extends RootTableManager<
@@ -3073,12 +5829,10 @@ class $$UsuarioTableTableTableManager extends RootTableManager<
     $$UsuarioTableTableAnnotationComposer,
     $$UsuarioTableTableCreateCompanionBuilder,
     $$UsuarioTableTableUpdateCompanionBuilder,
-    (
-      UsuarioTableData,
-      BaseReferences<_$AppDatabase, $UsuarioTableTable, UsuarioTableData>
-    ),
+    (UsuarioTableData, $$UsuarioTableTableReferences),
     UsuarioTableData,
-    PrefetchHooks Function()> {
+    PrefetchHooks Function(
+        {bool aprPreenchidaTableRefs, bool aprAssinaturaTableRefs})> {
   $$UsuarioTableTableTableManager(_$AppDatabase db, $UsuarioTableTable table)
       : super(TableManagerState(
           db: db,
@@ -3126,9 +5880,51 @@ class $$UsuarioTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .map((e) => (
+                    e.readTable(table),
+                    $$UsuarioTableTableReferences(db, table, e)
+                  ))
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: (
+              {aprPreenchidaTableRefs = false,
+              aprAssinaturaTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (aprPreenchidaTableRefs) db.aprPreenchidaTable,
+                if (aprAssinaturaTableRefs) db.aprAssinaturaTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (aprPreenchidaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$UsuarioTableTableReferences
+                            ._aprPreenchidaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$UsuarioTableTableReferences(db, table, p0)
+                                .aprPreenchidaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.usuarioId == item.id),
+                        typedResults: items),
+                  if (aprAssinaturaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$UsuarioTableTableReferences
+                            ._aprAssinaturaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$UsuarioTableTableReferences(db, table, p0)
+                                .aprAssinaturaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.usuarioId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
         ));
 }
 
@@ -3141,12 +5937,10 @@ typedef $$UsuarioTableTableProcessedTableManager = ProcessedTableManager<
     $$UsuarioTableTableAnnotationComposer,
     $$UsuarioTableTableCreateCompanionBuilder,
     $$UsuarioTableTableUpdateCompanionBuilder,
-    (
-      UsuarioTableData,
-      BaseReferences<_$AppDatabase, $UsuarioTableTable, UsuarioTableData>
-    ),
+    (UsuarioTableData, $$UsuarioTableTableReferences),
     UsuarioTableData,
-    PrefetchHooks Function()>;
+    PrefetchHooks Function(
+        {bool aprPreenchidaTableRefs, bool aprAssinaturaTableRefs})>;
 typedef $$TipoAtividadeTableTableCreateCompanionBuilder
     = TipoAtividadeTableCompanion Function({
   Value<int> id,
@@ -4615,6 +7409,24 @@ final class $$AtividadeTableTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
+
+  static MultiTypedResultKey<$AprPreenchidaTableTable,
+      List<AprPreenchidaTableData>> _aprPreenchidaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprPreenchidaTable,
+          aliasName: $_aliasNameGenerator(
+              db.atividadeTable.id, db.aprPreenchidaTable.atividadeId));
+
+  $$AprPreenchidaTableTableProcessedTableManager get aprPreenchidaTableRefs {
+    final manager =
+        $$AprPreenchidaTableTableTableManager($_db, $_db.aprPreenchidaTable)
+            .filter((f) => f.atividadeId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprPreenchidaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$AtividadeTableTableFilterComposer
@@ -4711,6 +7523,27 @@ class $$AtividadeTableTableFilterComposer
                   $removeJoinBuilderFromRootComposer,
             ));
     return composer;
+  }
+
+  Expression<bool> aprPreenchidaTableRefs(
+      Expression<bool> Function($$AprPreenchidaTableTableFilterComposer f) f) {
+    final $$AprPreenchidaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.atividadeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
   }
 }
 
@@ -4901,6 +7734,28 @@ class $$AtividadeTableTableAnnotationComposer
                 ));
     return composer;
   }
+
+  Expression<T> aprPreenchidaTableRefs<T extends Object>(
+      Expression<T> Function($$AprPreenchidaTableTableAnnotationComposer a) f) {
+    final $$AprPreenchidaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPreenchidaTable,
+            getReferencedColumn: (t) => t.atividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPreenchidaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$AtividadeTableTableTableManager extends RootTableManager<
@@ -4914,7 +7769,10 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
     $$AtividadeTableTableUpdateCompanionBuilder,
     (AtividadeTableData, $$AtividadeTableTableReferences),
     AtividadeTableData,
-    PrefetchHooks Function({bool equipamentoId, bool tipoAtividadeId})> {
+    PrefetchHooks Function(
+        {bool equipamentoId,
+        bool tipoAtividadeId,
+        bool aprPreenchidaTableRefs})> {
   $$AtividadeTableTableTableManager(
       _$AppDatabase db, $AtividadeTableTable table)
       : super(TableManagerState(
@@ -5006,10 +7864,14 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {equipamentoId = false, tipoAtividadeId = false}) {
+              {equipamentoId = false,
+              tipoAtividadeId = false,
+              aprPreenchidaTableRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [],
+              explicitlyWatchedTables: [
+                if (aprPreenchidaTableRefs) db.aprPreenchidaTable
+              ],
               addJoins: <
                   T extends TableManagerState<
                       dynamic,
@@ -5049,7 +7911,20 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                 return state;
               },
               getPrefetchedDataCallback: (items) async {
-                return [];
+                return [
+                  if (aprPreenchidaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AtividadeTableTableReferences
+                            ._aprPreenchidaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AtividadeTableTableReferences(db, table, p0)
+                                .aprPreenchidaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.atividadeId == item.id),
+                        typedResults: items)
+                ];
               },
             );
           },
@@ -5067,7 +7942,2825 @@ typedef $$AtividadeTableTableProcessedTableManager = ProcessedTableManager<
     $$AtividadeTableTableUpdateCompanionBuilder,
     (AtividadeTableData, $$AtividadeTableTableReferences),
     AtividadeTableData,
-    PrefetchHooks Function({bool equipamentoId, bool tipoAtividadeId})>;
+    PrefetchHooks Function(
+        {bool equipamentoId,
+        bool tipoAtividadeId,
+        bool aprPreenchidaTableRefs})>;
+typedef $$AprTableTableCreateCompanionBuilder = AprTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String nome,
+  Value<String?> descricao,
+});
+typedef $$AprTableTableUpdateCompanionBuilder = AprTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> nome,
+  Value<String?> descricao,
+});
+
+final class $$AprTableTableReferences
+    extends BaseReferences<_$AppDatabase, $AprTableTable, AprTableData> {
+  $$AprTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$AprPreenchidaTableTable,
+      List<AprPreenchidaTableData>> _aprPreenchidaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprPreenchidaTable,
+          aliasName: $_aliasNameGenerator(
+              db.aprTable.id, db.aprPreenchidaTable.aprId));
+
+  $$AprPreenchidaTableTableProcessedTableManager get aprPreenchidaTableRefs {
+    final manager =
+        $$AprPreenchidaTableTableTableManager($_db, $_db.aprPreenchidaTable)
+            .filter((f) => f.aprId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprPreenchidaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$AprPerguntaRelacionamentoTableTable,
+          List<AprPerguntaRelacionamentoTableData>>
+      _aprPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.aprPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(
+                  db.aprTable.id, db.aprPerguntaRelacionamentoTable.aprId));
+
+  $$AprPerguntaRelacionamentoTableTableProcessedTableManager
+      get aprPerguntaRelacionamentoTableRefs {
+    final manager = $$AprPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.aprPerguntaRelacionamentoTable)
+        .filter((f) => f.aprId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_aprPerguntaRelacionamentoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$AprTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprTableTable> {
+  $$AprTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get descricao => $composableBuilder(
+      column: $table.descricao, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> aprPreenchidaTableRefs(
+      Expression<bool> Function($$AprPreenchidaTableTableFilterComposer f) f) {
+    final $$AprPreenchidaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.aprId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> aprPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$AprPerguntaRelacionamentoTableTableFilterComposer f)
+          f) {
+    final $$AprPerguntaRelacionamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.aprId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$AprTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprTableTable> {
+  $$AprTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get descricao => $composableBuilder(
+      column: $table.descricao, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AprTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprTableTable> {
+  $$AprTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  GeneratedColumn<String> get nome =>
+      $composableBuilder(column: $table.nome, builder: (column) => column);
+
+  GeneratedColumn<String> get descricao =>
+      $composableBuilder(column: $table.descricao, builder: (column) => column);
+
+  Expression<T> aprPreenchidaTableRefs<T extends Object>(
+      Expression<T> Function($$AprPreenchidaTableTableAnnotationComposer a) f) {
+    final $$AprPreenchidaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPreenchidaTable,
+            getReferencedColumn: (t) => t.aprId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPreenchidaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> aprPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$AprPerguntaRelacionamentoTableTableAnnotationComposer a)
+          f) {
+    final $$AprPerguntaRelacionamentoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.aprId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$AprTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprTableTable,
+    AprTableData,
+    $$AprTableTableFilterComposer,
+    $$AprTableTableOrderingComposer,
+    $$AprTableTableAnnotationComposer,
+    $$AprTableTableCreateCompanionBuilder,
+    $$AprTableTableUpdateCompanionBuilder,
+    (AprTableData, $$AprTableTableReferences),
+    AprTableData,
+    PrefetchHooks Function(
+        {bool aprPreenchidaTableRefs,
+        bool aprPerguntaRelacionamentoTableRefs})> {
+  $$AprTableTableTableManager(_$AppDatabase db, $AprTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> nome = const Value.absent(),
+            Value<String?> descricao = const Value.absent(),
+          }) =>
+              AprTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            descricao: descricao,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String nome,
+            Value<String?> descricao = const Value.absent(),
+          }) =>
+              AprTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            descricao: descricao,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$AprTableTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: (
+              {aprPreenchidaTableRefs = false,
+              aprPerguntaRelacionamentoTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (aprPreenchidaTableRefs) db.aprPreenchidaTable,
+                if (aprPerguntaRelacionamentoTableRefs)
+                  db.aprPerguntaRelacionamentoTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (aprPreenchidaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprTableTableReferences
+                            ._aprPreenchidaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprTableTableReferences(db, table, p0)
+                                .aprPreenchidaTableRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.aprId == item.id),
+                        typedResults: items),
+                  if (aprPerguntaRelacionamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprTableTableReferences
+                            ._aprPerguntaRelacionamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprTableTableReferences(db, table, p0)
+                                .aprPerguntaRelacionamentoTableRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.aprId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $AprTableTable,
+    AprTableData,
+    $$AprTableTableFilterComposer,
+    $$AprTableTableOrderingComposer,
+    $$AprTableTableAnnotationComposer,
+    $$AprTableTableCreateCompanionBuilder,
+    $$AprTableTableUpdateCompanionBuilder,
+    (AprTableData, $$AprTableTableReferences),
+    AprTableData,
+    PrefetchHooks Function(
+        {bool aprPreenchidaTableRefs,
+        bool aprPerguntaRelacionamentoTableRefs})>;
+typedef $$AprQuestionTableTableCreateCompanionBuilder
+    = AprQuestionTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String texto,
+});
+typedef $$AprQuestionTableTableUpdateCompanionBuilder
+    = AprQuestionTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> texto,
+});
+
+final class $$AprQuestionTableTableReferences extends BaseReferences<
+    _$AppDatabase, $AprQuestionTableTable, AprQuestionTableData> {
+  $$AprQuestionTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$AprRespostaTableTable, List<AprRespostaTableData>>
+      _aprRespostaTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.aprRespostaTable,
+              aliasName: $_aliasNameGenerator(
+                  db.aprQuestionTable.id, db.aprRespostaTable.perguntaId));
+
+  $$AprRespostaTableTableProcessedTableManager get aprRespostaTableRefs {
+    final manager =
+        $$AprRespostaTableTableTableManager($_db, $_db.aprRespostaTable)
+            .filter((f) => f.perguntaId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprRespostaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$AprPerguntaRelacionamentoTableTable,
+          List<AprPerguntaRelacionamentoTableData>>
+      _aprPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.aprPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(db.aprQuestionTable.id,
+                  db.aprPerguntaRelacionamentoTable.perguntaId));
+
+  $$AprPerguntaRelacionamentoTableTableProcessedTableManager
+      get aprPerguntaRelacionamentoTableRefs {
+    final manager = $$AprPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.aprPerguntaRelacionamentoTable)
+        .filter((f) => f.perguntaId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_aprPerguntaRelacionamentoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$AprQuestionTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprQuestionTableTable> {
+  $$AprQuestionTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get texto => $composableBuilder(
+      column: $table.texto, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> aprRespostaTableRefs(
+      Expression<bool> Function($$AprRespostaTableTableFilterComposer f) f) {
+    final $$AprRespostaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprRespostaTable,
+        getReferencedColumn: (t) => t.perguntaId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprRespostaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprRespostaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> aprPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$AprPerguntaRelacionamentoTableTableFilterComposer f)
+          f) {
+    final $$AprPerguntaRelacionamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.perguntaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$AprQuestionTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprQuestionTableTable> {
+  $$AprQuestionTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get texto => $composableBuilder(
+      column: $table.texto, builder: (column) => ColumnOrderings(column));
+}
+
+class $$AprQuestionTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprQuestionTableTable> {
+  $$AprQuestionTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  GeneratedColumn<String> get texto =>
+      $composableBuilder(column: $table.texto, builder: (column) => column);
+
+  Expression<T> aprRespostaTableRefs<T extends Object>(
+      Expression<T> Function($$AprRespostaTableTableAnnotationComposer a) f) {
+    final $$AprRespostaTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprRespostaTable,
+        getReferencedColumn: (t) => t.perguntaId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprRespostaTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprRespostaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> aprPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$AprPerguntaRelacionamentoTableTableAnnotationComposer a)
+          f) {
+    final $$AprPerguntaRelacionamentoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.perguntaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$AprQuestionTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprQuestionTableTable,
+    AprQuestionTableData,
+    $$AprQuestionTableTableFilterComposer,
+    $$AprQuestionTableTableOrderingComposer,
+    $$AprQuestionTableTableAnnotationComposer,
+    $$AprQuestionTableTableCreateCompanionBuilder,
+    $$AprQuestionTableTableUpdateCompanionBuilder,
+    (AprQuestionTableData, $$AprQuestionTableTableReferences),
+    AprQuestionTableData,
+    PrefetchHooks Function(
+        {bool aprRespostaTableRefs, bool aprPerguntaRelacionamentoTableRefs})> {
+  $$AprQuestionTableTableTableManager(
+      _$AppDatabase db, $AprQuestionTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprQuestionTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprQuestionTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprQuestionTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> texto = const Value.absent(),
+          }) =>
+              AprQuestionTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            texto: texto,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String texto,
+          }) =>
+              AprQuestionTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            texto: texto,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprQuestionTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {aprRespostaTableRefs = false,
+              aprPerguntaRelacionamentoTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (aprRespostaTableRefs) db.aprRespostaTable,
+                if (aprPerguntaRelacionamentoTableRefs)
+                  db.aprPerguntaRelacionamentoTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (aprRespostaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprQuestionTableTableReferences
+                            ._aprRespostaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprQuestionTableTableReferences(db, table, p0)
+                                .aprRespostaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.perguntaId == item.id),
+                        typedResults: items),
+                  if (aprPerguntaRelacionamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprQuestionTableTableReferences
+                            ._aprPerguntaRelacionamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprQuestionTableTableReferences(db, table, p0)
+                                .aprPerguntaRelacionamentoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.perguntaId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprQuestionTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $AprQuestionTableTable,
+    AprQuestionTableData,
+    $$AprQuestionTableTableFilterComposer,
+    $$AprQuestionTableTableOrderingComposer,
+    $$AprQuestionTableTableAnnotationComposer,
+    $$AprQuestionTableTableCreateCompanionBuilder,
+    $$AprQuestionTableTableUpdateCompanionBuilder,
+    (AprQuestionTableData, $$AprQuestionTableTableReferences),
+    AprQuestionTableData,
+    PrefetchHooks Function(
+        {bool aprRespostaTableRefs, bool aprPerguntaRelacionamentoTableRefs})>;
+typedef $$AprPreenchidaTableTableCreateCompanionBuilder
+    = AprPreenchidaTableCompanion Function({
+  Value<int> id,
+  required int atividadeId,
+  required int aprId,
+  required int usuarioId,
+  required DateTime dataPreenchimento,
+});
+typedef $$AprPreenchidaTableTableUpdateCompanionBuilder
+    = AprPreenchidaTableCompanion Function({
+  Value<int> id,
+  Value<int> atividadeId,
+  Value<int> aprId,
+  Value<int> usuarioId,
+  Value<DateTime> dataPreenchimento,
+});
+
+final class $$AprPreenchidaTableTableReferences extends BaseReferences<
+    _$AppDatabase, $AprPreenchidaTableTable, AprPreenchidaTableData> {
+  $$AprPreenchidaTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $AtividadeTableTable _atividadeIdTable(_$AppDatabase db) =>
+      db.atividadeTable.createAlias($_aliasNameGenerator(
+          db.aprPreenchidaTable.atividadeId, db.atividadeTable.id));
+
+  $$AtividadeTableTableProcessedTableManager get atividadeId {
+    final manager = $$AtividadeTableTableTableManager($_db, $_db.atividadeTable)
+        .filter((f) => f.id($_item.atividadeId));
+    final item = $_typedResult.readTableOrNull(_atividadeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $AprTableTable _aprIdTable(_$AppDatabase db) =>
+      db.aprTable.createAlias(
+          $_aliasNameGenerator(db.aprPreenchidaTable.aprId, db.aprTable.id));
+
+  $$AprTableTableProcessedTableManager get aprId {
+    final manager = $$AprTableTableTableManager($_db, $_db.aprTable)
+        .filter((f) => f.id($_item.aprId));
+    final item = $_typedResult.readTableOrNull(_aprIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $UsuarioTableTable _usuarioIdTable(_$AppDatabase db) =>
+      db.usuarioTable.createAlias($_aliasNameGenerator(
+          db.aprPreenchidaTable.usuarioId, db.usuarioTable.id));
+
+  $$UsuarioTableTableProcessedTableManager get usuarioId {
+    final manager = $$UsuarioTableTableTableManager($_db, $_db.usuarioTable)
+        .filter((f) => f.id($_item.usuarioId));
+    final item = $_typedResult.readTableOrNull(_usuarioIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$AprRespostaTableTable, List<AprRespostaTableData>>
+      _aprRespostaTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.aprRespostaTable,
+              aliasName: $_aliasNameGenerator(db.aprPreenchidaTable.id,
+                  db.aprRespostaTable.aprPreenchidaId));
+
+  $$AprRespostaTableTableProcessedTableManager get aprRespostaTableRefs {
+    final manager =
+        $$AprRespostaTableTableTableManager($_db, $_db.aprRespostaTable)
+            .filter((f) => f.aprPreenchidaId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprRespostaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$AprAssinaturaTableTable,
+      List<AprAssinaturaTableData>> _aprAssinaturaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprAssinaturaTable,
+          aliasName: $_aliasNameGenerator(
+              db.aprPreenchidaTable.id, db.aprAssinaturaTable.aprPreenchidaId));
+
+  $$AprAssinaturaTableTableProcessedTableManager get aprAssinaturaTableRefs {
+    final manager =
+        $$AprAssinaturaTableTableTableManager($_db, $_db.aprAssinaturaTable)
+            .filter((f) => f.aprPreenchidaId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprAssinaturaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$AprPreenchidaTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprPreenchidaTableTable> {
+  $$AprPreenchidaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get dataPreenchimento => $composableBuilder(
+      column: $table.dataPreenchimento,
+      builder: (column) => ColumnFilters(column));
+
+  $$AtividadeTableTableFilterComposer get atividadeId {
+    final $$AtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprTableTableFilterComposer get aprId {
+    final $$AprTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$UsuarioTableTableFilterComposer get usuarioId {
+    final $$UsuarioTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableFilterComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> aprRespostaTableRefs(
+      Expression<bool> Function($$AprRespostaTableTableFilterComposer f) f) {
+    final $$AprRespostaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprRespostaTable,
+        getReferencedColumn: (t) => t.aprPreenchidaId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprRespostaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprRespostaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> aprAssinaturaTableRefs(
+      Expression<bool> Function($$AprAssinaturaTableTableFilterComposer f) f) {
+    final $$AprAssinaturaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprAssinaturaTable,
+        getReferencedColumn: (t) => t.aprPreenchidaId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprAssinaturaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprAssinaturaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$AprPreenchidaTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprPreenchidaTableTable> {
+  $$AprPreenchidaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get dataPreenchimento => $composableBuilder(
+      column: $table.dataPreenchimento,
+      builder: (column) => ColumnOrderings(column));
+
+  $$AtividadeTableTableOrderingComposer get atividadeId {
+    final $$AtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprTableTableOrderingComposer get aprId {
+    final $$AprTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$UsuarioTableTableOrderingComposer get usuarioId {
+    final $$UsuarioTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprPreenchidaTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprPreenchidaTableTable> {
+  $$AprPreenchidaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dataPreenchimento => $composableBuilder(
+      column: $table.dataPreenchimento, builder: (column) => column);
+
+  $$AtividadeTableTableAnnotationComposer get atividadeId {
+    final $$AtividadeTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprTableTableAnnotationComposer get aprId {
+    final $$AprTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$UsuarioTableTableAnnotationComposer get usuarioId {
+    final $$UsuarioTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> aprRespostaTableRefs<T extends Object>(
+      Expression<T> Function($$AprRespostaTableTableAnnotationComposer a) f) {
+    final $$AprRespostaTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprRespostaTable,
+        getReferencedColumn: (t) => t.aprPreenchidaId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprRespostaTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprRespostaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> aprAssinaturaTableRefs<T extends Object>(
+      Expression<T> Function($$AprAssinaturaTableTableAnnotationComposer a) f) {
+    final $$AprAssinaturaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprAssinaturaTable,
+            getReferencedColumn: (t) => t.aprPreenchidaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprAssinaturaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprAssinaturaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$AprPreenchidaTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprPreenchidaTableTable,
+    AprPreenchidaTableData,
+    $$AprPreenchidaTableTableFilterComposer,
+    $$AprPreenchidaTableTableOrderingComposer,
+    $$AprPreenchidaTableTableAnnotationComposer,
+    $$AprPreenchidaTableTableCreateCompanionBuilder,
+    $$AprPreenchidaTableTableUpdateCompanionBuilder,
+    (AprPreenchidaTableData, $$AprPreenchidaTableTableReferences),
+    AprPreenchidaTableData,
+    PrefetchHooks Function(
+        {bool atividadeId,
+        bool aprId,
+        bool usuarioId,
+        bool aprRespostaTableRefs,
+        bool aprAssinaturaTableRefs})> {
+  $$AprPreenchidaTableTableTableManager(
+      _$AppDatabase db, $AprPreenchidaTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprPreenchidaTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprPreenchidaTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> atividadeId = const Value.absent(),
+            Value<int> aprId = const Value.absent(),
+            Value<int> usuarioId = const Value.absent(),
+            Value<DateTime> dataPreenchimento = const Value.absent(),
+          }) =>
+              AprPreenchidaTableCompanion(
+            id: id,
+            atividadeId: atividadeId,
+            aprId: aprId,
+            usuarioId: usuarioId,
+            dataPreenchimento: dataPreenchimento,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int atividadeId,
+            required int aprId,
+            required int usuarioId,
+            required DateTime dataPreenchimento,
+          }) =>
+              AprPreenchidaTableCompanion.insert(
+            id: id,
+            atividadeId: atividadeId,
+            aprId: aprId,
+            usuarioId: usuarioId,
+            dataPreenchimento: dataPreenchimento,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprPreenchidaTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {atividadeId = false,
+              aprId = false,
+              usuarioId = false,
+              aprRespostaTableRefs = false,
+              aprAssinaturaTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (aprRespostaTableRefs) db.aprRespostaTable,
+                if (aprAssinaturaTableRefs) db.aprAssinaturaTable
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (atividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.atividadeId,
+                    referencedTable: $$AprPreenchidaTableTableReferences
+                        ._atividadeIdTable(db),
+                    referencedColumn: $$AprPreenchidaTableTableReferences
+                        ._atividadeIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (aprId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.aprId,
+                    referencedTable:
+                        $$AprPreenchidaTableTableReferences._aprIdTable(db),
+                    referencedColumn:
+                        $$AprPreenchidaTableTableReferences._aprIdTable(db).id,
+                  ) as T;
+                }
+                if (usuarioId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.usuarioId,
+                    referencedTable:
+                        $$AprPreenchidaTableTableReferences._usuarioIdTable(db),
+                    referencedColumn: $$AprPreenchidaTableTableReferences
+                        ._usuarioIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (aprRespostaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprPreenchidaTableTableReferences
+                            ._aprRespostaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprPreenchidaTableTableReferences(db, table, p0)
+                                .aprRespostaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.aprPreenchidaId == item.id),
+                        typedResults: items),
+                  if (aprAssinaturaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprPreenchidaTableTableReferences
+                            ._aprAssinaturaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprPreenchidaTableTableReferences(db, table, p0)
+                                .aprAssinaturaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.aprPreenchidaId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprPreenchidaTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $AprPreenchidaTableTable,
+    AprPreenchidaTableData,
+    $$AprPreenchidaTableTableFilterComposer,
+    $$AprPreenchidaTableTableOrderingComposer,
+    $$AprPreenchidaTableTableAnnotationComposer,
+    $$AprPreenchidaTableTableCreateCompanionBuilder,
+    $$AprPreenchidaTableTableUpdateCompanionBuilder,
+    (AprPreenchidaTableData, $$AprPreenchidaTableTableReferences),
+    AprPreenchidaTableData,
+    PrefetchHooks Function(
+        {bool atividadeId,
+        bool aprId,
+        bool usuarioId,
+        bool aprRespostaTableRefs,
+        bool aprAssinaturaTableRefs})>;
+typedef $$AprRespostaTableTableCreateCompanionBuilder
+    = AprRespostaTableCompanion Function({
+  Value<int> id,
+  required int aprPreenchidaId,
+  required int perguntaId,
+  required RespostaApr resposta,
+  Value<String?> observacao,
+});
+typedef $$AprRespostaTableTableUpdateCompanionBuilder
+    = AprRespostaTableCompanion Function({
+  Value<int> id,
+  Value<int> aprPreenchidaId,
+  Value<int> perguntaId,
+  Value<RespostaApr> resposta,
+  Value<String?> observacao,
+});
+
+final class $$AprRespostaTableTableReferences extends BaseReferences<
+    _$AppDatabase, $AprRespostaTableTable, AprRespostaTableData> {
+  $$AprRespostaTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $AprPreenchidaTableTable _aprPreenchidaIdTable(_$AppDatabase db) =>
+      db.aprPreenchidaTable.createAlias($_aliasNameGenerator(
+          db.aprRespostaTable.aprPreenchidaId, db.aprPreenchidaTable.id));
+
+  $$AprPreenchidaTableTableProcessedTableManager get aprPreenchidaId {
+    final manager =
+        $$AprPreenchidaTableTableTableManager($_db, $_db.aprPreenchidaTable)
+            .filter((f) => f.id($_item.aprPreenchidaId));
+    final item = $_typedResult.readTableOrNull(_aprPreenchidaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $AprQuestionTableTable _perguntaIdTable(_$AppDatabase db) =>
+      db.aprQuestionTable.createAlias($_aliasNameGenerator(
+          db.aprRespostaTable.perguntaId, db.aprQuestionTable.id));
+
+  $$AprQuestionTableTableProcessedTableManager get perguntaId {
+    final manager =
+        $$AprQuestionTableTableTableManager($_db, $_db.aprQuestionTable)
+            .filter((f) => f.id($_item.perguntaId));
+    final item = $_typedResult.readTableOrNull(_perguntaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$AprRespostaTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprRespostaTableTable> {
+  $$AprRespostaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<RespostaApr, RespostaApr, String>
+      get resposta => $composableBuilder(
+          column: $table.resposta,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get observacao => $composableBuilder(
+      column: $table.observacao, builder: (column) => ColumnFilters(column));
+
+  $$AprPreenchidaTableTableFilterComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprPreenchidaId,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableFilterComposer get perguntaId {
+    final $$AprQuestionTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprRespostaTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprRespostaTableTable> {
+  $$AprRespostaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get resposta => $composableBuilder(
+      column: $table.resposta, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get observacao => $composableBuilder(
+      column: $table.observacao, builder: (column) => ColumnOrderings(column));
+
+  $$AprPreenchidaTableTableOrderingComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprPreenchidaId,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableOrderingComposer get perguntaId {
+    final $$AprQuestionTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprRespostaTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprRespostaTableTable> {
+  $$AprRespostaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<RespostaApr, String> get resposta =>
+      $composableBuilder(column: $table.resposta, builder: (column) => column);
+
+  GeneratedColumn<String> get observacao => $composableBuilder(
+      column: $table.observacao, builder: (column) => column);
+
+  $$AprPreenchidaTableTableAnnotationComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.aprPreenchidaId,
+            referencedTable: $db.aprPreenchidaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPreenchidaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableAnnotationComposer get perguntaId {
+    final $$AprQuestionTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprRespostaTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprRespostaTableTable,
+    AprRespostaTableData,
+    $$AprRespostaTableTableFilterComposer,
+    $$AprRespostaTableTableOrderingComposer,
+    $$AprRespostaTableTableAnnotationComposer,
+    $$AprRespostaTableTableCreateCompanionBuilder,
+    $$AprRespostaTableTableUpdateCompanionBuilder,
+    (AprRespostaTableData, $$AprRespostaTableTableReferences),
+    AprRespostaTableData,
+    PrefetchHooks Function({bool aprPreenchidaId, bool perguntaId})> {
+  $$AprRespostaTableTableTableManager(
+      _$AppDatabase db, $AprRespostaTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprRespostaTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprRespostaTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprRespostaTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> aprPreenchidaId = const Value.absent(),
+            Value<int> perguntaId = const Value.absent(),
+            Value<RespostaApr> resposta = const Value.absent(),
+            Value<String?> observacao = const Value.absent(),
+          }) =>
+              AprRespostaTableCompanion(
+            id: id,
+            aprPreenchidaId: aprPreenchidaId,
+            perguntaId: perguntaId,
+            resposta: resposta,
+            observacao: observacao,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int aprPreenchidaId,
+            required int perguntaId,
+            required RespostaApr resposta,
+            Value<String?> observacao = const Value.absent(),
+          }) =>
+              AprRespostaTableCompanion.insert(
+            id: id,
+            aprPreenchidaId: aprPreenchidaId,
+            perguntaId: perguntaId,
+            resposta: resposta,
+            observacao: observacao,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprRespostaTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {aprPreenchidaId = false, perguntaId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (aprPreenchidaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.aprPreenchidaId,
+                    referencedTable: $$AprRespostaTableTableReferences
+                        ._aprPreenchidaIdTable(db),
+                    referencedColumn: $$AprRespostaTableTableReferences
+                        ._aprPreenchidaIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (perguntaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.perguntaId,
+                    referencedTable:
+                        $$AprRespostaTableTableReferences._perguntaIdTable(db),
+                    referencedColumn: $$AprRespostaTableTableReferences
+                        ._perguntaIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprRespostaTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $AprRespostaTableTable,
+    AprRespostaTableData,
+    $$AprRespostaTableTableFilterComposer,
+    $$AprRespostaTableTableOrderingComposer,
+    $$AprRespostaTableTableAnnotationComposer,
+    $$AprRespostaTableTableCreateCompanionBuilder,
+    $$AprRespostaTableTableUpdateCompanionBuilder,
+    (AprRespostaTableData, $$AprRespostaTableTableReferences),
+    AprRespostaTableData,
+    PrefetchHooks Function({bool aprPreenchidaId, bool perguntaId})>;
+typedef $$AprPerguntaRelacionamentoTableTableCreateCompanionBuilder
+    = AprPerguntaRelacionamentoTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required int aprId,
+  required int perguntaId,
+  required int ordem,
+});
+typedef $$AprPerguntaRelacionamentoTableTableUpdateCompanionBuilder
+    = AprPerguntaRelacionamentoTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<int> aprId,
+  Value<int> perguntaId,
+  Value<int> ordem,
+});
+
+final class $$AprPerguntaRelacionamentoTableTableReferences
+    extends BaseReferences<_$AppDatabase, $AprPerguntaRelacionamentoTableTable,
+        AprPerguntaRelacionamentoTableData> {
+  $$AprPerguntaRelacionamentoTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $AprTableTable _aprIdTable(_$AppDatabase db) =>
+      db.aprTable.createAlias($_aliasNameGenerator(
+          db.aprPerguntaRelacionamentoTable.aprId, db.aprTable.id));
+
+  $$AprTableTableProcessedTableManager get aprId {
+    final manager = $$AprTableTableTableManager($_db, $_db.aprTable)
+        .filter((f) => f.id($_item.aprId));
+    final item = $_typedResult.readTableOrNull(_aprIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $AprQuestionTableTable _perguntaIdTable(_$AppDatabase db) =>
+      db.aprQuestionTable.createAlias($_aliasNameGenerator(
+          db.aprPerguntaRelacionamentoTable.perguntaId,
+          db.aprQuestionTable.id));
+
+  $$AprQuestionTableTableProcessedTableManager get perguntaId {
+    final manager =
+        $$AprQuestionTableTableTableManager($_db, $_db.aprQuestionTable)
+            .filter((f) => f.id($_item.perguntaId));
+    final item = $_typedResult.readTableOrNull(_perguntaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$AprPerguntaRelacionamentoTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprPerguntaRelacionamentoTableTable> {
+  $$AprPerguntaRelacionamentoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get ordem => $composableBuilder(
+      column: $table.ordem, builder: (column) => ColumnFilters(column));
+
+  $$AprTableTableFilterComposer get aprId {
+    final $$AprTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableFilterComposer get perguntaId {
+    final $$AprQuestionTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprPerguntaRelacionamentoTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprPerguntaRelacionamentoTableTable> {
+  $$AprPerguntaRelacionamentoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get ordem => $composableBuilder(
+      column: $table.ordem, builder: (column) => ColumnOrderings(column));
+
+  $$AprTableTableOrderingComposer get aprId {
+    final $$AprTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableOrderingComposer get perguntaId {
+    final $$AprQuestionTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprPerguntaRelacionamentoTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprPerguntaRelacionamentoTableTable> {
+  $$AprPerguntaRelacionamentoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  GeneratedColumn<int> get ordem =>
+      $composableBuilder(column: $table.ordem, builder: (column) => column);
+
+  $$AprTableTableAnnotationComposer get aprId {
+    final $$AprTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprQuestionTableTableAnnotationComposer get perguntaId {
+    final $$AprQuestionTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.perguntaId,
+        referencedTable: $db.aprQuestionTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprQuestionTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprQuestionTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprPerguntaRelacionamentoTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $AprPerguntaRelacionamentoTableTable,
+        AprPerguntaRelacionamentoTableData,
+        $$AprPerguntaRelacionamentoTableTableFilterComposer,
+        $$AprPerguntaRelacionamentoTableTableOrderingComposer,
+        $$AprPerguntaRelacionamentoTableTableAnnotationComposer,
+        $$AprPerguntaRelacionamentoTableTableCreateCompanionBuilder,
+        $$AprPerguntaRelacionamentoTableTableUpdateCompanionBuilder,
+        (
+          AprPerguntaRelacionamentoTableData,
+          $$AprPerguntaRelacionamentoTableTableReferences
+        ),
+        AprPerguntaRelacionamentoTableData,
+        PrefetchHooks Function({bool aprId, bool perguntaId})> {
+  $$AprPerguntaRelacionamentoTableTableTableManager(
+      _$AppDatabase db, $AprPerguntaRelacionamentoTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprPerguntaRelacionamentoTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<int> aprId = const Value.absent(),
+            Value<int> perguntaId = const Value.absent(),
+            Value<int> ordem = const Value.absent(),
+          }) =>
+              AprPerguntaRelacionamentoTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            aprId: aprId,
+            perguntaId: perguntaId,
+            ordem: ordem,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required int aprId,
+            required int perguntaId,
+            required int ordem,
+          }) =>
+              AprPerguntaRelacionamentoTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            aprId: aprId,
+            perguntaId: perguntaId,
+            ordem: ordem,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprPerguntaRelacionamentoTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({aprId = false, perguntaId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (aprId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.aprId,
+                    referencedTable:
+                        $$AprPerguntaRelacionamentoTableTableReferences
+                            ._aprIdTable(db),
+                    referencedColumn:
+                        $$AprPerguntaRelacionamentoTableTableReferences
+                            ._aprIdTable(db)
+                            .id,
+                  ) as T;
+                }
+                if (perguntaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.perguntaId,
+                    referencedTable:
+                        $$AprPerguntaRelacionamentoTableTableReferences
+                            ._perguntaIdTable(db),
+                    referencedColumn:
+                        $$AprPerguntaRelacionamentoTableTableReferences
+                            ._perguntaIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprPerguntaRelacionamentoTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $AprPerguntaRelacionamentoTableTable,
+        AprPerguntaRelacionamentoTableData,
+        $$AprPerguntaRelacionamentoTableTableFilterComposer,
+        $$AprPerguntaRelacionamentoTableTableOrderingComposer,
+        $$AprPerguntaRelacionamentoTableTableAnnotationComposer,
+        $$AprPerguntaRelacionamentoTableTableCreateCompanionBuilder,
+        $$AprPerguntaRelacionamentoTableTableUpdateCompanionBuilder,
+        (
+          AprPerguntaRelacionamentoTableData,
+          $$AprPerguntaRelacionamentoTableTableReferences
+        ),
+        AprPerguntaRelacionamentoTableData,
+        PrefetchHooks Function({bool aprId, bool perguntaId})>;
+typedef $$TecnicosTableTableCreateCompanionBuilder = TecnicosTableCompanion
+    Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String nome,
+  required String matricula,
+});
+typedef $$TecnicosTableTableUpdateCompanionBuilder = TecnicosTableCompanion
+    Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> nome,
+  Value<String> matricula,
+});
+
+final class $$TecnicosTableTableReferences extends BaseReferences<_$AppDatabase,
+    $TecnicosTableTable, TecnicosTableData> {
+  $$TecnicosTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$AprAssinaturaTableTable,
+      List<AprAssinaturaTableData>> _aprAssinaturaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprAssinaturaTable,
+          aliasName: $_aliasNameGenerator(
+              db.tecnicosTable.id, db.aprAssinaturaTable.tecnicoId));
+
+  $$AprAssinaturaTableTableProcessedTableManager get aprAssinaturaTableRefs {
+    final manager =
+        $$AprAssinaturaTableTableTableManager($_db, $_db.aprAssinaturaTable)
+            .filter((f) => f.tecnicoId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprAssinaturaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$TecnicosTableTableFilterComposer
+    extends Composer<_$AppDatabase, $TecnicosTableTable> {
+  $$TecnicosTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get matricula => $composableBuilder(
+      column: $table.matricula, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> aprAssinaturaTableRefs(
+      Expression<bool> Function($$AprAssinaturaTableTableFilterComposer f) f) {
+    final $$AprAssinaturaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.aprAssinaturaTable,
+        getReferencedColumn: (t) => t.tecnicoId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprAssinaturaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprAssinaturaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$TecnicosTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $TecnicosTableTable> {
+  $$TecnicosTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get matricula => $composableBuilder(
+      column: $table.matricula, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TecnicosTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TecnicosTableTable> {
+  $$TecnicosTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  GeneratedColumn<String> get nome =>
+      $composableBuilder(column: $table.nome, builder: (column) => column);
+
+  GeneratedColumn<String> get matricula =>
+      $composableBuilder(column: $table.matricula, builder: (column) => column);
+
+  Expression<T> aprAssinaturaTableRefs<T extends Object>(
+      Expression<T> Function($$AprAssinaturaTableTableAnnotationComposer a) f) {
+    final $$AprAssinaturaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.aprAssinaturaTable,
+            getReferencedColumn: (t) => t.tecnicoId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprAssinaturaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprAssinaturaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$TecnicosTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $TecnicosTableTable,
+    TecnicosTableData,
+    $$TecnicosTableTableFilterComposer,
+    $$TecnicosTableTableOrderingComposer,
+    $$TecnicosTableTableAnnotationComposer,
+    $$TecnicosTableTableCreateCompanionBuilder,
+    $$TecnicosTableTableUpdateCompanionBuilder,
+    (TecnicosTableData, $$TecnicosTableTableReferences),
+    TecnicosTableData,
+    PrefetchHooks Function({bool aprAssinaturaTableRefs})> {
+  $$TecnicosTableTableTableManager(_$AppDatabase db, $TecnicosTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TecnicosTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TecnicosTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TecnicosTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> nome = const Value.absent(),
+            Value<String> matricula = const Value.absent(),
+          }) =>
+              TecnicosTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            matricula: matricula,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String nome,
+            required String matricula,
+          }) =>
+              TecnicosTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            matricula: matricula,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$TecnicosTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({aprAssinaturaTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (aprAssinaturaTableRefs) db.aprAssinaturaTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (aprAssinaturaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$TecnicosTableTableReferences
+                            ._aprAssinaturaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$TecnicosTableTableReferences(db, table, p0)
+                                .aprAssinaturaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.tecnicoId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$TecnicosTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $TecnicosTableTable,
+    TecnicosTableData,
+    $$TecnicosTableTableFilterComposer,
+    $$TecnicosTableTableOrderingComposer,
+    $$TecnicosTableTableAnnotationComposer,
+    $$TecnicosTableTableCreateCompanionBuilder,
+    $$TecnicosTableTableUpdateCompanionBuilder,
+    (TecnicosTableData, $$TecnicosTableTableReferences),
+    TecnicosTableData,
+    PrefetchHooks Function({bool aprAssinaturaTableRefs})>;
+typedef $$AprAssinaturaTableTableCreateCompanionBuilder
+    = AprAssinaturaTableCompanion Function({
+  Value<int> id,
+  required int aprPreenchidaId,
+  required int usuarioId,
+  required DateTime dataAssinatura,
+  required int tecnicoId,
+  required String assinatura,
+  Value<String?> assinaturaPath,
+});
+typedef $$AprAssinaturaTableTableUpdateCompanionBuilder
+    = AprAssinaturaTableCompanion Function({
+  Value<int> id,
+  Value<int> aprPreenchidaId,
+  Value<int> usuarioId,
+  Value<DateTime> dataAssinatura,
+  Value<int> tecnicoId,
+  Value<String> assinatura,
+  Value<String?> assinaturaPath,
+});
+
+final class $$AprAssinaturaTableTableReferences extends BaseReferences<
+    _$AppDatabase, $AprAssinaturaTableTable, AprAssinaturaTableData> {
+  $$AprAssinaturaTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $AprPreenchidaTableTable _aprPreenchidaIdTable(_$AppDatabase db) =>
+      db.aprPreenchidaTable.createAlias($_aliasNameGenerator(
+          db.aprAssinaturaTable.aprPreenchidaId, db.aprPreenchidaTable.id));
+
+  $$AprPreenchidaTableTableProcessedTableManager get aprPreenchidaId {
+    final manager =
+        $$AprPreenchidaTableTableTableManager($_db, $_db.aprPreenchidaTable)
+            .filter((f) => f.id($_item.aprPreenchidaId));
+    final item = $_typedResult.readTableOrNull(_aprPreenchidaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $UsuarioTableTable _usuarioIdTable(_$AppDatabase db) =>
+      db.usuarioTable.createAlias($_aliasNameGenerator(
+          db.aprAssinaturaTable.usuarioId, db.usuarioTable.id));
+
+  $$UsuarioTableTableProcessedTableManager get usuarioId {
+    final manager = $$UsuarioTableTableTableManager($_db, $_db.usuarioTable)
+        .filter((f) => f.id($_item.usuarioId));
+    final item = $_typedResult.readTableOrNull(_usuarioIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $TecnicosTableTable _tecnicoIdTable(_$AppDatabase db) =>
+      db.tecnicosTable.createAlias($_aliasNameGenerator(
+          db.aprAssinaturaTable.tecnicoId, db.tecnicosTable.id));
+
+  $$TecnicosTableTableProcessedTableManager get tecnicoId {
+    final manager = $$TecnicosTableTableTableManager($_db, $_db.tecnicosTable)
+        .filter((f) => f.id($_item.tecnicoId));
+    final item = $_typedResult.readTableOrNull(_tecnicoIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$AprAssinaturaTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprAssinaturaTableTable> {
+  $$AprAssinaturaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get dataAssinatura => $composableBuilder(
+      column: $table.dataAssinatura,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get assinatura => $composableBuilder(
+      column: $table.assinatura, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get assinaturaPath => $composableBuilder(
+      column: $table.assinaturaPath,
+      builder: (column) => ColumnFilters(column));
+
+  $$AprPreenchidaTableTableFilterComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprPreenchidaId,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$UsuarioTableTableFilterComposer get usuarioId {
+    final $$UsuarioTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableFilterComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TecnicosTableTableFilterComposer get tecnicoId {
+    final $$TecnicosTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tecnicoId,
+        referencedTable: $db.tecnicosTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TecnicosTableTableFilterComposer(
+              $db: $db,
+              $table: $db.tecnicosTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprAssinaturaTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprAssinaturaTableTable> {
+  $$AprAssinaturaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get dataAssinatura => $composableBuilder(
+      column: $table.dataAssinatura,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get assinatura => $composableBuilder(
+      column: $table.assinatura, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get assinaturaPath => $composableBuilder(
+      column: $table.assinaturaPath,
+      builder: (column) => ColumnOrderings(column));
+
+  $$AprPreenchidaTableTableOrderingComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprPreenchidaId,
+        referencedTable: $db.aprPreenchidaTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprPreenchidaTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprPreenchidaTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$UsuarioTableTableOrderingComposer get usuarioId {
+    final $$UsuarioTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TecnicosTableTableOrderingComposer get tecnicoId {
+    final $$TecnicosTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tecnicoId,
+        referencedTable: $db.tecnicosTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TecnicosTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.tecnicosTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprAssinaturaTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprAssinaturaTableTable> {
+  $$AprAssinaturaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dataAssinatura => $composableBuilder(
+      column: $table.dataAssinatura, builder: (column) => column);
+
+  GeneratedColumn<String> get assinatura => $composableBuilder(
+      column: $table.assinatura, builder: (column) => column);
+
+  GeneratedColumn<String> get assinaturaPath => $composableBuilder(
+      column: $table.assinaturaPath, builder: (column) => column);
+
+  $$AprPreenchidaTableTableAnnotationComposer get aprPreenchidaId {
+    final $$AprPreenchidaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.aprPreenchidaId,
+            referencedTable: $db.aprPreenchidaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprPreenchidaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprPreenchidaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$UsuarioTableTableAnnotationComposer get usuarioId {
+    final $$UsuarioTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.usuarioId,
+        referencedTable: $db.usuarioTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$UsuarioTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.usuarioTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TecnicosTableTableAnnotationComposer get tecnicoId {
+    final $$TecnicosTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tecnicoId,
+        referencedTable: $db.tecnicosTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TecnicosTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.tecnicosTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprAssinaturaTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprAssinaturaTableTable,
+    AprAssinaturaTableData,
+    $$AprAssinaturaTableTableFilterComposer,
+    $$AprAssinaturaTableTableOrderingComposer,
+    $$AprAssinaturaTableTableAnnotationComposer,
+    $$AprAssinaturaTableTableCreateCompanionBuilder,
+    $$AprAssinaturaTableTableUpdateCompanionBuilder,
+    (AprAssinaturaTableData, $$AprAssinaturaTableTableReferences),
+    AprAssinaturaTableData,
+    PrefetchHooks Function(
+        {bool aprPreenchidaId, bool usuarioId, bool tecnicoId})> {
+  $$AprAssinaturaTableTableTableManager(
+      _$AppDatabase db, $AprAssinaturaTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprAssinaturaTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprAssinaturaTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprAssinaturaTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> aprPreenchidaId = const Value.absent(),
+            Value<int> usuarioId = const Value.absent(),
+            Value<DateTime> dataAssinatura = const Value.absent(),
+            Value<int> tecnicoId = const Value.absent(),
+            Value<String> assinatura = const Value.absent(),
+            Value<String?> assinaturaPath = const Value.absent(),
+          }) =>
+              AprAssinaturaTableCompanion(
+            id: id,
+            aprPreenchidaId: aprPreenchidaId,
+            usuarioId: usuarioId,
+            dataAssinatura: dataAssinatura,
+            tecnicoId: tecnicoId,
+            assinatura: assinatura,
+            assinaturaPath: assinaturaPath,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int aprPreenchidaId,
+            required int usuarioId,
+            required DateTime dataAssinatura,
+            required int tecnicoId,
+            required String assinatura,
+            Value<String?> assinaturaPath = const Value.absent(),
+          }) =>
+              AprAssinaturaTableCompanion.insert(
+            id: id,
+            aprPreenchidaId: aprPreenchidaId,
+            usuarioId: usuarioId,
+            dataAssinatura: dataAssinatura,
+            tecnicoId: tecnicoId,
+            assinatura: assinatura,
+            assinaturaPath: assinaturaPath,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprAssinaturaTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {aprPreenchidaId = false, usuarioId = false, tecnicoId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (aprPreenchidaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.aprPreenchidaId,
+                    referencedTable: $$AprAssinaturaTableTableReferences
+                        ._aprPreenchidaIdTable(db),
+                    referencedColumn: $$AprAssinaturaTableTableReferences
+                        ._aprPreenchidaIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (usuarioId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.usuarioId,
+                    referencedTable:
+                        $$AprAssinaturaTableTableReferences._usuarioIdTable(db),
+                    referencedColumn: $$AprAssinaturaTableTableReferences
+                        ._usuarioIdTable(db)
+                        .id,
+                  ) as T;
+                }
+                if (tecnicoId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.tecnicoId,
+                    referencedTable:
+                        $$AprAssinaturaTableTableReferences._tecnicoIdTable(db),
+                    referencedColumn: $$AprAssinaturaTableTableReferences
+                        ._tecnicoIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprAssinaturaTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $AprAssinaturaTableTable,
+    AprAssinaturaTableData,
+    $$AprAssinaturaTableTableFilterComposer,
+    $$AprAssinaturaTableTableOrderingComposer,
+    $$AprAssinaturaTableTableAnnotationComposer,
+    $$AprAssinaturaTableTableCreateCompanionBuilder,
+    $$AprAssinaturaTableTableUpdateCompanionBuilder,
+    (AprAssinaturaTableData, $$AprAssinaturaTableTableReferences),
+    AprAssinaturaTableData,
+    PrefetchHooks Function(
+        {bool aprPreenchidaId, bool usuarioId, bool tecnicoId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5088,4 +10781,20 @@ class $AppDatabaseManager {
       $$EquipamentoTableTableTableManager(_db, _db.equipamentoTable);
   $$AtividadeTableTableTableManager get atividadeTable =>
       $$AtividadeTableTableTableManager(_db, _db.atividadeTable);
+  $$AprTableTableTableManager get aprTable =>
+      $$AprTableTableTableManager(_db, _db.aprTable);
+  $$AprQuestionTableTableTableManager get aprQuestionTable =>
+      $$AprQuestionTableTableTableManager(_db, _db.aprQuestionTable);
+  $$AprPreenchidaTableTableTableManager get aprPreenchidaTable =>
+      $$AprPreenchidaTableTableTableManager(_db, _db.aprPreenchidaTable);
+  $$AprRespostaTableTableTableManager get aprRespostaTable =>
+      $$AprRespostaTableTableTableManager(_db, _db.aprRespostaTable);
+  $$AprPerguntaRelacionamentoTableTableTableManager
+      get aprPerguntaRelacionamentoTable =>
+          $$AprPerguntaRelacionamentoTableTableTableManager(
+              _db, _db.aprPerguntaRelacionamentoTable);
+  $$TecnicosTableTableTableManager get tecnicosTable =>
+      $$TecnicosTableTableTableManager(_db, _db.tecnicosTable);
+  $$AprAssinaturaTableTableTableManager get aprAssinaturaTable =>
+      $$AprAssinaturaTableTableTableManager(_db, _db.aprAssinaturaTable);
 }
