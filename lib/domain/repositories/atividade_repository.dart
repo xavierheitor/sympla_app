@@ -8,4 +8,6 @@ abstract class AtividadeRepository {
   Future<List<AtividadeTableData>> buscarTodas();
   Future<List<AtividadeModel>> buscarComEquipamento();
   Future<AtividadeModel?> buscarEmAndamento();
+
+  Future<void> iniciarAtividade(AtividadeModel atividade);
 }

@@ -96,4 +96,18 @@ class AtividadeController extends GetxController {
           stackTrace: s);
     }
   }
+
+  Future<void> iniciarAtividade(AtividadeModel atividade) async {
+    try {
+      atividadeEmAndamento.value = atividade;
+      await atividadeSyncService.iniciarAtividade(atividade);
+    } catch (e, s) {
+      atividadeEmAndamento.value = null;
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AtividadeController - iniciarAtividade] ${erro.mensagem}',
+          tag: 'AtividadeController', error: e, stackTrace: s);
+      Get.snackbar('Erro', 'Erro ao iniciar atividade',
+          backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
 }

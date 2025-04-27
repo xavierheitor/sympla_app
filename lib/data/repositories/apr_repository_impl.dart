@@ -10,8 +10,9 @@ import 'package:sympla_app/domain/repositories/apr_repository.dart';
 class AprRepositoryImpl implements AprRepository {
   final AprDao dao;
   final DioClient dio;
+  final AppDatabase db;
 
-  AprRepositoryImpl({required this.dao, required this.dio});
+  AprRepositoryImpl({required this.dio, required this.db}) : dao = db.aprDao;
 
   @override
   Future<List<AprTableCompanion>> buscarDaApi() async {

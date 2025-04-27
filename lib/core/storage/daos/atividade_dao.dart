@@ -110,4 +110,14 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       equipamento: equipamento,
     );
   }
+
+  Future<void> iniciarAtividade(AtividadeModel atividade) async {
+    await (update(atividadeTable)..where((tbl) => tbl.id.equals(atividade.id)))
+        .write(
+      AtividadeTableCompanion(
+        status: const Value(StatusAtividade.emAndamento),
+        dataInicio: Value(DateTime.now()),
+      ),
+    );
+  }
 }

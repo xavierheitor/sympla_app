@@ -10,7 +10,10 @@ import 'package:sympla_app/domain/repositories/apr_perguntas_repository.dart';
 class AprPerguntasRepositoryImpl implements AprPerguntasRepository {
   final AprPerguntaDao dao;
   final DioClient dio;
-  AprPerguntasRepositoryImpl({required this.dao, required this.dio});
+  final AppDatabase db;
+
+  AprPerguntasRepositoryImpl({required this.dio, required this.db})
+      : dao = db.aprPerguntaDao;
 
   @override
   Future<List<AprQuestionTableCompanion>> buscarDaApi() async {

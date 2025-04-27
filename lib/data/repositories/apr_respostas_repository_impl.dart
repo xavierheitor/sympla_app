@@ -5,8 +5,9 @@ import 'package:sympla_app/domain/repositories/apr_respostas_repository.dart';
 
 class AprRespostasRepositoryImpl implements AprRespostasRepository {
   final AprRespostaDao dao;
+  final AppDatabase db;
 
-  AprRespostasRepositoryImpl({required this.dao});
+  AprRespostasRepositoryImpl({required this.db}) : dao = db.aprRespostaDao;
 
   @override
   Future<bool> salvarRespostas(

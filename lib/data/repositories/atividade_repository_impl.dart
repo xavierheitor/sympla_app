@@ -125,4 +125,22 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> iniciarAtividade(AtividadeModel atividade) async {
+    try {
+      await dao.iniciarAtividade(atividade);
+      AppLogger.d(
+          '🔄 Atividade iniciada: ${atividade.titulo} (ID: ${atividade.id})',
+          tag: 'AtividadeRepositoryImpl');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeRepositoryImpl - iniciarAtividade] ${erro.mensagem}',
+          tag: 'AtividadeRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

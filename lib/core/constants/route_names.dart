@@ -3,5 +3,6 @@ abstract class Routes {
   static const splash = '/splash';
   static const erroSplash = '/erro-splash';
   static const home = '/home';
+  static const apr = '/apr';
   // ... futuras rotas
 }

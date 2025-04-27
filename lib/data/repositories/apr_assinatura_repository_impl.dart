@@ -4,14 +4,14 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/domain/repositories/apr_assinatura_repository.dart';
 
 class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
-  final AppDatabase _db;
+  final AppDatabase db;
 
-  AprAssinaturaRepositoryImpl(this._db);
+  AprAssinaturaRepositoryImpl(this.db);
 
   @override
   Future<void> salvarAssinatura(AprAssinaturaTableCompanion assinatura) async {
     try {
-      await _db.aprAssinaturaDao.inserir(assinatura);
+      await db.aprAssinaturaDao.inserir(assinatura);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -26,7 +26,7 @@ class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
   Future<List<AprAssinaturaTableData>> buscarAssinaturasPorAprPreenchida(
       int aprPreenchidaId) async {
     try {
-      return await _db.aprAssinaturaDao.buscarPorAprPreenchida(aprPreenchidaId);
+      return await db.aprAssinaturaDao.buscarPorAprPreenchida(aprPreenchidaId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -41,7 +41,7 @@ class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
   @override
   Future<int> contarAssinaturasPorAprPreenchida(int aprPreenchidaId) async {
     try {
-      return await _db.aprAssinaturaDao.contarPorAprPreenchida(aprPreenchidaId);
+      return await db.aprAssinaturaDao.contarPorAprPreenchida(aprPreenchidaId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

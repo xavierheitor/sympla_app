@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
+import 'package:sympla_app/modules/apr/apr_binging.dart';
+import 'package:sympla_app/modules/apr/apr_page.dart';
 import 'package:sympla_app/modules/home/home_binding.dart';
 import 'package:sympla_app/modules/home/home_page.dart';
 import 'package:sympla_app/modules/login/login_binding.dart';
@@ -32,6 +34,11 @@ class AppPages {
     GetPage(
       name: Routes.erroSplash,
       page: () => const ErroSplashPage(),
+    ),
+    GetPage(
+      name: Routes.apr,
+      page: () => AprPage(),
+      binding: AprBinding(),
     ),
     // Adicione outras rotas aqui
   ];

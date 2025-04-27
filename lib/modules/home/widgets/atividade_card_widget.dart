@@ -47,7 +47,7 @@ class AtividadeCard extends StatelessWidget {
               ? null
               : () async {
                   if (isEmExecucao) {
-                    Get.toNamed('/apr', arguments: atividade);
+                    Get.toNamed('/apr');
                   } else {
                     if (controller.atividadeEmAndamento.value != null) {
                       Get.snackbar(
@@ -185,7 +185,7 @@ class AtividadeCard extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               Navigator.pop(context);
-              // await controller.iniciarAtividade(atividade);
+              await controller.iniciarAtividade(atividade);
               Get.toNamed('/apr', arguments: atividade);
             },
             child: const Text('Confirmar'),
