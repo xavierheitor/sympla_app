@@ -34,7 +34,7 @@ class AprPerguntaDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<void> sincronizarComApi(
-      List<AprPerguntaRelacionamentoTableCompanion> entradas) async {
+      List<AprQuestionTableCompanion> entradas) async {
     AppLogger.d('🔄 Sincronizando ${entradas.length} perguntas APR',
         tag: 'AprPerguntaDao');
     await batch((batch) {

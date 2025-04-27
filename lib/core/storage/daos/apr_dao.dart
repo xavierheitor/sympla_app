@@ -2,10 +2,11 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/apr_table.dart';
+import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart'; // <- IMPORTANTE!!
 
 part 'generated/apr_dao.g.dart';
 
-@DriftAccessor(tables: [AprTable])
+@DriftAccessor(tables: [AprTable, TipoAtividadeTable]) // <- Aqui também!!
 class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   AprDao(super.db);
 
@@ -48,5 +49,24 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   Future<bool> estaVazio() async {
     final result = await select(aprTable).get();
     return result.isEmpty;
+  }
+
+  Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) async {
+    final query = select(db.tipoAtividadeTable).join([
+      innerJoin(
+        aprTable,
+        aprTable.id.equalsExp(db.tipoAtividadeTable.aprId),
+      ),
+    ])
+      ..where(db.tipoAtividadeTable.id.equals(idTipoAtividade));
+
+    final row = await query.getSingleOrNull();
+
+    if (row == null) {
+      throw Exception('Não encontrado APR para TipoAtividade $idTipoAtividade');
+    }
+
+    final apr = row.readTable(aprTable);
+    return apr;
   }
 }

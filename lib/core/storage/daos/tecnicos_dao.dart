@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/tecnicos_table.dart';
 
-part 'tecnicos_dao.g.dart';
+part 'generated/tecnicos_dao.g.dart';
 
 @DriftAccessor(tables: [TecnicosTable])
 class TecnicosDao extends DatabaseAccessor<AppDatabase>
