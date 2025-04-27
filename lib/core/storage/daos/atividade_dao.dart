@@ -31,13 +31,14 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         tag: 'AtividadeDAO');
 
     await batch((batch) {
-      // Marcar todas como não sincronizadas
+      // 1. Marcar como NÃO sincronizadas apenas as atividades PENDENTES
       batch.update(
         atividadeTable,
         const AtividadeTableCompanion(sincronizado: Value(false)),
+        where: (tbl) => tbl.status.equals('pendente'),
       );
 
-      // Inserir ou atualizar todas as que vieram da API com sincronizado = true
+      // 2. Inserir/Atualizar todas as atividades vindas da API
       batch.insertAllOnConflictUpdate(
         atividadeTable,
         atividadesApi
@@ -46,11 +47,13 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       );
     });
 
-    // Deletar as que não foram sincronizadas
+    // 3. Deletar apenas atividades PENDENTES que continuam não sincronizadas
     final apagadas = await (delete(atividadeTable)
-          ..where((tbl) => tbl.sincronizado.equals(false)))
+          ..where((tbl) =>
+              tbl.sincronizado.equals(false) & tbl.status.equals('pendente')))
         .go();
-    AppLogger.d('🧹 Removidas $apagadas atividades obsoletas',
+
+    AppLogger.d('🧹 Removidas $apagadas atividades pendentes obsoletas',
         tag: 'AtividadeDAO');
   }
 

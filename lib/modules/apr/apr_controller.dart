@@ -8,6 +8,7 @@ import 'package:sympla_app/core/services/apr_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:drift/drift.dart' as d;
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
+import 'package:sympla_app/data/models/assinatura_model.dart';
 
 class AprController extends GetxController {
   final AprService aprService;
@@ -22,8 +23,7 @@ class AprController extends GetxController {
   final RxList<AprQuestionTableData> perguntas = <AprQuestionTableData>[].obs;
   final RxList<AprRespostaTableCompanion> respostas =
       <AprRespostaTableCompanion>[].obs;
-  final RxList<AprAssinaturaTableData> assinaturas =
-      <AprAssinaturaTableData>[].obs;
+  final RxList<AssinaturaModel> assinaturas = <AssinaturaModel>[].obs;
   final RxInt quantidadeAssinaturas = 0.obs;
 
   AprTableData? aprSelecionada;
@@ -112,8 +112,12 @@ class AprController extends GetxController {
     if (aprPreenchidaId == null) return;
 
     try {
+      final assinaturasData =
+          await aprAssinaturaService.buscarAssinaturas(aprPreenchidaId!);
       assinaturas.assignAll(
-        await aprAssinaturaService.buscarAssinaturas(aprPreenchidaId!),
+        assinaturasData.map((a) => AssinaturaModel(
+              assinatura: Uint8List.fromList(a.assinatura.codeUnits),
+            )),
       );
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);

@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:signature/signature.dart';
@@ -29,7 +28,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
     super.dispose();
   }
 
-  void _salvarAssinatura() async {
+  Future<void> _salvarAssinatura() async {
     if (_controller.isNotEmpty) {
       final bytes = await _controller.toPngBytes();
       if (bytes != null) {
@@ -37,9 +36,12 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
         Get.back();
       }
     } else {
-      Get.snackbar('Erro', 'Por favor, assine antes de salvar',
-          backgroundColor: Get.theme.colorScheme.error,
-          colorText: Get.theme.colorScheme.onError);
+      Get.snackbar(
+        'Erro',
+        'Por favor, assine antes de salvar',
+        backgroundColor: Get.theme.colorScheme.error,
+        colorText: Get.theme.colorScheme.onError,
+      );
     }
   }
 
@@ -62,7 +64,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
               children: [
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () => _controller.clear(),
+                    onPressed: _controller.clear,
                     child: const Text('Limpar'),
                   ),
                 ),

@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/modules/apr/apr_controller.dart';
@@ -58,10 +56,19 @@ class AprPage extends StatelessWidget {
 
             const SizedBox(height: 12),
 
+            if (controller.assinaturas.isEmpty)
+              const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  'Nenhuma assinatura adicionada ainda',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                ),
+              ),
+
             ...controller.assinaturas.map(
               (assinatura) => AprAssinaturaCard(
-                assinaturaBytes:
-                    Uint8List.fromList(assinatura.assinatura.codeUnits),
+                assinaturaBytes: assinatura.assinatura,
               ),
             ),
 
