@@ -47,12 +47,19 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Assinatura'),
-      content: SizedBox(
-        height: 300,
+    return Dialog(
+      // << CORRIGIMOS AQUI: usar Dialog normal, não AlertDialog
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        width: MediaQuery.of(context).size.width * 0.9, // 90% da tela
+        height: 400,
         child: Column(
           children: [
+            const Text(
+              'Assinatura',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 16),
             Expanded(
               child: Signature(
                 controller: _controller,
@@ -76,7 +83,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
