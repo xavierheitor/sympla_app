@@ -23,6 +23,8 @@ class AprRepositoryImpl implements AprRepository {
           .map((json) => AprTableCompanion(
                 id: Value(json['id']),
                 uuid: Value(json['uuid']),
+                nome: Value(json['nome']),
+                descricao: Value(json['descricao']),
                 createdAt: Value(DateTime.now()),
                 updatedAt: Value(DateTime.now()),
                 sincronizado: const Value(true),

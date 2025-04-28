@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/data/repositories/apr_perguntas_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/tecnicos_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/apr_perguntas_repository.dart';

@@ -21,7 +21,7 @@ class AprPerguntasRepositoryImpl implements AprPerguntasRepository {
   @override
   Future<List<AprQuestionTableCompanion>> buscarDaApi() async {
     try {
-      final response = await dio.get(ApiConstants.aprs);
+      final response = await dio.get(ApiConstants.perguntas);
       final dados = response.data as List;
       return dados
           .map((json) => AprQuestionTableCompanion(
