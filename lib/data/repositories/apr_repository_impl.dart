@@ -80,7 +80,8 @@ class AprRepositoryImpl implements AprRepository {
   @override
   Future<void> sincronizar(List<AprTableCompanion> lista) async {
     try {
-      await dao.sincronizarComApi(lista);
+      final aprs = await buscarDaApi();
+      await dao.sincronizarComApi(aprs);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[apr_repository_impl - sincronizar] ${erro.mensagem}',

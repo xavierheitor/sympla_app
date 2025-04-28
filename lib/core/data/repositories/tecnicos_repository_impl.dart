@@ -9,8 +9,10 @@ import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 class TecnicosRepositoryImpl implements TecnicosRepository {
   final TecnicosDao dao;
   final DioClient dio;
+  final AppDatabase db;
 
-  TecnicosRepositoryImpl({required this.dao, required this.dio});
+  TecnicosRepositoryImpl({required this.dio, required this.db})
+      : dao = db.tecnicosDao;
 
   @override
   Future<List<TecnicosTableData>> buscarTodos() async {

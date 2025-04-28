@@ -1,8 +1,10 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/services/sync/apr_sync_service.dart';
 import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
 import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
+import 'package:sympla_app/core/services/sync/tecnicos_sync_service.dart';
 import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
 
 class SyncOrchestratorService {
@@ -10,12 +12,16 @@ class SyncOrchestratorService {
   final EquipamentoSyncService equipamentoSyncService;
   final GrupoDefeitoSyncService grupoDefeitoSyncService;
   final SubgrupoDefeitoSyncService subgrupoDefeitoSyncService;
+  final AprSyncService aprSyncService;
+  final TecnicosSyncService tecnicosSyncService;
 
   SyncOrchestratorService({
     required this.tipoAtividadeSyncService,
     required this.equipamentoSyncService,
     required this.grupoDefeitoSyncService,
     required this.subgrupoDefeitoSyncService,
+    required this.aprSyncService,
+    required this.tecnicosSyncService,
   });
 
   Future<void> sincronizarTudo() async {
@@ -26,7 +32,10 @@ class SyncOrchestratorService {
       await subgrupoDefeitoSyncService.sincronizar();
       await tipoAtividadeSyncService.sincronizar();
       await equipamentoSyncService.sincronizar();
-
+      await aprSyncService.sincronizarAprs();
+      await aprSyncService.sincronizarPerguntas();
+      await aprSyncService.sincronizarPerguntaRelacionamentos();
+      await tecnicosSyncService.sincronizar();
       AppLogger.i('✅ Sincronização geral concluída com sucesso',
           tag: 'SyncOrchestrator');
     } catch (e, s) {
