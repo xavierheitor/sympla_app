@@ -30,9 +30,7 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
       );
       batch.insertAllOnConflictUpdate(
         aprTable,
-        entradas
-            .map((e) => e.copyWith(sincronizado: const Value(true)))
-            .toList(),
+        entradas, // <-- Corrigido aqui!
       );
     });
     final apagados = await (delete(aprTable)

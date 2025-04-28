@@ -38,31 +38,25 @@ class AprPerguntaDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🔄 Sincronizando ${entradas.length} perguntas APR',
         tag: 'AprPerguntaDao');
     await batch((batch) {
-      batch.update(
-        aprPerguntaRelacionamentoTable,
-        const AprPerguntaRelacionamentoTableCompanion(
-            sincronizado: Value(false)),
-      );
+      // Aqui estamos atualizando a tabela correta: aprQuestionTable
+      batch.deleteWhere(
+          aprQuestionTable,
+          (tbl) =>
+              const Constant(true)); // Opcional: limpa tudo antes se quiser
       batch.insertAllOnConflictUpdate(
-        aprPerguntaRelacionamentoTable,
-        entradas
-            .map((e) => e.copyWith(sincronizado: const Value(true)))
-            .toList(),
+        aprQuestionTable,
+        entradas,
       );
     });
-    final apagados = await (delete(aprPerguntaRelacionamentoTable)
-          ..where((t) => t.sincronizado.equals(false)))
-        .go();
-    AppLogger.d('🧹 Removidos $apagados perguntas', tag: 'AprPerguntaDao');
   }
 
   Future<void> deletarTudo() async {
     AppLogger.w('🗑️ Deletando todas perguntas', tag: 'AprPerguntaDao');
-    await delete(aprPerguntaRelacionamentoTable).go();
+    await delete(aprQuestionTable).go();
   }
 
   Future<bool> estaVazio() async {
-    final result = await select(aprPerguntaRelacionamentoTable).get();
+    final result = await select(aprQuestionTable).get();
     return result.isEmpty;
   }
 }

@@ -15,11 +15,14 @@ class AprPerguntaRelacionamentoDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🔄 Sincronizando ${entradas.length} relações de perguntas',
         tag: 'AprPerguntaRelacionamentoDao');
     await batch((batch) {
+      // Atualiza corretamente na tabela relacionamento
+      batch.deleteWhere(
+          aprPerguntaRelacionamentoTable,
+          (tbl) =>
+              const Constant(true)); // Opcional: limpa tudo antes se quiser
       batch.insertAllOnConflictUpdate(
         aprPerguntaRelacionamentoTable,
-        entradas
-            .map((e) => e.copyWith(sincronizado: const Value(true)))
-            .toList(),
+        entradas,
       );
     });
   }
