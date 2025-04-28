@@ -73,11 +73,16 @@ class SplashController extends GetxController {
 
   Future<bool> _verificarConexao() async {
     try {
-      final result = await InternetAddress.lookup('google.com');
+      final result = await InternetAddress.lookup('10.0.2.2');
       return result.isNotEmpty && result[0].rawAddress.isNotEmpty;
+    } on SocketException catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('Erro de conexão (SocketException)',
+          tag: 'Splash', error: erro.mensagem, stackTrace: erro.stack);
+      return false;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('Erro ao verificar conexão',
+      AppLogger.e('Erro inesperado ao verificar conexão',
           tag: 'Splash', error: erro.mensagem, stackTrace: erro.stack);
       return false;
     }
