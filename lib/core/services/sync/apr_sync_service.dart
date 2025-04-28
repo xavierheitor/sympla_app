@@ -43,13 +43,17 @@ class AprSyncService {
     try {
       AppLogger.d('🔄 Iniciando sincronização de Pergunta Relacionamentos',
           tag: 'AprSyncService');
+
+      final lista = await aprPerguntaRepository.buscarRelacionamentosDaApi();
+      await aprPerguntaRepository.sincronizarRelacionamentos(lista);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
-          '[AprSyncService - sincronizarPerguntaRelacionamentos] ${erro.mensagem}',
-          tag: 'AprSyncService',
-          error: e,
-          stackTrace: s);
+        '[AprSyncService - sincronizarPerguntaRelacionamentos] ${erro.mensagem}',
+        tag: 'AprSyncService',
+        error: e,
+        stackTrace: s,
+      );
       rethrow;
     }
   }

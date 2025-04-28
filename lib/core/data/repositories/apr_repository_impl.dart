@@ -19,17 +19,24 @@ class AprRepositoryImpl implements AprRepository {
     try {
       final response = await dio.get(ApiConstants.aprs);
       final dados = response.data as List;
-      return dados
+      final returnData = dados
           .map((json) => AprTableCompanion(
                 id: Value(json['id']),
                 uuid: Value(json['uuid']),
-                nome: Value(json['nome']),
-                descricao: Value(json['descricao']),
-                createdAt: Value(DateTime.now()),
-                updatedAt: Value(DateTime.now()),
+                nome: Value(json['nome'] ?? 'a'),
+                descricao: Value(json['descricao'] ?? 'a'),
+                createdAt:
+                    Value(DateTime.parse(json['createdAt'])), // <--- AQUI
+                updatedAt:
+                    Value(DateTime.parse(json['updatedAt'])), // <--- AQUI
                 sincronizado: const Value(true),
               ))
           .toList();
+
+      AppLogger.d('Dados companhia: ${returnData.toString()}',
+          tag: 'AprRepositoryImpl');
+
+      return returnData;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[apr_repository_impl - buscarDaApi] ${erro.mensagem}',
