@@ -23,37 +23,29 @@ class SplashController extends GetxController {
 
     AppLogger.d('🌀 Após init. Usuario: ${session.usuario}');
 
-    if (session.estaLogado) {
-      AppLogger.i('🔐 Sessão válida encontrada. Iniciando sincronização...');
-      final sincronizou = await _sincronizarDados();
-
-      if (!sincronizou) {
-        final primeiraExecucao = await _dadosLocaisEstaoVazios();
-        if (primeiraExecucao) {
-          Get.offAllNamed(Routes.erroSplash);
-          return;
-        } else {
-          AppLogger.w(
-              '⚠️ Sincronização falhou, mas há dados locais. Seguindo...');
-        }
-      }
-    } else {
-      AppLogger.w('🔐 Nenhum usuário logado. Pulando sincronização.');
-    }
-
-    AppLogger.d('🌀 Após sincronização. Verificando sessão...');
-    await _verificarSessao();
-  }
-
-  Future<void> _verificarSessao() async {
-    final session = Get.find<SessionManager>();
-    AppLogger.d('🔐 estaLogado = ${session.estaLogado}');
-
-    if (session.estaLogado) {
-      Get.offAllNamed(Routes.home);
-    } else {
+    if (!session.estaLogado) {
+      AppLogger.w('🔐 Nenhum usuário logado. Indo para login.');
       Get.offAllNamed(Routes.login);
+      return;
     }
+
+    AppLogger.i('🔐 Sessão válida encontrada. Iniciando sincronização...');
+
+    final sincronizou = await _sincronizarDados();
+
+    if (!sincronizou) {
+      final primeiraExecucao = await _dadosLocaisEstaoVazios();
+      if (primeiraExecucao) {
+        Get.offAllNamed(Routes.erroSplash);
+        return;
+      } else {
+        AppLogger.w(
+            '⚠️ Sincronização falhou, mas há dados locais. Seguindo...');
+      }
+    }
+
+    AppLogger.d('🌀 Após sincronização. Indo para Home...');
+    Get.offAllNamed(Routes.home);
   }
 
   Future<bool> _sincronizarDados() async {
@@ -94,7 +86,6 @@ class SplashController extends GetxController {
   Future<bool> _dadosLocaisEstaoVazios() async {
     final estaVazio = await syncService.estaVazio();
     AppLogger.d('📦 Banco local está vazio? $estaVazio');
-
     return estaVazio;
   }
 }
