@@ -6,16 +6,16 @@ import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/sync_orchestrator_service.dart';
 import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
-import 'package:sympla_app/data/repositories/atividade_repository_impl.dart';
-import 'package:sympla_app/data/repositories/equipamento_repository_impl.dart';
-import 'package:sympla_app/data/repositories/grupo_defeito_repository_impl.dart';
-import 'package:sympla_app/data/repositories/subgrupo_defeito_repository_impl.dart';
-import 'package:sympla_app/data/repositories/tipo_atividade_repository_impl.dart';
-import 'package:sympla_app/domain/repositories/atividade_repository.dart';
-import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
-import 'package:sympla_app/domain/repositories/grupo_defeito_repository.dart';
-import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart';
-import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
+import 'package:sympla_app/core/data/repositories/atividade_repository_impl.dart';
+import 'package:sympla_app/core/data/repositories/equipamento_repository_impl.dart';
+import 'package:sympla_app/core/data/repositories/grupo_defeito_repository_impl.dart';
+import 'package:sympla_app/core/data/repositories/subgrupo_defeito_repository_impl.dart';
+import 'package:sympla_app/core/data/repositories/tipo_atividade_repository_impl.dart';
+import 'package:sympla_app/core/domain/repositories/atividade_repository.dart';
+import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
+import 'package:sympla_app/core/domain/repositories/grupo_defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/subgrupo_defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/tipo_atividade_repository.dart';
 import 'splash_controller.dart';
 
 class SplashBinding extends Bindings {

@@ -4,7 +4,7 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
-import 'package:sympla_app/data/models/atividade_model.dart';
+import 'package:sympla_app/core/data/models/atividade_model.dart';
 
 class AtividadeController extends GetxController {
   final AtividadeSyncService atividadeSyncService;

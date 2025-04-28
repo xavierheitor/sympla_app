@@ -2,8 +2,8 @@ import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
-import 'package:sympla_app/data/models/login_response.dart';
-import 'package:sympla_app/domain/repositories/auth_repository.dart';
+import 'package:sympla_app/core/data/models/login_response.dart';
+import 'package:sympla_app/core/domain/repositories/auth_repository.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final DioClient dio;

@@ -1,7 +1,7 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/domain/repositories/usuario_repository.dart';
+import 'package:sympla_app/core/domain/repositories/usuario_repository.dart';
 
 class UsuarioService {
   final UsuarioRepository repository;

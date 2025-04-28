@@ -1,4 +1,4 @@
-import 'package:sympla_app/data/models/login_response.dart';
+import 'package:sympla_app/core/data/models/login_response.dart';
 
 abstract class AuthRepository {
   Future<LoginResponse> login(String matricula, String senha);

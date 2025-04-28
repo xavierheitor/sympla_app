@@ -1,7 +1,7 @@
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/apr_resposta_dao.dart';
-import 'package:sympla_app/domain/repositories/apr_respostas_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr_respostas_repository.dart';
 
 class AprRespostasRepositoryImpl implements AprRespostasRepository {
   final AprRespostaDao dao;

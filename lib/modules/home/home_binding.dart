@@ -1,8 +1,8 @@
 // HomeBinding
 import 'package:get/get.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
-import 'package:sympla_app/data/repositories/atividade_repository_impl.dart';
-import 'package:sympla_app/domain/repositories/atividade_repository.dart';
+import 'package:sympla_app/core/data/repositories/atividade_repository_impl.dart';
+import 'package:sympla_app/core/domain/repositories/atividade_repository.dart';
 import 'package:sympla_app/modules/home/home_controller.dart';
 
 class HomeBinding extends Bindings {

@@ -5,7 +5,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/equipamento_dao.dart';
-import 'package:sympla_app/domain/repositories/equipamento_repository.dart';
+import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
 
 class EquipamentoRepositoryImpl implements EquipamentoRepository {
   final DioClient dio;

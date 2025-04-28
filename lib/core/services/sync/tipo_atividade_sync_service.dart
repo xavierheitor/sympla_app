@@ -1,6 +1,6 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/domain/repositories/tipo_atividade_repository.dart';
+import 'package:sympla_app/core/domain/repositories/tipo_atividade_repository.dart';
 
 class TipoAtividadeSyncService {
   final TipoAtividadeRepository repository;

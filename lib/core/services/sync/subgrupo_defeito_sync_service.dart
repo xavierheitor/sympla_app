@@ -1,6 +1,6 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/subgrupo_defeito_repository.dart';
 
 class SubgrupoDefeitoSyncService {
   final SubgrupoDefeitoRepository repository;

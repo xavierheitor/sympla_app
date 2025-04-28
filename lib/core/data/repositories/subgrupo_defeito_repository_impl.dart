@@ -5,7 +5,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/subgrupo_defeito_equipamento_dao.dart';
-import 'package:sympla_app/domain/repositories/subgrupo_defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/subgrupo_defeito_repository.dart';
 
 class SubgrupoDefeitoRepositoryImpl implements SubgrupoDefeitoRepository {
   final DioClient dio;
