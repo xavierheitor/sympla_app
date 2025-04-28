@@ -89,7 +89,7 @@ class AprController extends GetxController {
 
       final assinatura = AprAssinaturaTableCompanion(
         aprPreenchidaId: d.Value(aprPreenchidaId!),
-        assinatura: d.Value(String.fromCharCodes(assinaturaBytes)),
+        assinatura: d.Value(assinaturaBytes),
         dataAssinatura: d.Value(DateTime.now()),
         usuarioId: const d.Value(1), // TODO: substituir para usuário logado
         tecnicoId:
@@ -116,7 +116,7 @@ class AprController extends GetxController {
           await aprAssinaturaService.buscarAssinaturas(aprPreenchidaId!);
       assinaturas.assignAll(
         assinaturasData.map((a) => AssinaturaModel(
-              assinatura: Uint8List.fromList(a.assinatura.codeUnits),
+              assinatura: a.assinatura,
             )),
       );
     } catch (e, s) {

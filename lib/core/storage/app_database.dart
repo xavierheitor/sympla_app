@@ -9,6 +9,7 @@ import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
 import 'package:sympla_app/core/storage/daos/apr_assinatura_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr_pergunta_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr_pergunta_relacionamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr_preenchida_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr_resposta_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
@@ -43,7 +44,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla4.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla5.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -82,6 +83,7 @@ LazyDatabase _openConnection() {
     AprPreenchidaDao,
     AprAssinaturaDao,
     TecnicosDao,
+    AprPerguntaRelacionamentoDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {

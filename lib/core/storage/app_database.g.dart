@@ -5151,9 +5151,9 @@ class $AprAssinaturaTableTable extends AprAssinaturaTable
   static const VerificationMeta _assinaturaMeta =
       const VerificationMeta('assinatura');
   @override
-  late final GeneratedColumn<String> assinatura = GeneratedColumn<String>(
+  late final GeneratedColumn<Uint8List> assinatura = GeneratedColumn<Uint8List>(
       'assinatura', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.blob, requiredDuringInsert: true);
   static const VerificationMeta _assinaturaPathMeta =
       const VerificationMeta('assinaturaPath');
   @override
@@ -5246,7 +5246,7 @@ class $AprAssinaturaTableTable extends AprAssinaturaTable
       tecnicoId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tecnico_id'])!,
       assinatura: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}assinatura'])!,
+          .read(DriftSqlType.blob, data['${effectivePrefix}assinatura'])!,
       assinaturaPath: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}assinatura_path']),
     );
@@ -5265,7 +5265,7 @@ class AprAssinaturaTableData extends DataClass
   final int usuarioId;
   final DateTime dataAssinatura;
   final int tecnicoId;
-  final String assinatura;
+  final Uint8List assinatura;
   final String? assinaturaPath;
   const AprAssinaturaTableData(
       {required this.id,
@@ -5283,7 +5283,7 @@ class AprAssinaturaTableData extends DataClass
     map['usuario_id'] = Variable<int>(usuarioId);
     map['data_assinatura'] = Variable<DateTime>(dataAssinatura);
     map['tecnico_id'] = Variable<int>(tecnicoId);
-    map['assinatura'] = Variable<String>(assinatura);
+    map['assinatura'] = Variable<Uint8List>(assinatura);
     if (!nullToAbsent || assinaturaPath != null) {
       map['assinatura_path'] = Variable<String>(assinaturaPath);
     }
@@ -5313,7 +5313,7 @@ class AprAssinaturaTableData extends DataClass
       usuarioId: serializer.fromJson<int>(json['usuarioId']),
       dataAssinatura: serializer.fromJson<DateTime>(json['dataAssinatura']),
       tecnicoId: serializer.fromJson<int>(json['tecnicoId']),
-      assinatura: serializer.fromJson<String>(json['assinatura']),
+      assinatura: serializer.fromJson<Uint8List>(json['assinatura']),
       assinaturaPath: serializer.fromJson<String?>(json['assinaturaPath']),
     );
   }
@@ -5326,7 +5326,7 @@ class AprAssinaturaTableData extends DataClass
       'usuarioId': serializer.toJson<int>(usuarioId),
       'dataAssinatura': serializer.toJson<DateTime>(dataAssinatura),
       'tecnicoId': serializer.toJson<int>(tecnicoId),
-      'assinatura': serializer.toJson<String>(assinatura),
+      'assinatura': serializer.toJson<Uint8List>(assinatura),
       'assinaturaPath': serializer.toJson<String?>(assinaturaPath),
     };
   }
@@ -5337,7 +5337,7 @@ class AprAssinaturaTableData extends DataClass
           int? usuarioId,
           DateTime? dataAssinatura,
           int? tecnicoId,
-          String? assinatura,
+          Uint8List? assinatura,
           Value<String?> assinaturaPath = const Value.absent()}) =>
       AprAssinaturaTableData(
         id: id ?? this.id,
@@ -5383,8 +5383,14 @@ class AprAssinaturaTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, aprPreenchidaId, usuarioId,
-      dataAssinatura, tecnicoId, assinatura, assinaturaPath);
+  int get hashCode => Object.hash(
+      id,
+      aprPreenchidaId,
+      usuarioId,
+      dataAssinatura,
+      tecnicoId,
+      $driftBlobEquality.hash(assinatura),
+      assinaturaPath);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5394,7 +5400,7 @@ class AprAssinaturaTableData extends DataClass
           other.usuarioId == this.usuarioId &&
           other.dataAssinatura == this.dataAssinatura &&
           other.tecnicoId == this.tecnicoId &&
-          other.assinatura == this.assinatura &&
+          $driftBlobEquality.equals(other.assinatura, this.assinatura) &&
           other.assinaturaPath == this.assinaturaPath);
 }
 
@@ -5405,7 +5411,7 @@ class AprAssinaturaTableCompanion
   final Value<int> usuarioId;
   final Value<DateTime> dataAssinatura;
   final Value<int> tecnicoId;
-  final Value<String> assinatura;
+  final Value<Uint8List> assinatura;
   final Value<String?> assinaturaPath;
   const AprAssinaturaTableCompanion({
     this.id = const Value.absent(),
@@ -5422,7 +5428,7 @@ class AprAssinaturaTableCompanion
     required int usuarioId,
     required DateTime dataAssinatura,
     required int tecnicoId,
-    required String assinatura,
+    required Uint8List assinatura,
     this.assinaturaPath = const Value.absent(),
   })  : aprPreenchidaId = Value(aprPreenchidaId),
         usuarioId = Value(usuarioId),
@@ -5435,7 +5441,7 @@ class AprAssinaturaTableCompanion
     Expression<int>? usuarioId,
     Expression<DateTime>? dataAssinatura,
     Expression<int>? tecnicoId,
-    Expression<String>? assinatura,
+    Expression<Uint8List>? assinatura,
     Expression<String>? assinaturaPath,
   }) {
     return RawValuesInsertable({
@@ -5455,7 +5461,7 @@ class AprAssinaturaTableCompanion
       Value<int>? usuarioId,
       Value<DateTime>? dataAssinatura,
       Value<int>? tecnicoId,
-      Value<String>? assinatura,
+      Value<Uint8List>? assinatura,
       Value<String?>? assinaturaPath}) {
     return AprAssinaturaTableCompanion(
       id: id ?? this.id,
@@ -5487,7 +5493,7 @@ class AprAssinaturaTableCompanion
       map['tecnico_id'] = Variable<int>(tecnicoId.value);
     }
     if (assinatura.present) {
-      map['assinatura'] = Variable<String>(assinatura.value);
+      map['assinatura'] = Variable<Uint8List>(assinatura.value);
     }
     if (assinaturaPath.present) {
       map['assinatura_path'] = Variable<String>(assinaturaPath.value);
@@ -5557,6 +5563,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final AprAssinaturaDao aprAssinaturaDao =
       AprAssinaturaDao(this as AppDatabase);
   late final TecnicosDao tecnicosDao = TecnicosDao(this as AppDatabase);
+  late final AprPerguntaRelacionamentoDao aprPerguntaRelacionamentoDao =
+      AprPerguntaRelacionamentoDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10308,7 +10316,7 @@ typedef $$AprAssinaturaTableTableCreateCompanionBuilder
   required int usuarioId,
   required DateTime dataAssinatura,
   required int tecnicoId,
-  required String assinatura,
+  required Uint8List assinatura,
   Value<String?> assinaturaPath,
 });
 typedef $$AprAssinaturaTableTableUpdateCompanionBuilder
@@ -10318,7 +10326,7 @@ typedef $$AprAssinaturaTableTableUpdateCompanionBuilder
   Value<int> usuarioId,
   Value<DateTime> dataAssinatura,
   Value<int> tecnicoId,
-  Value<String> assinatura,
+  Value<Uint8List> assinatura,
   Value<String?> assinaturaPath,
 });
 
@@ -10384,7 +10392,7 @@ class $$AprAssinaturaTableTableFilterComposer
       column: $table.dataAssinatura,
       builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get assinatura => $composableBuilder(
+  ColumnFilters<Uint8List> get assinatura => $composableBuilder(
       column: $table.assinatura, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get assinaturaPath => $composableBuilder(
@@ -10468,7 +10476,7 @@ class $$AprAssinaturaTableTableOrderingComposer
       column: $table.dataAssinatura,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get assinatura => $composableBuilder(
+  ColumnOrderings<Uint8List> get assinatura => $composableBuilder(
       column: $table.assinatura, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get assinaturaPath => $composableBuilder(
@@ -10551,7 +10559,7 @@ class $$AprAssinaturaTableTableAnnotationComposer
   GeneratedColumn<DateTime> get dataAssinatura => $composableBuilder(
       column: $table.dataAssinatura, builder: (column) => column);
 
-  GeneratedColumn<String> get assinatura => $composableBuilder(
+  GeneratedColumn<Uint8List> get assinatura => $composableBuilder(
       column: $table.assinatura, builder: (column) => column);
 
   GeneratedColumn<String> get assinaturaPath => $composableBuilder(
@@ -10650,7 +10658,7 @@ class $$AprAssinaturaTableTableTableManager extends RootTableManager<
             Value<int> usuarioId = const Value.absent(),
             Value<DateTime> dataAssinatura = const Value.absent(),
             Value<int> tecnicoId = const Value.absent(),
-            Value<String> assinatura = const Value.absent(),
+            Value<Uint8List> assinatura = const Value.absent(),
             Value<String?> assinaturaPath = const Value.absent(),
           }) =>
               AprAssinaturaTableCompanion(
@@ -10668,7 +10676,7 @@ class $$AprAssinaturaTableTableTableManager extends RootTableManager<
             required int usuarioId,
             required DateTime dataAssinatura,
             required int tecnicoId,
-            required String assinatura,
+            required Uint8List assinatura,
             Value<String?> assinaturaPath = const Value.absent(),
           }) =>
               AprAssinaturaTableCompanion.insert(
