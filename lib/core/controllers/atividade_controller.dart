@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
+import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/data/models/atividade_model.dart';
 
@@ -24,6 +25,13 @@ class AtividadeController extends GetxController {
   @override
   Future<void> onInit() async {
     super.onInit();
+    final session = Get.find<SessionManager>();
+
+    if (!session.estaLogado) {
+      AppLogger.w(
+          '🔐 Usuário não logado. Pulando carga inicial de atividades.');
+      return;
+    }
     await carregarAtividades();
   }
 

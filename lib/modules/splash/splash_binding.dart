@@ -93,7 +93,7 @@ class SplashBinding extends Bindings {
 
     Get.lazyPut(() => SplashController());
 
-    Get.put(AtividadeController(atividadeSyncService: Get.find()),
-        permanent: true);
+    // Get.put(AtividadeController(atividadeSyncService: Get.find()),
+    //     permanent: true);
   }
 }
