@@ -23,7 +23,8 @@ class AprController extends GetxController {
   AprController({
     required this.aprService,
     required this.aprAssinaturaService,
-  }) : atividadeController = Get.find<AtividadeController>();
+    required this.atividadeController,
+  });
 
   final RxBool isLoading = false.obs;
   final RxList<AprQuestionTableData> perguntas = <AprQuestionTableData>[].obs;
