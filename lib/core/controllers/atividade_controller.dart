@@ -30,6 +30,7 @@ class AtividadeController extends GetxController {
     if (!session.estaLogado) {
       AppLogger.w(
           '🔐 Usuário não logado. Pulando carga inicial de atividades.');
+      session.logout();
       return;
     }
     await carregarAtividades();
@@ -131,6 +132,24 @@ class AtividadeController extends GetxController {
           tag: 'AtividadeController', error: e, stackTrace: s);
       Get.snackbar('Erro', 'Erro ao iniciar atividade',
           backgroundColor: Colors.red, colorText: Colors.white);
+    }
+  }
+
+  Future<void> sincronizarAtividades() async {
+    try {
+      isLoading.value = true;
+      await atividadeSyncService.sincronizar();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeController - sincronizarAtividades] ${erro.mensagem}',
+          tag: 'AtividadeController',
+          error: e,
+          stackTrace: s);
+      Get.snackbar('Erro', 'Erro ao sincronizar atividades',
+          backgroundColor: Colors.red, colorText: Colors.white);
+    } finally {
+      isLoading.value = false;
     }
   }
 }

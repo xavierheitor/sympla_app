@@ -21,6 +21,7 @@ class AprPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Análise Preliminar de Risco'),
         actions: [
+          //obs pra monitorar se pode salvar a apr
           Obx(() {
             final podeSalvar = controller.podeSalvar();
 
@@ -47,6 +48,7 @@ class AprPage extends StatelessWidget {
                   : 'Preencha todas as perguntas e colete 2 assinaturas',
             );
           }),
+          //obs pra redirecionar para o checklist caso a apr ja esteja preenchida
           Obx(() {
             if (controller.redirecionarParaChecklist.value) {
               WidgetsBinding.instance.addPostFrameCallback((_) {

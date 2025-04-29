@@ -14,6 +14,7 @@ class SessionManager extends GetxService {
   UsuarioTableData? _usuario;
   UsuarioTableData? get usuario => _usuario;
   bool _inicializado = false;
+  bool _refreshing = false;
 
   Future<void> init() async {
     AppLogger.d('[session_manager - init] Buscando usuários locais...');
@@ -34,10 +35,7 @@ class SessionManager extends GetxService {
 
         if (local.refreshToken != null && diff < 24) {
           try {
-            await authService.refresh(local.refreshToken!);
-            final atualizado = await db.usuarioDao.getAllUsuarios();
-            _usuario = atualizado.first;
-            AppLogger.i('Token renovado com sucesso', tag: 'Sessão');
+            await renovarToken();
           } catch (e) {
             AppLogger.w('Falha ao renovar token, mantendo login offline',
                 tag: 'Sessão');
@@ -96,8 +94,35 @@ class SessionManager extends GetxService {
     }
   }
 
+  Future<void> renovarToken() async {
+    if (_refreshing) {
+      AppLogger.d('🔄 Renovação de token já em andamento');
+      return;
+    }
+
+    _refreshing = true;
+    try {
+      final refreshToken = _usuario?.refreshToken;
+      if (refreshToken == null || refreshToken.isEmpty) {
+        throw Exception('Refresh token ausente');
+      }
+
+      await authService.refresh(refreshToken);
+      final atualizado = await db.usuarioDao.getAllUsuarios();
+      _usuario = atualizado.first;
+      AppLogger.i('🔐 Token renovado com sucesso', tag: 'Sessão');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[session_manager - renovarToken] ${erro.mensagem}',
+          tag: 'SessionManager', error: e, stackTrace: s);
+      rethrow;
+    } finally {
+      _refreshing = false;
+    }
+  }
+
   Future<String?> get token async {
-    return usuario?.token ?? '';
+    return _usuario?.token ?? '';
   }
 
   String? get tokenSync => _usuario?.token;

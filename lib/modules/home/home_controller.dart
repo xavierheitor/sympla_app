@@ -23,4 +23,8 @@ class HomeController extends GetxController {
           backgroundColor: Colors.red, colorText: Colors.white);
     }
   }
+
+  void sincronizarAtividades() {
+    atividadeController.sincronizarAtividades();
+  }
 }

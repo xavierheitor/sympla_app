@@ -18,11 +18,12 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: controller.sair,
+            onPressed: controller.sincronizarAtividades,
           )
         ],
       ),
-      drawer: AppDrawer(session: controller.session),
+      drawer: const AppDrawer(),
+      // corpo do app
       body: Obx(() {
         final atividadeCtrl = controller.atividadeController;
 
