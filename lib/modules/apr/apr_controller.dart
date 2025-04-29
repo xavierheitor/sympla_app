@@ -1,3 +1,5 @@
+// === apr_controller.dart ===
+
 import 'dart:typed_data';
 
 import 'package:get/get.dart';
@@ -35,12 +37,21 @@ class AprController extends GetxController {
   int? atividadeId;
   int? aprPreenchidaId;
 
+  bool salvouFormulario = false;
+
   @override
   Future<void> onInit() async {
     super.onInit();
     AppLogger.d('🎯 AprController iniciado', tag: 'AprController');
     await carregarApr();
+    await criarAprPreenchida();
     await carregarTecnicos();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    apagarAprPreenchidaSeNaoSalvou();
   }
 
   Future<void> carregarApr() async {
@@ -56,29 +67,22 @@ class AprController extends GetxController {
 
     try {
       AppLogger.d(
-          '🔄 Iniciando carregamento da APR para atividade $atividadeId',
+          '🔄 Iniciando carregamento da APR para atividade \$atividadeId',
           tag: 'AprController');
       isLoading.value = true;
 
-      aprSelecionada = await aprService.buscarAprPorTipoAtividade(
-        atividade.tipoAtividadeId,
-      );
-
+      aprSelecionada =
+          await aprService.buscarAprPorTipoAtividade(atividade.tipoAtividadeId);
       final perguntasCarregadas =
           await aprService.buscarPerguntas(aprSelecionada!.id);
-
       perguntas.assignAll(perguntasCarregadas);
 
-      final respostasIniciais = perguntas
-          .map((p) => RespostaFormulario(
-                perguntaId: p.id,
-              ))
-          .toList();
-
+      final respostasIniciais =
+          perguntas.map((p) => RespostaFormulario(perguntaId: p.id)).toList();
       respostasFormulario.assignAll(respostasIniciais);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - carregarApr] ${erro.mensagem}',
+      AppLogger.e('[AprController - carregarApr] \${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
       Get.snackbar('Erro', erro.mensagem,
           backgroundColor: Get.theme.colorScheme.error,
@@ -121,12 +125,17 @@ class AprController extends GetxController {
 
       final sucesso = await aprService.salvarRespostas(respostasParaSalvar);
 
-      if (sucesso) {
+      if (sucesso && aprPreenchidaId != null) {
+        await aprService.atualizarDataPreenchimentoAprPreenchida(
+          aprPreenchidaId!,
+          DateTime.now(),
+        );
+        salvouFormulario = true;
         Get.back();
       }
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - salvarRespostas] ${erro.mensagem}',
+      AppLogger.e('[AprController - salvarRespostas] \${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
       Get.snackbar('Erro', erro.mensagem,
           backgroundColor: Get.theme.colorScheme.error,
@@ -155,7 +164,7 @@ class AprController extends GetxController {
       await carregarAssinaturas();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - adicionarAssinatura] ${erro.mensagem}',
+      AppLogger.e('[AprController - adicionarAssinatura] \${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
       Get.snackbar('Erro', erro.mensagem,
           backgroundColor: Get.theme.colorScheme.error,
@@ -176,8 +185,8 @@ class AprController extends GetxController {
       );
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - carregarAssinaturas] ${erro.mensagem}',
-          tag: 'AprController', error: e, stackTrace: s);
+      AppLogger.e('[AprController - carregarAssinaturas] \${erro.mensagem}',
+          tag: 'AprController', error: erro.mensagem, stackTrace: erro.stack);
     }
   }
 
@@ -187,8 +196,40 @@ class AprController extends GetxController {
       tecnicos.assignAll(tecnicosData);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - carregarTecnicos] ${erro.mensagem}',
+      AppLogger.e('[AprController - carregarTecnicos] \${erro.mensagem}',
+          tag: 'AprController', error: erro.mensagem, stackTrace: erro.stack);
+    }
+  }
+
+  Future<void> criarAprPreenchida() async {
+    if (atividadeId == null) return;
+
+    try {
+      aprPreenchidaId = await aprService.criarAprPreenchida(atividadeId!);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprController - criarAprPreenchida] \${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
+      Get.snackbar('Erro ao preparar APR', erro.mensagem,
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError);
+    }
+  }
+
+  Future<void> apagarAprPreenchidaSeNaoSalvou() async {
+    try {
+      if (aprPreenchidaId != null && !salvouFormulario) {
+        await aprService.deletarAprPreenchida(aprPreenchidaId!);
+        AppLogger.d('🗑️ APR Preenchida apagada por abandono',
+            tag: 'AprController');
+      }
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprController - apagarAprPreenchidaSeNaoSalvou] \${erro.mensagem}',
+          tag: 'AprController',
+          error: erro.mensagem,
+          stackTrace: erro.stack);
     }
   }
 }

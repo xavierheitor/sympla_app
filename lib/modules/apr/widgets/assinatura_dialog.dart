@@ -61,12 +61,15 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
       child: Container(
         padding: const EdgeInsets.all(16),
         width: MediaQuery.of(context).size.width * 0.9,
-        height: 500,
+        height: 550, // aumentei um pouquinho a altura para acomodar o nome
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Assinatura',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            const Center(
+              child: Text(
+                'Assinatura',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
             ),
             const SizedBox(height: 12),
             TypeAheadField<TecnicosTableData>(
@@ -84,8 +87,10 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
                 );
               },
               onSelected: (tecnico) {
-                _tecnicoSelecionado = tecnico;
-                _tecnicoController.text = tecnico.nome;
+                setState(() {
+                  _tecnicoSelecionado = tecnico;
+                  _tecnicoController.text = tecnico.nome;
+                });
               },
               builder: (context, controller, focusNode) {
                 _tecnicoController.value = controller.value;
@@ -101,7 +106,26 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
               hideOnEmpty: true,
               hideOnError: true,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
+            if (_tecnicoSelecionado != null) ...[
+              Row(
+                children: [
+                  const Icon(Icons.person, size: 20),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Técnico selecionado: ${_tecnicoSelecionado!.nome}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 14,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+            ],
             Expanded(
               child: Signature(
                 controller: _controller,

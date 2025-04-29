@@ -11,7 +11,7 @@ class AprPreenchidaDao extends DatabaseAccessor<AppDatabase>
   AprPreenchidaDao(super.db);
 
   Future<int> inserir(AprPreenchidaTableCompanion entry) async {
-    AppLogger.d('💾 Salvando AprPreenchida: ${entry.toString()}',
+    AppLogger.d('💾 Salvando AprPreenchida: \${entry.toString()}',
         tag: 'AprPreenchidaDao');
     return into(aprPreenchidaTable).insert(entry);
   }
@@ -22,7 +22,7 @@ class AprPreenchidaDao extends DatabaseAccessor<AppDatabase>
           ..where((t) => t.atividadeId.equals(atividadeId)))
         .get();
     AppLogger.d(
-        '📄 Listou ${result.length} APR Preenchidas da atividade $atividadeId',
+        '📄 Listou \${result.length} APR Preenchidas da atividade \$atividadeId',
         tag: 'AprPreenchidaDao');
     return result;
   }
@@ -33,6 +33,18 @@ class AprPreenchidaDao extends DatabaseAccessor<AppDatabase>
       ..where(aprPreenchidaTable.atividadeId.equals(atividadeId));
     final result = await query.get();
     return result.isNotEmpty;
+  }
+
+  Future<void> atualizarDataPreenchimento(
+      int id, DateTime dataPreenchimento) async {
+    await (update(aprPreenchidaTable)..where((t) => t.id.equals(id)))
+        .write(AprPreenchidaTableCompanion(
+      dataPreenchimento: Value(dataPreenchimento),
+    ));
+  }
+
+  Future<void> deletarPorId(int id) async {
+    await (delete(aprPreenchidaTable)..where((t) => t.id.equals(id))).go();
   }
 
   Future<void> deletarTudo() async {
