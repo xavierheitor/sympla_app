@@ -21,13 +21,32 @@ class AprPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Análise Preliminar de Risco'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () {
-              AppLogger.d('💾 Botão salvar pressionado', tag: 'AprPage');
-              controller.salvarRespostas();
-            },
-          ),
+          Obx(() {
+            final podeSalvar = controller.podeSalvar();
+
+            return IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: podeSalvar
+                  ? () {
+                      AppLogger.d('💾 Botão salvar pressionado',
+                          tag: 'AprPage');
+                      controller.salvarRespostas();
+                    }
+                  : () {
+                      AppLogger.d('❌ Tentativa de salvar APR incompleta',
+                          tag: 'AprPage');
+                      Get.snackbar(
+                        'Formulário Incompleto',
+                        'Responda todas as perguntas e colete pelo menos 2 assinaturas para salvar.',
+                        backgroundColor: Get.theme.colorScheme.error,
+                        colorText: Get.theme.colorScheme.onError,
+                      );
+                    },
+              tooltip: podeSalvar
+                  ? 'Salvar'
+                  : 'Preencha todas as perguntas e colete 2 assinaturas',
+            );
+          }),
         ],
       ),
       body: Obx(() {

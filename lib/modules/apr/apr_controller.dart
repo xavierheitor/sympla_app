@@ -29,7 +29,7 @@ class AprController extends GetxController {
   final RxList<RespostaFormulario> respostasFormulario =
       <RespostaFormulario>[].obs;
   final RxList<AssinaturaModel> assinaturas = <AssinaturaModel>[].obs;
-  final RxInt quantidadeAssinaturas = 0.obs;
+  // final RxInt quantidadeAssinaturas = 0.obs;
 
   final RxList<TecnicosTableData> tecnicos = <TecnicosTableData>[].obs;
 
@@ -273,5 +273,14 @@ class AprController extends GetxController {
           error: erro.mensagem,
           stackTrace: erro.stack);
     }
+  }
+
+  bool podeSalvar() {
+    final respostasPreenchidas =
+        respostasFormulario.where((r) => r.resposta != null).length;
+    final quantidadeAssinatura = assinaturas.length;
+
+    return respostasPreenchidas == perguntas.length &&
+        quantidadeAssinatura >= 2;
   }
 }
