@@ -12,7 +12,8 @@ abstract class ApiConstants {
   static const tecnicos = '/v2/tecnicos';
   static const aprs = '/v2/aprs';
   static const perguntas = '/v2/apr-perguntas';
-  static const aprPerguntasRelacionamentos = 'v2/apr-perguntas-relacionamentos';
+  static const aprPerguntasRelacionamentos =
+      '/v2/apr-perguntas-relacionamentos';
 
   // ... adicione mais endpoints conforme necessário
 }

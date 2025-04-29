@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/subgrupo_defeito_equipamento.dart';
 
-part 'generated/subgrupo_defeito_equipamento_dao.g.dart';
+part 'subgrupo_defeito_equipamento_dao.g.dart';
 
 @DriftAccessor(tables: [SubgrupoDefeitoEquipamentoTable])
 class SubgrupoDefeitoEquipamentoDao extends DatabaseAccessor<AppDatabase>

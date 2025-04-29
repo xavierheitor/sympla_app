@@ -4,7 +4,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/apr_table.dart';
 import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart'; // <- IMPORTANTE!!
 
-part 'generated/apr_dao.g.dart';
+part 'apr_dao.g.dart';
 
 @DriftAccessor(tables: [AprTable, TipoAtividadeTable]) // <- Aqui também!!
 class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
@@ -30,11 +30,13 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
       );
       batch.insertAllOnConflictUpdate(
         aprTable,
-        entradas, // <-- Corrigido aqui!
+        entradas
+            .map((e) => e.copyWith(sincronizado: const Value(true)))
+            .toList(),
       );
     });
     final apagados = await (delete(aprTable)
-          ..where((t) => t.sincronizado.equals(false)))
+          ..where((tbl) => tbl.sincronizado.equals(false)))
         .go();
     AppLogger.d('🧹 Removidos $apagados APRs obsoletos', tag: 'AprDao');
   }

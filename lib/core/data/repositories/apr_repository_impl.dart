@@ -1,3 +1,5 @@
+// === AprRepositoryImpl (corrigido) ===
+
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
@@ -8,9 +10,9 @@ import 'package:sympla_app/core/storage/daos/apr_dao.dart';
 import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
 
 class AprRepositoryImpl implements AprRepository {
-  final AprDao dao;
   final DioClient dio;
   final AppDatabase db;
+  final AprDao dao;
 
   AprRepositoryImpl({required this.dio, required this.db}) : dao = db.aprDao;
 
@@ -19,81 +21,39 @@ class AprRepositoryImpl implements AprRepository {
     try {
       final response = await dio.get(ApiConstants.aprs);
       final dados = response.data as List;
-      final returnData = dados
-          .map((json) => AprTableCompanion(
-                id: Value(json['id']),
-                uuid: Value(json['uuid']),
-                nome: Value(json['nome'] ?? 'a'),
-                descricao: Value(json['descricao'] ?? 'a'),
-                createdAt:
-                    Value(DateTime.parse(json['createdAt'])), // <--- AQUI
-                updatedAt:
-                    Value(DateTime.parse(json['updatedAt'])), // <--- AQUI
-                sincronizado: const Value(true),
-              ))
-          .toList();
 
-      AppLogger.d('Dados companhia: ${returnData.toString()}',
-          tag: 'AprRepositoryImpl');
-
-      return returnData;
+      return dados.map<AprTableCompanion>((json) {
+        return AprTableCompanion(
+          id: Value(json['id']),
+          uuid: Value(json['uuid']),
+          nome: Value(json['nome']),
+          descricao: Value(json['descricao']),
+          createdAt: Value(DateTime.parse(json['createdAt'])),
+          updatedAt: Value(DateTime.parse(json['updatedAt'])),
+          sincronizado: const Value(true),
+        );
+      }).toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[apr_repository_impl - buscarDaApi] ${erro.mensagem}',
+      AppLogger.e('[AprRepositoryImpl - buscarDaApi] ${erro.mensagem}',
           tag: 'AprRepositoryImpl', error: e, stackTrace: s);
       return [];
     }
   }
 
   @override
-  Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) async {
-    try {
-      final result = await dao.buscarPorTipoAtividade(idTipoAtividade);
-      return result;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[apr_repository_impl - buscarPorTipoAtividade] ${erro.mensagem}',
-          tag: 'AprRepositoryImpl',
-          error: e,
-          stackTrace: s);
-      throw Exception(
-          'Não foi possível encontrar a APR para o tipo de atividade $idTipoAtividade');
-    }
+  Future<void> sincronizar(List<AprTableCompanion> entradas) async {
+    await dao.sincronizarComApi(entradas);
   }
 
   @override
-  Future<bool> estaVazio() async {
-    try {
-      final result = await dao.estaVazio();
-      return result;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[apr_repository_impl - estaVazio] ${erro.mensagem}',
-          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
-      return false;
-    }
-  }
+  Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) =>
+      dao.buscarPorTipoAtividade(idTipoAtividade);
 
   @override
-  Future<void> salvarNoBanco(AprTableCompanion apr) async {
-    try {
-      await dao.inserirOuAtualizar(apr);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[apr_repository_impl - salvarNoBanco] ${erro.mensagem}',
-          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
-    }
-  }
+  Future<void> salvarNoBanco(AprTableCompanion apr) =>
+      dao.inserirOuAtualizar(apr);
 
   @override
-  Future<void> sincronizar(List<AprTableCompanion> lista) async {
-    try {
-      await dao.sincronizarComApi(lista);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[apr_repository_impl - sincronizar] ${erro.mensagem}',
-          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
-    }
-  }
+  Future<bool> estaVazio() => dao.estaVazio();
 }

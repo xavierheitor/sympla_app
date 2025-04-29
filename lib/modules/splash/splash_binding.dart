@@ -16,13 +16,14 @@ import 'package:sympla_app/core/data/repositories/atividade_repository_impl.dart
 import 'package:sympla_app/core/data/repositories/equipamento_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/grupo_defeito_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/subgrupo_defeito_repository_impl.dart';
+import 'package:sympla_app/core/data/repositories/apr_repository_impl.dart';
+
 import 'package:sympla_app/core/data/repositories/tipo_atividade_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/atividade_repository.dart';
 import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
 import 'package:sympla_app/core/domain/repositories/grupo_defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/subgrupo_defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tipo_atividade_repository.dart';
-import 'package:sympla_app/data/repositories/apr_repository_impl.dart';
 import 'splash_controller.dart';
 
 class SplashBinding extends Bindings {

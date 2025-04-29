@@ -4,7 +4,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/apr_pergunta_relacionamento_table.dart';
 import 'package:sympla_app/core/storage/tables/apr_question_table.dart';
 
-part 'generated/apr_pergunta_dao.g.dart';
+part 'apr_pergunta_dao.g.dart';
 
 @DriftAccessor(tables: [AprPerguntaRelacionamentoTable, AprQuestionTable])
 class AprPerguntaDao extends DatabaseAccessor<AppDatabase>
@@ -38,16 +38,21 @@ class AprPerguntaDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🔄 Sincronizando ${entradas.length} perguntas APR',
         tag: 'AprPerguntaDao');
     await batch((batch) {
-      // Aqui estamos atualizando a tabela correta: aprQuestionTable
-      batch.deleteWhere(
-          aprQuestionTable,
-          (tbl) =>
-              const Constant(true)); // Opcional: limpa tudo antes se quiser
+      batch.update(
+        aprQuestionTable,
+        const AprQuestionTableCompanion(sincronizado: Value(false)),
+      );
       batch.insertAllOnConflictUpdate(
         aprQuestionTable,
-        entradas,
+        entradas
+            .map((e) => e.copyWith(sincronizado: const Value(true)))
+            .toList(),
       );
     });
+    final apagados = await (delete(aprQuestionTable)
+          ..where((tbl) => tbl.sincronizado.equals(false)))
+        .go();
+    AppLogger.d('🧹 Removidos $apagados perguntas', tag: 'AprPerguntaDao');
   }
 
   Future<void> deletarTudo() async {

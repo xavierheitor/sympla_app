@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/apr_preenchida_table.dart';
 
-part 'generated/apr_preenchida_dao.g.dart';
+part 'apr_preenchida_dao.g.dart';
 
 @DriftAccessor(tables: [AprPreenchidaTable])
 class AprPreenchidaDao extends DatabaseAccessor<AppDatabase>

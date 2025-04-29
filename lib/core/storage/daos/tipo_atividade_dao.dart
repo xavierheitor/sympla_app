@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart';
 
-part 'generated/tipo_atividade_dao.g.dart';
+part 'tipo_atividade_dao.g.dart';
 
 @DriftAccessor(tables: [TipoAtividadeTable])
 class TipoAtividadeDao extends DatabaseAccessor<AppDatabase>

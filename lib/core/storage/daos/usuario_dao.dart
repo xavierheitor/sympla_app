@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
-part 'generated/usuario_dao.g.dart';
+part 'usuario_dao.g.dart';
 
 @DriftAccessor(tables: [UsuarioTable])
 class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {

@@ -1,9 +1,9 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../apr_assinatura_dao.dart';
+part of 'apr_preenchida_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$AprAssinaturaDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$AprPreenchidaDaoMixin on DatabaseAccessor<AppDatabase> {
   $GrupoDefeitoEquipamentoTableTable get grupoDefeitoEquipamentoTable =>
       attachedDatabase.grupoDefeitoEquipamentoTable;
   $SubgrupoDefeitoEquipamentoTableTable get subgrupoDefeitoEquipamentoTable =>
@@ -17,7 +17,4 @@ mixin _$AprAssinaturaDaoMixin on DatabaseAccessor<AppDatabase> {
   $UsuarioTableTable get usuarioTable => attachedDatabase.usuarioTable;
   $AprPreenchidaTableTable get aprPreenchidaTable =>
       attachedDatabase.aprPreenchidaTable;
-  $TecnicosTableTable get tecnicosTable => attachedDatabase.tecnicosTable;
-  $AprAssinaturaTableTable get aprAssinaturaTable =>
-      attachedDatabase.aprAssinaturaTable;
 }

@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/apr_resposta_table.dart';
 
-part 'generated/apr_resposta_dao.g.dart';
+part 'apr_resposta_dao.g.dart';
 
 @DriftAccessor(tables: [AprRespostaTable])
 class AprRespostaDao extends DatabaseAccessor<AppDatabase>

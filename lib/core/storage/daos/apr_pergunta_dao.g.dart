@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../apr_pergunta_dao.dart';
+part of 'apr_pergunta_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$AprPerguntaDaoMixin on DatabaseAccessor<AppDatabase> {
