@@ -40,5 +40,11 @@ class AprRespostaDao extends DatabaseAccessor<AppDatabase>
     return result.isEmpty;
   }
 
-  deletarRespostasDaApr(int aprPreenchidaId) {}
+  Future<void> deletarRespostasDaApr(int aprPreenchidaId) async {
+    AppLogger.w('🗑️ Deletando respostas da aprPreenchidaId=$aprPreenchidaId',
+        tag: 'AprRespostaDao');
+    await (delete(aprRespostaTable)
+          ..where((r) => r.aprPreenchidaId.equals(aprPreenchidaId)))
+        .go();
+  }
 }

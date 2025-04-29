@@ -1,6 +1,7 @@
 // === apr_service.dart ===
 
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/domain/repositories/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -14,6 +15,7 @@ class AprService {
   final AprRepository aprRepository;
   final AprPerguntasRepository aprPerguntasRepository;
   final AprRespostasRepository aprRespostasRepository;
+  final AprPreenchidaRepository aprPreenchidaRepository;
   final TecnicosRepository tecnicosRepository;
   final AprAssinaturaService aprAssinaturaService;
   AprService({
@@ -22,6 +24,7 @@ class AprService {
     required this.aprRespostasRepository,
     required this.tecnicosRepository,
     required this.aprAssinaturaService,
+    required this.aprPreenchidaRepository,
   });
 
   Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
@@ -86,16 +89,31 @@ class AprService {
   Future<bool> aprJaPreenchida(int atividadeId) async {
     try {
       AppLogger.d(
-          '🔍 [AprService] Verificando se atividade \$atividadeId já tem APR preenchida',
+          '🔍 [AprService] Verificando se atividade $atividadeId já tem APR preenchida',
           tag: 'AprService');
-      final existe = await aprRespostasRepository.existeRespostas(atividadeId);
+
+      final aprPreenchida =
+          await aprPreenchidaRepository.buscarAprPreenchida(atividadeId);
+
+      if (aprPreenchida == null) {
+        AppLogger.d(
+            '❌ Nenhuma APR preenchida encontrada para atividade $atividadeId',
+            tag: 'AprService');
+        return false;
+      }
+
+      final respostas =
+          await aprRespostasRepository.buscarRespostas(aprPreenchida.id);
+
+      final preenchida = respostas.isNotEmpty;
       AppLogger.d(
-          '📊 [AprService] APR \${existe ? "já preenchida" : "não preenchida"} para atividade \$atividadeId',
+          '📊 [AprService] APR ${preenchida ? "já preenchida" : "não preenchida"} para atividade $atividadeId',
           tag: 'AprService');
-      return existe;
+
+      return preenchida;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - aprJaPreenchida] \${erro.mensagem}',
+      AppLogger.e('[AprService - aprJaPreenchida] ${erro.mensagem}',
           tag: 'AprService', error: erro.mensagem, stackTrace: erro.stack);
       rethrow;
     }

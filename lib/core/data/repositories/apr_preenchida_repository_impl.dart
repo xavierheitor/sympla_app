@@ -7,8 +7,9 @@ import 'package:sympla_app/core/domain/repositories/apr_preenchida_repository.da
 
 class AprPreenchidaRepositoryImpl implements AprPreenchidaRepository {
   final AprPreenchidaDao dao;
+  final AppDatabase db;
 
-  AprPreenchidaRepositoryImpl({required this.dao});
+  AprPreenchidaRepositoryImpl({required this.db}) : dao = db.aprPreenchidaDao;
 
   @override
   Future<AprPreenchidaTableData?> buscarAprPreenchida(int atividadeId) async {

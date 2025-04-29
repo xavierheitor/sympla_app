@@ -48,6 +48,8 @@ class AprRespostasRepositoryImpl implements AprRespostasRepository {
   Future<void> deletarRespostasDaApr(int aprPreenchidaId) async {
     try {
       await dao.deletarRespostasDaApr(aprPreenchidaId);
+      AppLogger.d('✅ Respostas deletadas para aprPreenchidaId=$aprPreenchidaId',
+          tag: 'AprRespostasRepositoryImpl');
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
