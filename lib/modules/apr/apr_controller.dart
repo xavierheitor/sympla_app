@@ -43,9 +43,46 @@ class AprController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     AppLogger.d('🎯 AprController iniciado', tag: 'AprController');
-    await carregarApr();
-    await criarAprPreenchida();
-    await carregarTecnicos();
+
+    final atividade = atividadeController.atividadeEmAndamento.value;
+
+    if (atividade == null) {
+      AppLogger.w('⚠️ Sem atividade em andamento, não é possível carregar APR',
+          tag: 'AprController');
+      return;
+    }
+
+    atividadeId = atividade.id;
+
+    try {
+      isLoading.value = true;
+
+      // ✅ Verificar se já foi preenchida
+      final aprPreenchidaExiste =
+          await aprService.aprJaPreenchida(atividadeId!);
+
+      if (aprPreenchidaExiste) {
+        AppLogger.d(
+            '✅ APR já preenchida para atividade $atividadeId, redirecionando para checklist...',
+            tag: 'AprController');
+        Get.offAllNamed('/checklist');
+        return;
+      }
+
+      // Continua fluxo normal se não foi preenchida
+      await carregarApr();
+      await criarAprPreenchida();
+      await carregarTecnicos();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprController - onInit] ${erro.mensagem}',
+          tag: 'AprController', error: e, stackTrace: s);
+      Get.snackbar('Erro', erro.mensagem,
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError);
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override

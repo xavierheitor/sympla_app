@@ -4,5 +4,6 @@ abstract class Routes {
   static const erroSplash = '/erro-splash';
   static const home = '/home';
   static const apr = '/apr';
+  static const checklist = '/checklist';
   // ... futuras rotas
 }
