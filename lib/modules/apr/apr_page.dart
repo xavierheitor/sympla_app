@@ -47,6 +47,14 @@ class AprPage extends StatelessWidget {
                   : 'Preencha todas as perguntas e colete 2 assinaturas',
             );
           }),
+          Obx(() {
+            if (controller.redirecionarParaChecklist.value) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                Get.offAllNamed('/checklist');
+              });
+            }
+            return const SizedBox.shrink();
+          }),
         ],
       ),
       body: Obx(() {

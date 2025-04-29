@@ -27,6 +27,8 @@ class AprController extends GetxController {
   });
 
   final RxBool isLoading = false.obs;
+  final RxBool redirecionarParaChecklist = false.obs;
+
   final RxList<AprQuestionTableData> perguntas = <AprQuestionTableData>[].obs;
   final RxList<RespostaFormulario> respostasFormulario =
       <RespostaFormulario>[].obs;
@@ -171,7 +173,7 @@ class AprController extends GetxController {
           DateTime.now(),
         );
         salvouFormulario = true;
-        Get.back();
+        redirecionarParaChecklist.value = true;
       }
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
