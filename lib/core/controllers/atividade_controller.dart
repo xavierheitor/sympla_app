@@ -116,6 +116,13 @@ class AtividadeController extends GetxController {
         atividades[index] =
             atividade.copyWithStatus(StatusAtividade.emAndamento);
         atividades.refresh(); // 🔥 Notifica GetX para atualizar as telas
+
+        // Atualiza a atividade em andamento também ✅
+        atividadeEmAndamento.value =
+            atividade.copyWithStatus(StatusAtividade.emAndamento);
+
+        // Atualiza os contadores também ✅
+        atualizarContadores();
       }
     } catch (e, s) {
       atividadeEmAndamento.value = null;
