@@ -45,13 +45,14 @@ class AprPage extends StatelessWidget {
           children: [
             // Perguntas
             ...controller.perguntas.map((pergunta) {
-              final respostaSelecionada = controller.respostas.firstWhereOrNull(
-                (r) => r.perguntaId.value == pergunta.id,
+              final respostaSelecionada =
+                  controller.respostasFormulario.firstWhereOrNull(
+                (r) => r.perguntaId == pergunta.id,
               );
 
               return AprPerguntaCard(
                 pergunta: pergunta.texto,
-                respostaSelecionada: respostaSelecionada?.resposta.value,
+                respostaSelecionada: respostaSelecionada?.resposta,
                 onRespostaSelecionada: (resposta) {
                   AppLogger.d(
                       '✅ Resposta selecionada para pergunta ${pergunta.id}: $resposta',

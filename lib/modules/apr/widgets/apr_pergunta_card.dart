@@ -4,7 +4,7 @@ import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
 class AprPerguntaCard extends StatelessWidget {
   final String pergunta;
   final RespostaApr? respostaSelecionada;
-  final ValueChanged<RespostaApr> onRespostaSelecionada;
+  final ValueChanged<RespostaApr?> onRespostaSelecionada;
 
   const AprPerguntaCard({
     super.key,
@@ -30,9 +30,11 @@ class AprPerguntaCard extends StatelessWidget {
             Wrap(
               spacing: 12,
               children: RespostaApr.values.map((resposta) {
+                final isSelected = respostaSelecionada == resposta;
+
                 return ChoiceChip(
                   label: Text(resposta.label),
-                  selected: respostaSelecionada == resposta,
+                  selected: isSelected,
                   onSelected: (_) => onRespostaSelecionada(resposta),
                 );
               }).toList(),

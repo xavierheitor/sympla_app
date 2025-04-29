@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/data/models/resposta_formulario.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/apr_assinatura_service.dart';
@@ -23,8 +24,8 @@ class AprController extends GetxController {
 
   final RxBool isLoading = false.obs;
   final RxList<AprQuestionTableData> perguntas = <AprQuestionTableData>[].obs;
-  final RxList<AprRespostaTableCompanion> respostas =
-      <AprRespostaTableCompanion>[].obs;
+  final RxList<RespostaFormulario> respostasFormulario =
+      <RespostaFormulario>[].obs;
   final RxList<AssinaturaModel> assinaturas = <AssinaturaModel>[].obs;
   final RxInt quantidadeAssinaturas = 0.obs;
 
@@ -36,7 +37,6 @@ class AprController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     AppLogger.d('🎯 AprController iniciado', tag: 'AprController');
-
     await carregarApr();
   }
 
@@ -49,7 +49,7 @@ class AprController extends GetxController {
       return;
     }
 
-    atividadeId = atividade.id; // <-- Armazena o ID da atividade normalmente
+    atividadeId = atividade.id;
 
     try {
       AppLogger.d(
@@ -57,35 +57,22 @@ class AprController extends GetxController {
           tag: 'AprController');
       isLoading.value = true;
 
-      // 🔥 O correto: buscar a APR pelo tipo da atividade
       aprSelecionada = await aprService.buscarAprPorTipoAtividade(
         atividade.tipoAtividadeId,
       );
-      AppLogger.d(
-          '📄 APR encontrada - ID: ${aprSelecionada?.id}, UUID: ${aprSelecionada?.uuid}',
-          tag: 'AprController');
 
       final perguntasCarregadas =
           await aprService.buscarPerguntas(aprSelecionada!.id);
-      AppLogger.d(
-          '❓ ${perguntasCarregadas.length} perguntas carregadas para APR ${aprSelecionada?.id}',
-          tag: 'AprController');
-      AppLogger.d(
-          '📋 IDs das perguntas: ${perguntasCarregadas.map((p) => p.id).join(', ')}',
-          tag: 'AprController');
+
       perguntas.assignAll(perguntasCarregadas);
 
       final respostasIniciais = perguntas
-          .map((p) => AprRespostaTableCompanion(
-                perguntaId: d.Value(p.id),
-                resposta: const d.Value(RespostaApr.nao),
-                observacao: const d.Value(''),
+          .map((p) => RespostaFormulario(
+                perguntaId: p.id,
               ))
           .toList();
-      AppLogger.d(
-          '📝 ${respostasIniciais.length} respostas iniciais criadas para ${perguntas.length} perguntas',
-          tag: 'AprController');
-      respostas.assignAll(respostasIniciais);
+
+      respostasFormulario.assignAll(respostasIniciais);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprController - carregarApr] ${erro.mensagem}',
@@ -95,30 +82,54 @@ class AprController extends GetxController {
           colorText: Get.theme.colorScheme.onError);
     } finally {
       isLoading.value = false;
-      AppLogger.d(
-          '✅ Carregamento da APR finalizado - Total de perguntas: ${perguntas.length}, Total de respostas: ${respostas.length}',
-          tag: 'AprController');
     }
   }
 
-  void atualizarResposta(int perguntaId, RespostaApr resposta,
+  void atualizarResposta(int perguntaId, RespostaApr? resposta,
       {String? observacao}) {
-    AppLogger.d(
-        '🔄 Atualizando resposta para pergunta $perguntaId - Nova resposta: $resposta${observacao != null ? ', Observação: $observacao' : ''}',
-        tag: 'AprController');
-    final index = respostas.indexWhere((r) => r.perguntaId.value == perguntaId);
+    final index =
+        respostasFormulario.indexWhere((r) => r.perguntaId == perguntaId);
     if (index != -1) {
-      respostas[index] = respostas[index].copyWith(
-        resposta: d.Value(resposta),
-        observacao: d.Value(observacao ?? respostas[index].observacao.value),
+      respostasFormulario[index] = RespostaFormulario(
+        perguntaId: perguntaId,
+        resposta: resposta,
+        observacao: observacao ?? respostasFormulario[index].observacao,
       );
-      AppLogger.d(
-          '✅ Resposta atualizada com sucesso - Total de respostas: ${respostas.length}',
+    }
+  }
+
+  Future<void> salvarRespostas() async {
+    try {
+      AppLogger.d('💾 Iniciando salvamento das respostas',
           tag: 'AprController');
-    } else {
-      AppLogger.w(
-          '⚠️ Pergunta $perguntaId não encontrada para atualização - Total de respostas: ${respostas.length}',
-          tag: 'AprController');
+      isLoading.value = true;
+
+      final respostasParaSalvar = respostasFormulario.map((r) {
+        if (r.resposta == null) {
+          throw Exception('Existem perguntas sem resposta selecionada!');
+        }
+
+        return AprRespostaTableCompanion(
+          perguntaId: d.Value(r.perguntaId),
+          resposta: d.Value(r.resposta!),
+          observacao: d.Value(r.observacao),
+        );
+      }).toList();
+
+      final sucesso = await aprService.salvarRespostas(respostasParaSalvar);
+
+      if (sucesso) {
+        Get.back();
+      }
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprController - salvarRespostas] ${erro.mensagem}',
+          tag: 'AprController', error: e, stackTrace: s);
+      Get.snackbar('Erro', erro.mensagem,
+          backgroundColor: Get.theme.colorScheme.error,
+          colorText: Get.theme.colorScheme.onError);
+    } finally {
+      isLoading.value = false;
     }
   }
 
@@ -132,9 +143,8 @@ class AprController extends GetxController {
         aprPreenchidaId: d.Value(aprPreenchidaId!),
         assinatura: d.Value(assinaturaBytes),
         dataAssinatura: d.Value(DateTime.now()),
-        usuarioId: const d.Value(1), // TODO: substituir para usuário logado
-        tecnicoId:
-            const d.Value(1), // TODO: substituir para técnico selecionado
+        usuarioId: const d.Value(1), // TODO: usuário logado
+        tecnicoId: const d.Value(1), // TODO: técnico selecionado
       );
 
       await aprAssinaturaService.salvarAssinatura(assinatura);
@@ -164,39 +174,6 @@ class AprController extends GetxController {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprController - carregarAssinaturas] ${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
-    }
-  }
-
-  Future<void> salvarRespostas() async {
-    try {
-      AppLogger.d(
-          '💾 Iniciando salvamento das respostas - Total: ${respostas.length}',
-          tag: 'AprController');
-      isLoading.value = true;
-
-      final sucesso = await aprService.salvarRespostas(respostas.toList());
-      if (sucesso) {
-        AppLogger.d(
-            '✅ Respostas salvas com sucesso! - Total salvo: ${respostas.length}',
-            tag: 'AprController');
-        Get.back();
-      } else {
-        AppLogger.w(
-            '⚠️ Falha ao salvar respostas - Total tentado: ${respostas.length}',
-            tag: 'AprController');
-      }
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - salvarRespostas] ${erro.mensagem}',
-          tag: 'AprController', error: e, stackTrace: s);
-      Get.snackbar('Erro', erro.mensagem,
-          backgroundColor: Get.theme.colorScheme.error,
-          colorText: Get.theme.colorScheme.onError);
-    } finally {
-      isLoading.value = false;
-      AppLogger.d(
-          '🏁 Processo de salvamento finalizado - Total de respostas: ${respostas.length}',
-          tag: 'AprController');
     }
   }
 }
