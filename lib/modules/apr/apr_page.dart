@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/apr/apr_controller.dart';
 import 'package:sympla_app/modules/apr/widgets/apr_assinatura_card.dart';
 import 'package:sympla_app/modules/apr/widgets/apr_pergunta_card.dart';
@@ -8,25 +9,37 @@ import 'package:sympla_app/modules/apr/widgets/assinatura_dialog.dart';
 class AprPage extends StatelessWidget {
   final AprController controller = Get.find<AprController>();
 
-  AprPage({super.key});
+  AprPage({super.key}) {
+    AppLogger.d('📱 AprPage construída', tag: 'AprPage');
+  }
 
   @override
   Widget build(BuildContext context) {
+    AppLogger.d('🏗️ Construindo interface da AprPage', tag: 'AprPage');
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Análise Preliminar de Risco'),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: controller.salvarRespostas,
+            onPressed: () {
+              AppLogger.d('💾 Botão salvar pressionado', tag: 'AprPage');
+              controller.salvarRespostas();
+            },
           ),
         ],
       ),
       body: Obx(() {
+        AppLogger.d('🔄 Atualizando estado da interface', tag: 'AprPage');
+
         if (controller.isLoading.value) {
+          AppLogger.d('⏳ Mostrando indicador de carregamento', tag: 'AprPage');
           return const Center(child: CircularProgressIndicator());
         }
 
+        AppLogger.d('📊 Renderizando lista de perguntas e assinaturas',
+            tag: 'AprPage');
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
@@ -40,6 +53,9 @@ class AprPage extends StatelessWidget {
                 pergunta: pergunta.texto,
                 respostaSelecionada: respostaSelecionada?.resposta.value,
                 onRespostaSelecionada: (resposta) {
+                  AppLogger.d(
+                      '✅ Resposta selecionada para pergunta ${pergunta.id}: $resposta',
+                      tag: 'AprPage');
                   controller.atualizarResposta(pergunta.id, resposta);
                 },
               );
@@ -79,8 +95,14 @@ class AprPage extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () {
+                  AppLogger.d('✍️ Abrindo diálogo de assinatura',
+                      tag: 'AprPage');
                   Get.dialog(
-                    AssinaturaDialog(onSalvar: controller.adicionarAssinatura),
+                    AssinaturaDialog(onSalvar: (assinatura) {
+                      AppLogger.d('✅ Assinatura capturada, salvando...',
+                          tag: 'AprPage');
+                      controller.adicionarAssinatura(assinatura);
+                    }),
                   );
                 },
                 icon: const Icon(Icons.edit),

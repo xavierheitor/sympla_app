@@ -19,10 +19,16 @@ class AprRepositoryImpl implements AprRepository {
   @override
   Future<List<AprTableCompanion>> buscarDaApi() async {
     try {
+      AppLogger.d('🔄 Buscando APRs da API', tag: 'AprRepositoryImpl');
       final response = await dio.get(ApiConstants.aprs);
       final dados = response.data as List;
+      AppLogger.d('📥 Recebido ${dados.length} APRs da API',
+          tag: 'AprRepositoryImpl');
 
-      return dados.map<AprTableCompanion>((json) {
+      final aprs = dados.map<AprTableCompanion>((json) {
+        AppLogger.d(
+            '📋 Processando APR - ID: ${json['id']}, Nome: ${json['nome']}',
+            tag: 'AprRepositoryImpl');
         return AprTableCompanion(
           id: Value(json['id']),
           uuid: Value(json['uuid']),
@@ -33,6 +39,10 @@ class AprRepositoryImpl implements AprRepository {
           sincronizado: const Value(true),
         );
       }).toList();
+
+      AppLogger.d('✅ Processamento concluído - ${aprs.length} APRs convertidas',
+          tag: 'AprRepositoryImpl');
+      return aprs;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprRepositoryImpl - buscarDaApi] ${erro.mensagem}',
@@ -43,17 +53,69 @@ class AprRepositoryImpl implements AprRepository {
 
   @override
   Future<void> sincronizar(List<AprTableCompanion> entradas) async {
-    await dao.sincronizarComApi(entradas);
+    try {
+      AppLogger.d('🔄 Iniciando sincronização de ${entradas.length} APRs',
+          tag: 'AprRepositoryImpl');
+      await dao.sincronizarComApi(entradas);
+      AppLogger.d('✅ Sincronização concluída', tag: 'AprRepositoryImpl');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - sincronizar] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
-  Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) =>
-      dao.buscarPorTipoAtividade(idTipoAtividade);
+  Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) async {
+    try {
+      AppLogger.d('🔍 Buscando APR para tipoAtividade: $idTipoAtividade',
+          tag: 'AprRepositoryImpl');
+      final result = await dao.buscarPorTipoAtividade(idTipoAtividade);
+      AppLogger.d('✅ APR encontrada - ID: ${result.id}, Nome: ${result.nome}',
+          tag: 'AprRepositoryImpl');
+      return result;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprRepositoryImpl - buscarPorTipoAtividade] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 
   @override
-  Future<void> salvarNoBanco(AprTableCompanion apr) =>
-      dao.inserirOuAtualizar(apr);
+  Future<void> salvarNoBanco(AprTableCompanion apr) async {
+    try {
+      AppLogger.d(
+          '💾 Salvando APR no banco - ID: ${apr.id.value}, Nome: ${apr.nome.value}',
+          tag: 'AprRepositoryImpl');
+      await dao.inserirOuAtualizar(apr);
+      AppLogger.d('✅ APR salva com sucesso', tag: 'AprRepositoryImpl');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - salvarNoBanco] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 
   @override
-  Future<bool> estaVazio() => dao.estaVazio();
+  Future<bool> estaVazio() async {
+    try {
+      AppLogger.d('🔍 Verificando se existem APRs no banco',
+          tag: 'AprRepositoryImpl');
+      final result = await dao.estaVazio();
+      AppLogger.d('📊 Banco ${result ? "vazio" : "contém APRs"}',
+          tag: 'AprRepositoryImpl');
+      return result;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - estaVazio] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      return false;
+    }
+  }
 }

@@ -12,6 +12,7 @@ class AtividadeModel {
   final DateTime? dataInicio;
   final DateTime? dataFim;
   final DateTime dataLimite;
+  final int tipoAtividadeId;
   final int? equipamentoId;
   final String? nomeEquipamento; // <- Nome do equipamento junto!
 
@@ -26,6 +27,7 @@ class AtividadeModel {
     this.dataInicio,
     this.dataFim,
     required this.dataLimite,
+    required this.tipoAtividadeId,
     this.equipamentoId,
     this.nomeEquipamento,
   });
@@ -46,6 +48,7 @@ class AtividadeModel {
       dataInicio: atividade.dataInicio,
       dataFim: atividade.dataFim,
       dataLimite: atividade.dataLimite,
+      tipoAtividadeId: atividade.tipoAtividadeId,
       equipamentoId: equipamento?.id,
       nomeEquipamento: equipamento?.nome,
     );

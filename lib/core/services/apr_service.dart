@@ -18,9 +18,14 @@ class AprService {
 
   Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
     try {
-      AppLogger.d('🔍 Buscando APR para tipoAtividade: $idTipoAtividade',
+      AppLogger.d(
+          '🔍 [AprService] Buscando APR para tipoAtividade: $idTipoAtividade',
           tag: 'AprService');
-      return await aprRepository.buscarPorTipoAtividade(idTipoAtividade);
+      final apr = await aprRepository.buscarPorTipoAtividade(idTipoAtividade);
+      AppLogger.d(
+          '✅ [AprService] APR encontrada - ID: ${apr.id}, Nome: ${apr.nome}',
+          tag: 'AprService');
+      return apr;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - buscarAprPorTipoAtividade] ${erro.mensagem}',
@@ -31,8 +36,16 @@ class AprService {
 
   Future<List<AprQuestionTableData>> buscarPerguntas(int aprId) async {
     try {
-      AppLogger.d('🔍 Buscando perguntas para APR: $aprId', tag: 'AprService');
-      return await aprPerguntasRepository.buscarTodos(aprId);
+      AppLogger.d('🔍 [AprService] Buscando perguntas para APR: $aprId',
+          tag: 'AprService');
+      final perguntas = await aprPerguntasRepository.buscarTodos(aprId);
+      AppLogger.d(
+          '✅ [AprService] ${perguntas.length} perguntas encontradas para APR $aprId',
+          tag: 'AprService');
+      AppLogger.d(
+          '📋 [AprService] IDs das perguntas: ${perguntas.map((p) => p.id).join(', ')}',
+          tag: 'AprService');
+      return perguntas;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - buscarPerguntas] ${erro.mensagem}',
@@ -44,9 +57,16 @@ class AprService {
   Future<bool> salvarRespostas(
       List<AprRespostaTableCompanion> respostas) async {
     try {
-      AppLogger.d('💾 Salvando ${respostas.length} respostas da APR',
+      AppLogger.d(
+          '💾 [AprService] Iniciando salvamento de ${respostas.length} respostas',
           tag: 'AprService');
-      return await aprRespostasRepository.salvarRespostas(respostas);
+      AppLogger.d(
+          '📋 [AprService] IDs das perguntas: ${respostas.map((r) => r.perguntaId.value).join(', ')}',
+          tag: 'AprService');
+      final sucesso = await aprRespostasRepository.salvarRespostas(respostas);
+      AppLogger.d('✅ [AprService] Respostas salvas com sucesso: $sucesso',
+          tag: 'AprService');
+      return sucesso;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - salvarRespostas] ${erro.mensagem}',
@@ -58,9 +78,13 @@ class AprService {
   Future<bool> aprJaPreenchida(int atividadeId) async {
     try {
       AppLogger.d(
-          '🔍 Verificando se atividade $atividadeId já tem APR preenchida',
+          '🔍 [AprService] Verificando se atividade $atividadeId já tem APR preenchida',
           tag: 'AprService');
-      return await aprRespostasRepository.existeRespostas(atividadeId);
+      final existe = await aprRespostasRepository.existeRespostas(atividadeId);
+      AppLogger.d(
+          '📊 [AprService] APR ${existe ? "já preenchida" : "não preenchida"} para atividade $atividadeId',
+          tag: 'AprService');
+      return existe;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - aprJaPreenchida] ${erro.mensagem}',
