@@ -119,6 +119,7 @@ class AprController extends GetxController {
         return AprRespostaTableCompanion(
           perguntaId: d.Value(r.perguntaId),
           resposta: d.Value(r.resposta!),
+          aprPreenchidaId: d.Value(aprPreenchidaId!),
           observacao: d.Value(r.observacao),
         );
       }).toList();
