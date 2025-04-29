@@ -5,14 +5,14 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/apr_dao.dart';
-import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
 import 'package:sympla_app/core/storage/daos/apr_preenchida_dao.dart';
+import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
 
 class AprRepositoryImpl implements AprRepository {
-  final DioClient dio;
-  final AppDatabase db;
   final AprDao dao;
   final AprPreenchidaDao preenchidaDao;
+  final DioClient dio;
+  final AppDatabase db;
 
   AprRepositoryImpl({required this.dio, required this.db})
       : dao = db.aprDao,
@@ -21,128 +21,118 @@ class AprRepositoryImpl implements AprRepository {
   @override
   Future<List<AprTableCompanion>> buscarDaApi() async {
     try {
-      AppLogger.d('🔄 Buscando APRs da API', tag: 'AprRepositoryImpl');
       final response = await dio.get(ApiConstants.aprs);
       final dados = response.data as List;
-      AppLogger.d('📥 Recebido \${dados.length} APRs da API',
-          tag: 'AprRepositoryImpl');
-
-      final aprs = dados.map<AprTableCompanion>((json) {
-        AppLogger.d('📋 Processando APR - ${json['id']}',
-            tag: 'AprRepositoryImpl');
-        return AprTableCompanion(
-          id: Value(json['id']),
-          uuid: Value(json['uuid']),
-          nome: Value(json['nome']),
-          descricao: Value(json['descricao']),
-          createdAt: Value(DateTime.parse(json['createdAt'])),
-          updatedAt: Value(DateTime.parse(json['updatedAt'])),
-          sincronizado: const Value(true),
-        );
-      }).toList();
-
-      AppLogger.d(
-          '✅ Processamento concluído - \${aprs.length} APRs convertidas',
-          tag: 'AprRepositoryImpl');
-      return aprs;
+      return dados
+          .map((json) => AprTableCompanion(
+                id: Value(json['id']),
+                uuid: Value(json['uuid']),
+                nome: Value(json['nome']),
+                descricao: Value(json['descricao']),
+                createdAt: Value(DateTime.parse(json['createdAt'])),
+                updatedAt: Value(DateTime.parse(json['updatedAt'])),
+                sincronizado: const Value(true),
+              ))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprRepositoryImpl - buscarDaApi] \${erro.mensagem}',
-          tag: 'AprRepositoryImpl',
-          error: erro.mensagem,
-          stackTrace: erro.stack);
+      AppLogger.e('[AprRepositoryImpl - buscarDaApi] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
       return [];
-    }
-  }
-
-  @override
-  Future<void> sincronizar(List<AprTableCompanion> entradas) async {
-    try {
-      AppLogger.d('🔄 Iniciando sincronização de \${entradas.length} APRs',
-          tag: 'AprRepositoryImpl');
-      await dao.sincronizarComApi(entradas);
-      AppLogger.d('✅ Sincronização concluída', tag: 'AprRepositoryImpl');
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprRepositoryImpl - sincronizar] \${erro.mensagem}',
-          tag: 'AprRepositoryImpl',
-          error: erro.mensagem,
-          stackTrace: erro.stack);
-      rethrow;
     }
   }
 
   @override
   Future<AprTableData> buscarPorTipoAtividade(int idTipoAtividade) async {
     try {
-      AppLogger.d('🔍 Buscando APR para tipoAtividade: \$idTipoAtividade',
-          tag: 'AprRepositoryImpl');
-      final result = await dao.buscarPorTipoAtividade(idTipoAtividade);
-      AppLogger.d('✅ APR encontrada - ID: \${result.id}, Nome: \${result.nome}',
-          tag: 'AprRepositoryImpl');
-      return result;
+      return await dao.buscarPorTipoAtividade(idTipoAtividade);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
-          '[AprRepositoryImpl - buscarPorTipoAtividade] \${erro.mensagem}',
+          '[AprRepositoryImpl - buscarPorTipoAtividade] ${erro.mensagem}',
           tag: 'AprRepositoryImpl',
-          error: erro.mensagem,
-          stackTrace: erro.stack);
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> salvarNoBanco(AprTableCompanion apr) async {
-    try {
-      AppLogger.d(
-          '💾 Salvando APR no banco - ID: \${apr.id.value}, Nome: \${apr.nome.value}',
-          tag: 'AprRepositoryImpl');
-      await dao.inserirOuAtualizar(apr);
-      AppLogger.d('✅ APR salva com sucesso', tag: 'AprRepositoryImpl');
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprRepositoryImpl - salvarNoBanco] \${erro.mensagem}',
-          tag: 'AprRepositoryImpl',
-          error: erro.mensagem,
-          stackTrace: erro.stack);
-      rethrow;
+          error: e,
+          stackTrace: s);
+      throw Exception(
+          'Não foi possível encontrar a APR para o tipo de atividade $idTipoAtividade');
     }
   }
 
   @override
   Future<bool> estaVazio() async {
     try {
-      AppLogger.d('🔍 Verificando se existem APRs no banco',
-          tag: 'AprRepositoryImpl');
-      final result = await dao.estaVazio();
-      AppLogger.d('📊 Banco \${result ? "vazio" : "contém APRs"}',
-          tag: 'AprRepositoryImpl');
-      return result;
+      return await dao.estaVazio();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprRepositoryImpl - estaVazio] \${erro.mensagem}',
-          tag: 'AprRepositoryImpl',
-          error: erro.mensagem,
-          stackTrace: erro.stack);
+      AppLogger.e('[AprRepositoryImpl - estaVazio] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
       return false;
     }
   }
 
   @override
-  Future<int> criarAprPreenchida(AprPreenchidaTableCompanion apr) {
-    return preenchidaDao.inserir(apr);
+  Future<void> salvarNoBanco(AprTableCompanion apr) async {
+    try {
+      await dao.inserirOuAtualizar(apr);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - salvarNoBanco] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sincronizar(List<AprTableCompanion> lista) async {
+    try {
+      final aprs = await buscarDaApi();
+      await dao.sincronizarComApi(aprs);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - sincronizar] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<int> criarAprPreenchida(AprPreenchidaTableCompanion apr) async {
+    try {
+      return await preenchidaDao.inserir(apr);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - criarAprPreenchida] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
   Future<void> atualizarDataPreenchimento(
       int aprPreenchidaId, DateTime dataPreenchimento) async {
-    await preenchidaDao.atualizarDataPreenchimento(
-        aprPreenchidaId, dataPreenchimento);
+    try {
+      await preenchidaDao.atualizarDataPreenchimento(
+          aprPreenchidaId, dataPreenchimento);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprRepositoryImpl - atualizarDataPreenchimento] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
   Future<void> deletarAprPreenchida(int aprPreenchidaId) async {
-    await preenchidaDao.deletarPorId(aprPreenchidaId);
+    try {
+      await preenchidaDao.deletarPorId(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprRepositoryImpl - deletarAprPreenchida] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
   }
 }

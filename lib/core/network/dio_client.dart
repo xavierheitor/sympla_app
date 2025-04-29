@@ -22,6 +22,13 @@ class DioClient {
           final sessionManager = g.Get.find<SessionManager>();
           final token = sessionManager.tokenSync;
 
+          if (token != null && token.isNotEmpty) {
+            options.headers['Authorization'] = 'Bearer $token';
+            AppLogger.d('🔐 Token adicionado ao header');
+          } else {
+            AppLogger.d('🔐 Token ausente');
+          }
+
           AppLogger.v('➡️ [API REQUEST]');
           AppLogger.v('🔹 Method: ${options.method}');
           AppLogger.v('🔹 URL: ${options.baseUrl}${options.path}');

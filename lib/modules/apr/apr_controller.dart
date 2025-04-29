@@ -9,6 +9,7 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/services/apr_service.dart';
+import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:drift/drift.dart' as d;
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
@@ -194,7 +195,7 @@ class AprController extends GetxController {
         aprPreenchidaId: d.Value(aprPreenchidaId!),
         assinatura: d.Value(assinaturaBytes),
         dataAssinatura: d.Value(DateTime.now()),
-        usuarioId: const d.Value(1), // TODO: usuário logado
+        usuarioId: d.Value(Get.find<SessionManager>().usuario!.id),
         tecnicoId: d.Value(tecnicoId),
       );
 

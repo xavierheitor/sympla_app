@@ -1,11 +1,13 @@
 // === apr_service.dart ===
 
 import 'package:drift/drift.dart';
+import 'package:get/get.dart' as g;
 import 'package:sympla_app/core/domain/repositories/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/apr_assinatura_service.dart';
+import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/domain/repositories/apr_perguntas_repository.dart';
 import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
@@ -141,7 +143,7 @@ class AprService {
           atividadeId: Value(atividadeId),
           aprId: Value(aprId),
           dataPreenchimento: Value(DateTime.now()),
-          usuarioId: const Value(1), // TODO: usuário logado
+          usuarioId: Value(g.Get.find<SessionManager>().usuario!.id),
         ),
       );
       AppLogger.d('✅ [AprService] APR Preenchida criada - ID: \$id',
