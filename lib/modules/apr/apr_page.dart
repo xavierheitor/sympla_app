@@ -84,9 +84,19 @@ class AprPage extends StatelessWidget {
               ),
 
             ...controller.assinaturas.map(
-              (assinatura) => AprAssinaturaCard(
-                assinaturaBytes: assinatura.assinatura,
-              ),
+              (assinatura) {
+                // Encontrar o nome do técnico pela assinatura (precisamos associar)
+                final tecnico = controller.tecnicos.firstWhereOrNull(
+                  (t) => t.id == assinatura.tecnicoId,
+                );
+
+                final nomeTecnico = tecnico?.nome ?? 'Técnico desconhecido';
+
+                return AprAssinaturaCard(
+                  nomeTecnico: nomeTecnico,
+                  assinaturaBytes: assinatura.assinatura,
+                );
+              },
             ),
 
             const SizedBox(height: 24),

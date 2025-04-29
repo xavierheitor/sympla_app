@@ -181,6 +181,7 @@ class AprController extends GetxController {
       assinaturas.assignAll(
         assinaturasData.map((a) => AssinaturaModel(
               assinatura: a.assinatura,
+              tecnicoId: a.tecnicoId,
             )),
       );
     } catch (e, s) {
@@ -202,13 +203,16 @@ class AprController extends GetxController {
   }
 
   Future<void> criarAprPreenchida() async {
-    if (atividadeId == null) return;
+    if (atividadeId == null || aprSelecionada == null) return;
 
     try {
-      aprPreenchidaId = await aprService.criarAprPreenchida(atividadeId!);
+      aprPreenchidaId = await aprService.criarAprPreenchida(
+        atividadeId!,
+        aprSelecionada!.id, // ✅ agora passa também o aprId
+      );
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprController - criarAprPreenchida] \${erro.mensagem}',
+      AppLogger.e('[AprController - criarAprPreenchida] ${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
       Get.snackbar('Erro ao preparar APR', erro.mensagem,
           backgroundColor: Get.theme.colorScheme.error,

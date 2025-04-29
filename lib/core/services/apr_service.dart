@@ -114,11 +114,12 @@ class AprService {
     }
   }
 
-  Future<int> criarAprPreenchida(int atividadeId) async {
+  Future<int> criarAprPreenchida(int atividadeId, int aprId) async {
     try {
       final id = await aprRepository.criarAprPreenchida(
         AprPreenchidaTableCompanion(
           atividadeId: Value(atividadeId),
+          aprId: Value(aprId),
           dataPreenchimento: Value(DateTime.now()),
           usuarioId: const Value(1), // TODO: usuário logado
         ),
