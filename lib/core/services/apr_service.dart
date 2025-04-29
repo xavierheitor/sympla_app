@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/domain/repositories/apr_perguntas_repository.dart';
 import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
@@ -14,12 +15,13 @@ class AprService {
   final AprPerguntasRepository aprPerguntasRepository;
   final AprRespostasRepository aprRespostasRepository;
   final TecnicosRepository tecnicosRepository;
-
+  final AprAssinaturaService aprAssinaturaService;
   AprService({
     required this.aprRepository,
     required this.aprPerguntasRepository,
     required this.aprRespostasRepository,
     required this.tecnicosRepository,
+    required this.aprAssinaturaService,
   });
 
   Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
@@ -163,6 +165,34 @@ class AprService {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - deletarAprPreenchida] \${erro.mensagem}',
           tag: 'AprService', error: erro.mensagem, stackTrace: erro.stack);
+      rethrow;
+    }
+  }
+
+  Future<void> deletarAprPreenchidaComDependencias(int aprPreenchidaId) async {
+    try {
+      AppLogger.d(
+          '🗑️ Deletando dependências da APR preenchida $aprPreenchidaId',
+          tag: 'AprService');
+
+      // Deletar respostas
+      await aprRespostasRepository.deletarRespostasDaApr(aprPreenchidaId);
+
+      // Deletar assinaturas
+      await aprAssinaturaService.deletarAssinaturasDaApr(aprPreenchidaId);
+
+      // Agora deletar a própria apr_preenchida
+      await aprRepository.deletarAprPreenchida(aprPreenchidaId);
+
+      AppLogger.d('✅ APR preenchida e suas dependências deletadas com sucesso',
+          tag: 'AprService');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprService - deletarAprPreenchidaComDependencias] ${erro.mensagem}',
+          tag: 'AprService',
+          error: e,
+          stackTrace: s);
       rethrow;
     }
   }

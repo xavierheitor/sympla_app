@@ -49,4 +49,19 @@ class AprAssinaturaService {
       rethrow;
     }
   }
+
+  Future<void> deletarAssinaturasDaApr(int aprPreenchidaId) async {
+    try {
+      await aprAssinaturaRepository
+          .deletarAssinaturasPorAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprAssinaturaService - deletarAssinaturasDaApr] ${erro.mensagem}',
+          tag: 'AprAssinaturaService',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

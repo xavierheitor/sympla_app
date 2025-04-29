@@ -4,4 +4,6 @@ abstract class AprRespostasRepository {
   Future<bool> salvarRespostas(List<AprRespostaTableCompanion> respostas);
   Future<bool> existeRespostas(int aprPreenchidaId);
   Future<List<AprRespostaTableData>> buscarRespostas(int aprPreenchidaId);
+
+  Future<void> deletarRespostasDaApr(int aprPreenchidaId);
 }

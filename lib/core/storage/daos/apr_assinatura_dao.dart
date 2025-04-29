@@ -45,4 +45,12 @@ class AprAssinaturaDao extends DatabaseAccessor<AppDatabase>
     AppLogger.w('🗑️ Deletando todas Assinaturas', tag: 'AprAssinaturaDao');
     await delete(aprAssinaturaTable).go();
   }
+
+  Future<void> deletarPorAprPreenchida(int aprPreenchidaId) async {
+    AppLogger.w('🗑️ Deletando assinaturas da aprPreenchidaId=$aprPreenchidaId',
+        tag: 'AprAssinaturaDao');
+    await (delete(aprAssinaturaTable)
+          ..where((t) => t.aprPreenchidaId.equals(aprPreenchidaId)))
+        .go();
+  }
 }

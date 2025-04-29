@@ -2,11 +2,13 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/domain/repositories/apr_assinatura_repository.dart';
+import 'package:sympla_app/core/storage/daos/apr_assinatura_dao.dart';
 
 class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
   final AppDatabase db;
+  final AprAssinaturaDao dao;
 
-  AprAssinaturaRepositoryImpl(this.db);
+  AprAssinaturaRepositoryImpl(this.db) : dao = db.aprAssinaturaDao;
 
   @override
   Future<void> salvarAssinatura(AprAssinaturaTableCompanion assinatura) async {
@@ -51,5 +53,20 @@ class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
           stackTrace: s);
     }
     return 0;
+  }
+
+  @override
+  Future<void> deletarAssinaturasPorAprPreenchida(int aprPreenchidaId) async {
+    try {
+      await db.aprAssinaturaDao.deletarPorAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[apr_assinatura_repository_impl - deletarAssinaturasPorAprPreenchida] ${erro.mensagem}',
+          tag: 'AprAssinaturaRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 }

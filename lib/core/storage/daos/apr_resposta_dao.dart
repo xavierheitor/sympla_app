@@ -39,4 +39,6 @@ class AprRespostaDao extends DatabaseAccessor<AppDatabase>
     final result = await select(aprRespostaTable).get();
     return result.isEmpty;
   }
+
+  deletarRespostasDaApr(int aprPreenchidaId) {}
 }

@@ -41,6 +41,7 @@ class AprBinding extends Bindings {
           aprPerguntasRepository: Get.find<AprPerguntasRepository>(),
           aprRespostasRepository: Get.find<AprRespostasRepository>(),
           tecnicosRepository: Get.find<TecnicosRepository>(),
+          aprAssinaturaService: Get.find<AprAssinaturaService>(),
         ));
 
     Get.lazyPut(

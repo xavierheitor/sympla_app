@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/apr_resposta_dao.dart';
@@ -40,6 +41,20 @@ class AprRespostasRepositoryImpl implements AprRespostasRepository {
       return result;
     } catch (_) {
       return [];
+    }
+  }
+
+  @override
+  Future<void> deletarRespostasDaApr(int aprPreenchidaId) async {
+    try {
+      await dao.deletarRespostasDaApr(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprRespostasRepositoryImpl] Erro ao deletar respostas da APR',
+          error: erro.mensagem,
+          stackTrace: erro.stack);
+      rethrow;
     }
   }
 }
