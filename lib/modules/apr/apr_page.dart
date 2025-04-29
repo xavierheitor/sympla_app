@@ -99,11 +99,14 @@ class AprPage extends StatelessWidget {
                   AppLogger.d('✍️ Abrindo diálogo de assinatura',
                       tag: 'AprPage');
                   Get.dialog(
-                    AssinaturaDialog(onSalvar: (assinatura) {
-                      AppLogger.d('✅ Assinatura capturada, salvando...',
-                          tag: 'AprPage');
-                      controller.adicionarAssinatura(assinatura);
-                    }),
+                    AssinaturaDialog(
+                      onSalvar: (assinatura, tecnicoId) {
+                        AppLogger.d('✅ Assinatura capturada, salvando...',
+                            tag: 'AprPage');
+                        controller.adicionarAssinatura(assinatura, tecnicoId);
+                      },
+                      tecnicos: controller.tecnicos,
+                    ),
                   );
                 },
                 icon: const Icon(Icons.edit),

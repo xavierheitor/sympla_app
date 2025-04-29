@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -9,11 +10,13 @@ class AprService {
   final AprRepository aprRepository;
   final AprPerguntasRepository aprPerguntasRepository;
   final AprRespostasRepository aprRespostasRepository;
+  final TecnicosRepository tecnicosRepository;
 
   AprService({
     required this.aprRepository,
     required this.aprPerguntasRepository,
     required this.aprRespostasRepository,
+    required this.tecnicosRepository,
   });
 
   Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
@@ -88,6 +91,21 @@ class AprService {
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - aprJaPreenchida] ${erro.mensagem}',
+          tag: 'AprService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<List<TecnicosTableData>> buscarTecnicos() async {
+    try {
+      AppLogger.d('🔍 [AprService] Buscando técnicos', tag: 'AprService');
+      final tecnicos = await tecnicosRepository.buscarTodos();
+      AppLogger.d('✅ [AprService] ${tecnicos.length} técnicos encontrados',
+          tag: 'AprService');
+      return tecnicos;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprService - buscarTecnicos] ${erro.mensagem}',
           tag: 'AprService', error: e, stackTrace: s);
       rethrow;
     }

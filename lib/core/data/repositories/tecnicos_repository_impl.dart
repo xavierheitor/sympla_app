@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/tecnicos_dao.dart';
@@ -16,8 +17,15 @@ class TecnicosRepositoryImpl implements TecnicosRepository {
 
   @override
   Future<List<TecnicosTableData>> buscarTodos() async {
-    final result = await dao.buscarTodos();
-    return result;
+    try {
+      final result = await dao.buscarTodos();
+      return result;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[tecnicos_repository_impl - buscarTodos] ${erro.mensagem}',
+          tag: 'TecnicosRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
   }
 
   @override

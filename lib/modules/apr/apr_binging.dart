@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/data/repositories/tecnicos_repository_impl.dart';
+import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/services/apr_service.dart';
 import 'package:sympla_app/core/data/repositories/apr_assinatura_repository_impl.dart';
@@ -29,12 +31,16 @@ class AprBinding extends Bindings {
         () => AprRespostasRepositoryImpl(db: Get.find()));
     Get.lazyPut<AprAssinaturaRepository>(
         () => AprAssinaturaRepositoryImpl(Get.find()));
-
+    Get.lazyPut<TecnicosRepository>(() => TecnicosRepositoryImpl(
+          dio: Get.find(),
+          db: Get.find(),
+        ));
     // Services
     Get.lazyPut(() => AprService(
           aprRepository: Get.find<AprRepository>(),
           aprPerguntasRepository: Get.find<AprPerguntasRepository>(),
           aprRespostasRepository: Get.find<AprRespostasRepository>(),
+          tecnicosRepository: Get.find<TecnicosRepository>(),
         ));
 
     Get.lazyPut(

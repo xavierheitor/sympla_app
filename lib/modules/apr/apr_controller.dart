@@ -29,6 +29,8 @@ class AprController extends GetxController {
   final RxList<AssinaturaModel> assinaturas = <AssinaturaModel>[].obs;
   final RxInt quantidadeAssinaturas = 0.obs;
 
+  final RxList<TecnicosTableData> tecnicos = <TecnicosTableData>[].obs;
+
   AprTableData? aprSelecionada;
   int? atividadeId;
   int? aprPreenchidaId;
@@ -38,6 +40,7 @@ class AprController extends GetxController {
     super.onInit();
     AppLogger.d('🎯 AprController iniciado', tag: 'AprController');
     await carregarApr();
+    await carregarTecnicos();
   }
 
   Future<void> carregarApr() async {
@@ -133,7 +136,8 @@ class AprController extends GetxController {
     }
   }
 
-  Future<void> adicionarAssinatura(Uint8List assinaturaBytes) async {
+  Future<void> adicionarAssinatura(
+      Uint8List assinaturaBytes, int tecnicoId) async {
     try {
       if (aprPreenchidaId == null) {
         throw Exception('APR preenchida ainda não foi criada');
@@ -144,7 +148,7 @@ class AprController extends GetxController {
         assinatura: d.Value(assinaturaBytes),
         dataAssinatura: d.Value(DateTime.now()),
         usuarioId: const d.Value(1), // TODO: usuário logado
-        tecnicoId: const d.Value(1), // TODO: técnico selecionado
+        tecnicoId: d.Value(tecnicoId),
       );
 
       await aprAssinaturaService.salvarAssinatura(assinatura);
@@ -173,6 +177,17 @@ class AprController extends GetxController {
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprController - carregarAssinaturas] ${erro.mensagem}',
+          tag: 'AprController', error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> carregarTecnicos() async {
+    try {
+      final tecnicosData = await aprService.buscarTecnicos();
+      tecnicos.assignAll(tecnicosData);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprController - carregarTecnicos] ${erro.mensagem}',
           tag: 'AprController', error: e, stackTrace: s);
     }
   }

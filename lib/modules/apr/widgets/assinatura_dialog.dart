@@ -1,14 +1,18 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:signature/signature.dart';
+import 'package:sympla_app/core/storage/app_database.dart';
 
 class AssinaturaDialog extends StatefulWidget {
-  final void Function(Uint8List assinaturaBytes) onSalvar;
+  final void Function(Uint8List assinaturaBytes, int tecnicoId) onSalvar;
+  final List<TecnicosTableData> tecnicos;
 
   const AssinaturaDialog({
     super.key,
     required this.onSalvar,
+    required this.tecnicos,
   });
 
   @override
@@ -22,23 +26,29 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
     exportBackgroundColor: Colors.white,
   );
 
+  final TextEditingController _tecnicoController = TextEditingController();
+  TecnicosTableData? _tecnicoSelecionado;
+
   @override
   void dispose() {
     _controller.dispose();
+    _tecnicoController.dispose();
     super.dispose();
   }
 
   Future<void> _salvarAssinatura() async {
-    if (_controller.isNotEmpty) {
+    if (_controller.isNotEmpty && _tecnicoSelecionado != null) {
       final bytes = await _controller.toPngBytes();
       if (bytes != null) {
-        widget.onSalvar(bytes);
+        widget.onSalvar(bytes, _tecnicoSelecionado!.id);
         Get.back();
       }
     } else {
       Get.snackbar(
         'Erro',
-        'Por favor, assine antes de salvar',
+        _tecnicoSelecionado == null
+            ? 'Por favor, selecione o técnico antes de salvar'
+            : 'Por favor, assine antes de salvar',
         backgroundColor: Get.theme.colorScheme.error,
         colorText: Get.theme.colorScheme.onError,
       );
@@ -48,16 +58,48 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      // << CORRIGIMOS AQUI: usar Dialog normal, não AlertDialog
       child: Container(
         padding: const EdgeInsets.all(16),
-        width: MediaQuery.of(context).size.width * 0.9, // 90% da tela
-        height: 400,
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: 500,
         child: Column(
           children: [
             const Text(
               'Assinatura',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            TypeAheadField<TecnicosTableData>(
+              suggestionsCallback: (pattern) {
+                return widget.tecnicos
+                    .where((tecnico) => tecnico.nome
+                        .toLowerCase()
+                        .contains(pattern.toLowerCase()))
+                    .toList();
+              },
+              itemBuilder: (context, tecnico) {
+                return ListTile(
+                  title: Text(tecnico.nome),
+                  subtitle: Text('Matrícula: ${tecnico.matricula}'),
+                );
+              },
+              onSelected: (tecnico) {
+                _tecnicoSelecionado = tecnico;
+                _tecnicoController.text = tecnico.nome;
+              },
+              builder: (context, controller, focusNode) {
+                _tecnicoController.value = controller.value;
+                return TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  decoration: const InputDecoration(
+                    labelText: 'Selecione o Técnico',
+                    border: OutlineInputBorder(),
+                  ),
+                );
+              },
+              hideOnEmpty: true,
+              hideOnError: true,
             ),
             const SizedBox(height: 16),
             Expanded(
