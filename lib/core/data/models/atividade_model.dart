@@ -14,7 +14,7 @@ class AtividadeModel {
   final DateTime dataLimite;
   final int tipoAtividadeId;
   final int? equipamentoId;
-  final String? nomeEquipamento; // <- Nome do equipamento junto!
+  final String? nomeEquipamento;
 
   AtividadeModel({
     required this.id,
@@ -32,7 +32,6 @@ class AtividadeModel {
     this.nomeEquipamento,
   });
 
-  // Facilita criar a partir do JOIN
   factory AtividadeModel.fromJoin({
     required AtividadeTableData atividade,
     EquipamentoTableData? equipamento,
@@ -51,6 +50,25 @@ class AtividadeModel {
       tipoAtividadeId: atividade.tipoAtividadeId,
       equipamentoId: equipamento?.id,
       nomeEquipamento: equipamento?.nome,
+    );
+  }
+
+  /// Gera uma cópia da atividade, mudando apenas o [status].
+  AtividadeModel copyWithStatus(StatusAtividade novoStatus) {
+    return AtividadeModel(
+      id: id,
+      uuid: uuid,
+      titulo: titulo,
+      descricao: descricao,
+      subestacao: subestacao,
+      ordemServico: ordemServico,
+      status: novoStatus,
+      dataInicio: dataInicio,
+      dataFim: dataFim,
+      dataLimite: dataLimite,
+      tipoAtividadeId: tipoAtividadeId,
+      equipamentoId: equipamentoId,
+      nomeEquipamento: nomeEquipamento,
     );
   }
 }

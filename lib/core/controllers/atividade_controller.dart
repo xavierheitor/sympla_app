@@ -109,6 +109,14 @@ class AtividadeController extends GetxController {
     try {
       atividadeEmAndamento.value = atividade;
       await atividadeSyncService.iniciarAtividade(atividade);
+
+      // Atualiza o status na lista em memória também
+      final index = atividades.indexWhere((a) => a.id == atividade.id);
+      if (index != -1) {
+        atividades[index] =
+            atividade.copyWithStatus(StatusAtividade.emAndamento);
+        atividades.refresh(); // 🔥 Notifica GetX para atualizar as telas
+      }
     } catch (e, s) {
       atividadeEmAndamento.value = null;
       final erro = ErrorHandler.tratar(e, s);
