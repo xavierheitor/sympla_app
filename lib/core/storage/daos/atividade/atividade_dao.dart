@@ -35,19 +35,36 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.status.equals('pendente')))
         .write(const AtividadeTableCompanion(sincronizado: Value(false)));
 
-    // 2. Atualiza/insere apenas atividades com status pendente vindas da API
+    // 2. Filtra apenas pendentes vindas da API
     final pendentesDaApi = atividadesApi
-        .where((e) {
-          return e.status.value == StatusAtividade.pendente;
-        })
+        .where((e) => e.status.value == StatusAtividade.pendente)
         .map((e) => e.copyWith(sincronizado: const Value(true)))
         .toList();
 
-    await batch((batch) {
-      batch.insertAllOnConflictUpdate(atividadeTable, pendentesDaApi);
-    });
+    // 3. Para cada pendente recebida, insere ou atualiza somente se:
+    //    - não existe localmente OU
+    //    - o status atual local também é pendente
+    for (final novaAtividade in pendentesDaApi) {
+      final existente = await (select(atividadeTable)
+            ..where((tbl) => tbl.id.equals(novaAtividade.id.value)))
+          .getSingleOrNull();
 
-    // 3. Remove pendentes que não foram sincronizadas novamente
+      if (existente == null ||
+          existente.status == StatusAtividade.pendente.name) {
+        await into(atividadeTable).insertOnConflictUpdate(novaAtividade);
+        AppLogger.d(
+          '✅ Atividade ${novaAtividade.id.value} inserida/atualizada',
+          tag: 'AtividadeDAO',
+        );
+      } else {
+        AppLogger.w(
+          '⛔ Ignorando atualização da atividade ${novaAtividade.id.value} - status atual: ${existente.status}',
+          tag: 'AtividadeDAO',
+        );
+      }
+    }
+
+    // 4. Remove pendentes que não foram sincronizadas novamente
     final apagadas = await (delete(atividadeTable)
           ..where((tbl) =>
               tbl.sincronizado.equals(false) & tbl.status.equals('pendente')))
@@ -76,8 +93,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       ),
     ]);
 
-    final results =
-        await query.get(); // <-- Espera trazer todos os dados primeiro
+    final results = await query.get();
 
     return results.map((row) {
       final atividade = row.readTable(atividadeTable);
@@ -87,7 +103,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         atividade: atividade,
         equipamento: equipamento,
       );
-    }).toList(); // <-- transforma a lista de objetos mapeados em uma lista final
+    }).toList();
   }
 
   Future<AtividadeModel?> buscarEmAndamento() async {
