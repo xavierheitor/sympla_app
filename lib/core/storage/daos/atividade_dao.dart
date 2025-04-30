@@ -30,24 +30,24 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         '🔄 Iniciando sincronização de ${atividadesApi.length} atividades',
         tag: 'AtividadeDAO');
 
-    await batch((batch) {
-      // 1. Marcar como NÃO sincronizadas apenas as atividades PENDENTES
-      batch.update(
-        atividadeTable,
-        const AtividadeTableCompanion(sincronizado: Value(false)),
-        where: (tbl) => tbl.status.equals('pendente'),
-      );
+    // 1. Atualiza sincronizado = false apenas nas pendentes
+    await (update(atividadeTable)
+          ..where((tbl) => tbl.status.equals('pendente')))
+        .write(const AtividadeTableCompanion(sincronizado: Value(false)));
 
-      // 2. Inserir/Atualizar todas as atividades vindas da API
-      batch.insertAllOnConflictUpdate(
-        atividadeTable,
-        atividadesApi
-            .map((e) => e.copyWith(sincronizado: const Value(true)))
-            .toList(),
-      );
+    // 2. Atualiza/insere apenas atividades com status pendente vindas da API
+    final pendentesDaApi = atividadesApi
+        .where((e) {
+          return e.status.value == StatusAtividade.pendente;
+        })
+        .map((e) => e.copyWith(sincronizado: const Value(true)))
+        .toList();
+
+    await batch((batch) {
+      batch.insertAllOnConflictUpdate(atividadeTable, pendentesDaApi);
     });
 
-    // 3. Deletar apenas atividades PENDENTES que continuam não sincronizadas
+    // 3. Remove pendentes que não foram sincronizadas novamente
     final apagadas = await (delete(atividadeTable)
           ..where((tbl) =>
               tbl.sincronizado.equals(false) & tbl.status.equals('pendente')))
