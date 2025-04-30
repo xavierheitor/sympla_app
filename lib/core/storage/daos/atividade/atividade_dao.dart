@@ -49,8 +49,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
             ..where((tbl) => tbl.id.equals(novaAtividade.id.value)))
           .getSingleOrNull();
 
-      if (existente == null ||
-          existente.status == StatusAtividade.pendente.name) {
+      if (existente == null || existente.status == StatusAtividade.pendente) {
         await into(atividadeTable).insertOnConflictUpdate(novaAtividade);
         AppLogger.d(
           '✅ Atividade ${novaAtividade.id.value} inserida/atualizada',
@@ -58,7 +57,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         );
       } else {
         AppLogger.w(
-          '⛔ Ignorando atualização da atividade ${novaAtividade.id.value} - status atual: ${existente.status}',
+          '⛔ Ignorando atualização da atividade ${novaAtividade.id.value} - status atual: ${existente.status.name}',
           tag: 'AtividadeDAO',
         );
       }
