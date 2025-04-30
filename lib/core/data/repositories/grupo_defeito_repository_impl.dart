@@ -4,7 +4,7 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/daos/grupo_defeito_equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/grupos_defeito/grupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/domain/repositories/grupo_defeito_repository.dart';
 
 class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {

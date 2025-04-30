@@ -2,16 +2,16 @@
 
 import 'package:drift/drift.dart';
 import 'package:get/get.dart' as g;
-import 'package:sympla_app/core/domain/repositories/apr_preenchida_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/domain/repositories/apr_perguntas_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr_respostas_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_perguntas_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_respostas_repository.dart';
 
 class AprService {
   final AprRepository aprRepository;

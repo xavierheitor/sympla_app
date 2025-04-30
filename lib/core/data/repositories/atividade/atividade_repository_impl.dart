@@ -6,9 +6,9 @@ import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_converter.dart';
-import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
+import 'package:sympla_app/core/storage/daos/atividade/atividade_dao.dart';
 import 'package:sympla_app/core/data/models/atividade_model.dart';
-import 'package:sympla_app/core/domain/repositories/atividade_repository.dart';
+import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
 
 class AtividadeRepositoryImpl implements AtividadeRepository {
   final DioClient dio;

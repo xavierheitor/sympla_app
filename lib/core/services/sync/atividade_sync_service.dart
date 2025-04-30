@@ -2,7 +2,7 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/data/models/atividade_model.dart';
-import 'package:sympla_app/core/domain/repositories/atividade_repository.dart';
+import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
 
 class AtividadeSyncService {
   final AtividadeRepository repository;

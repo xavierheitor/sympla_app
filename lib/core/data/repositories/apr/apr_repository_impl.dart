@@ -4,9 +4,9 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/daos/apr_dao.dart';
-import 'package:sympla_app/core/storage/daos/apr_preenchida_dao.dart';
-import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
+import 'package:sympla_app/core/storage/daos/apr/apr_dao.dart';
+import 'package:sympla_app/core/storage/daos/apr/apr_preenchida_dao.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_repository.dart';
 
 class AprRepositoryImpl implements AprRepository {
   final AprDao dao;

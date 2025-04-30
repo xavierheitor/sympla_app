@@ -1,5 +1,5 @@
-import 'package:sympla_app/core/domain/repositories/apr_perguntas_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_perguntas_repository.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_repository.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 

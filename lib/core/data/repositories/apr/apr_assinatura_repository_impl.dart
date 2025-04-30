@@ -1,8 +1,8 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/domain/repositories/apr_assinatura_repository.dart';
-import 'package:sympla_app/core/storage/daos/apr_assinatura_dao.dart';
+import 'package:sympla_app/core/domain/repositories/apr/apr_assinatura_repository.dart';
+import 'package:sympla_app/core/storage/daos/apr/apr_assinatura_dao.dart';
 
 class AprAssinaturaRepositoryImpl implements AprAssinaturaRepository {
   final AppDatabase db;
