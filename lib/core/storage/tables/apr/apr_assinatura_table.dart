@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/storage/tables/apr_preenchida_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_preenchida_table.dart';
 import 'package:sympla_app/core/storage/tables/tecnicos_table.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 

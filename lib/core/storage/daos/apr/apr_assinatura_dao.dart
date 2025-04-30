@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/tables/apr_assinatura_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_assinatura_table.dart';
 
 part 'apr_assinatura_dao.g.dart';
 

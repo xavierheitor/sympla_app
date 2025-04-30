@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
-import 'package:sympla_app/core/storage/tables/subgrupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/syncable_table.dart';
 
 class EquipamentoTable extends SyncableTable {

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/tables/grupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
 
 part 'grupo_defeito_equipamento_dao.g.dart';
 

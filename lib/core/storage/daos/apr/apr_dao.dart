@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/tables/apr_table.dart';
-import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart'; // <- IMPORTANTE!!
+import 'package:sympla_app/core/storage/tables/apr/apr_table.dart';
+import 'package:sympla_app/core/storage/tables/atividade/tipo_atividade_table.dart'; // <- IMPORTANTE!!
 
 part 'apr_dao.g.dart';
 

@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/storage/tables/apr_table.dart';
-import 'package:sympla_app/core/storage/tables/atividade_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_table.dart';
+import 'package:sympla_app/core/storage/tables/atividade/atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 
 class AprPreenchidaTable extends Table {

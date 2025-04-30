@@ -1,8 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_converter.dart';
 import 'package:sympla_app/core/storage/tables/syncable_table.dart';
-import 'package:sympla_app/core/storage/tables/tipo_atividade_table.dart';
-import 'package:sympla_app/core/storage/tables/equipamento_table.dart';
+import 'package:sympla_app/core/storage/tables/atividade/tipo_atividade_table.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/equipamento_table.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 
 class AtividadeTable extends SyncableTable {

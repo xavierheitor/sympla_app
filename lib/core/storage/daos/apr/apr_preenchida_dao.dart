@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/tables/apr_preenchida_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_preenchida_table.dart';
 
 part 'apr_preenchida_dao.g.dart';
 

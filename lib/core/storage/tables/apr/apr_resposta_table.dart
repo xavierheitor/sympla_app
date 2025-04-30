@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
-import 'package:sympla_app/core/storage/tables/apr_preenchida_table.dart';
-import 'package:sympla_app/core/storage/tables/apr_question_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_preenchida_table.dart';
+import 'package:sympla_app/core/storage/tables/apr/apr_question_table.dart';
 
 class AprRespostaTable extends Table {
   IntColumn get id => integer().autoIncrement()();
