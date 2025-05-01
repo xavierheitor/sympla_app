@@ -54,11 +54,27 @@ class ChecklistService {
           '📋 Buscando perguntas relacionadas ao checklist $checklistId');
       final relacionamentos =
           await relacionamentoRepository.buscarPorChecklistId(checklistId);
-      final perguntas = await perguntaRepository
-          .getAll(); // ou otimizar por IDs dos relacionamentos
-      return perguntas
-          .where((p) => relacionamentos.any((r) => r.perguntaId == p.id))
+      final perguntas = await perguntaRepository.getAll();
+
+      AppLogger.d('🔢 Total de perguntas no banco: ${perguntas.length}');
+      AppLogger.d(
+          '🧩 Total de relacionamentos encontrados: ${relacionamentos.length}');
+
+      final perguntaIds = perguntas.map((e) => e.id).toList();
+      final relIds = relacionamentos.map((e) => e.perguntaId).toList();
+
+      AppLogger.d('📋 IDs das perguntas disponíveis: $perguntaIds');
+      AppLogger.d('📌 IDs dos relacionamentos: $relIds');
+
+      final relacionadas = perguntas
+          .where(
+            (p) => relacionamentos.any((r) => r.perguntaId == p.id),
+          )
           .toList();
+
+      AppLogger.d('✅ Perguntas relacionadas filtradas: ${relacionadas.length}');
+
+      return relacionadas;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -74,6 +90,8 @@ class ChecklistService {
     try {
       AppLogger.d('💾 Salvando ${respostas.length} respostas de checklist');
       for (final resposta in respostas) {
+        AppLogger.d(
+            '↳ Resposta: perguntaId=${resposta.perguntaId.value}, atividadeId=${resposta.atividadeId.value}, resposta=${resposta.resposta.value}');
         await respostaRepository.insert(resposta);
       }
     } catch (e, s) {
@@ -87,7 +105,10 @@ class ChecklistService {
   Future<List<ChecklistRespostaTableData>> buscarRespostas(
       int atividadeId) async {
     try {
-      return await respostaRepository.getByAtividadeId(atividadeId);
+      AppLogger.d('🔍 Buscando respostas para atividade $atividadeId');
+      final respostas = await respostaRepository.getByAtividadeId(atividadeId);
+      AppLogger.d('📋 Total de respostas encontradas: ${respostas.length}');
+      return respostas;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarRespostas] ${erro.mensagem}',
@@ -122,6 +143,22 @@ class ChecklistService {
           tag: 'ChecklistService',
           error: erro.mensagem,
           stackTrace: erro.stack);
+      rethrow;
+    }
+  }
+
+  Future<List<ChecklistPerguntaRelacionamentoTableData>> buscarRelacionamentos(
+      int checklistId) async {
+    try {
+      AppLogger.d('📎 Buscando relacionamentos do checklist $checklistId');
+      final lista =
+          await relacionamentoRepository.buscarPorChecklistId(checklistId);
+      AppLogger.d('📌 Total de relacionamentos: ${lista.length}');
+      return lista;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - buscarRelacionamentos] ${erro.mensagem}',
+          error: e, stackTrace: s);
       rethrow;
     }
   }

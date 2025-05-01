@@ -15,10 +15,7 @@ class ChecklistPage extends StatelessWidget {
         title: const Text('Checklist'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.offAllNamed(
-                '/home'); // substitui toda a pilha e vai direto pra home
-          },
+          onPressed: () => Get.offAllNamed('/home'),
         ),
       ),
       body: Obx(() {
@@ -26,27 +23,48 @@ class ChecklistPage extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (controller.perguntas.isEmpty) {
+        if (controller.perguntasPorGrupoSubgrupo.isEmpty) {
           return const Center(child: Text('Nenhuma pergunta disponível.'));
         }
 
         return Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                itemCount: controller.perguntas.length,
-                itemBuilder: (_, index) {
-                  final pergunta = controller.perguntas[index];
-                  final respostaSelecionada = controller.respostas[pergunta.id];
+              child: ListView(
+                children:
+                    controller.perguntasPorGrupoSubgrupo.entries.map((entry) {
+                  final grupoNome = entry.key.grupo;
+                  final subgrupoNome = entry.key.subgrupo;
+                  final perguntas = entry.value;
 
-                  return PerguntaChecklistWidget(
-                    pergunta: pergunta,
-                    resposta: respostaSelecionada,
-                    onSelecionar: (resposta) {
-                      controller.registrarResposta(pergunta.id, resposta);
-                    },
+                  final respondidas = perguntas
+                      .where(
+                        (p) => controller.respostas.containsKey(p.id),
+                      )
+                      .length;
+
+                  final corTile = respondidas == perguntas.length
+                      ? Colors.green.shade100
+                      : respondidas == 0
+                          ? Colors.white
+                          : Colors.red.shade100;
+
+                  return Container(
+                    color: corTile,
+                    child: ExpansionTile(
+                      title: Text('$grupoNome > $subgrupoNome'),
+                      children: perguntas.map((pergunta) {
+                        final resposta = controller.respostas[pergunta.id];
+                        return PerguntaChecklistWidget(
+                          pergunta: pergunta,
+                          resposta: resposta,
+                          onSelecionar: (r) =>
+                              controller.registrarResposta(pergunta.id, r),
+                        );
+                      }).toList(),
+                    ),
                   );
-                },
+                }).toList(),
               ),
             ),
             Padding(

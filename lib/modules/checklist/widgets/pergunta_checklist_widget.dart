@@ -29,8 +29,8 @@ class PerguntaChecklistWidget extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            Wrap(
+              spacing: 12,
               children: RespostaChecklist.values.map((opcao) {
                 final selecionado = resposta == opcao;
                 return ChoiceChip(
@@ -40,7 +40,7 @@ class PerguntaChecklistWidget extends StatelessWidget {
                   selectedColor: Colors.blueAccent,
                 );
               }).toList(),
-            )
+            ),
           ],
         ),
       ),
