@@ -7,7 +7,14 @@ import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equi
 import 'package:sympla_app/core/storage/tables/syncable_table.dart';
 
 // ---------------------- Tabelas que herdam de SyncableTable ----------------------
+
+class ChecklistTable extends SyncableTable {
+  TextColumn get nome => text()();
+  TextColumn get descricao => text().nullable()();
+}
+
 class ChecklistGrupoTable extends SyncableTable {
+  IntColumn get checklistId => integer().references(ChecklistTable, #id)();
   TextColumn get nome => text()();
 }
 
@@ -17,9 +24,16 @@ class ChecklistSubgrupoTable extends SyncableTable {
 }
 
 class ChecklistPerguntaTable extends SyncableTable {
+  TextColumn get pergunta => text()();
+}
+
+class ChecklistPerguntaRelacionamentoTable extends SyncableTable {
+  IntColumn get checklistId => integer().references(ChecklistTable, #id)();
+  IntColumn get grupoId => integer().references(ChecklistGrupoTable, #id)();
   IntColumn get subgrupoId =>
       integer().references(ChecklistSubgrupoTable, #id)();
-  TextColumn get pergunta => text()();
+  IntColumn get perguntaId =>
+      integer().references(ChecklistPerguntaTable, #id)();
 }
 
 class DefeitoTable extends SyncableTable {

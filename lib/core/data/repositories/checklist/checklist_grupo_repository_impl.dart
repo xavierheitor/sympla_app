@@ -40,6 +40,7 @@ class ChecklistGrupoRepositoryImpl implements ChecklistGrupoRepository {
         return ChecklistGrupoTableCompanion.insert(
           uuid: json['uuid'] as String,
           nome: json['nome'] as String,
+          checklistId: json['checklist_id'] as int,
           createdAt: DateTime.parse(json['created_at']),
           updatedAt: DateTime.parse(json['updated_at']),
           sincronizado: const Value(true),

@@ -4,39 +4,26 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/daos/checklist/checklist_pergunta_dao.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_repository.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_grupo_dao.dart';
+import 'package:sympla_app/core/domain/repositories/checklist/checklist_grupo_repository.dart';
 
-class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
-  final ChecklistPerguntaDao dao;
+class ChecklistGrupoRepositoryImpl implements ChecklistGrupoRepository {
+  final ChecklistGrupoDao dao;
   final DioClient dio;
   final AppDatabase db;
 
-  ChecklistPerguntaRepositoryImpl({required this.dio, required this.db})
-      : dao = db.checklistPerguntaDao;
+  ChecklistGrupoRepositoryImpl({required this.dio, required this.db})
+      : dao = db.checklistGrupoDao;
 
   @override
-  Future<List<ChecklistPerguntaTableData>> getAll() async {
+  Future<List<ChecklistGrupoTableData>> buscarTodos() async {
     try {
       return await dao.getAll();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[ChecklistPerguntaRepositoryImpl - getAll] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl', error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
-  Future<List<ChecklistPerguntaTableData>> getBySubgrupoId(
-      int subgrupoId) async {
-    try {
-      return await dao.getBySubgrupoId(subgrupoId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - getBySubgrupoId] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
+          '[ChecklistGrupoRepositoryImpl - buscarTodos] ${erro.mensagem}',
+          tag: 'ChecklistGrupoRepositoryImpl',
           error: e,
           stackTrace: s);
       rethrow;
@@ -44,16 +31,16 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
   }
 
   @override
-  Future<List<ChecklistPerguntaTableCompanion>> buscarDaApi() async {
+  Future<List<ChecklistGrupoTableCompanion>> buscarDaApi() async {
     try {
-      final response = await dio.get(ApiConstants.checklistPerguntas);
+      final response = await dio.get(ApiConstants.checklistGrupos);
       final dados = response.data as List;
 
       return dados.map((json) {
-        return ChecklistPerguntaTableCompanion.insert(
+        return ChecklistGrupoTableCompanion.insert(
           uuid: json['uuid'] as String,
-          pergunta: json['pergunta'] as String,
-          subgrupoId: json['subgrupo_id'] as int,
+          nome: json['nome'] as String,
+          checklistId: json['checklist_id'] as int,
           createdAt: DateTime.parse(json['created_at']),
           updatedAt: DateTime.parse(json['updated_at']),
           sincronizado: const Value(true),
@@ -62,8 +49,8 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - buscarDaApi] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
+          '[ChecklistGrupoRepositoryImpl - buscarDaApi] ${erro.mensagem}',
+          tag: 'ChecklistGrupoRepositoryImpl',
           error: e,
           stackTrace: s);
       rethrow;
@@ -71,59 +58,15 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
   }
 
   @override
-  Future<void> salvarNoBanco(
-      List<ChecklistPerguntaTableCompanion> dados) async {
+  Future<void> salvarNoBanco(List<ChecklistGrupoTableCompanion> dados) async {
     try {
       await dao.sincronizarComApi(dados);
-      AppLogger.d('💾 ChecklistPergunta sincronizado com sucesso');
+      AppLogger.d('💾 ChecklistGrupo sincronizado com sucesso');
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - salvarNoBanco] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> clearAll() async {
-    try {
-      // await dao.clearAll();
-      // TODO: Implementar a limpeza dos dados no dao
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - clearAll] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> insert(ChecklistPerguntaTableCompanion data) async {
-    try {
-      await dao.insert(data);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[ChecklistPerguntaRepositoryImpl - insert] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl', error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
-  Future<void> deleteById(int id) async {
-    try {
-      await dao.deleteById(id);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - deleteById] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
+          '[ChecklistGrupoRepositoryImpl - salvarNoBanco] ${erro.mensagem}',
+          tag: 'ChecklistGrupoRepositoryImpl',
           error: e,
           stackTrace: s);
       rethrow;

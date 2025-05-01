@@ -28,22 +28,6 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
   }
 
   @override
-  Future<List<ChecklistPerguntaTableData>> getBySubgrupoId(
-      int subgrupoId) async {
-    try {
-      return await dao.getBySubgrupoId(subgrupoId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[ChecklistPerguntaRepositoryImpl - getBySubgrupoId] ${erro.mensagem}',
-          tag: 'ChecklistPerguntaRepositoryImpl',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> insert(ChecklistPerguntaTableCompanion data) async {
     try {
       await dao.insert(data);
@@ -74,7 +58,6 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
   Future<void> clearAll() async {
     try {
       // await dao.clearAll();
-      // TODO: Implementar a limpeza dos dados no dao
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -95,7 +78,6 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
       return dados.map((json) {
         return ChecklistPerguntaTableCompanion.insert(
           uuid: json['uuid'] as String,
-          subgrupoId: json['subgrupo_id'] as int,
           pergunta: json['pergunta'] as String,
           createdAt: DateTime.parse(json['created_at']),
           updatedAt: DateTime.parse(json['updated_at']),

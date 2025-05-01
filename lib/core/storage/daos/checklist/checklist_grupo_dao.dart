@@ -1,3 +1,5 @@
+// checklist_grupo_dao.dart
+
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/checklist/checklist_schema.dart';

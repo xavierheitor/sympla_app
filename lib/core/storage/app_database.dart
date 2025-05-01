@@ -17,8 +17,10 @@ import 'package:sympla_app/core/storage/daos/apr/apr_preenchida_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_resposta_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade/atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/anomalia_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/checklist_grupo_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/checklist_pergunta_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_pergunta_relacionamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/checklist_resposta_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/checklist_subgrupo_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/correcao_anomalia_dao.dart';
@@ -55,7 +57,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla7.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla8.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -89,6 +91,8 @@ LazyDatabase _openConnection() {
     DefeitoTable,
     AnomaliaTable,
     CorrecaoAnomaliaTable,
+    ChecklistTable,
+    ChecklistPerguntaRelacionamentoTable,
   ],
   daos: [
     UsuarioDao,
@@ -113,6 +117,8 @@ LazyDatabase _openConnection() {
     DefeitoDao,
     AnomaliaDao,
     CorrecaoAnomaliaDao,
+    ChecklistDao,
+    ChecklistPerguntaRelacionamentoDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {

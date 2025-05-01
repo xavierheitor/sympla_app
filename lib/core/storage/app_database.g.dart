@@ -5560,6 +5560,388 @@ class AprAssinaturaTableCompanion
   }
 }
 
+class $ChecklistTableTable extends ChecklistTable
+    with TableInfo<$ChecklistTableTable, ChecklistTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChecklistTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
+  @override
+  late final GeneratedColumn<String> nome = GeneratedColumn<String>(
+      'nome', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _descricaoMeta =
+      const VerificationMeta('descricao');
+  @override
+  late final GeneratedColumn<String> descricao = GeneratedColumn<String>(
+      'descricao', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, descricao];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'checklist_table';
+  @override
+  VerificationContext validateIntegrity(Insertable<ChecklistTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('nome')) {
+      context.handle(
+          _nomeMeta, nome.isAcceptableOrUnknown(data['nome']!, _nomeMeta));
+    } else if (isInserting) {
+      context.missing(_nomeMeta);
+    }
+    if (data.containsKey('descricao')) {
+      context.handle(_descricaoMeta,
+          descricao.isAcceptableOrUnknown(data['descricao']!, _descricaoMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChecklistTableData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChecklistTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      nome: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
+      descricao: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}descricao']),
+    );
+  }
+
+  @override
+  $ChecklistTableTable createAlias(String alias) {
+    return $ChecklistTableTable(attachedDatabase, alias);
+  }
+}
+
+class ChecklistTableData extends DataClass
+    implements Insertable<ChecklistTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String nome;
+  final String? descricao;
+  const ChecklistTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.nome,
+      this.descricao});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['nome'] = Variable<String>(nome);
+    if (!nullToAbsent || descricao != null) {
+      map['descricao'] = Variable<String>(descricao);
+    }
+    return map;
+  }
+
+  ChecklistTableCompanion toCompanion(bool nullToAbsent) {
+    return ChecklistTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      nome: Value(nome),
+      descricao: descricao == null && nullToAbsent
+          ? const Value.absent()
+          : Value(descricao),
+    );
+  }
+
+  factory ChecklistTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChecklistTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      nome: serializer.fromJson<String>(json['nome']),
+      descricao: serializer.fromJson<String?>(json['descricao']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'nome': serializer.toJson<String>(nome),
+      'descricao': serializer.toJson<String?>(descricao),
+    };
+  }
+
+  ChecklistTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? nome,
+          Value<String?> descricao = const Value.absent()}) =>
+      ChecklistTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        nome: nome ?? this.nome,
+        descricao: descricao.present ? descricao.value : this.descricao,
+      );
+  ChecklistTableData copyWithCompanion(ChecklistTableCompanion data) {
+    return ChecklistTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      nome: data.nome.present ? data.nome.value : this.nome,
+      descricao: data.descricao.present ? data.descricao.value : this.descricao,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('descricao: $descricao')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, nome, descricao);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChecklistTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.nome == this.nome &&
+          other.descricao == this.descricao);
+}
+
+class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> nome;
+  final Value<String?> descricao;
+  const ChecklistTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.nome = const Value.absent(),
+    this.descricao = const Value.absent(),
+  });
+  ChecklistTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String nome,
+    this.descricao = const Value.absent(),
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        nome = Value(nome);
+  static Insertable<ChecklistTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? nome,
+    Expression<String>? descricao,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (nome != null) 'nome': nome,
+      if (descricao != null) 'descricao': descricao,
+    });
+  }
+
+  ChecklistTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? nome,
+      Value<String?>? descricao}) {
+    return ChecklistTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      nome: nome ?? this.nome,
+      descricao: descricao ?? this.descricao,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (nome.present) {
+      map['nome'] = Variable<String>(nome.value);
+    }
+    if (descricao.present) {
+      map['descricao'] = Variable<String>(descricao.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('nome: $nome, ')
+          ..write('descricao: $descricao')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $ChecklistGrupoTableTable extends ChecklistGrupoTable
     with TableInfo<$ChecklistGrupoTableTable, ChecklistGrupoTableData> {
   @override
@@ -5605,6 +5987,15 @@ class $ChecklistGrupoTableTable extends ChecklistGrupoTable
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("sincronizado" IN (0, 1))'),
       defaultValue: const Constant(false));
+  static const VerificationMeta _checklistIdMeta =
+      const VerificationMeta('checklistId');
+  @override
+  late final GeneratedColumn<int> checklistId = GeneratedColumn<int>(
+      'checklist_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_table (id)'));
   static const VerificationMeta _nomeMeta = const VerificationMeta('nome');
   @override
   late final GeneratedColumn<String> nome = GeneratedColumn<String>(
@@ -5612,7 +6003,7 @@ class $ChecklistGrupoTableTable extends ChecklistGrupoTable
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, uuid, createdAt, updatedAt, sincronizado, nome];
+      [id, uuid, createdAt, updatedAt, sincronizado, checklistId, nome];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -5651,6 +6042,14 @@ class $ChecklistGrupoTableTable extends ChecklistGrupoTable
           sincronizado.isAcceptableOrUnknown(
               data['sincronizado']!, _sincronizadoMeta));
     }
+    if (data.containsKey('checklist_id')) {
+      context.handle(
+          _checklistIdMeta,
+          checklistId.isAcceptableOrUnknown(
+              data['checklist_id']!, _checklistIdMeta));
+    } else if (isInserting) {
+      context.missing(_checklistIdMeta);
+    }
     if (data.containsKey('nome')) {
       context.handle(
           _nomeMeta, nome.isAcceptableOrUnknown(data['nome']!, _nomeMeta));
@@ -5677,6 +6076,8 @@ class $ChecklistGrupoTableTable extends ChecklistGrupoTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
       sincronizado: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      checklistId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist_id'])!,
       nome: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
     );
@@ -5695,6 +6096,7 @@ class ChecklistGrupoTableData extends DataClass
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool sincronizado;
+  final int checklistId;
   final String nome;
   const ChecklistGrupoTableData(
       {required this.id,
@@ -5702,6 +6104,7 @@ class ChecklistGrupoTableData extends DataClass
       required this.createdAt,
       required this.updatedAt,
       required this.sincronizado,
+      required this.checklistId,
       required this.nome});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5711,6 +6114,7 @@ class ChecklistGrupoTableData extends DataClass
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['sincronizado'] = Variable<bool>(sincronizado);
+    map['checklist_id'] = Variable<int>(checklistId);
     map['nome'] = Variable<String>(nome);
     return map;
   }
@@ -5722,6 +6126,7 @@ class ChecklistGrupoTableData extends DataClass
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       sincronizado: Value(sincronizado),
+      checklistId: Value(checklistId),
       nome: Value(nome),
     );
   }
@@ -5735,6 +6140,7 @@ class ChecklistGrupoTableData extends DataClass
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      checklistId: serializer.fromJson<int>(json['checklistId']),
       nome: serializer.fromJson<String>(json['nome']),
     );
   }
@@ -5747,6 +6153,7 @@ class ChecklistGrupoTableData extends DataClass
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'sincronizado': serializer.toJson<bool>(sincronizado),
+      'checklistId': serializer.toJson<int>(checklistId),
       'nome': serializer.toJson<String>(nome),
     };
   }
@@ -5757,6 +6164,7 @@ class ChecklistGrupoTableData extends DataClass
           DateTime? createdAt,
           DateTime? updatedAt,
           bool? sincronizado,
+          int? checklistId,
           String? nome}) =>
       ChecklistGrupoTableData(
         id: id ?? this.id,
@@ -5764,6 +6172,7 @@ class ChecklistGrupoTableData extends DataClass
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         sincronizado: sincronizado ?? this.sincronizado,
+        checklistId: checklistId ?? this.checklistId,
         nome: nome ?? this.nome,
       );
   ChecklistGrupoTableData copyWithCompanion(ChecklistGrupoTableCompanion data) {
@@ -5775,6 +6184,8 @@ class ChecklistGrupoTableData extends DataClass
       sincronizado: data.sincronizado.present
           ? data.sincronizado.value
           : this.sincronizado,
+      checklistId:
+          data.checklistId.present ? data.checklistId.value : this.checklistId,
       nome: data.nome.present ? data.nome.value : this.nome,
     );
   }
@@ -5787,14 +6198,15 @@ class ChecklistGrupoTableData extends DataClass
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
           ..write('nome: $nome')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, uuid, createdAt, updatedAt, sincronizado, nome);
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, checklistId, nome);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -5804,6 +6216,7 @@ class ChecklistGrupoTableData extends DataClass
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.sincronizado == this.sincronizado &&
+          other.checklistId == this.checklistId &&
           other.nome == this.nome);
 }
 
@@ -5814,6 +6227,7 @@ class ChecklistGrupoTableCompanion
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<bool> sincronizado;
+  final Value<int> checklistId;
   final Value<String> nome;
   const ChecklistGrupoTableCompanion({
     this.id = const Value.absent(),
@@ -5821,6 +6235,7 @@ class ChecklistGrupoTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.sincronizado = const Value.absent(),
+    this.checklistId = const Value.absent(),
     this.nome = const Value.absent(),
   });
   ChecklistGrupoTableCompanion.insert({
@@ -5829,10 +6244,12 @@ class ChecklistGrupoTableCompanion
     required DateTime createdAt,
     required DateTime updatedAt,
     this.sincronizado = const Value.absent(),
+    required int checklistId,
     required String nome,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
+        checklistId = Value(checklistId),
         nome = Value(nome);
   static Insertable<ChecklistGrupoTableData> custom({
     Expression<int>? id,
@@ -5840,6 +6257,7 @@ class ChecklistGrupoTableCompanion
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<bool>? sincronizado,
+    Expression<int>? checklistId,
     Expression<String>? nome,
   }) {
     return RawValuesInsertable({
@@ -5848,6 +6266,7 @@ class ChecklistGrupoTableCompanion
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (sincronizado != null) 'sincronizado': sincronizado,
+      if (checklistId != null) 'checklist_id': checklistId,
       if (nome != null) 'nome': nome,
     });
   }
@@ -5858,6 +6277,7 @@ class ChecklistGrupoTableCompanion
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<bool>? sincronizado,
+      Value<int>? checklistId,
       Value<String>? nome}) {
     return ChecklistGrupoTableCompanion(
       id: id ?? this.id,
@@ -5865,6 +6285,7 @@ class ChecklistGrupoTableCompanion
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       sincronizado: sincronizado ?? this.sincronizado,
+      checklistId: checklistId ?? this.checklistId,
       nome: nome ?? this.nome,
     );
   }
@@ -5887,6 +6308,9 @@ class ChecklistGrupoTableCompanion
     if (sincronizado.present) {
       map['sincronizado'] = Variable<bool>(sincronizado.value);
     }
+    if (checklistId.present) {
+      map['checklist_id'] = Variable<int>(checklistId.value);
+    }
     if (nome.present) {
       map['nome'] = Variable<String>(nome.value);
     }
@@ -5901,6 +6325,7 @@ class ChecklistGrupoTableCompanion
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
           ..write('nome: $nome')
           ..write(')'))
         .toString();
@@ -6340,15 +6765,6 @@ class $ChecklistPerguntaTableTable extends ChecklistPerguntaTable
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'CHECK ("sincronizado" IN (0, 1))'),
       defaultValue: const Constant(false));
-  static const VerificationMeta _subgrupoIdMeta =
-      const VerificationMeta('subgrupoId');
-  @override
-  late final GeneratedColumn<int> subgrupoId = GeneratedColumn<int>(
-      'subgrupo_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES checklist_subgrupo_table (id)'));
   static const VerificationMeta _perguntaMeta =
       const VerificationMeta('pergunta');
   @override
@@ -6357,7 +6773,7 @@ class $ChecklistPerguntaTableTable extends ChecklistPerguntaTable
       type: DriftSqlType.string, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, uuid, createdAt, updatedAt, sincronizado, subgrupoId, pergunta];
+      [id, uuid, createdAt, updatedAt, sincronizado, pergunta];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -6396,14 +6812,6 @@ class $ChecklistPerguntaTableTable extends ChecklistPerguntaTable
           sincronizado.isAcceptableOrUnknown(
               data['sincronizado']!, _sincronizadoMeta));
     }
-    if (data.containsKey('subgrupo_id')) {
-      context.handle(
-          _subgrupoIdMeta,
-          subgrupoId.isAcceptableOrUnknown(
-              data['subgrupo_id']!, _subgrupoIdMeta));
-    } else if (isInserting) {
-      context.missing(_subgrupoIdMeta);
-    }
     if (data.containsKey('pergunta')) {
       context.handle(_perguntaMeta,
           pergunta.isAcceptableOrUnknown(data['pergunta']!, _perguntaMeta));
@@ -6430,8 +6838,6 @@ class $ChecklistPerguntaTableTable extends ChecklistPerguntaTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
       sincronizado: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
-      subgrupoId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}subgrupo_id'])!,
       pergunta: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}pergunta'])!,
     );
@@ -6450,7 +6856,6 @@ class ChecklistPerguntaTableData extends DataClass
   final DateTime createdAt;
   final DateTime updatedAt;
   final bool sincronizado;
-  final int subgrupoId;
   final String pergunta;
   const ChecklistPerguntaTableData(
       {required this.id,
@@ -6458,7 +6863,6 @@ class ChecklistPerguntaTableData extends DataClass
       required this.createdAt,
       required this.updatedAt,
       required this.sincronizado,
-      required this.subgrupoId,
       required this.pergunta});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -6468,7 +6872,6 @@ class ChecklistPerguntaTableData extends DataClass
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['sincronizado'] = Variable<bool>(sincronizado);
-    map['subgrupo_id'] = Variable<int>(subgrupoId);
     map['pergunta'] = Variable<String>(pergunta);
     return map;
   }
@@ -6480,7 +6883,6 @@ class ChecklistPerguntaTableData extends DataClass
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
       sincronizado: Value(sincronizado),
-      subgrupoId: Value(subgrupoId),
       pergunta: Value(pergunta),
     );
   }
@@ -6494,7 +6896,6 @@ class ChecklistPerguntaTableData extends DataClass
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
-      subgrupoId: serializer.fromJson<int>(json['subgrupoId']),
       pergunta: serializer.fromJson<String>(json['pergunta']),
     );
   }
@@ -6507,7 +6908,6 @@ class ChecklistPerguntaTableData extends DataClass
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'sincronizado': serializer.toJson<bool>(sincronizado),
-      'subgrupoId': serializer.toJson<int>(subgrupoId),
       'pergunta': serializer.toJson<String>(pergunta),
     };
   }
@@ -6518,7 +6918,6 @@ class ChecklistPerguntaTableData extends DataClass
           DateTime? createdAt,
           DateTime? updatedAt,
           bool? sincronizado,
-          int? subgrupoId,
           String? pergunta}) =>
       ChecklistPerguntaTableData(
         id: id ?? this.id,
@@ -6526,7 +6925,6 @@ class ChecklistPerguntaTableData extends DataClass
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         sincronizado: sincronizado ?? this.sincronizado,
-        subgrupoId: subgrupoId ?? this.subgrupoId,
         pergunta: pergunta ?? this.pergunta,
       );
   ChecklistPerguntaTableData copyWithCompanion(
@@ -6539,8 +6937,6 @@ class ChecklistPerguntaTableData extends DataClass
       sincronizado: data.sincronizado.present
           ? data.sincronizado.value
           : this.sincronizado,
-      subgrupoId:
-          data.subgrupoId.present ? data.subgrupoId.value : this.subgrupoId,
       pergunta: data.pergunta.present ? data.pergunta.value : this.pergunta,
     );
   }
@@ -6553,15 +6949,14 @@ class ChecklistPerguntaTableData extends DataClass
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
-          ..write('subgrupoId: $subgrupoId, ')
           ..write('pergunta: $pergunta')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, uuid, createdAt, updatedAt, sincronizado, subgrupoId, pergunta);
+  int get hashCode =>
+      Object.hash(id, uuid, createdAt, updatedAt, sincronizado, pergunta);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -6571,7 +6966,6 @@ class ChecklistPerguntaTableData extends DataClass
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.sincronizado == this.sincronizado &&
-          other.subgrupoId == this.subgrupoId &&
           other.pergunta == this.pergunta);
 }
 
@@ -6582,7 +6976,6 @@ class ChecklistPerguntaTableCompanion
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   final Value<bool> sincronizado;
-  final Value<int> subgrupoId;
   final Value<String> pergunta;
   const ChecklistPerguntaTableCompanion({
     this.id = const Value.absent(),
@@ -6590,7 +6983,6 @@ class ChecklistPerguntaTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
     this.sincronizado = const Value.absent(),
-    this.subgrupoId = const Value.absent(),
     this.pergunta = const Value.absent(),
   });
   ChecklistPerguntaTableCompanion.insert({
@@ -6599,12 +6991,10 @@ class ChecklistPerguntaTableCompanion
     required DateTime createdAt,
     required DateTime updatedAt,
     this.sincronizado = const Value.absent(),
-    required int subgrupoId,
     required String pergunta,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
-        subgrupoId = Value(subgrupoId),
         pergunta = Value(pergunta);
   static Insertable<ChecklistPerguntaTableData> custom({
     Expression<int>? id,
@@ -6612,7 +7002,6 @@ class ChecklistPerguntaTableCompanion
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
     Expression<bool>? sincronizado,
-    Expression<int>? subgrupoId,
     Expression<String>? pergunta,
   }) {
     return RawValuesInsertable({
@@ -6621,7 +7010,6 @@ class ChecklistPerguntaTableCompanion
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
       if (sincronizado != null) 'sincronizado': sincronizado,
-      if (subgrupoId != null) 'subgrupo_id': subgrupoId,
       if (pergunta != null) 'pergunta': pergunta,
     });
   }
@@ -6632,7 +7020,6 @@ class ChecklistPerguntaTableCompanion
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<bool>? sincronizado,
-      Value<int>? subgrupoId,
       Value<String>? pergunta}) {
     return ChecklistPerguntaTableCompanion(
       id: id ?? this.id,
@@ -6640,7 +7027,6 @@ class ChecklistPerguntaTableCompanion
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       sincronizado: sincronizado ?? this.sincronizado,
-      subgrupoId: subgrupoId ?? this.subgrupoId,
       pergunta: pergunta ?? this.pergunta,
     );
   }
@@ -6663,9 +7049,6 @@ class ChecklistPerguntaTableCompanion
     if (sincronizado.present) {
       map['sincronizado'] = Variable<bool>(sincronizado.value);
     }
-    if (subgrupoId.present) {
-      map['subgrupo_id'] = Variable<int>(subgrupoId.value);
-    }
     if (pergunta.present) {
       map['pergunta'] = Variable<String>(pergunta.value);
     }
@@ -6680,7 +7063,6 @@ class ChecklistPerguntaTableCompanion
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
-          ..write('subgrupoId: $subgrupoId, ')
           ..write('pergunta: $pergunta')
           ..write(')'))
         .toString();
@@ -8321,6 +8703,501 @@ class CorrecaoAnomaliaTableCompanion
   }
 }
 
+class $ChecklistPerguntaRelacionamentoTableTable
+    extends ChecklistPerguntaRelacionamentoTable
+    with
+        TableInfo<$ChecklistPerguntaRelacionamentoTableTable,
+            ChecklistPerguntaRelacionamentoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChecklistPerguntaRelacionamentoTableTable(this.attachedDatabase,
+      [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _checklistIdMeta =
+      const VerificationMeta('checklistId');
+  @override
+  late final GeneratedColumn<int> checklistId = GeneratedColumn<int>(
+      'checklist_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_table (id)'));
+  static const VerificationMeta _grupoIdMeta =
+      const VerificationMeta('grupoId');
+  @override
+  late final GeneratedColumn<int> grupoId = GeneratedColumn<int>(
+      'grupo_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_grupo_table (id)'));
+  static const VerificationMeta _subgrupoIdMeta =
+      const VerificationMeta('subgrupoId');
+  @override
+  late final GeneratedColumn<int> subgrupoId = GeneratedColumn<int>(
+      'subgrupo_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_subgrupo_table (id)'));
+  static const VerificationMeta _perguntaIdMeta =
+      const VerificationMeta('perguntaId');
+  @override
+  late final GeneratedColumn<int> perguntaId = GeneratedColumn<int>(
+      'pergunta_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_pergunta_table (id)'));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        uuid,
+        createdAt,
+        updatedAt,
+        sincronizado,
+        checklistId,
+        grupoId,
+        subgrupoId,
+        perguntaId
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'checklist_pergunta_relacionamento_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ChecklistPerguntaRelacionamentoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('checklist_id')) {
+      context.handle(
+          _checklistIdMeta,
+          checklistId.isAcceptableOrUnknown(
+              data['checklist_id']!, _checklistIdMeta));
+    } else if (isInserting) {
+      context.missing(_checklistIdMeta);
+    }
+    if (data.containsKey('grupo_id')) {
+      context.handle(_grupoIdMeta,
+          grupoId.isAcceptableOrUnknown(data['grupo_id']!, _grupoIdMeta));
+    } else if (isInserting) {
+      context.missing(_grupoIdMeta);
+    }
+    if (data.containsKey('subgrupo_id')) {
+      context.handle(
+          _subgrupoIdMeta,
+          subgrupoId.isAcceptableOrUnknown(
+              data['subgrupo_id']!, _subgrupoIdMeta));
+    } else if (isInserting) {
+      context.missing(_subgrupoIdMeta);
+    }
+    if (data.containsKey('pergunta_id')) {
+      context.handle(
+          _perguntaIdMeta,
+          perguntaId.isAcceptableOrUnknown(
+              data['pergunta_id']!, _perguntaIdMeta));
+    } else if (isInserting) {
+      context.missing(_perguntaIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChecklistPerguntaRelacionamentoTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChecklistPerguntaRelacionamentoTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      checklistId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}checklist_id'])!,
+      grupoId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}grupo_id'])!,
+      subgrupoId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}subgrupo_id'])!,
+      perguntaId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}pergunta_id'])!,
+    );
+  }
+
+  @override
+  $ChecklistPerguntaRelacionamentoTableTable createAlias(String alias) {
+    return $ChecklistPerguntaRelacionamentoTableTable(attachedDatabase, alias);
+  }
+}
+
+class ChecklistPerguntaRelacionamentoTableData extends DataClass
+    implements Insertable<ChecklistPerguntaRelacionamentoTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final int checklistId;
+  final int grupoId;
+  final int subgrupoId;
+  final int perguntaId;
+  const ChecklistPerguntaRelacionamentoTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.checklistId,
+      required this.grupoId,
+      required this.subgrupoId,
+      required this.perguntaId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['checklist_id'] = Variable<int>(checklistId);
+    map['grupo_id'] = Variable<int>(grupoId);
+    map['subgrupo_id'] = Variable<int>(subgrupoId);
+    map['pergunta_id'] = Variable<int>(perguntaId);
+    return map;
+  }
+
+  ChecklistPerguntaRelacionamentoTableCompanion toCompanion(bool nullToAbsent) {
+    return ChecklistPerguntaRelacionamentoTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      checklistId: Value(checklistId),
+      grupoId: Value(grupoId),
+      subgrupoId: Value(subgrupoId),
+      perguntaId: Value(perguntaId),
+    );
+  }
+
+  factory ChecklistPerguntaRelacionamentoTableData.fromJson(
+      Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChecklistPerguntaRelacionamentoTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      checklistId: serializer.fromJson<int>(json['checklistId']),
+      grupoId: serializer.fromJson<int>(json['grupoId']),
+      subgrupoId: serializer.fromJson<int>(json['subgrupoId']),
+      perguntaId: serializer.fromJson<int>(json['perguntaId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'checklistId': serializer.toJson<int>(checklistId),
+      'grupoId': serializer.toJson<int>(grupoId),
+      'subgrupoId': serializer.toJson<int>(subgrupoId),
+      'perguntaId': serializer.toJson<int>(perguntaId),
+    };
+  }
+
+  ChecklistPerguntaRelacionamentoTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          int? checklistId,
+          int? grupoId,
+          int? subgrupoId,
+          int? perguntaId}) =>
+      ChecklistPerguntaRelacionamentoTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        checklistId: checklistId ?? this.checklistId,
+        grupoId: grupoId ?? this.grupoId,
+        subgrupoId: subgrupoId ?? this.subgrupoId,
+        perguntaId: perguntaId ?? this.perguntaId,
+      );
+  ChecklistPerguntaRelacionamentoTableData copyWithCompanion(
+      ChecklistPerguntaRelacionamentoTableCompanion data) {
+    return ChecklistPerguntaRelacionamentoTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      checklistId:
+          data.checklistId.present ? data.checklistId.value : this.checklistId,
+      grupoId: data.grupoId.present ? data.grupoId.value : this.grupoId,
+      subgrupoId:
+          data.subgrupoId.present ? data.subgrupoId.value : this.subgrupoId,
+      perguntaId:
+          data.perguntaId.present ? data.perguntaId.value : this.perguntaId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistPerguntaRelacionamentoTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
+          ..write('grupoId: $grupoId, ')
+          ..write('subgrupoId: $subgrupoId, ')
+          ..write('perguntaId: $perguntaId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
+      checklistId, grupoId, subgrupoId, perguntaId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChecklistPerguntaRelacionamentoTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.checklistId == this.checklistId &&
+          other.grupoId == this.grupoId &&
+          other.subgrupoId == this.subgrupoId &&
+          other.perguntaId == this.perguntaId);
+}
+
+class ChecklistPerguntaRelacionamentoTableCompanion
+    extends UpdateCompanion<ChecklistPerguntaRelacionamentoTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<int> checklistId;
+  final Value<int> grupoId;
+  final Value<int> subgrupoId;
+  final Value<int> perguntaId;
+  const ChecklistPerguntaRelacionamentoTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.checklistId = const Value.absent(),
+    this.grupoId = const Value.absent(),
+    this.subgrupoId = const Value.absent(),
+    this.perguntaId = const Value.absent(),
+  });
+  ChecklistPerguntaRelacionamentoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required int checklistId,
+    required int grupoId,
+    required int subgrupoId,
+    required int perguntaId,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        checklistId = Value(checklistId),
+        grupoId = Value(grupoId),
+        subgrupoId = Value(subgrupoId),
+        perguntaId = Value(perguntaId);
+  static Insertable<ChecklistPerguntaRelacionamentoTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<int>? checklistId,
+    Expression<int>? grupoId,
+    Expression<int>? subgrupoId,
+    Expression<int>? perguntaId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (checklistId != null) 'checklist_id': checklistId,
+      if (grupoId != null) 'grupo_id': grupoId,
+      if (subgrupoId != null) 'subgrupo_id': subgrupoId,
+      if (perguntaId != null) 'pergunta_id': perguntaId,
+    });
+  }
+
+  ChecklistPerguntaRelacionamentoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<int>? checklistId,
+      Value<int>? grupoId,
+      Value<int>? subgrupoId,
+      Value<int>? perguntaId}) {
+    return ChecklistPerguntaRelacionamentoTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      checklistId: checklistId ?? this.checklistId,
+      grupoId: grupoId ?? this.grupoId,
+      subgrupoId: subgrupoId ?? this.subgrupoId,
+      perguntaId: perguntaId ?? this.perguntaId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (checklistId.present) {
+      map['checklist_id'] = Variable<int>(checklistId.value);
+    }
+    if (grupoId.present) {
+      map['grupo_id'] = Variable<int>(grupoId.value);
+    }
+    if (subgrupoId.present) {
+      map['subgrupo_id'] = Variable<int>(subgrupoId.value);
+    }
+    if (perguntaId.present) {
+      map['pergunta_id'] = Variable<int>(perguntaId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistPerguntaRelacionamentoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
+          ..write('grupoId: $grupoId, ')
+          ..write('subgrupoId: $subgrupoId, ')
+          ..write('perguntaId: $perguntaId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8348,6 +9225,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TecnicosTableTable tecnicosTable = $TecnicosTableTable(this);
   late final $AprAssinaturaTableTable aprAssinaturaTable =
       $AprAssinaturaTableTable(this);
+  late final $ChecklistTableTable checklistTable = $ChecklistTableTable(this);
   late final $ChecklistGrupoTableTable checklistGrupoTable =
       $ChecklistGrupoTableTable(this);
   late final $ChecklistSubgrupoTableTable checklistSubgrupoTable =
@@ -8360,6 +9238,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AnomaliaTableTable anomaliaTable = $AnomaliaTableTable(this);
   late final $CorrecaoAnomaliaTableTable correcaoAnomaliaTable =
       $CorrecaoAnomaliaTableTable(this);
+  late final $ChecklistPerguntaRelacionamentoTableTable
+      checklistPerguntaRelacionamentoTable =
+      $ChecklistPerguntaRelacionamentoTableTable(this);
   late final UsuarioDao usuarioDao = UsuarioDao(this as AppDatabase);
   late final TipoAtividadeDao tipoAtividadeDao =
       TipoAtividadeDao(this as AppDatabase);
@@ -8394,6 +9275,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final AnomaliaDao anomaliaDao = AnomaliaDao(this as AppDatabase);
   late final CorrecaoAnomaliaDao correcaoAnomaliaDao =
       CorrecaoAnomaliaDao(this as AppDatabase);
+  late final ChecklistDao checklistDao = ChecklistDao(this as AppDatabase);
+  late final ChecklistPerguntaRelacionamentoDao
+      checklistPerguntaRelacionamentoDao =
+      ChecklistPerguntaRelacionamentoDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8412,13 +9297,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         aprPerguntaRelacionamentoTable,
         tecnicosTable,
         aprAssinaturaTable,
+        checklistTable,
         checklistGrupoTable,
         checklistSubgrupoTable,
         checklistPerguntaTable,
         checklistRespostaTable,
         defeitoTable,
         anomaliaTable,
-        correcaoAnomaliaTable
+        correcaoAnomaliaTable,
+        checklistPerguntaRelacionamentoTable
       ];
 }
 
@@ -13965,6 +14852,381 @@ typedef $$AprAssinaturaTableTableProcessedTableManager = ProcessedTableManager<
     AprAssinaturaTableData,
     PrefetchHooks Function(
         {bool aprPreenchidaId, bool usuarioId, bool tecnicoId})>;
+typedef $$ChecklistTableTableCreateCompanionBuilder = ChecklistTableCompanion
+    Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String nome,
+  Value<String?> descricao,
+});
+typedef $$ChecklistTableTableUpdateCompanionBuilder = ChecklistTableCompanion
+    Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> nome,
+  Value<String?> descricao,
+});
+
+final class $$ChecklistTableTableReferences extends BaseReferences<
+    _$AppDatabase, $ChecklistTableTable, ChecklistTableData> {
+  $$ChecklistTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$ChecklistGrupoTableTable,
+      List<ChecklistGrupoTableData>> _checklistGrupoTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.checklistGrupoTable,
+          aliasName: $_aliasNameGenerator(
+              db.checklistTable.id, db.checklistGrupoTable.checklistId));
+
+  $$ChecklistGrupoTableTableProcessedTableManager get checklistGrupoTableRefs {
+    final manager =
+        $$ChecklistGrupoTableTableTableManager($_db, $_db.checklistGrupoTable)
+            .filter((f) => f.checklistId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_checklistGrupoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$ChecklistPerguntaRelacionamentoTableTable,
+          List<ChecklistPerguntaRelacionamentoTableData>>
+      _checklistPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(db.checklistTable.id,
+                  db.checklistPerguntaRelacionamentoTable.checklistId));
+
+  $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
+      get checklistPerguntaRelacionamentoTableRefs {
+    final manager = $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.checklistPerguntaRelacionamentoTable)
+        .filter((f) => f.checklistId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_checklistPerguntaRelacionamentoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$ChecklistTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ChecklistTableTable> {
+  $$ChecklistTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get descricao => $composableBuilder(
+      column: $table.descricao, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> checklistGrupoTableRefs(
+      Expression<bool> Function($$ChecklistGrupoTableTableFilterComposer f) f) {
+    final $$ChecklistGrupoTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.checklistGrupoTable,
+        getReferencedColumn: (t) => t.checklistId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistGrupoTableTableFilterComposer(
+              $db: $db,
+              $table: $db.checklistGrupoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> checklistPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableFilterComposer f)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.checklistId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$ChecklistTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ChecklistTableTable> {
+  $$ChecklistTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get nome => $composableBuilder(
+      column: $table.nome, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get descricao => $composableBuilder(
+      column: $table.descricao, builder: (column) => ColumnOrderings(column));
+}
+
+class $$ChecklistTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ChecklistTableTable> {
+  $$ChecklistTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  GeneratedColumn<String> get nome =>
+      $composableBuilder(column: $table.nome, builder: (column) => column);
+
+  GeneratedColumn<String> get descricao =>
+      $composableBuilder(column: $table.descricao, builder: (column) => column);
+
+  Expression<T> checklistGrupoTableRefs<T extends Object>(
+      Expression<T> Function($$ChecklistGrupoTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistGrupoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistGrupoTable,
+            getReferencedColumn: (t) => t.checklistId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistGrupoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistGrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> checklistPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer
+        composer = $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.checklistId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$ChecklistTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ChecklistTableTable,
+    ChecklistTableData,
+    $$ChecklistTableTableFilterComposer,
+    $$ChecklistTableTableOrderingComposer,
+    $$ChecklistTableTableAnnotationComposer,
+    $$ChecklistTableTableCreateCompanionBuilder,
+    $$ChecklistTableTableUpdateCompanionBuilder,
+    (ChecklistTableData, $$ChecklistTableTableReferences),
+    ChecklistTableData,
+    PrefetchHooks Function(
+        {bool checklistGrupoTableRefs,
+        bool checklistPerguntaRelacionamentoTableRefs})> {
+  $$ChecklistTableTableTableManager(
+      _$AppDatabase db, $ChecklistTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistTableTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistTableTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistTableTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> nome = const Value.absent(),
+            Value<String?> descricao = const Value.absent(),
+          }) =>
+              ChecklistTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            descricao: descricao,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String nome,
+            Value<String?> descricao = const Value.absent(),
+          }) =>
+              ChecklistTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            nome: nome,
+            descricao: descricao,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ChecklistTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {checklistGrupoTableRefs = false,
+              checklistPerguntaRelacionamentoTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (checklistGrupoTableRefs) db.checklistGrupoTable,
+                if (checklistPerguntaRelacionamentoTableRefs)
+                  db.checklistPerguntaRelacionamentoTable
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (checklistGrupoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ChecklistTableTableReferences
+                            ._checklistGrupoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ChecklistTableTableReferences(db, table, p0)
+                                .checklistGrupoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.checklistId == item.id),
+                        typedResults: items),
+                  if (checklistPerguntaRelacionamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ChecklistTableTableReferences
+                            ._checklistPerguntaRelacionamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ChecklistTableTableReferences(db, table, p0)
+                                .checklistPerguntaRelacionamentoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.checklistId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$ChecklistTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ChecklistTableTable,
+    ChecklistTableData,
+    $$ChecklistTableTableFilterComposer,
+    $$ChecklistTableTableOrderingComposer,
+    $$ChecklistTableTableAnnotationComposer,
+    $$ChecklistTableTableCreateCompanionBuilder,
+    $$ChecklistTableTableUpdateCompanionBuilder,
+    (ChecklistTableData, $$ChecklistTableTableReferences),
+    ChecklistTableData,
+    PrefetchHooks Function(
+        {bool checklistGrupoTableRefs,
+        bool checklistPerguntaRelacionamentoTableRefs})>;
 typedef $$ChecklistGrupoTableTableCreateCompanionBuilder
     = ChecklistGrupoTableCompanion Function({
   Value<int> id,
@@ -13972,6 +15234,7 @@ typedef $$ChecklistGrupoTableTableCreateCompanionBuilder
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<bool> sincronizado,
+  required int checklistId,
   required String nome,
 });
 typedef $$ChecklistGrupoTableTableUpdateCompanionBuilder
@@ -13981,6 +15244,7 @@ typedef $$ChecklistGrupoTableTableUpdateCompanionBuilder
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<bool> sincronizado,
+  Value<int> checklistId,
   Value<String> nome,
 });
 
@@ -13988,6 +15252,19 @@ final class $$ChecklistGrupoTableTableReferences extends BaseReferences<
     _$AppDatabase, $ChecklistGrupoTableTable, ChecklistGrupoTableData> {
   $$ChecklistGrupoTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
+
+  static $ChecklistTableTable _checklistIdTable(_$AppDatabase db) =>
+      db.checklistTable.createAlias($_aliasNameGenerator(
+          db.checklistGrupoTable.checklistId, db.checklistTable.id));
+
+  $$ChecklistTableTableProcessedTableManager get checklistId {
+    final manager = $$ChecklistTableTableTableManager($_db, $_db.checklistTable)
+        .filter((f) => f.id($_item.checklistId));
+    final item = $_typedResult.readTableOrNull(_checklistIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
 
   static MultiTypedResultKey<$ChecklistSubgrupoTableTable,
       List<ChecklistSubgrupoTableData>> _checklistSubgrupoTableRefsTable(
@@ -14004,6 +15281,25 @@ final class $$ChecklistGrupoTableTableReferences extends BaseReferences<
 
     final cache =
         $_typedResult.readTableOrNull(_checklistSubgrupoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$ChecklistPerguntaRelacionamentoTableTable,
+          List<ChecklistPerguntaRelacionamentoTableData>>
+      _checklistPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(db.checklistGrupoTable.id,
+                  db.checklistPerguntaRelacionamentoTable.grupoId));
+
+  $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
+      get checklistPerguntaRelacionamentoTableRefs {
+    final manager = $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.checklistPerguntaRelacionamentoTable)
+        .filter((f) => f.grupoId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_checklistPerguntaRelacionamentoTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -14036,6 +15332,26 @@ class $$ChecklistGrupoTableTableFilterComposer
   ColumnFilters<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnFilters(column));
 
+  $$ChecklistTableTableFilterComposer get checklistId {
+    final $$ChecklistTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableFilterComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
   Expression<bool> checklistSubgrupoTableRefs(
       Expression<bool> Function($$ChecklistSubgrupoTableTableFilterComposer f)
           f) {
@@ -14051,6 +15367,30 @@ class $$ChecklistGrupoTableTableFilterComposer
                 $$ChecklistSubgrupoTableTableFilterComposer(
                   $db: $db,
                   $table: $db.checklistSubgrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> checklistPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableFilterComposer f)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.grupoId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -14087,6 +15427,26 @@ class $$ChecklistGrupoTableTableOrderingComposer
 
   ColumnOrderings<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnOrderings(column));
+
+  $$ChecklistTableTableOrderingComposer get checklistId {
+    final $$ChecklistTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
 }
 
 class $$ChecklistGrupoTableTableAnnotationComposer
@@ -14116,6 +15476,26 @@ class $$ChecklistGrupoTableTableAnnotationComposer
   GeneratedColumn<String> get nome =>
       $composableBuilder(column: $table.nome, builder: (column) => column);
 
+  $$ChecklistTableTableAnnotationComposer get checklistId {
+    final $$ChecklistTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
   Expression<T> checklistSubgrupoTableRefs<T extends Object>(
       Expression<T> Function($$ChecklistSubgrupoTableTableAnnotationComposer a)
           f) {
@@ -14138,6 +15518,30 @@ class $$ChecklistGrupoTableTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> checklistPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer
+        composer = $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.grupoId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
@@ -14151,7 +15555,10 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
     $$ChecklistGrupoTableTableUpdateCompanionBuilder,
     (ChecklistGrupoTableData, $$ChecklistGrupoTableTableReferences),
     ChecklistGrupoTableData,
-    PrefetchHooks Function({bool checklistSubgrupoTableRefs})> {
+    PrefetchHooks Function(
+        {bool checklistId,
+        bool checklistSubgrupoTableRefs,
+        bool checklistPerguntaRelacionamentoTableRefs})> {
   $$ChecklistGrupoTableTableTableManager(
       _$AppDatabase db, $ChecklistGrupoTableTable table)
       : super(TableManagerState(
@@ -14171,6 +15578,7 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<bool> sincronizado = const Value.absent(),
+            Value<int> checklistId = const Value.absent(),
             Value<String> nome = const Value.absent(),
           }) =>
               ChecklistGrupoTableCompanion(
@@ -14179,6 +15587,7 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             sincronizado: sincronizado,
+            checklistId: checklistId,
             nome: nome,
           ),
           createCompanionCallback: ({
@@ -14187,6 +15596,7 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<bool> sincronizado = const Value.absent(),
+            required int checklistId,
             required String nome,
           }) =>
               ChecklistGrupoTableCompanion.insert(
@@ -14195,6 +15605,7 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             sincronizado: sincronizado,
+            checklistId: checklistId,
             nome: nome,
           ),
           withReferenceMapper: (p0) => p0
@@ -14203,13 +15614,44 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
                     $$ChecklistGrupoTableTableReferences(db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: ({checklistSubgrupoTableRefs = false}) {
+          prefetchHooksCallback: (
+              {checklistId = false,
+              checklistSubgrupoTableRefs = false,
+              checklistPerguntaRelacionamentoTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (checklistSubgrupoTableRefs) db.checklistSubgrupoTable
+                if (checklistSubgrupoTableRefs) db.checklistSubgrupoTable,
+                if (checklistPerguntaRelacionamentoTableRefs)
+                  db.checklistPerguntaRelacionamentoTable
               ],
-              addJoins: null,
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (checklistId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.checklistId,
+                    referencedTable: $$ChecklistGrupoTableTableReferences
+                        ._checklistIdTable(db),
+                    referencedColumn: $$ChecklistGrupoTableTableReferences
+                        ._checklistIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (checklistSubgrupoTableRefs)
@@ -14220,6 +15662,18 @@ class $$ChecklistGrupoTableTableTableManager extends RootTableManager<
                         managerFromTypedResult: (p0) =>
                             $$ChecklistGrupoTableTableReferences(db, table, p0)
                                 .checklistSubgrupoTableRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.grupoId == item.id),
+                        typedResults: items),
+                  if (checklistPerguntaRelacionamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ChecklistGrupoTableTableReferences
+                            ._checklistPerguntaRelacionamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ChecklistGrupoTableTableReferences(db, table, p0)
+                                .checklistPerguntaRelacionamentoTableRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.grupoId == item.id),
@@ -14242,7 +15696,10 @@ typedef $$ChecklistGrupoTableTableProcessedTableManager = ProcessedTableManager<
     $$ChecklistGrupoTableTableUpdateCompanionBuilder,
     (ChecklistGrupoTableData, $$ChecklistGrupoTableTableReferences),
     ChecklistGrupoTableData,
-    PrefetchHooks Function({bool checklistSubgrupoTableRefs})>;
+    PrefetchHooks Function(
+        {bool checklistId,
+        bool checklistSubgrupoTableRefs,
+        bool checklistPerguntaRelacionamentoTableRefs})>;
 typedef $$ChecklistSubgrupoTableTableCreateCompanionBuilder
     = ChecklistSubgrupoTableCompanion Function({
   Value<int> id,
@@ -14283,21 +15740,21 @@ final class $$ChecklistSubgrupoTableTableReferences extends BaseReferences<
         manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static MultiTypedResultKey<$ChecklistPerguntaTableTable,
-      List<ChecklistPerguntaTableData>> _checklistPerguntaTableRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.checklistPerguntaTable,
-          aliasName: $_aliasNameGenerator(db.checklistSubgrupoTable.id,
-              db.checklistPerguntaTable.subgrupoId));
+  static MultiTypedResultKey<$ChecklistPerguntaRelacionamentoTableTable,
+          List<ChecklistPerguntaRelacionamentoTableData>>
+      _checklistPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(db.checklistSubgrupoTable.id,
+                  db.checklistPerguntaRelacionamentoTable.subgrupoId));
 
-  $$ChecklistPerguntaTableTableProcessedTableManager
-      get checklistPerguntaTableRefs {
-    final manager = $$ChecklistPerguntaTableTableTableManager(
-            $_db, $_db.checklistPerguntaTable)
+  $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
+      get checklistPerguntaRelacionamentoTableRefs {
+    final manager = $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.checklistPerguntaRelacionamentoTable)
         .filter((f) => f.subgrupoId.id($_item.id));
 
-    final cache =
-        $_typedResult.readTableOrNull(_checklistPerguntaTableRefsTable($_db));
+    final cache = $_typedResult
+        .readTableOrNull(_checklistPerguntaRelacionamentoTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -14350,21 +15807,22 @@ class $$ChecklistSubgrupoTableTableFilterComposer
     return composer;
   }
 
-  Expression<bool> checklistPerguntaTableRefs(
-      Expression<bool> Function($$ChecklistPerguntaTableTableFilterComposer f)
+  Expression<bool> checklistPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableFilterComposer f)
           f) {
-    final $$ChecklistPerguntaTableTableFilterComposer composer =
+    final $$ChecklistPerguntaRelacionamentoTableTableFilterComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.checklistPerguntaTable,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
             getReferencedColumn: (t) => t.subgrupoId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$ChecklistPerguntaTableTableFilterComposer(
+                $$ChecklistPerguntaRelacionamentoTableTableFilterComposer(
                   $db: $db,
-                  $table: $db.checklistPerguntaTable,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -14472,21 +15930,22 @@ class $$ChecklistSubgrupoTableTableAnnotationComposer
     return composer;
   }
 
-  Expression<T> checklistPerguntaTableRefs<T extends Object>(
-      Expression<T> Function($$ChecklistPerguntaTableTableAnnotationComposer a)
+  Expression<T> checklistPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer a)
           f) {
-    final $$ChecklistPerguntaTableTableAnnotationComposer composer =
-        $composerBuilder(
+    final $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer
+        composer = $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.checklistPerguntaTable,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
             getReferencedColumn: (t) => t.subgrupoId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$ChecklistPerguntaTableTableAnnotationComposer(
+                $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.checklistPerguntaTable,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -14507,7 +15966,8 @@ class $$ChecklistSubgrupoTableTableTableManager extends RootTableManager<
     $$ChecklistSubgrupoTableTableUpdateCompanionBuilder,
     (ChecklistSubgrupoTableData, $$ChecklistSubgrupoTableTableReferences),
     ChecklistSubgrupoTableData,
-    PrefetchHooks Function({bool grupoId, bool checklistPerguntaTableRefs})> {
+    PrefetchHooks Function(
+        {bool grupoId, bool checklistPerguntaRelacionamentoTableRefs})> {
   $$ChecklistSubgrupoTableTableTableManager(
       _$AppDatabase db, $ChecklistSubgrupoTableTable table)
       : super(TableManagerState(
@@ -14565,11 +16025,13 @@ class $$ChecklistSubgrupoTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {grupoId = false, checklistPerguntaTableRefs = false}) {
+              {grupoId = false,
+              checklistPerguntaRelacionamentoTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (checklistPerguntaTableRefs) db.checklistPerguntaTable
+                if (checklistPerguntaRelacionamentoTableRefs)
+                  db.checklistPerguntaRelacionamentoTable
               ],
               addJoins: <
                   T extends TableManagerState<
@@ -14600,15 +16062,15 @@ class $$ChecklistSubgrupoTableTableTableManager extends RootTableManager<
               },
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (checklistPerguntaTableRefs)
+                  if (checklistPerguntaRelacionamentoTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$ChecklistSubgrupoTableTableReferences
-                            ._checklistPerguntaTableRefsTable(db),
+                            ._checklistPerguntaRelacionamentoTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$ChecklistSubgrupoTableTableReferences(
                                     db, table, p0)
-                                .checklistPerguntaTableRefs,
+                                .checklistPerguntaRelacionamentoTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.subgrupoId == item.id),
@@ -14633,7 +16095,7 @@ typedef $$ChecklistSubgrupoTableTableProcessedTableManager
         (ChecklistSubgrupoTableData, $$ChecklistSubgrupoTableTableReferences),
         ChecklistSubgrupoTableData,
         PrefetchHooks Function(
-            {bool grupoId, bool checklistPerguntaTableRefs})>;
+            {bool grupoId, bool checklistPerguntaRelacionamentoTableRefs})>;
 typedef $$ChecklistPerguntaTableTableCreateCompanionBuilder
     = ChecklistPerguntaTableCompanion Function({
   Value<int> id,
@@ -14641,7 +16103,6 @@ typedef $$ChecklistPerguntaTableTableCreateCompanionBuilder
   required DateTime createdAt,
   required DateTime updatedAt,
   Value<bool> sincronizado,
-  required int subgrupoId,
   required String pergunta,
 });
 typedef $$ChecklistPerguntaTableTableUpdateCompanionBuilder
@@ -14651,7 +16112,6 @@ typedef $$ChecklistPerguntaTableTableUpdateCompanionBuilder
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
   Value<bool> sincronizado,
-  Value<int> subgrupoId,
   Value<String> pergunta,
 });
 
@@ -14659,20 +16119,6 @@ final class $$ChecklistPerguntaTableTableReferences extends BaseReferences<
     _$AppDatabase, $ChecklistPerguntaTableTable, ChecklistPerguntaTableData> {
   $$ChecklistPerguntaTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
-
-  static $ChecklistSubgrupoTableTable _subgrupoIdTable(_$AppDatabase db) =>
-      db.checklistSubgrupoTable.createAlias($_aliasNameGenerator(
-          db.checklistPerguntaTable.subgrupoId, db.checklistSubgrupoTable.id));
-
-  $$ChecklistSubgrupoTableTableProcessedTableManager get subgrupoId {
-    final manager = $$ChecklistSubgrupoTableTableTableManager(
-            $_db, $_db.checklistSubgrupoTable)
-        .filter((f) => f.id($_item.subgrupoId));
-    final item = $_typedResult.readTableOrNull(_subgrupoIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
 
   static MultiTypedResultKey<$ChecklistRespostaTableTable,
       List<ChecklistRespostaTableData>> _checklistRespostaTableRefsTable(
@@ -14689,6 +16135,25 @@ final class $$ChecklistPerguntaTableTableReferences extends BaseReferences<
 
     final cache =
         $_typedResult.readTableOrNull(_checklistRespostaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$ChecklistPerguntaRelacionamentoTableTable,
+          List<ChecklistPerguntaRelacionamentoTableData>>
+      _checklistPerguntaRelacionamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistPerguntaRelacionamentoTable,
+              aliasName: $_aliasNameGenerator(db.checklistPerguntaTable.id,
+                  db.checklistPerguntaRelacionamentoTable.perguntaId));
+
+  $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
+      get checklistPerguntaRelacionamentoTableRefs {
+    final manager = $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+            $_db, $_db.checklistPerguntaRelacionamentoTable)
+        .filter((f) => f.perguntaId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_checklistPerguntaRelacionamentoTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -14721,27 +16186,6 @@ class $$ChecklistPerguntaTableTableFilterComposer
   ColumnFilters<String> get pergunta => $composableBuilder(
       column: $table.pergunta, builder: (column) => ColumnFilters(column));
 
-  $$ChecklistSubgrupoTableTableFilterComposer get subgrupoId {
-    final $$ChecklistSubgrupoTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.subgrupoId,
-            referencedTable: $db.checklistSubgrupoTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$ChecklistSubgrupoTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.checklistSubgrupoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
   Expression<bool> checklistRespostaTableRefs(
       Expression<bool> Function($$ChecklistRespostaTableTableFilterComposer f)
           f) {
@@ -14757,6 +16201,30 @@ class $$ChecklistPerguntaTableTableFilterComposer
                 $$ChecklistRespostaTableTableFilterComposer(
                   $db: $db,
                   $table: $db.checklistRespostaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> checklistPerguntaRelacionamentoTableRefs(
+      Expression<bool> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableFilterComposer f)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.perguntaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -14793,27 +16261,6 @@ class $$ChecklistPerguntaTableTableOrderingComposer
 
   ColumnOrderings<String> get pergunta => $composableBuilder(
       column: $table.pergunta, builder: (column) => ColumnOrderings(column));
-
-  $$ChecklistSubgrupoTableTableOrderingComposer get subgrupoId {
-    final $$ChecklistSubgrupoTableTableOrderingComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.subgrupoId,
-            referencedTable: $db.checklistSubgrupoTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$ChecklistSubgrupoTableTableOrderingComposer(
-                  $db: $db,
-                  $table: $db.checklistSubgrupoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
 }
 
 class $$ChecklistPerguntaTableTableAnnotationComposer
@@ -14843,27 +16290,6 @@ class $$ChecklistPerguntaTableTableAnnotationComposer
   GeneratedColumn<String> get pergunta =>
       $composableBuilder(column: $table.pergunta, builder: (column) => column);
 
-  $$ChecklistSubgrupoTableTableAnnotationComposer get subgrupoId {
-    final $$ChecklistSubgrupoTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.subgrupoId,
-            referencedTable: $db.checklistSubgrupoTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$ChecklistSubgrupoTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.checklistSubgrupoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
   Expression<T> checklistRespostaTableRefs<T extends Object>(
       Expression<T> Function($$ChecklistRespostaTableTableAnnotationComposer a)
           f) {
@@ -14886,6 +16312,30 @@ class $$ChecklistPerguntaTableTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> checklistPerguntaRelacionamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer
+        composer = $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.checklistPerguntaRelacionamentoTable,
+            getReferencedColumn: (t) => t.perguntaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
@@ -14900,7 +16350,8 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
     (ChecklistPerguntaTableData, $$ChecklistPerguntaTableTableReferences),
     ChecklistPerguntaTableData,
     PrefetchHooks Function(
-        {bool subgrupoId, bool checklistRespostaTableRefs})> {
+        {bool checklistRespostaTableRefs,
+        bool checklistPerguntaRelacionamentoTableRefs})> {
   $$ChecklistPerguntaTableTableTableManager(
       _$AppDatabase db, $ChecklistPerguntaTableTable table)
       : super(TableManagerState(
@@ -14921,7 +16372,6 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
             Value<bool> sincronizado = const Value.absent(),
-            Value<int> subgrupoId = const Value.absent(),
             Value<String> pergunta = const Value.absent(),
           }) =>
               ChecklistPerguntaTableCompanion(
@@ -14930,7 +16380,6 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             sincronizado: sincronizado,
-            subgrupoId: subgrupoId,
             pergunta: pergunta,
           ),
           createCompanionCallback: ({
@@ -14939,7 +16388,6 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
             required DateTime createdAt,
             required DateTime updatedAt,
             Value<bool> sincronizado = const Value.absent(),
-            required int subgrupoId,
             required String pergunta,
           }) =>
               ChecklistPerguntaTableCompanion.insert(
@@ -14948,7 +16396,6 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
             createdAt: createdAt,
             updatedAt: updatedAt,
             sincronizado: sincronizado,
-            subgrupoId: subgrupoId,
             pergunta: pergunta,
           ),
           withReferenceMapper: (p0) => p0
@@ -14958,39 +16405,16 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {subgrupoId = false, checklistRespostaTableRefs = false}) {
+              {checklistRespostaTableRefs = false,
+              checklistPerguntaRelacionamentoTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (checklistRespostaTableRefs) db.checklistRespostaTable
+                if (checklistRespostaTableRefs) db.checklistRespostaTable,
+                if (checklistPerguntaRelacionamentoTableRefs)
+                  db.checklistPerguntaRelacionamentoTable
               ],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (subgrupoId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.subgrupoId,
-                    referencedTable: $$ChecklistPerguntaTableTableReferences
-                        ._subgrupoIdTable(db),
-                    referencedColumn: $$ChecklistPerguntaTableTableReferences
-                        ._subgrupoIdTable(db)
-                        .id,
-                  ) as T;
-                }
-
-                return state;
-              },
+              addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (checklistRespostaTableRefs)
@@ -15002,6 +16426,19 @@ class $$ChecklistPerguntaTableTableTableManager extends RootTableManager<
                             $$ChecklistPerguntaTableTableReferences(
                                     db, table, p0)
                                 .checklistRespostaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.perguntaId == item.id),
+                        typedResults: items),
+                  if (checklistPerguntaRelacionamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ChecklistPerguntaTableTableReferences
+                            ._checklistPerguntaRelacionamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ChecklistPerguntaTableTableReferences(
+                                    db, table, p0)
+                                .checklistPerguntaRelacionamentoTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.perguntaId == item.id),
@@ -15026,7 +16463,8 @@ typedef $$ChecklistPerguntaTableTableProcessedTableManager
         (ChecklistPerguntaTableData, $$ChecklistPerguntaTableTableReferences),
         ChecklistPerguntaTableData,
         PrefetchHooks Function(
-            {bool subgrupoId, bool checklistRespostaTableRefs})>;
+            {bool checklistRespostaTableRefs,
+            bool checklistPerguntaRelacionamentoTableRefs})>;
 typedef $$ChecklistRespostaTableTableCreateCompanionBuilder
     = ChecklistRespostaTableCompanion Function({
   Value<int> id,
@@ -16498,6 +17936,615 @@ typedef $$CorrecaoAnomaliaTableTableProcessedTableManager
         (CorrecaoAnomaliaTableData, $$CorrecaoAnomaliaTableTableReferences),
         CorrecaoAnomaliaTableData,
         PrefetchHooks Function({bool anomaliaId})>;
+typedef $$ChecklistPerguntaRelacionamentoTableTableCreateCompanionBuilder
+    = ChecklistPerguntaRelacionamentoTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required int checklistId,
+  required int grupoId,
+  required int subgrupoId,
+  required int perguntaId,
+});
+typedef $$ChecklistPerguntaRelacionamentoTableTableUpdateCompanionBuilder
+    = ChecklistPerguntaRelacionamentoTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<int> checklistId,
+  Value<int> grupoId,
+  Value<int> subgrupoId,
+  Value<int> perguntaId,
+});
+
+final class $$ChecklistPerguntaRelacionamentoTableTableReferences
+    extends BaseReferences<
+        _$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable,
+        ChecklistPerguntaRelacionamentoTableData> {
+  $$ChecklistPerguntaRelacionamentoTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $ChecklistTableTable _checklistIdTable(_$AppDatabase db) =>
+      db.checklistTable.createAlias($_aliasNameGenerator(
+          db.checklistPerguntaRelacionamentoTable.checklistId,
+          db.checklistTable.id));
+
+  $$ChecklistTableTableProcessedTableManager get checklistId {
+    final manager = $$ChecklistTableTableTableManager($_db, $_db.checklistTable)
+        .filter((f) => f.id($_item.checklistId));
+    final item = $_typedResult.readTableOrNull(_checklistIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $ChecklistGrupoTableTable _grupoIdTable(_$AppDatabase db) =>
+      db.checklistGrupoTable.createAlias($_aliasNameGenerator(
+          db.checklistPerguntaRelacionamentoTable.grupoId,
+          db.checklistGrupoTable.id));
+
+  $$ChecklistGrupoTableTableProcessedTableManager get grupoId {
+    final manager =
+        $$ChecklistGrupoTableTableTableManager($_db, $_db.checklistGrupoTable)
+            .filter((f) => f.id($_item.grupoId));
+    final item = $_typedResult.readTableOrNull(_grupoIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $ChecklistSubgrupoTableTable _subgrupoIdTable(_$AppDatabase db) =>
+      db.checklistSubgrupoTable.createAlias($_aliasNameGenerator(
+          db.checklistPerguntaRelacionamentoTable.subgrupoId,
+          db.checklistSubgrupoTable.id));
+
+  $$ChecklistSubgrupoTableTableProcessedTableManager get subgrupoId {
+    final manager = $$ChecklistSubgrupoTableTableTableManager(
+            $_db, $_db.checklistSubgrupoTable)
+        .filter((f) => f.id($_item.subgrupoId));
+    final item = $_typedResult.readTableOrNull(_subgrupoIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $ChecklistPerguntaTableTable _perguntaIdTable(_$AppDatabase db) =>
+      db.checklistPerguntaTable.createAlias($_aliasNameGenerator(
+          db.checklistPerguntaRelacionamentoTable.perguntaId,
+          db.checklistPerguntaTable.id));
+
+  $$ChecklistPerguntaTableTableProcessedTableManager get perguntaId {
+    final manager = $$ChecklistPerguntaTableTableTableManager(
+            $_db, $_db.checklistPerguntaTable)
+        .filter((f) => f.id($_item.perguntaId));
+    final item = $_typedResult.readTableOrNull(_perguntaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$ChecklistPerguntaRelacionamentoTableTableFilterComposer
+    extends Composer<_$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable> {
+  $$ChecklistPerguntaRelacionamentoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  $$ChecklistTableTableFilterComposer get checklistId {
+    final $$ChecklistTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableFilterComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ChecklistGrupoTableTableFilterComposer get grupoId {
+    final $$ChecklistGrupoTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.grupoId,
+        referencedTable: $db.checklistGrupoTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistGrupoTableTableFilterComposer(
+              $db: $db,
+              $table: $db.checklistGrupoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ChecklistSubgrupoTableTableFilterComposer get subgrupoId {
+    final $$ChecklistSubgrupoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.subgrupoId,
+            referencedTable: $db.checklistSubgrupoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistSubgrupoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistSubgrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$ChecklistPerguntaTableTableFilterComposer get perguntaId {
+    final $$ChecklistPerguntaTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.perguntaId,
+            referencedTable: $db.checklistPerguntaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$ChecklistPerguntaRelacionamentoTableTableOrderingComposer
+    extends Composer<_$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable> {
+  $$ChecklistPerguntaRelacionamentoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  $$ChecklistTableTableOrderingComposer get checklistId {
+    final $$ChecklistTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ChecklistGrupoTableTableOrderingComposer get grupoId {
+    final $$ChecklistGrupoTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.grupoId,
+            referencedTable: $db.checklistGrupoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistGrupoTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.checklistGrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$ChecklistSubgrupoTableTableOrderingComposer get subgrupoId {
+    final $$ChecklistSubgrupoTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.subgrupoId,
+            referencedTable: $db.checklistSubgrupoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistSubgrupoTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.checklistSubgrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$ChecklistPerguntaTableTableOrderingComposer get perguntaId {
+    final $$ChecklistPerguntaTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.perguntaId,
+            referencedTable: $db.checklistPerguntaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer
+    extends Composer<_$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable> {
+  $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  $$ChecklistTableTableAnnotationComposer get checklistId {
+    final $$ChecklistTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$ChecklistGrupoTableTableAnnotationComposer get grupoId {
+    final $$ChecklistGrupoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.grupoId,
+            referencedTable: $db.checklistGrupoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistGrupoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistGrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$ChecklistSubgrupoTableTableAnnotationComposer get subgrupoId {
+    final $$ChecklistSubgrupoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.subgrupoId,
+            referencedTable: $db.checklistSubgrupoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistSubgrupoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistSubgrupoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$ChecklistPerguntaTableTableAnnotationComposer get perguntaId {
+    final $$ChecklistPerguntaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.perguntaId,
+            referencedTable: $db.checklistPerguntaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistPerguntaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistPerguntaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$ChecklistPerguntaRelacionamentoTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable,
+        ChecklistPerguntaRelacionamentoTableData,
+        $$ChecklistPerguntaRelacionamentoTableTableFilterComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableOrderingComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableCreateCompanionBuilder,
+        $$ChecklistPerguntaRelacionamentoTableTableUpdateCompanionBuilder,
+        (
+          ChecklistPerguntaRelacionamentoTableData,
+          $$ChecklistPerguntaRelacionamentoTableTableReferences
+        ),
+        ChecklistPerguntaRelacionamentoTableData,
+        PrefetchHooks Function(
+            {bool checklistId,
+            bool grupoId,
+            bool subgrupoId,
+            bool perguntaId})> {
+  $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+      _$AppDatabase db, $ChecklistPerguntaRelacionamentoTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistPerguntaRelacionamentoTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistPerguntaRelacionamentoTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<int> checklistId = const Value.absent(),
+            Value<int> grupoId = const Value.absent(),
+            Value<int> subgrupoId = const Value.absent(),
+            Value<int> perguntaId = const Value.absent(),
+          }) =>
+              ChecklistPerguntaRelacionamentoTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            checklistId: checklistId,
+            grupoId: grupoId,
+            subgrupoId: subgrupoId,
+            perguntaId: perguntaId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required int checklistId,
+            required int grupoId,
+            required int subgrupoId,
+            required int perguntaId,
+          }) =>
+              ChecklistPerguntaRelacionamentoTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            checklistId: checklistId,
+            grupoId: grupoId,
+            subgrupoId: subgrupoId,
+            perguntaId: perguntaId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ChecklistPerguntaRelacionamentoTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {checklistId = false,
+              grupoId = false,
+              subgrupoId = false,
+              perguntaId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (checklistId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.checklistId,
+                    referencedTable:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._checklistIdTable(db),
+                    referencedColumn:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._checklistIdTable(db)
+                            .id,
+                  ) as T;
+                }
+                if (grupoId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.grupoId,
+                    referencedTable:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._grupoIdTable(db),
+                    referencedColumn:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._grupoIdTable(db)
+                            .id,
+                  ) as T;
+                }
+                if (subgrupoId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.subgrupoId,
+                    referencedTable:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._subgrupoIdTable(db),
+                    referencedColumn:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._subgrupoIdTable(db)
+                            .id,
+                  ) as T;
+                }
+                if (perguntaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.perguntaId,
+                    referencedTable:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._perguntaIdTable(db),
+                    referencedColumn:
+                        $$ChecklistPerguntaRelacionamentoTableTableReferences
+                            ._perguntaIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $ChecklistPerguntaRelacionamentoTableTable,
+        ChecklistPerguntaRelacionamentoTableData,
+        $$ChecklistPerguntaRelacionamentoTableTableFilterComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableOrderingComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableAnnotationComposer,
+        $$ChecklistPerguntaRelacionamentoTableTableCreateCompanionBuilder,
+        $$ChecklistPerguntaRelacionamentoTableTableUpdateCompanionBuilder,
+        (
+          ChecklistPerguntaRelacionamentoTableData,
+          $$ChecklistPerguntaRelacionamentoTableTableReferences
+        ),
+        ChecklistPerguntaRelacionamentoTableData,
+        PrefetchHooks Function(
+            {bool checklistId,
+            bool grupoId,
+            bool subgrupoId,
+            bool perguntaId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -16534,6 +18581,8 @@ class $AppDatabaseManager {
       $$TecnicosTableTableTableManager(_db, _db.tecnicosTable);
   $$AprAssinaturaTableTableTableManager get aprAssinaturaTable =>
       $$AprAssinaturaTableTableTableManager(_db, _db.aprAssinaturaTable);
+  $$ChecklistTableTableTableManager get checklistTable =>
+      $$ChecklistTableTableTableManager(_db, _db.checklistTable);
   $$ChecklistGrupoTableTableTableManager get checklistGrupoTable =>
       $$ChecklistGrupoTableTableTableManager(_db, _db.checklistGrupoTable);
   $$ChecklistSubgrupoTableTableTableManager get checklistSubgrupoTable =>
@@ -16551,4 +18600,8 @@ class $AppDatabaseManager {
       $$AnomaliaTableTableTableManager(_db, _db.anomaliaTable);
   $$CorrecaoAnomaliaTableTableTableManager get correcaoAnomaliaTable =>
       $$CorrecaoAnomaliaTableTableTableManager(_db, _db.correcaoAnomaliaTable);
+  $$ChecklistPerguntaRelacionamentoTableTableTableManager
+      get checklistPerguntaRelacionamentoTable =>
+          $$ChecklistPerguntaRelacionamentoTableTableTableManager(
+              _db, _db.checklistPerguntaRelacionamentoTable);
 }

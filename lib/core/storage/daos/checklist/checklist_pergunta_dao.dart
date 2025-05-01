@@ -1,10 +1,13 @@
+// checklist_pergunta_dao.dart
+
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/checklist/checklist_schema.dart';
 
 part 'checklist_pergunta_dao.g.dart';
 
-@DriftAccessor(tables: [ChecklistPerguntaTable])
+@DriftAccessor(
+    tables: [ChecklistPerguntaTable, ChecklistPerguntaRelacionamentoTable])
 class ChecklistPerguntaDao extends DatabaseAccessor<AppDatabase>
     with _$ChecklistPerguntaDaoMixin {
   ChecklistPerguntaDao(super.db);
@@ -14,10 +17,17 @@ class ChecklistPerguntaDao extends DatabaseAccessor<AppDatabase>
   Future<List<ChecklistPerguntaTableData>> getAll() =>
       select(checklistPerguntaTable).get();
 
-  Future<List<ChecklistPerguntaTableData>> getBySubgrupoId(int subgrupoId) =>
-      (select(checklistPerguntaTable)
-            ..where((tbl) => tbl.subgrupoId.equals(subgrupoId)))
-          .get();
+  Future<List<ChecklistPerguntaTableData>> getByChecklistId(
+      int checklistId) async {
+    final relacionamentos = await (select(checklistPerguntaRelacionamentoTable)
+          ..where((tbl) => tbl.checklistId.equals(checklistId)))
+        .get();
+
+    final perguntaIds = relacionamentos.map((r) => r.perguntaId).toSet();
+    return (select(checklistPerguntaTable)
+          ..where((tbl) => tbl.id.isIn(perguntaIds.toList())))
+        .get();
+  }
 
   Future<int> insert(ChecklistPerguntaTableCompanion data) =>
       into(checklistPerguntaTable).insert(data);
