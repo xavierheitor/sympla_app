@@ -1,6 +1,8 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/apr_sync_service.dart';
+import 'package:sympla_app/core/services/sync/checklist/checklist_sync_service.dart';
+import 'package:sympla_app/core/services/sync/checklist/defeitos_sync_service.dart';
 import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
 import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
 import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
@@ -14,6 +16,8 @@ class SyncOrchestratorService {
   final SubgrupoDefeitoSyncService subgrupoDefeitoSyncService;
   final AprSyncService aprSyncService;
   final TecnicosSyncService tecnicosSyncService;
+  final DefeitosSyncService defeitosSyncService;
+  final ChecklistSyncService checklistSyncService;
 
   SyncOrchestratorService({
     required this.tipoAtividadeSyncService,
@@ -22,6 +26,8 @@ class SyncOrchestratorService {
     required this.subgrupoDefeitoSyncService,
     required this.aprSyncService,
     required this.tecnicosSyncService,
+    required this.defeitosSyncService,
+    required this.checklistSyncService,
   });
 
   Future<void> sincronizarTudo() async {
@@ -32,10 +38,20 @@ class SyncOrchestratorService {
       await subgrupoDefeitoSyncService.sincronizar();
       await tipoAtividadeSyncService.sincronizar();
       await equipamentoSyncService.sincronizar();
+      // apr
       await aprSyncService.sincronizarAprs();
       await aprSyncService.sincronizarPerguntas();
       await aprSyncService.sincronizarPerguntaRelacionamentos();
       await tecnicosSyncService.sincronizar();
+      // defeitos
+      await defeitosSyncService.sincronizar();
+      //checklists
+      await checklistSyncService.sincronizarChecklistPergunta();
+      await checklistSyncService.sincronizarChecklistPerguntaRelacionamento();
+      await checklistSyncService.sincronizarChecklist();
+      await checklistSyncService.sincronizarChecklistGrupo();
+      await checklistSyncService.sincronizarChecklistSubgrupo();
+
       AppLogger.i('✅ Sincronização geral concluída com sucesso',
           tag: 'SyncOrchestrator');
     } catch (e, s) {

@@ -54,7 +54,7 @@ class DefeitoRepositoryImpl implements DefeitoRepository {
   @override
   Future<List<DefeitoTableCompanion>> buscarDaApi() async {
     try {
-      final response = await dio.get(ApiConstants.checklistDefeitos);
+      final response = await dio.get(ApiConstants.defeitos);
       final dados = response.data as List;
 
       return dados.map((json) {

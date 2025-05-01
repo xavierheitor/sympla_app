@@ -21,10 +21,7 @@ abstract class ApiConstants {
   static const checklistPerguntas = '/v2/checklist-perguntas';
   static const checklistPerguntasRelacionamentos =
       '/v2/checklist-perguntas-relacionamentos';
-  static const checklistRespostas = '/v2/checklist-respostas';
-  static const checklistDefeitos = '/v2/checklist-defeitos';
-  static const checklistAnomalias = '/v2/checklist-anomalias';
-  static const checklistCorrecaoAnomalias = '/v2/checklist-correcao-anomalias';
+  static const defeitos = '/v2/defeitos';
 
   // ... adicione mais endpoints conforme necessário
 }
