@@ -17,6 +17,15 @@ class ChecklistPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () => Get.offAllNamed('/home'),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () async {
+              await controller.salvarRespostas();
+              Get.snackbar('Sucesso', 'Respostas salvas com sucesso');
+            },
+          ),
+        ],
       ),
       body: Obx(() {
         if (controller.carregando) {
@@ -63,17 +72,6 @@ class ChecklistPage extends StatelessWidget {
                     ),
                   );
                 }).toList(),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: ElevatedButton.icon(
-                icon: const Icon(Icons.save),
-                label: const Text('Salvar Respostas'),
-                onPressed: () async {
-                  await controller.salvarRespostas();
-                  Get.snackbar('Sucesso', 'Respostas salvas com sucesso');
-                },
               ),
             ),
           ],

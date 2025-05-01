@@ -29,15 +29,20 @@ class PerguntaChecklistWidget extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
-            Wrap(
-              spacing: 12,
+            Row(
               children: RespostaChecklist.values.map((opcao) {
                 final selecionado = resposta == opcao;
-                return ChoiceChip(
-                  label: Text(opcao.name.toUpperCase()),
-                  selected: selecionado,
-                  onSelected: (_) => onSelecionar(opcao),
-                  selectedColor: Colors.blueAccent,
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: ChoiceChip(
+                      label: Text(opcao.name.toUpperCase(),
+                          textAlign: TextAlign.center),
+                      selected: selecionado,
+                      onSelected: (_) => onSelecionar(opcao),
+                      selectedColor: Colors.blueAccent,
+                    ),
+                  ),
                 );
               }).toList(),
             ),
