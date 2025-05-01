@@ -15,5 +15,13 @@ abstract class ApiConstants {
   static const aprPerguntasRelacionamentos =
       '/v2/apr-perguntas-relacionamentos';
 
+  static const checklistGrupos = '/v2/checklist-grupos';
+  static const checklistSubgrupos = '/v2/checklist-subgrupos';
+  static const checklistPerguntas = '/v2/checklist-perguntas';
+  static const checklistRespostas = '/v2/checklist-respostas';
+  static const checklistDefeitos = '/v2/checklist-defeitos';
+  static const checklistAnomalias = '/v2/checklist-anomalias';
+  static const checklistCorrecaoAnomalias = '/v2/checklist-correcao-anomalias';
+
   // ... adicione mais endpoints conforme necessário
 }

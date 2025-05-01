@@ -45,4 +45,16 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
       await op;
     });
   }
+// --- Filtros por grupo e subgrupo ---
+
+  Future<List<DefeitoTableData>> getByGrupoId(int grupoId) {
+    return (select(defeitoTable)..where((tbl) => tbl.grupoId.equals(grupoId)))
+        .get();
+  }
+
+  Future<List<DefeitoTableData>> getBySubgrupoId(int subgrupoId) {
+    return (select(defeitoTable)
+          ..where((tbl) => tbl.subgrupoId.equals(subgrupoId)))
+        .get();
+  }
 }
