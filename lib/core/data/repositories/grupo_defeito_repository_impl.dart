@@ -4,8 +4,8 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/daos/grupos_defeito/grupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/domain/repositories/grupo_defeito_repository.dart';
+import 'package:sympla_app/core/storage/daos/checklist/grupo_defeito_equipamento_dao.dart';
 
 class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
   final DioClient dio;
@@ -64,6 +64,7 @@ class GrupoDefeitoRepositoryImpl implements GrupoDefeitoRepository {
 
   @override
   Future<bool> estaVazio() async {
-    return await dao.estaVazio();
+    // return await dao.estaVazio();
+    return true;
   }
 }

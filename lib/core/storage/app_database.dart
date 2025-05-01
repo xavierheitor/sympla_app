@@ -23,9 +23,9 @@ import 'package:sympla_app/core/storage/daos/checklist/checklist_resposta_dao.da
 import 'package:sympla_app/core/storage/daos/checklist/checklist_subgrupo_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/correcao_anomalia_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/defeito_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/grupo_defeito_equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/subgrupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupos_defeito/equipamento_dao.dart';
-import 'package:sympla_app/core/storage/daos/grupos_defeito/grupo_defeito_equipamento_dao.dart';
-import 'package:sympla_app/core/storage/daos/grupos_defeito/subgrupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/tecnicos_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';

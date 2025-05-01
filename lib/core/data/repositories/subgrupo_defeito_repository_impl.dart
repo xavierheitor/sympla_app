@@ -4,8 +4,8 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/storage/daos/grupos_defeito/subgrupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/domain/repositories/subgrupo_defeito_repository.dart';
+import 'package:sympla_app/core/storage/daos/checklist/subgrupo_defeito_equipamento_dao.dart';
 
 class SubgrupoDefeitoRepositoryImpl implements SubgrupoDefeitoRepository {
   final DioClient dio;
@@ -28,6 +28,7 @@ class SubgrupoDefeitoRepositoryImpl implements SubgrupoDefeitoRepository {
           id: Value(json['id']),
           uuid: Value(json['uuid']),
           nome: Value(json['nome']),
+          grupoDefeitoId: Value(json['grupoDefeitoId']),
           createdAt: Value(DateTime.parse(json['createdAt'])),
           updatedAt: Value(DateTime.parse(json['updatedAt'])),
           sincronizado: const Value(true),
@@ -64,6 +65,7 @@ class SubgrupoDefeitoRepositoryImpl implements SubgrupoDefeitoRepository {
 
   @override
   Future<bool> estaVazio() async {
-    return await dao.estaVazio();
+    // return await dao.estaVazio();
+    return true;
   }
 }
