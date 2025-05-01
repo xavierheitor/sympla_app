@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/modules/apr/apr_binging.dart';
 import 'package:sympla_app/modules/apr/apr_page.dart';
+import 'package:sympla_app/modules/checklist/checklist_binding.dart';
 import 'package:sympla_app/modules/checklist/checklist_page.dart';
 import 'package:sympla_app/modules/home/home_binding.dart';
 import 'package:sympla_app/modules/home/home_page.dart';
@@ -43,7 +44,8 @@ class AppPages {
     ),
     GetPage(
       name: Routes.checklist,
-      page: () => const ChecklistPage(),
+      page: () => ChecklistPage(),
+      binding: ChecklistBinding(),
     ),
     // Adicione outras rotas aqui
   ];

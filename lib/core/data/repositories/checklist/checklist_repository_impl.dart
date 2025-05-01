@@ -37,6 +37,7 @@ class ChecklistRepositoryImpl implements ChecklistRepository {
 
       return dados.map((json) {
         return ChecklistTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           nome: json['nome'] as String,
           createdAt: DateTime.parse(json['created_at']),

@@ -108,4 +108,21 @@ class ChecklistService {
       rethrow;
     }
   }
+
+  Future<ChecklistTableData> buscarChecklistDaAtividade(int id) async {
+    try {
+      AppLogger.d(
+          '🔍 Buscando checklist da atividade $id (tipoAtividadeId: $id)',
+          tag: 'ChecklistService');
+      return await buscarChecklistPorTipoAtividade(id);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistService - buscarChecklistDaAtividade] ${erro.mensagem}',
+          tag: 'ChecklistService',
+          error: erro.mensagem,
+          stackTrace: erro.stack);
+      rethrow;
+    }
+  }
 }
