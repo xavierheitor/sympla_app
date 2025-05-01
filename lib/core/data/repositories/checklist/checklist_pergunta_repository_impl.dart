@@ -77,6 +77,7 @@ class ChecklistPerguntaRepositoryImpl implements ChecklistPerguntaRepository {
 
       return dados.map((json) {
         return ChecklistPerguntaTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           pergunta: json['pergunta'] as String,
           createdAt: DateTime.parse(json['created_at']),

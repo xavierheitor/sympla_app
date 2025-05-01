@@ -38,6 +38,7 @@ class ChecklistGrupoRepositoryImpl implements ChecklistGrupoRepository {
 
       return dados.map((json) {
         return ChecklistGrupoTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           nome: json['nome'] as String,
           checklistId: json['checklist_id'] as int,

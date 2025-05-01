@@ -33,14 +33,12 @@ class ChecklistPage extends StatelessWidget {
               child: ListView(
                 children:
                     controller.perguntasPorGrupoSubgrupo.entries.map((entry) {
-                  final grupoNome = entry.key.grupo;
-                  final subgrupoNome = entry.key.subgrupo;
+                  final grupoId = entry.key.grupoId;
+                  final subgrupoId = entry.key.subgrupoId;
                   final perguntas = entry.value;
 
                   final respondidas = perguntas
-                      .where(
-                        (p) => controller.respostas.containsKey(p.id),
-                      )
+                      .where((p) => controller.respostas.containsKey(p.id))
                       .length;
 
                   final corTile = respondidas == perguntas.length
@@ -52,7 +50,7 @@ class ChecklistPage extends StatelessWidget {
                   return Container(
                     color: corTile,
                     child: ExpansionTile(
-                      title: Text('$grupoNome > $subgrupoNome'),
+                      title: Text('Grupo $grupoId > Subgrupo $subgrupoId'),
                       children: perguntas.map((pergunta) {
                         final resposta = controller.respostas[pergunta.id];
                         return PerguntaChecklistWidget(

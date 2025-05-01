@@ -50,6 +50,7 @@ class ChecklistSubgrupoRepositoryImpl implements ChecklistSubgrupoRepository {
 
       return dados.map((json) {
         return ChecklistSubgrupoTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           grupoId: json['grupo_id'] as int,
           nome: json['nome'] as String,

@@ -52,6 +52,7 @@ class ChecklistService {
     try {
       AppLogger.d(
           '📋 Buscando perguntas relacionadas ao checklist $checklistId');
+
       final relacionamentos =
           await relacionamentoRepository.buscarPorChecklistId(checklistId);
       final perguntas = await perguntaRepository.getAll();
@@ -59,17 +60,13 @@ class ChecklistService {
       AppLogger.d('🔢 Total de perguntas no banco: ${perguntas.length}');
       AppLogger.d(
           '🧩 Total de relacionamentos encontrados: ${relacionamentos.length}');
-
-      final perguntaIds = perguntas.map((e) => e.id).toList();
-      final relIds = relacionamentos.map((e) => e.perguntaId).toList();
-
-      AppLogger.d('📋 IDs das perguntas disponíveis: $perguntaIds');
-      AppLogger.d('📌 IDs dos relacionamentos: $relIds');
+      AppLogger.d(
+          '📋 IDs das perguntas disponíveis: ${perguntas.map((e) => e.id).toList()}');
+      AppLogger.d(
+          '📌 IDs dos relacionamentos: ${relacionamentos.map((e) => e.perguntaId).toList()}');
 
       final relacionadas = perguntas
-          .where(
-            (p) => relacionamentos.any((r) => r.perguntaId == p.id),
-          )
+          .where((p) => relacionamentos.any((r) => r.perguntaId == p.id))
           .toList();
 
       AppLogger.d('✅ Perguntas relacionadas filtradas: ${relacionadas.length}');

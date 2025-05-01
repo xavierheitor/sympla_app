@@ -59,6 +59,7 @@ class DefeitoRepositoryImpl implements DefeitoRepository {
 
       return dados.map((json) {
         return DefeitoTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           grupoId: json['grupo_id'] as int,
           subgrupoId: json['subgrupo_id'] as int,

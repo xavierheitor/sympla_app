@@ -44,6 +44,7 @@ class ChecklistPerguntaRelacionamentoRepositoryImpl
 
       return dados.map((json) {
         return ChecklistPerguntaRelacionamentoTableCompanion.insert(
+          id: Value(json['id'] as int),
           uuid: json['uuid'] as String,
           checklistId: json['checklist_id'] as int,
           grupoId: json['grupo_id'] as int,
