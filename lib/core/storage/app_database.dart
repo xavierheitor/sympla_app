@@ -5,7 +5,10 @@ import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/converters/fase_converter.dart';
+import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
+import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_assinatura_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_pergunta_dao.dart';
@@ -13,6 +16,13 @@ import 'package:sympla_app/core/storage/daos/apr/apr_pergunta_relacionamento_dao
 import 'package:sympla_app/core/storage/daos/apr/apr_preenchida_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_resposta_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade/atividade_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/anomalia_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_grupo_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_pergunta_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_resposta_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/checklist_subgrupo_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/correcao_anomalia_dao.dart';
+import 'package:sympla_app/core/storage/daos/checklist/defeito_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupos_defeito/equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupos_defeito/grupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupos_defeito/subgrupo_defeito_equipamento_dao.dart';
@@ -27,6 +37,7 @@ import 'package:sympla_app/core/storage/tables/apr/apr_question_table.dart';
 import 'package:sympla_app/core/storage/tables/apr/apr_resposta_table.dart';
 import 'package:sympla_app/core/storage/tables/apr/apr_table.dart';
 import 'package:sympla_app/core/storage/tables/atividade/atividade_table.dart';
+import 'package:sympla_app/core/storage/tables/checklist/checklist_schema.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/equipamento_table.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equipamento.dart';
@@ -44,7 +55,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla5.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla7.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -69,6 +80,15 @@ LazyDatabase _openConnection() {
     AprPreenchidaTable,
     AprAssinaturaTable,
     TecnicosTable,
+
+    //checklist
+    ChecklistGrupoTable,
+    ChecklistSubgrupoTable,
+    ChecklistPerguntaTable,
+    ChecklistRespostaTable,
+    DefeitoTable,
+    AnomaliaTable,
+    CorrecaoAnomaliaTable,
   ],
   daos: [
     UsuarioDao,
@@ -84,6 +104,15 @@ LazyDatabase _openConnection() {
     AprAssinaturaDao,
     TecnicosDao,
     AprPerguntaRelacionamentoDao,
+
+    //checklist
+    ChecklistGrupoDao,
+    ChecklistSubgrupoDao,
+    ChecklistPerguntaDao,
+    ChecklistRespostaDao,
+    DefeitoDao,
+    AnomaliaDao,
+    CorrecaoAnomaliaDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {

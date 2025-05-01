@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/syncable_table.dart';
 
 // ---------------------- Tabelas que herdam de SyncableTable ----------------------
@@ -18,16 +20,6 @@ class ChecklistPerguntaTable extends SyncableTable {
   IntColumn get subgrupoId =>
       integer().references(ChecklistSubgrupoTable, #id)();
   TextColumn get pergunta => text()();
-}
-
-class GrupoDefeitoEquipamentoTable extends SyncableTable {
-  TextColumn get nome => text()();
-}
-
-class SubgrupoDefeitoEquipamentoTable extends SyncableTable {
-  IntColumn get grupoId =>
-      integer().references(GrupoDefeitoEquipamentoTable, #id)();
-  TextColumn get nome => text()();
 }
 
 class DefeitoTable extends SyncableTable {
