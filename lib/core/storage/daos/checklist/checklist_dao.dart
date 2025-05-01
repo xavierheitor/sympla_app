@@ -1,11 +1,12 @@
 // checklist_dao.dart
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/tables/atividade/tipo_atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/checklist/checklist_schema.dart';
 
 part 'checklist_dao.g.dart';
 
-@DriftAccessor(tables: [ChecklistTable])
+@DriftAccessor(tables: [ChecklistTable, TipoAtividadeTable])
 class ChecklistDao extends DatabaseAccessor<AppDatabase>
     with _$ChecklistDaoMixin {
   ChecklistDao(super.db);
@@ -43,5 +44,18 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
         }
       });
     });
+  }
+
+  Future<ChecklistTableData?> getByTipoAtividade(int tipoAtividadeId) async {
+    final query = select(checklistTable).join([
+      innerJoin(
+        tipoAtividadeTable,
+        tipoAtividadeTable.checklistId.equalsExp(checklistTable.id),
+      )
+    ])
+      ..where(tipoAtividadeTable.id.equals(tipoAtividadeId));
+
+    final result = await query.getSingleOrNull();
+    return result?.readTable(checklistTable);
   }
 }

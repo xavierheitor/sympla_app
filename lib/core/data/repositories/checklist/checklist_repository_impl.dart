@@ -64,4 +64,24 @@ class ChecklistRepositoryImpl implements ChecklistRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<ChecklistTableData?> buscarPorTipoAtividade(
+      int tipoAtividadeId) async {
+    try {
+      final checklist = await dao.getByTipoAtividade(tipoAtividadeId);
+      if (checklist == null) {
+        return null;
+      }
+      return checklist;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistRepositoryImpl - buscarPorTipoAtividade] ${erro.mensagem}',
+          tag: 'ChecklistRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

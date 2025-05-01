@@ -7,4 +7,7 @@ abstract class ChecklistPerguntaRelacionamentoRepository {
   Future<List<ChecklistPerguntaRelacionamentoTableCompanion>> buscarDaApi();
   Future<void> salvarNoBanco(
       List<ChecklistPerguntaRelacionamentoTableCompanion> dados);
+
+  Future<List<ChecklistPerguntaRelacionamentoTableData>> buscarPorChecklistId(
+      int checklistId);
 }

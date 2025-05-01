@@ -82,4 +82,20 @@ class ChecklistPerguntaRelacionamentoRepositoryImpl
       rethrow;
     }
   }
+
+  @override
+  Future<List<ChecklistPerguntaRelacionamentoTableData>> buscarPorChecklistId(
+      int checklistId) async {
+    try {
+      return await dao.getByChecklistId(checklistId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistPerguntaRelacionamentoRepositoryImpl - buscarPorChecklistId] ${erro.mensagem}',
+          tag: 'ChecklistPerguntaRelacionamentoRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }
