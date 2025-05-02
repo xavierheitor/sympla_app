@@ -18,6 +18,8 @@ class ResumoAnomaliasController extends GetxController {
   final equipamentos = <EquipamentoTableData>[].obs;
   final defeitos = <DefeitoTableData>[].obs;
 
+  final equipamentoSelecionado = Rxn<EquipamentoTableData>();
+
   @override
   void onInit() {
     super.onInit();
@@ -65,6 +67,12 @@ class ResumoAnomaliasController extends GetxController {
         AppLogger.d('↳ Equipamento: id=${e.id}, nome=${e.nome}');
       }
       equipamentos.assignAll(lista);
+
+      // 👉 Seleciona o primeiro equipamento automaticamente
+      if (lista.isNotEmpty) {
+        equipamentoSelecionado.value = lista.first;
+        await carregarDefeitos(lista.first);
+      }
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao carregar equipamentos',
           error: e, stackTrace: s);

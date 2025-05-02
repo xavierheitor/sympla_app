@@ -146,6 +146,7 @@ class ChecklistController extends GetxController {
     AppLogger.d(
         '[ChecklistController] Total de respostas a salvar: ${lista.length}');
     await checklistService.salvarRespostas(lista);
+    Get.offAllNamed(Routes.resumoAnomalias);
   }
 }
 

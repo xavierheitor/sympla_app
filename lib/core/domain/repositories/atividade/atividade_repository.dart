@@ -10,4 +10,6 @@ abstract class AtividadeRepository {
   Future<AtividadeModel?> buscarEmAndamento();
 
   Future<void> iniciarAtividade(AtividadeModel atividade);
+
+  Future<void> finalizarAtividade(AtividadeModel atividade);
 }

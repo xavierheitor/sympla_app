@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
@@ -155,7 +156,14 @@ class AtividadeController extends GetxController {
 
   Future<void> finalizarAtividade(AtividadeModel atividade) async {
     try {
-      // await atividadeSyncService.finalizarAtividade(atividade);
+      await atividadeSyncService.finalizarAtividade(atividade);
+      atividadeEmAndamento.value = null;
+      atividades.refresh();
+      atualizarContadores();
+      Get.snackbar('Sucesso', 'Atividade finalizada com sucesso',
+          backgroundColor: Colors.green, colorText: Colors.white);
+
+      Get.offAllNamed(Routes.home);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeController - finalizarAtividade] ${erro.mensagem}',
@@ -163,3 +171,7 @@ class AtividadeController extends GetxController {
     }
   }
 }
+
+
+// TODO: verificar por que quando a atividade foi finalizada, a tela home nao atualizou os contadores e o proprio status da atividade
+

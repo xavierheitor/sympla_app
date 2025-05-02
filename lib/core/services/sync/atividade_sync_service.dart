@@ -83,4 +83,18 @@ class AtividadeSyncService {
       rethrow;
     }
   }
+
+  Future<void> finalizarAtividade(AtividadeModel atividade) async {
+    try {
+      await repository.finalizarAtividade(atividade);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeSyncService - finalizarAtividade] ${erro.mensagem}',
+          tag: 'AtividadeSync',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

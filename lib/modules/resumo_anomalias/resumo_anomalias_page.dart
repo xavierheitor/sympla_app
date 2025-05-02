@@ -74,10 +74,15 @@ class ResumoAnomaliasPage extends StatelessWidget {
                     onPressed: () {
                       AppLogger.d(
                           '[ResumoAnomaliasPage] Visualizando anomalia ID ${anomalia.id}');
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (_) =>
-                            AnomaliaDetalhesWidget(anomalia: anomalia),
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => Scaffold(
+                            appBar: AppBar(
+                                title: const Text('Detalhes da Anomalia')),
+                            body: AnomaliaDetalhesWidget(anomalia: anomalia),
+                          ),
+                        ),
                       );
                     },
                   ),
@@ -87,13 +92,14 @@ class ResumoAnomaliasPage extends StatelessWidget {
                     onPressed: () {
                       AppLogger.d(
                           '[ResumoAnomaliasPage] Editando anomalia ID ${anomalia.id}');
-                      showModalBottomSheet(
-                        context: context,
-                        isScrollControlled: true,
-                        builder: (_) => AnomaliaFormWidget(
-                          perguntaId: anomalia.perguntaId ?? 0,
-                          anomaliaExistente: anomalia,
-                        ),
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (_) => AnomaliaFormWidget(
+                                  perguntaId: anomalia.perguntaId ?? 0,
+                                  anomaliaExistente: anomalia,
+                                )),
                       );
                     },
                   ),
@@ -117,10 +123,12 @@ class ResumoAnomaliasPage extends StatelessWidget {
         onPressed: () {
           AppLogger.d(
               '[ResumoAnomaliasPage] Botão de adicionar anomalia pressionado');
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (_) => const AnomaliaFormWidget(perguntaId: 0),
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (_) => const AnomaliaFormWidget(
+                      perguntaId: 0,
+                    )),
           );
         },
         child: const Icon(Icons.add),

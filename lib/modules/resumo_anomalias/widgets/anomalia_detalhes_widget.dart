@@ -1,10 +1,10 @@
-// anomalia_detalhes_widget.dart
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:get/get.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
-import 'dart:typed_data';
+import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
 
 class AnomaliaDetalhesWidget extends StatelessWidget {
   final AnomaliaTableData anomalia;
@@ -15,59 +15,92 @@ class AnomaliaDetalhesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasFoto = anomalia.foto != null && anomalia.foto!.isNotEmpty;
 
-    AppLogger.d(
-        '[AnomaliaDetalhesWidget] Exibindo detalhes da anomalia ID: ${anomalia.id}');
-    AppLogger.d(
-        '[AnomaliaDetalhesWidget] Dados: defeitoId=${anomalia.defeitoId}, equipamentoId=${anomalia.equipamentoId}, fase=${anomalia.fase}, lado=${anomalia.lado}, delta=${anomalia.delta}, obs=${anomalia.observacao}, foto?=${hasFoto}');
+    final controller = Get.find<ResumoAnomaliasController>();
+    final defeito =
+        controller.defeitos.firstWhereOrNull((d) => d.id == anomalia.defeitoId);
+    final equipamento = controller.equipamentos
+        .firstWhereOrNull((e) => e.id == anomalia.equipamentoId);
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Wrap(
-        runSpacing: 16,
-        children: [
-          ListTile(
-            title: const Text('Defeito'),
-            subtitle: Text('ID: ${anomalia.defeitoId}'),
-          ),
-          ListTile(
-            title: const Text('Equipamento'),
-            subtitle: Text('ID: ${anomalia.equipamentoId}'),
-          ),
-          ListTile(
-            title: const Text('Fase'),
-            subtitle: Text(anomalia.fase.label),
-          ),
-          ListTile(
-            title: const Text('Lado'),
-            subtitle: Text(anomalia.lado.label),
-          ),
-          if (anomalia.delta != null)
-            ListTile(
-              title: const Text('Delta T'),
-              subtitle: Text('${anomalia.delta!.toStringAsFixed(2)} °C'),
+      padding: const EdgeInsets.all(16),
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${defeito?.codigoSap ?? "???"} - ${defeito?.descricao ?? "Defeito desconhecido"}',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-          if (anomalia.observacao != null && anomalia.observacao!.isNotEmpty)
-            ListTile(
-              title: const Text('Observação'),
-              subtitle: Text(anomalia.observacao!),
+            const SizedBox(height: 8),
+            Text(
+              'Equipamento: ${equipamento?.nome ?? "Desconhecido"}',
+              style: const TextStyle(fontSize: 16),
             ),
-          if (hasFoto)
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 12),
+            Row(
               children: [
-                const Text('Foto',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const SizedBox(height: 8),
-                Image.memory(
-                  Uint8List.fromList(anomalia.foto!),
-                  height: 200,
-                  fit: BoxFit.contain,
-                ),
+                Expanded(child: Text('Fase: ${anomalia.fase.label}')),
+                Expanded(child: Text('Lado: ${anomalia.lado.label}')),
               ],
-            )
-          else
-            const Text('Nenhuma foto disponível.'),
-        ],
+            ),
+            const SizedBox(height: 12),
+            if (anomalia.delta != null)
+              Text('ΔT: ${anomalia.delta!.toStringAsFixed(2)} °C'),
+            const SizedBox(height: 12),
+            Text(
+              'Observação: ${anomalia.observacao?.trim().isEmpty ?? true ? 'vazio' : anomalia.observacao!}',
+            ),
+            const SizedBox(height: 16),
+            if (hasFoto)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Foto da anomalia',
+                      style: TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(8),
+                      child: Image.memory(
+                        Uint8List.fromList(anomalia.foto!),
+                        height: 200,
+                        width: 200,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Center(
+                    child: TextButton.icon(
+                      onPressed: () {
+                        Get.dialog(
+                          Dialog(
+                            backgroundColor: Colors.black,
+                            insetPadding: const EdgeInsets.all(16),
+                            child: InteractiveViewer(
+                              panEnabled: true,
+                              minScale: 0.5,
+                              maxScale: 4,
+                              child: Center(
+                                child: Image.memory(
+                                  Uint8List.fromList(anomalia.foto!),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      icon: const Icon(Icons.fullscreen),
+                      label: const Text('Ver em tela cheia'),
+                    ),
+                  ),
+                ],
+              )
+            else
+              const Text('Nenhuma foto disponível.'),
+          ],
+        ),
       ),
     );
   }

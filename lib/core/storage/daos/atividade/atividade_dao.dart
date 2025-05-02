@@ -138,4 +138,14 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       ),
     );
   }
+
+  finalizarAtividade(AtividadeModel atividade) async {
+    await (update(atividadeTable)..where((tbl) => tbl.id.equals(atividade.id)))
+        .write(
+      AtividadeTableCompanion(
+        status: const Value(StatusAtividade.concluido),
+        dataFim: Value(DateTime.now()),
+      ),
+    );
+  }
 }
