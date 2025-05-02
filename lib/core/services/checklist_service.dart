@@ -214,4 +214,16 @@ class ChecklistService {
       rethrow;
     }
   }
+
+  Future<bool> checklistJaRespondido(int atividadeId) async {
+    try {
+      final respostas = await respostaRepository.getByAtividadeId(atividadeId);
+      return respostas.isNotEmpty;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - checklistJaRespondido] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 }

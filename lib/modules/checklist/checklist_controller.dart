@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/services/checklist_service.dart';
@@ -51,10 +52,28 @@ class ChecklistController extends GetxController {
   }
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
     AppLogger.d('[ChecklistController] Inicializando controller...');
+    await checklistJaRespondido();
     carregarChecklist();
+  }
+
+  Future<void> checklistJaRespondido() async {
+    final atividade = atividadeController.atividadeEmAndamento;
+
+    if (atividade.value == null) {
+      AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
+      throw Exception('Nenhuma atividade em andamento.');
+    }
+
+    final jaRespondido =
+        await checklistService.checklistJaRespondido(atividade.value!.id);
+
+    if (jaRespondido) {
+      AppLogger.e('[ChecklistController] Checklist já respondido');
+      Get.offAllNamed(Routes.resumoAnomalias);
+    }
   }
 
   Future<void> carregarChecklist() async {
