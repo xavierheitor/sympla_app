@@ -1,5 +1,6 @@
 // checklist_binding.dart
 import 'package:get/get.dart';
+import 'package:sympla_app/core/data/repositories/checklist/anomalia_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/checklist/checklist_grupo_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/checklist/checklist_pergunta_relacionamento_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/checklist/checklist_pergunta_repository_impl.dart';
@@ -8,6 +9,7 @@ import 'package:sympla_app/core/data/repositories/checklist/checklist_resposta_r
 import 'package:sympla_app/core/data/repositories/checklist/checklist_subgrupo_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/checklist/defeito_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/equipamento_repository_impl.dart';
+import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_grupo_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_relacionamento_repository.dart';
@@ -44,6 +46,7 @@ class ChecklistBinding extends Bindings {
         () => EquipamentoRepositoryImpl(dio: dio, db: db));
     Get.lazyPut<DefeitoRepository>(
         () => DefeitoRepositoryImpl(dio: dio, db: db));
+    Get.lazyPut<AnomaliaRepository>(() => AnomaliaRepositoryImpl(db: db));
 
     Get.lazyPut(() => ChecklistService(
           checklistRepository: Get.find(),
@@ -54,6 +57,7 @@ class ChecklistBinding extends Bindings {
           relacionamentoRepository: Get.find(),
           equipamentoRepository: Get.find(),
           defeitoRepository: Get.find(),
+          anomaliaRepository: Get.find(),
         ));
 
     Get.lazyPut(() => ChecklistController(
@@ -61,9 +65,12 @@ class ChecklistBinding extends Bindings {
           atividadeController: Get.find(),
         ));
 
-    Get.lazyPut(() => AnomaliaController(
-          checklistService: Get.find(),
-          atividadeController: Get.find(),
-        ));
+    Get.put(
+      AnomaliaController(
+        checklistService: Get.find(),
+        atividadeController: Get.find(),
+      ),
+      permanent: true,
+    );
   }
 }

@@ -1,3 +1,5 @@
+// anomalia_controller.dart
+
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -15,8 +17,9 @@ class AnomaliaController extends GetxController {
 
   final equipamentos = <EquipamentoTableData>[].obs;
   final defeitos = <DefeitoTableData>[].obs;
-
   final equipamentoSelecionado = Rxn<EquipamentoTableData>();
+
+  final _anomalias = <int, List<AnomaliaTableCompanion>>{}.obs;
 
   @override
   void onInit() {
@@ -51,5 +54,24 @@ class AnomaliaController extends GetxController {
       AppLogger.e('[AnomaliaController] Erro ao carregar defeitos',
           error: e, stackTrace: s);
     }
+  }
+
+  Future<void> salvarAnomalia(
+      int perguntaId, AnomaliaTableCompanion anomalia) async {
+    final lista = _anomalias[perguntaId] ?? [];
+    lista.add(anomalia);
+    _anomalias[perguntaId] = lista;
+    try {
+      await checklistService.salvarAnomalia(anomalia);
+    } catch (e, s) {
+      AppLogger.e('[AnomaliaController] Erro ao salvar anomalia',
+          error: e, stackTrace: s);
+    }
+    AppLogger.d(
+        '[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
+  }
+
+  List<AnomaliaTableCompanion> buscarAnomalias(int perguntaId) {
+    return _anomalias[perguntaId] ?? [];
   }
 }

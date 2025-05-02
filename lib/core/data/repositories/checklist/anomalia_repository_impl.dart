@@ -87,4 +87,16 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<void> insertAll(List<AnomaliaTableCompanion> data) async {
+    try {
+      await dao.insertAll(data);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AnomaliaRepositoryImpl - insertAll] ${erro.mensagem}',
+          tag: 'AnomaliaRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 }

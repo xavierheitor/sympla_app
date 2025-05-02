@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_grupo_repository.dart';
@@ -19,6 +20,8 @@ class ChecklistService {
   final ChecklistRespostaRepository respostaRepository;
   final EquipamentoRepository equipamentoRepository;
   final DefeitoRepository defeitoRepository;
+  final AnomaliaRepository anomaliaRepository;
+
   ChecklistService({
     required this.checklistRepository,
     required this.grupoRepository,
@@ -28,6 +31,7 @@ class ChecklistService {
     required this.respostaRepository,
     required this.equipamentoRepository,
     required this.defeitoRepository,
+    required this.anomaliaRepository,
   });
 
   Future<ChecklistTableData> buscarChecklistPorTipoAtividade(
@@ -184,6 +188,28 @@ class ChecklistService {
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarDefeitos] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> salvarAnomalias(List<AnomaliaTableCompanion> anomalias) async {
+    try {
+      await anomaliaRepository.insertAll(anomalias);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - salvarAnomalias] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> salvarAnomalia(AnomaliaTableCompanion anomalia) async {
+    try {
+      await anomaliaRepository.insert(anomalia);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - salvarAnomalia] ${erro.mensagem}',
           error: e, stackTrace: s);
       rethrow;
     }

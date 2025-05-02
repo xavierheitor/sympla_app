@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/modules/checklist/checklist_binding.dart';
+import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
 import 'package:sympla_app/modules/checklist/widgets/adicionar_anomalia_page.dart';
 
 class PerguntaChecklistWidget extends StatelessWidget {
@@ -21,6 +21,8 @@ class PerguntaChecklistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isNok = resposta == RespostaChecklist.nok;
     final observacaoController = TextEditingController();
+    final anomaliaController = Get.find<AnomaliaController>();
+    final anomalias = anomaliaController.buscarAnomalias(pergunta.id);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -65,24 +67,32 @@ class PerguntaChecklistWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () async {
-                  await Get.to(
-                      () => AdicionarAnomaliaPage(
-                            perguntaId: pergunta.id,
-                            onSalvar: (anomalia) {
-                              // TODO: salvar anomalia no controller ou serviço
-                              Get.back(); // volta após salvar
-                            },
-                          ),
-                      binding: ChecklistBinding());
+                  await Get.to(() => AdicionarAnomaliaPage(
+                        perguntaId: pergunta.id,
+                      ));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Adicionar Anomalia'),
               ),
               const SizedBox(height: 12),
-              const Text(
-                '📌 Nenhuma anomalia adicionada (exemplo)',
-                style: TextStyle(color: Colors.red),
-              ),
+              if (anomalias.isEmpty)
+                const Text(
+                  '📌 Nenhuma anomalia adicionada',
+                  style: TextStyle(color: Colors.red),
+                )
+              else
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: anomalias.map((a) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        '📌 ${a.defeitoId.value} - ${a.observacao.value?.trim().isEmpty == true ? "Sem observação" : a.observacao.value}',
+                        style: const TextStyle(color: Colors.black87),
+                      ),
+                    );
+                  }).toList(),
+                ),
             ],
           ],
         ),

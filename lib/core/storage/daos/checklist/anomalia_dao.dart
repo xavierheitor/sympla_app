@@ -45,4 +45,12 @@ class AnomaliaDao extends DatabaseAccessor<AppDatabase>
       await op;
     });
   }
+
+  Future<void> insertAll(List<AnomaliaTableCompanion> data) async {
+    await batch((b) {
+      for (final item in data) {
+        b.insert(anomaliaTable, item);
+      }
+    });
+  }
 }

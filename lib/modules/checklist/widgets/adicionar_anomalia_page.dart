@@ -1,23 +1,31 @@
+// AdicionarAnomaliaPage (com botão de salvar na AppBar e salvamento imediato no banco)
+
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
+import 'package:drift/drift.dart' as d;
 
-class AdicionarAnomaliaPage extends StatelessWidget {
+class AdicionarAnomaliaPage extends StatefulWidget {
   final int perguntaId;
-  final Function(Map<String, dynamic>) onSalvar;
 
-  AdicionarAnomaliaPage({
+  const AdicionarAnomaliaPage({
     super.key,
     required this.perguntaId,
-    required this.onSalvar,
   });
 
+  @override
+  State<AdicionarAnomaliaPage> createState() => _AdicionarAnomaliaPageState();
+}
+
+class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
   final _formKey = GlobalKey<FormState>();
-  final Rxn<EquipamentoTableData> equipamentoSelecionado = Rxn();
   final Rxn<DefeitoTableData> defeitoSelecionado = Rxn();
   final Rxn<FaseAnomalia> faseSelecionada = Rxn();
   final Rxn<LadoAnomalia> ladoSelecionado = Rxn();
@@ -25,21 +33,59 @@ class AdicionarAnomaliaPage extends StatelessWidget {
   final TextEditingController deltaController = TextEditingController();
   final TextEditingController observacaoController = TextEditingController();
 
+  final ImagePicker _picker = ImagePicker();
+  File? _imagemSelecionada;
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AnomaliaController>();
 
-    equipamentoSelecionado.listen((equip) {
-      if (equip != null) {
-        controller.carregarDefeitos(equip);
-        defeitoSelecionado.value = null;
-      } else {
-        controller.defeitos.clear();
-      }
-    });
-
     return Scaffold(
-      appBar: AppBar(title: const Text('Adicionar Anomalia')),
+      appBar: AppBar(
+        title: const Text('Adicionar Anomalia'),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () async {
+              if (_formKey.currentState!.validate()) {
+                final atividade =
+                    controller.atividadeController.atividadeEmAndamento.value;
+                final equipamento = controller.equipamentoSelecionado.value;
+                final defeito = defeitoSelecionado.value;
+                final fase = faseSelecionada.value;
+                final lado = ladoSelecionado.value;
+
+                if (atividade == null ||
+                    equipamento == null ||
+                    defeito == null ||
+                    fase == null ||
+                    lado == null) {
+                  AppLogger.w(
+                      '[AdicionarAnomaliaPage] Campos obrigatórios ausentes');
+                  return;
+                }
+
+                final anomalia = AnomaliaTableCompanion(
+                  perguntaId: d.Value(widget.perguntaId),
+                  atividadeId: d.Value(atividade.id),
+                  equipamentoId: d.Value(equipamento.id),
+                  defeitoId: d.Value(defeito.id),
+                  fase: d.Value(fase),
+                  lado: d.Value(lado),
+                  delta: d.Value(double.tryParse(deltaController.text) ?? 0),
+                  observacao: d.Value(observacaoController.text),
+                  foto: _imagemSelecionada != null
+                      ? d.Value(await _imagemSelecionada!.readAsBytes())
+                      : const d.Value.absent(),
+                );
+
+                controller.salvarAnomalia(widget.perguntaId, anomalia);
+                Get.back();
+              }
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -48,7 +94,7 @@ class AdicionarAnomaliaPage extends StatelessWidget {
             child: Column(
               children: [
                 Obx(() => DropdownButtonFormField<EquipamentoTableData>(
-                      value: equipamentoSelecionado.value,
+                      value: controller.equipamentoSelecionado.value,
                       decoration:
                           const InputDecoration(labelText: 'Equipamento'),
                       items: controller.equipamentos.map((e) {
@@ -57,8 +103,10 @@ class AdicionarAnomaliaPage extends StatelessWidget {
                           child: Text(e.nome),
                         );
                       }).toList(),
-                      onChanged: (value) =>
-                          equipamentoSelecionado.value = value,
+                      onChanged: (value) {
+                        controller.equipamentoSelecionado.value = value;
+                        defeitoSelecionado.value = null;
+                      },
                       validator: (value) =>
                           value == null ? 'Selecione o equipamento' : null,
                     )),
@@ -134,31 +182,56 @@ class AdicionarAnomaliaPage extends StatelessWidget {
                   ),
                   maxLines: 3,
                 ),
-                const SizedBox(height: 32),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.save),
-                  label: const Text('Salvar Anomalia'),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      final dados = {
-                        'perguntaId': perguntaId,
-                        'equipamento': equipamentoSelecionado.value,
-                        'defeito': defeitoSelecionado.value,
-                        'fase': faseSelecionada.value,
-                        'lado': ladoSelecionado.value,
-                        'delta': deltaController.text,
-                        'observacao': observacaoController.text,
-                      };
-                      onSalvar(dados);
-                      Get.back();
-                    }
-                  },
-                )
+                const SizedBox(height: 16),
+                if (_imagemSelecionada != null)
+                  Column(
+                    children: [
+                      Image.file(_imagemSelecionada!, height: 200),
+                      const SizedBox(height: 8),
+                      TextButton.icon(
+                        onPressed: () {
+                          setState(() {
+                            _imagemSelecionada = null;
+                          });
+                        },
+                        icon: const Icon(Icons.delete),
+                        label: const Text('Remover imagem'),
+                      ),
+                    ],
+                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () => _selecionarImagem(ImageSource.camera),
+                      icon: const Icon(Icons.camera_alt),
+                      label: const Text('Câmera'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () => _selecionarImagem(ImageSource.gallery),
+                      icon: const Icon(Icons.photo_library),
+                      label: const Text('Galeria'),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<void> _selecionarImagem(ImageSource origem) async {
+    try {
+      final XFile? imagem = await _picker.pickImage(source: origem);
+      if (imagem != null) {
+        setState(() {
+          _imagemSelecionada = File(imagem.path);
+        });
+      }
+    } catch (e) {
+      AppLogger.e('[AdicionarAnomaliaPage] Erro ao selecionar imagem: $e');
+    }
   }
 }

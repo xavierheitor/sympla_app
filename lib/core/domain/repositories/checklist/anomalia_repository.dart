@@ -7,4 +7,5 @@ abstract class AnomaliaRepository {
   Future<void> update(AnomaliaTableData data);
   Future<void> deleteById(int id);
   Future<void> deleteByAtividadeId(int atividadeId);
+  Future<void> insertAll(List<AnomaliaTableCompanion> data);
 }
