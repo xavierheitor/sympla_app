@@ -48,8 +48,18 @@ class AnomaliaController extends GetxController {
 
   Future<void> carregarDefeitos(EquipamentoTableData equipamento) async {
     try {
+      AppLogger.d(
+          '[AnomaliaController] Buscando defeitos para equipamento ID: ${equipamento.id} (${equipamento.nome})');
       final lista = await checklistService.buscarDefeitos(equipamento);
       defeitos.assignAll(lista);
+
+      if (lista.isEmpty) {
+        AppLogger.w(
+            '[AnomaliaController] Nenhum defeito encontrado no banco para equipamento ID ${equipamento.id}');
+      } else {
+        AppLogger.d(
+            '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ID ${equipamento.id}');
+      }
     } catch (e, s) {
       AppLogger.e('[AnomaliaController] Erro ao carregar defeitos',
           error: e, stackTrace: s);
