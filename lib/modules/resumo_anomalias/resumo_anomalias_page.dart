@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
+import 'package:sympla_app/modules/resumo_anomalias/widgets/anomalia_detalhes_widget.dart';
 import 'package:sympla_app/modules/resumo_anomalias/widgets/anomalia_form_widget.dart';
 
 class ResumoAnomaliasPage extends StatelessWidget {
@@ -9,6 +11,7 @@ class ResumoAnomaliasPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<ResumoAnomaliasController>();
+    AppLogger.d('[ResumoAnomaliasPage] Página construída');
 
     return Scaffold(
       appBar: AppBar(
@@ -17,6 +20,8 @@ class ResumoAnomaliasPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () async {
+              AppLogger.d(
+                  '[ResumoAnomaliasPage] Botão concluir atividade pressionado');
               await controller.concluirAtividade();
               Get.snackbar('Sucesso', 'Atividade concluída com sucesso');
             },
@@ -25,53 +30,79 @@ class ResumoAnomaliasPage extends StatelessWidget {
       ),
       body: Obx(() {
         if (controller.anomalias.isEmpty) {
+          AppLogger.d('[ResumoAnomaliasPage] Nenhuma anomalia cadastrada');
           return const Center(child: Text('Nenhuma anomalia adicionada.'));
         }
+
+        AppLogger.d(
+            '[ResumoAnomaliasPage] Renderizando ${controller.anomalias.length} anomalias');
 
         return ListView.builder(
           itemCount: controller.anomalias.length,
           itemBuilder: (context, index) {
             final anomalia = controller.anomalias[index];
+            final equipamento = controller.equipamentos
+                .firstWhereOrNull((e) => e.id == anomalia.equipamentoId);
+            final defeito = controller.defeitos
+                .firstWhereOrNull((d) => d.id == anomalia.defeitoId);
+
+            if (equipamento == null) {
+              AppLogger.w(
+                  '[ResumoAnomaliasPage] Equipamento não encontrado para ID ${anomalia.equipamentoId}');
+            }
+            if (defeito == null) {
+              AppLogger.w(
+                  '[ResumoAnomaliasPage] Defeito não encontrado para ID ${anomalia.defeitoId}');
+            }
+
             return ListTile(
-              title: Text('Anomalia ID: ${anomalia.id}'),
-              subtitle: Text('Equipamento ID: ${anomalia.equipamentoId}'),
+              title: Text(defeito?.codigoSap ?? 'Defeito desconhecido'),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('Equipamento: ${equipamento?.nome ?? 'Desconhecido'}'),
+                  Text('Fase: ${anomalia.fase.name.toUpperCase()}'),
+                  Text('Lado: ${anomalia.lado.name.toUpperCase()}'),
+                ],
+              ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.remove_red_eye),
+                    icon: const Icon(Icons.visibility),
+                    tooltip: 'Ver detalhes',
                     onPressed: () {
-                      // Aqui você pode abrir um widget de visualização
-                      Get.dialog(
-                        AlertDialog(
-                          title: const Text('Detalhes da Anomalia'),
-                          content:
-                              Text('Equipamento ID: ${anomalia.equipamentoId}\n'
-                                  'Defeito ID: ${anomalia.defeitoId}\n'
-                                  'Fase: ${anomalia.fase}\n'
-                                  'Lado: ${anomalia.lado}'),
-                          actions: [
-                            TextButton(
-                              onPressed: () => Get.back(),
-                              child: const Text('Fechar'),
-                            ),
-                          ],
-                        ),
+                      AppLogger.d(
+                          '[ResumoAnomaliasPage] Visualizando anomalia ID ${anomalia.id}');
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (_) =>
+                            AnomaliaDetalhesWidget(anomalia: anomalia),
                       );
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit),
+                    tooltip: 'Editar anomalia',
                     onPressed: () {
-                      Get.to(() => AnomaliaFormWidget(
-                            perguntaId: anomalia.perguntaId ?? 0,
-                            anomaliaExistente: anomalia,
-                          ));
+                      AppLogger.d(
+                          '[ResumoAnomaliasPage] Editando anomalia ID ${anomalia.id}');
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (_) => AnomaliaFormWidget(
+                          perguntaId: anomalia.perguntaId ?? 0,
+                          anomaliaExistente: anomalia,
+                        ),
+                      );
                     },
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete),
+                    tooltip: 'Remover anomalia',
                     onPressed: () async {
+                      AppLogger.d(
+                          '[ResumoAnomaliasPage] Removendo anomalia ID ${anomalia.id}');
                       await controller.removerAnomalia(anomalia.id);
                       Get.snackbar('Removido', 'Anomalia removida com sucesso');
                     },
@@ -84,8 +115,13 @@ class ResumoAnomaliasPage extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => const AnomaliaFormWidget(
-              perguntaId: -1)); // Passa -1 ou 0 se não houver pergunta
+          AppLogger.d(
+              '[ResumoAnomaliasPage] Botão de adicionar anomalia pressionado');
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (_) => const AnomaliaFormWidget(perguntaId: 0),
+          );
         },
         child: const Icon(Icons.add),
       ),

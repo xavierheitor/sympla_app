@@ -1,3 +1,4 @@
+// resumo_anomalias_controller.dart
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -20,11 +21,14 @@ class ResumoAnomaliasController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    AppLogger.d('[ResumoAnomaliasController] onInit chamado');
     carregarAnomalias();
+    carregarEquipamentos();
   }
 
   Future<void> carregarAnomalias() async {
     final atividade = atividadeController.atividadeEmAndamento.value;
+    AppLogger.d('[ResumoAnomaliasController] Carregando anomalias...');
     if (atividade == null) {
       AppLogger.w('[ResumoAnomaliasController] Nenhuma atividade em andamento');
       return;
@@ -32,6 +36,12 @@ class ResumoAnomaliasController extends GetxController {
 
     try {
       final lista = await service.buscarAnomaliasPorAtividade(atividade.id);
+      AppLogger.d(
+          '[ResumoAnomaliasController] ${lista.length} anomalias encontradas para atividade ${atividade.id}');
+      for (final a in lista) {
+        AppLogger.d(
+            '↳ Anomalia id=${a.id}, defeitoId=${a.defeitoId}, equipamentoId=${a.equipamentoId}');
+      }
       anomalias.assignAll(lista);
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao carregar anomalias',
@@ -40,10 +50,20 @@ class ResumoAnomaliasController extends GetxController {
   }
 
   Future<void> carregarEquipamentos() async {
-    final atividade = atividadeController.atividadeEmAndamento.value;
-    if (atividade == null) return;
+    final sub = atividadeController.atividadeEmAndamento.value?.subestacao;
+    AppLogger.d('[ResumoAnomaliasController] Carregando equipamentos...');
+    if (sub == null) {
+      AppLogger.w('[ResumoAnomaliasController] Subestação não encontrada.');
+      return;
+    }
+
     try {
-      final lista = await service.buscarEquipamentos(atividade.subestacao);
+      final lista = await service.buscarEquipamentos(sub);
+      AppLogger.d(
+          '[ResumoAnomaliasController] ${lista.length} equipamentos carregados da subestacao $sub');
+      for (final e in lista) {
+        AppLogger.d('↳ Equipamento: id=${e.id}, nome=${e.nome}');
+      }
       equipamentos.assignAll(lista);
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao carregar equipamentos',
@@ -52,8 +72,16 @@ class ResumoAnomaliasController extends GetxController {
   }
 
   Future<void> carregarDefeitos(EquipamentoTableData equipamento) async {
+    AppLogger.d(
+        '[ResumoAnomaliasController] Carregando defeitos para equipamento id=${equipamento.id} nome=${equipamento.nome}');
     try {
       final lista = await service.buscarDefeitos(equipamento);
+      AppLogger.d(
+          '[ResumoAnomaliasController] ${lista.length} defeitos encontrados');
+      for (final d in lista) {
+        AppLogger.d(
+            '↳ Defeito: id=${d.id}, descricao=${d.descricao}, sap=${d.codigoSap}');
+      }
       defeitos.assignAll(lista);
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao carregar defeitos',
@@ -63,20 +91,32 @@ class ResumoAnomaliasController extends GetxController {
 
   Future<void> salvarOuAtualizarAnomalia(
       AnomaliaTableCompanion anomalia) async {
+    final isEdicao = anomalia.id.present;
+    AppLogger.d(
+        '[ResumoAnomaliasController] ${isEdicao ? 'Atualizando' : 'Salvando'} anomalia...');
+    AppLogger.d(
+        '[ResumoAnomaliasController] Dados: perguntaId=${anomalia.perguntaId.value}, defeitoId=${anomalia.defeitoId.value}, equipamentoId=${anomalia.equipamentoId.value}');
+
     try {
-      if (anomalia.id.present) {
+      if (isEdicao) {
+        AppLogger.d(
+            '[ResumoAnomaliasController] Atualizando anomalia ID: ${anomalia.id.value}');
         await service.atualizarAnomalia(anomalia);
       } else {
         await service.salvarAnomalia(anomalia);
+        AppLogger.d('[ResumoAnomaliasController] Nova anomalia salva');
       }
       await carregarAnomalias();
     } catch (e, s) {
-      AppLogger.e('[ResumoAnomaliasController] Erro ao salvar anomalia',
-          error: e, stackTrace: s);
+      AppLogger.e(
+          '[ResumoAnomaliasController] Erro ao salvar/atualizar anomalia',
+          error: e,
+          stackTrace: s);
     }
   }
 
   Future<void> removerAnomalia(int id) async {
+    AppLogger.d('[ResumoAnomaliasController] Removendo anomalia ID: $id');
     try {
       await service.removerAnomalia(id);
       anomalias.removeWhere((a) => a.id == id);
@@ -97,7 +137,11 @@ class ResumoAnomaliasController extends GetxController {
     }
 
     try {
+      AppLogger.d(
+          '[ResumoAnomaliasController] Concluindo atividade ID: ${atividade.id}');
       await atividadeController.finalizarAtividade(atividade);
+      AppLogger.d(
+          '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
       Get.offAllNamed('/home');
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao concluir atividade',

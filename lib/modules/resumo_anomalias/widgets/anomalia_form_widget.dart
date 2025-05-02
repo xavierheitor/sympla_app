@@ -43,9 +43,13 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
   void initState() {
     super.initState();
     controller = Get.find();
+    AppLogger.d('[AnomaliaFormWidget] initState - carregando equipamentos...');
     controller.carregarEquipamentos().then((_) {
       if (widget.anomaliaExistente != null) {
+        AppLogger.d('[AnomaliaFormWidget] Edição de anomalia iniciada');
         final anomalia = widget.anomaliaExistente!;
+        AppLogger.d(
+            '[AnomaliaFormWidget] Dados recebidos: id=${anomalia.id}, defeitoId=${anomalia.defeitoId}, equipamentoId=${anomalia.equipamentoId}, fase=${anomalia.fase}, lado=${anomalia.lado}, delta=${anomalia.delta}, observacao=${anomalia.observacao}');
         equipamentoSelecionado.value = controller.equipamentos
             .firstWhereOrNull((e) => e.id == anomalia.equipamentoId);
         defeitoSelecionado.value = controller.defeitos
@@ -57,6 +61,8 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
         if (anomalia.foto != null) {
           _imagemSelecionada = File.fromRawPath(anomalia.foto!);
         }
+      } else {
+        AppLogger.d('[AnomaliaFormWidget] Criação de nova anomalia');
       }
     });
   }
@@ -92,6 +98,8 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
                       onChanged: (value) {
                         equipamentoSelecionado.value = value;
                         defeitoSelecionado.value = null;
+                        AppLogger.d(
+                            '[AnomaliaFormWidget] Equipamento selecionado: ${value?.id} - ${value?.nome}');
                         controller.carregarDefeitos(value!);
                       },
                       validator: (value) =>
@@ -105,7 +113,11 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
                         return DropdownMenuItem(
                             value: d, child: Text(d.descricao));
                       }).toList(),
-                      onChanged: (value) => defeitoSelecionado.value = value,
+                      onChanged: (value) {
+                        defeitoSelecionado.value = value;
+                        AppLogger.d(
+                            '[AnomaliaFormWidget] Defeito selecionado: ${value?.id} - ${value?.descricao}');
+                      },
                       validator: (value) =>
                           value == null ? 'Selecione o defeito' : null,
                     )),
@@ -166,8 +178,11 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
                       Image.file(_imagemSelecionada!, height: 200),
                       const SizedBox(height: 8),
                       TextButton.icon(
-                        onPressed: () =>
-                            setState(() => _imagemSelecionada = null),
+                        onPressed: () {
+                          AppLogger.d(
+                              '[AnomaliaFormWidget] Imagem removida pelo usuário');
+                          setState(() => _imagemSelecionada = null);
+                        },
                         icon: const Icon(Icons.delete),
                         label: const Text('Remover imagem'),
                       ),
@@ -200,6 +215,7 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
     try {
       final XFile? imagem = await _picker.pickImage(source: origem);
       if (imagem != null) {
+        AppLogger.d('[AnomaliaFormWidget] Imagem selecionada: ${imagem.path}');
         setState(() {
           _imagemSelecionada = File(imagem.path);
         });
@@ -244,6 +260,8 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
           : const d.Value.absent(),
     );
 
+    AppLogger.d(
+        '[AnomaliaFormWidget] Anomalia pronta para salvar: ${novaAnomalia.toString()}');
     await controller.salvarOuAtualizarAnomalia(novaAnomalia);
     Get.back();
   }
