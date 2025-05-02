@@ -65,7 +65,7 @@ class PerguntaChecklistWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () async {
-                  final resultado = await Get.to(
+                  await Get.to(
                       () => AdicionarAnomaliaPage(
                             perguntaId: pergunta.id,
                             onSalvar: (anomalia) {
