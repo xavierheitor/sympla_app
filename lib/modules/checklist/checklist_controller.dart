@@ -21,6 +21,7 @@ class ChecklistController extends GetxController {
   final _respostas = <int, RespostaChecklist>{}.obs;
   final _carregando = false.obs;
 
+  // Getters
   List<ChecklistPerguntaTableData> get perguntas => _perguntas;
   Map<int, RespostaChecklist> get respostas => _respostas;
   bool get carregando => _carregando.value;
