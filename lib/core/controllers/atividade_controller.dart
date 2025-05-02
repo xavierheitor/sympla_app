@@ -152,4 +152,14 @@ class AtividadeController extends GetxController {
       isLoading.value = false;
     }
   }
+
+  Future<void> finalizarAtividade(AtividadeModel atividade) async {
+    try {
+      // await atividadeSyncService.finalizarAtividade(atividade);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AtividadeController - finalizarAtividade] ${erro.mensagem}',
+          tag: 'AtividadeController', error: e, stackTrace: s);
+    }
+  }
 }
