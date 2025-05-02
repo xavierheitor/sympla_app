@@ -4,23 +4,19 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
+import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
 
 class AdicionarAnomaliaPage extends StatelessWidget {
-  final List<EquipamentoTableData> equipamentos;
-  final List<DefeitoTableData> defeitos;
   final int perguntaId;
   final Function(Map<String, dynamic>) onSalvar;
 
   AdicionarAnomaliaPage({
     super.key,
-    required this.equipamentos,
-    required this.defeitos,
     required this.perguntaId,
     required this.onSalvar,
   });
 
   final _formKey = GlobalKey<FormState>();
-
   final Rxn<EquipamentoTableData> equipamentoSelecionado = Rxn();
   final Rxn<DefeitoTableData> defeitoSelecionado = Rxn();
   final Rxn<FaseAnomalia> faseSelecionada = Rxn();
@@ -31,6 +27,17 @@ class AdicionarAnomaliaPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AnomaliaController>();
+
+    equipamentoSelecionado.listen((equip) {
+      if (equip != null) {
+        controller.carregarDefeitos(equip);
+        defeitoSelecionado.value = null;
+      } else {
+        controller.defeitos.clear();
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(title: const Text('Adicionar Anomalia')),
       body: Padding(
@@ -44,7 +51,7 @@ class AdicionarAnomaliaPage extends StatelessWidget {
                       value: equipamentoSelecionado.value,
                       decoration:
                           const InputDecoration(labelText: 'Equipamento'),
-                      items: equipamentos.map((e) {
+                      items: controller.equipamentos.map((e) {
                         return DropdownMenuItem(
                           value: e,
                           child: Text(e.nome),
@@ -59,7 +66,7 @@ class AdicionarAnomaliaPage extends StatelessWidget {
                 Obx(() => DropdownButtonFormField<DefeitoTableData>(
                       value: defeitoSelecionado.value,
                       decoration: const InputDecoration(labelText: 'Defeito'),
-                      items: defeitos.map((d) {
+                      items: controller.defeitos.map((d) {
                         return DropdownMenuItem(
                           value: d,
                           child: Text(d.descricao),

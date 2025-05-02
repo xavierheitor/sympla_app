@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/modules/checklist/checklist_binding.dart';
 import 'package:sympla_app/modules/checklist/widgets/adicionar_anomalia_page.dart';
 
 class PerguntaChecklistWidget extends StatelessWidget {
@@ -64,15 +65,15 @@ class PerguntaChecklistWidget extends StatelessWidget {
               const SizedBox(height: 16),
               ElevatedButton.icon(
                 onPressed: () async {
-                  final resultado = await Get.to(() => AdicionarAnomaliaPage(
-                        perguntaId: pergunta.id,
-                        equipamentos: const [],
-                        defeitos: const [],
-                        onSalvar: (anomalia) {
-                          // TODO: salvar anomalia no controller ou serviço
-                          Get.back(); // volta após salvar
-                        },
-                      ));
+                  final resultado = await Get.to(
+                      () => AdicionarAnomaliaPage(
+                            perguntaId: pergunta.id,
+                            onSalvar: (anomalia) {
+                              // TODO: salvar anomalia no controller ou serviço
+                              Get.back(); // volta após salvar
+                            },
+                          ),
+                      binding: ChecklistBinding());
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Adicionar Anomalia'),

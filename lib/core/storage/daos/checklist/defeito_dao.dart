@@ -57,4 +57,13 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
           ..where((tbl) => tbl.subgrupoId.equals(subgrupoId)))
         .get();
   }
+
+  Future<List<DefeitoTableData>> buscarPorEquipamento(
+      EquipamentoTableData equipamento) {
+    return (select(defeitoTable)
+          ..where((tbl) =>
+              tbl.grupoId.equals(equipamento.grupoId) &
+              tbl.subgrupoId.equals(equipamento.subgrupoId)))
+        .get();
+  }
 }

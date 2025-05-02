@@ -92,4 +92,20 @@ class DefeitoRepositoryImpl implements DefeitoRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<List<DefeitoTableData>> buscarPorEquipamento(
+      EquipamentoTableData equipamento) async {
+    try {
+      return await dao.buscarPorEquipamento(equipamento);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[DefeitoRepositoryImpl - buscarPorEquipamento] ${erro.mensagem}',
+          tag: 'DefeitoRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

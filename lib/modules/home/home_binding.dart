@@ -9,8 +9,9 @@ import 'package:sympla_app/modules/home/home_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<AtividadeController>(
-      () => AtividadeController(atividadeSyncService: Get.find()),
+    Get.put<AtividadeController>(
+      AtividadeController(atividadeSyncService: Get.find()),
+      permanent: true,
     );
     Get.lazyPut<AtividadeRepository>(() => AtividadeRepositoryImpl(
           dio: Get.find(),
@@ -18,10 +19,7 @@ class HomeBinding extends Bindings {
         ));
 
     Get.lazyPut(() => AtividadeSyncService(Get.find()));
-    // Get.lazyPut(
-    //   () => AtividadeController(atividadeSyncService: Get.find()),
-    //   fenix: true,
-    // );
+
     Get.lazyPut(() => HomeController(Get.find(), Get.find()), fenix: true);
   }
 }

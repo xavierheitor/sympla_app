@@ -4,6 +4,8 @@ import 'package:sympla_app/core/domain/repositories/checklist/checklist_grupo_re
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_resposta_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_subgrupo_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_relacionamento_repository.dart';
+import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -15,7 +17,8 @@ class ChecklistService {
   final ChecklistPerguntaRepository perguntaRepository;
   final ChecklistPerguntaRelacionamentoRepository relacionamentoRepository;
   final ChecklistRespostaRepository respostaRepository;
-
+  final EquipamentoRepository equipamentoRepository;
+  final DefeitoRepository defeitoRepository;
   ChecklistService({
     required this.checklistRepository,
     required this.grupoRepository,
@@ -23,6 +26,8 @@ class ChecklistService {
     required this.perguntaRepository,
     required this.relacionamentoRepository,
     required this.respostaRepository,
+    required this.equipamentoRepository,
+    required this.defeitoRepository,
   });
 
   Future<ChecklistTableData> buscarChecklistPorTipoAtividade(
@@ -155,6 +160,30 @@ class ChecklistService {
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarRelacionamentos] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<List<EquipamentoTableData>> buscarEquipamentos(
+      String subestacao) async {
+    try {
+      return await equipamentoRepository.buscarPorSubestacao(subestacao);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - buscarEquipamentos] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<List<DefeitoTableData>> buscarDefeitos(
+      EquipamentoTableData equipamento) async {
+    try {
+      return await defeitoRepository.buscarPorEquipamento(equipamento);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - buscarDefeitos] ${erro.mensagem}',
           error: e, stackTrace: s);
       rethrow;
     }

@@ -73,4 +73,20 @@ class EquipamentoRepositoryImpl implements EquipamentoRepository {
   Future<bool> estaVazio() async {
     return await dao.estaVazio();
   }
+
+  @override
+  Future<List<EquipamentoTableData>> buscarPorSubestacao(
+      String subestacao) async {
+    try {
+      return await dao.buscarPorSubestacao(subestacao);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[equipamento_repository_impl - buscarPorSubestacao] ${erro.mensagem}',
+          tag: 'EquipamentoRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
 }

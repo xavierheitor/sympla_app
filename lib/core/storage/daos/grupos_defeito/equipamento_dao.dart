@@ -61,4 +61,11 @@ class EquipamentoDao extends DatabaseAccessor<AppDatabase>
     final result = await select(equipamentoTable).get();
     return result.isEmpty;
   }
+
+  Future<List<EquipamentoTableData>> buscarPorSubestacao(
+      String subestacao) async {
+    return await (select(equipamentoTable)
+          ..where((tbl) => tbl.subestacao.equals(subestacao)))
+        .get();
+  }
 }

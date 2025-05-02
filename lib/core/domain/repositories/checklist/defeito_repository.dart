@@ -6,4 +6,7 @@ abstract class DefeitoRepository {
   Future<List<DefeitoTableData>> getBySubgrupoId(int subgrupoId);
   Future<List<DefeitoTableCompanion>> buscarDaApi();
   Future<void> salvarNoBanco(List<DefeitoTableCompanion> dados);
+
+  Future<List<DefeitoTableData>> buscarPorEquipamento(
+      EquipamentoTableData equipamento);
 }
