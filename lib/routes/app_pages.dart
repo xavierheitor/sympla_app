@@ -10,6 +10,12 @@ import 'package:sympla_app/modules/login/login_binding.dart';
 import 'package:sympla_app/modules/login/login_page.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_binding.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_page.dart';
+import 'package:sympla_app/modules/mp_dj/etapas/etapa_pressao_sf6_form_page.dart';
+import 'package:sympla_app/modules/mp_dj/etapas/etapa_resistencia_isolamento_form_page.dart';
+import 'package:sympla_app/modules/mp_dj/etapas/etapa_tempo_operacao_form_page.dart';
+import 'package:sympla_app/modules/mp_dj/mp_dj_form_binding.dart';
+import 'package:sympla_app/modules/mp_dj/mp_dj_form_page.dart';
+import 'package:sympla_app/modules/mp_dj/etapas/etapa_resistencia_contato_form_page.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_binding.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_page.dart';
 import 'package:sympla_app/modules/splash/erro_splash_page.dart';
@@ -61,6 +67,34 @@ class AppPages {
       page: () => const MpBbFormPage(),
       binding: MpBbFormBinding(),
     ),
+
+    //MPJD
+    GetPage(
+      name: Routes.mpDjForm,
+      page: () => const MpDjFormPage(),
+      binding: MpDjFormBinding(),
+    ),
+    GetPage(
+      name: Routes.etapaResistenciaContato,
+      page: () => const EtapaResistenciaContatoPage(),
+      binding: MpDjFormBinding(),
+    ),
+    GetPage(
+      name: Routes.etapaIsolamento,
+      page: () => const EtapaResistenciaIsolamentoPage(),
+      binding: MpDjFormBinding(),
+    ),
+    GetPage(
+      name: Routes.etapaTempoOperacao,
+      page: () => const EtapaTempoOperacaoPage(),
+      binding: MpDjFormBinding(),
+    ),
+    GetPage(
+      name: Routes.etapaPressaoSf6,
+      page: () => const EtapaPressaoSf6Page(),
+      binding: MpDjFormBinding(),
+    ),
+
     // Adicione outras rotas aqui
   ];
 }

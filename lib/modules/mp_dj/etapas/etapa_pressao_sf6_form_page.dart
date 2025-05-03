@@ -1,0 +1,107 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/converters/fase_converter.dart';
+import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
+import 'package:drift/drift.dart' as d;
+
+class EtapaPressaoSf6Page extends StatefulWidget {
+  const EtapaPressaoSf6Page({super.key});
+
+  @override
+  State<EtapaPressaoSf6Page> createState() => _EtapaPressaoSf6PageState();
+}
+
+class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
+  final controller = Get.find<MpDjFormController>();
+
+  final Map<FaseAnomalia, TextEditingController> _pressaoControllers = {};
+  final Map<FaseAnomalia, TextEditingController> _temperaturaControllers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    for (final fase in FaseAnomalia.values) {
+      _pressaoControllers[fase] = TextEditingController();
+      _temperaturaControllers[fase] = TextEditingController();
+    }
+  }
+
+  @override
+  void dispose() {
+    for (final c in _pressaoControllers.values) {
+      c.dispose();
+    }
+    for (final c in _temperaturaControllers.values) {
+      c.dispose();
+    }
+    super.dispose();
+  }
+
+  void _salvar() {
+    final id = controller.formulario.value?.id;
+    if (id == null) {
+      Get.snackbar('Erro', 'Formulário não encontrado');
+      return;
+    }
+
+    final dados = FaseAnomalia.values.map((fase) {
+      return MedicaoPressaoSf6TableCompanion(
+        formularioDisjuntorId: d.Value(id),
+        fase: d.Value(fase),
+        valorPressao: d.Value(
+            double.tryParse(_pressaoControllers[fase]!.text.trim()) ?? 0.0),
+        temperatura: d.Value(
+            double.tryParse(_temperaturaControllers[fase]!.text.trim()) ?? 0.0),
+      );
+    }).toList();
+
+    controller.salvarPressaoSf6(dados);
+  }
+
+  Widget _buildFaseInput(FaseAnomalia fase) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Divider(),
+        Text('Fase ${fase.name.toUpperCase()}',
+            style: const TextStyle(fontWeight: FontWeight.bold)),
+        TextField(
+          controller: _pressaoControllers[fase],
+          decoration: const InputDecoration(labelText: 'Pressão (bar)'),
+          keyboardType: TextInputType.number,
+        ),
+        TextField(
+          controller: _temperaturaControllers[fase],
+          decoration: const InputDecoration(labelText: 'Temperatura (°C)'),
+          keyboardType: TextInputType.number,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Pressão SF6'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Get.back(),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: _salvar,
+          ),
+        ],
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: FaseAnomalia.values.map(_buildFaseInput).toList(),
+        ),
+      ),
+    );
+  }
+}

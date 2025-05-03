@@ -7,5 +7,11 @@ abstract class Routes {
   static const checklist = '/checklist';
   static const resumoAnomalias = '/resumo-anomalias';
   static const mpBbForm = '/mp-bb-form';
+
+  static const mpDjForm = '/mp-dj-form';
+  static const etapaResistenciaContato = '/etapa-resistencia-contato';
+  static const etapaIsolamento = '/etapa-isolamento';
+  static const etapaTempoOperacao = '/etapa-tempo-operacao';
+  static const etapaPressaoSf6 = '/etapa-pressao-sf6';
   // ... futuras rotas
 }

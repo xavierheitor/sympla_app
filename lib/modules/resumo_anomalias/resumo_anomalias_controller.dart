@@ -165,6 +165,12 @@ class ResumoAnomaliasController extends GetxController {
           Get.offAllNamed(Routes.mpBbForm);
           break;
 
+        case TipoAtividadeMobile.prevDisjuntor:
+          AppLogger.d(
+              '[ResumoAnomaliasController] Tipo mpDj identificado. Navegando para tela de formulário MPDJ...');
+          Get.offAllNamed(Routes.mpDjForm);
+          break;
+
         case TipoAtividadeMobile.ivItIu:
           AppLogger.d(
               '[ResumoAnomaliasController] Tipo ivItIu identificado. Finalizando atividade...');
