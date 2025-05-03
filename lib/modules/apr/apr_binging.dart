@@ -3,7 +3,6 @@ import 'package:sympla_app/core/data/repositories/apr/apr_preenchida_repository_
 import 'package:sympla_app/core/data/repositories/tecnicos_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
-import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/services/apr_service.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_assinatura_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_assinatura_repository.dart';
@@ -48,18 +47,18 @@ class AprBinding extends Bindings {
     Get.lazyPut<AprPreenchidaRepository>(
         () => AprPreenchidaRepositoryImpl(db: Get.find()));
 
+    Get.lazyPut<AprAssinaturaRepository>(
+        () => AprAssinaturaRepositoryImpl(Get.find()));
+
     // Services
     Get.lazyPut(() => AprService(
           aprRepository: Get.find(),
           aprPerguntasRepository: Get.find(),
           aprRespostasRepository: Get.find(),
           tecnicosRepository: Get.find(),
-          aprAssinaturaService: Get.find(),
           aprPreenchidaRepository: Get.find(),
+          aprAssinaturaRepository: Get.find(),
         ));
-
-    Get.lazyPut(
-        () => AprAssinaturaService(aprAssinaturaRepository: Get.find()));
 
     Get.lazyPut(() => AtividadeController(
         atividadeSyncService: Get.find<AtividadeSyncService>()));
@@ -67,7 +66,6 @@ class AprBinding extends Bindings {
     // Controller
     Get.lazyPut<AprController>(() => AprController(
           aprService: Get.find(),
-          aprAssinaturaService: Get.find(),
           atividadeController: Get.find(),
         ));
   }

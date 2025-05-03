@@ -2,11 +2,11 @@
 
 import 'package:drift/drift.dart';
 import 'package:get/get.dart' as g;
+import 'package:sympla_app/core/domain/repositories/apr/apr_assinatura_repository.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_perguntas_repository.dart';
@@ -19,14 +19,15 @@ class AprService {
   final AprRespostasRepository aprRespostasRepository;
   final AprPreenchidaRepository aprPreenchidaRepository;
   final TecnicosRepository tecnicosRepository;
-  final AprAssinaturaService aprAssinaturaService;
+  final AprAssinaturaRepository aprAssinaturaRepository;
+
   AprService({
     required this.aprRepository,
     required this.aprPerguntasRepository,
     required this.aprRespostasRepository,
     required this.tecnicosRepository,
-    required this.aprAssinaturaService,
     required this.aprPreenchidaRepository,
+    required this.aprAssinaturaRepository,
   });
 
   Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
@@ -199,7 +200,7 @@ class AprService {
       await aprRespostasRepository.deletarRespostasDaApr(aprPreenchidaId);
 
       // Deletar assinaturas
-      await aprAssinaturaService.deletarAssinaturasDaApr(aprPreenchidaId);
+      await deletarAssinaturasDaApr(aprPreenchidaId);
 
       // Agora deletar a própria apr_preenchida
       await aprRepository.deletarAprPreenchida(aprPreenchidaId);
@@ -211,6 +212,63 @@ class AprService {
       AppLogger.e(
           '[AprService - deletarAprPreenchidaComDependencias] ${erro.mensagem}',
           tag: 'AprService',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> salvarAssinatura(AprAssinaturaTableCompanion assinatura) async {
+    try {
+      AppLogger.d('🖋️ Salvando assinatura APR', tag: 'AprAssinaturaService');
+      await aprAssinaturaRepository.salvarAssinatura(assinatura);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprAssinaturaService - salvarAssinatura] ${erro.mensagem}',
+          tag: 'AprAssinaturaService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<int> contarAssinaturas(int aprPreenchidaId) async {
+    try {
+      AppLogger.d('🔍 Contando assinaturas da APR preenchida: $aprPreenchidaId',
+          tag: 'AprAssinaturaService');
+      return await aprAssinaturaRepository
+          .contarAssinaturasPorAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprAssinaturaService - contarAssinaturas] ${erro.mensagem}',
+          tag: 'AprAssinaturaService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<List<AprAssinaturaTableData>> buscarAssinaturas(
+      int aprPreenchidaId) async {
+    try {
+      AppLogger.d(
+          '🔍 Buscando assinaturas para aprPreenchidaId: $aprPreenchidaId',
+          tag: 'AprAssinaturaService');
+      return await aprAssinaturaRepository
+          .buscarAssinaturasPorAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AprAssinaturaService - buscarAssinaturas] ${erro.mensagem}',
+          tag: 'AprAssinaturaService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> deletarAssinaturasDaApr(int aprPreenchidaId) async {
+    try {
+      await aprAssinaturaRepository
+          .deletarAssinaturasPorAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AprAssinaturaService - deletarAssinaturasDaApr] ${erro.mensagem}',
+          tag: 'AprAssinaturaService',
           error: e,
           stackTrace: s);
       rethrow;

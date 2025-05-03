@@ -7,7 +7,6 @@ import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/data/models/resposta_formulario.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/services/apr_assinatura_service.dart';
 import 'package:sympla_app/core/services/apr_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -17,12 +16,10 @@ import 'package:sympla_app/core/data/models/assinatura_model.dart';
 
 class AprController extends GetxController {
   final AprService aprService;
-  final AprAssinaturaService aprAssinaturaService;
   final AtividadeController atividadeController;
 
   AprController({
     required this.aprService,
-    required this.aprAssinaturaService,
     required this.atividadeController,
   });
 
@@ -202,7 +199,7 @@ class AprController extends GetxController {
         tecnicoId: d.Value(tecnicoId),
       );
 
-      await aprAssinaturaService.salvarAssinatura(assinatura);
+      await aprService.salvarAssinatura(assinatura);
       await carregarAssinaturas();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
@@ -219,7 +216,7 @@ class AprController extends GetxController {
 
     try {
       final assinaturasData =
-          await aprAssinaturaService.buscarAssinaturas(aprPreenchidaId!);
+          await aprService.buscarAssinaturas(aprPreenchidaId!);
       assinaturas.assignAll(
         assinaturasData.map((a) => AssinaturaModel(
               assinatura: a.assinatura,
