@@ -1,13 +1,13 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/services/sync/apr_sync_service.dart';
-import 'package:sympla_app/core/services/sync/checklist/checklist_sync_service.dart';
-import 'package:sympla_app/core/services/sync/checklist/defeitos_sync_service.dart';
-import 'package:sympla_app/core/services/sync/equipamento_sync_service.dart';
-import 'package:sympla_app/core/services/sync/grupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/subgrupo_defeito_sync_service.dart';
-import 'package:sympla_app/core/services/sync/tecnicos_sync_service.dart';
-import 'package:sympla_app/core/services/sync/tipo_atividade_sync_service.dart';
+import 'package:sympla_app/core/syncService/apr/apr_sync_service.dart';
+import 'package:sympla_app/core/syncService/checklist/checklist_sync_service.dart';
+import 'package:sympla_app/core/syncService/defeito/defeitos_sync_service.dart';
+import 'package:sympla_app/core/syncService/equipamento/equipamento_sync_service.dart';
+import 'package:sympla_app/core/syncService/defeito/grupo_defeito_sync_service.dart';
+import 'package:sympla_app/core/syncService/defeito/subgrupo_defeito_sync_service.dart';
+import 'package:sympla_app/core/syncService/tecnicos/tecnicos_sync_service.dart';
+import 'package:sympla_app/core/syncService/atividade/tipo_atividade_sync_service.dart';
 
 class SyncOrchestratorService {
   final TipoAtividadeSyncService tipoAtividadeSyncService;

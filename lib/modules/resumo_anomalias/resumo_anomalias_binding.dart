@@ -5,7 +5,7 @@ import 'package:sympla_app/core/data/repositories/equipamento_repository_impl.da
 import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
-import 'package:sympla_app/core/services/resumo_anomalia_service.dart';
+import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalia_service.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
 
 class ResumoAnomaliasBinding extends Bindings {

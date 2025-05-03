@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/services/checklist_service.dart';
+import 'package:sympla_app/modules/checklist/checklist_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 import 'package:drift/drift.dart' as d;

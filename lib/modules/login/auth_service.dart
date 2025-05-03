@@ -56,4 +56,19 @@ class AuthService {
       rethrow;
     }
   }
+
+  Future<UsuarioTableData?> buscarPorMatricula(String matricula) async {
+    try {
+      final usuario = await usuarioRepository.buscarPorMatricula(matricula);
+      if (usuario == null) {
+        throw Exception("Usuário não encontrado");
+      }
+      return usuario;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[Buscar por matrícula] ${erro.mensagem}',
+          tag: 'UsuarioService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 }

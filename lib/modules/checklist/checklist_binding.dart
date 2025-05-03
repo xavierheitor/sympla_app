@@ -20,7 +20,7 @@ import 'package:sympla_app/core/domain/repositories/checklist/checklist_resposta
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_subgrupo_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
-import 'package:sympla_app/core/services/checklist_service.dart';
+import 'package:sympla_app/modules/checklist/checklist_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/modules/checklist/anomalia_controller.dart';

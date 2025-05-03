@@ -3,7 +3,7 @@ import 'package:sympla_app/core/data/repositories/apr/apr_preenchida_repository_
 import 'package:sympla_app/core/data/repositories/tecnicos_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_preenchida_repository.dart';
 import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
-import 'package:sympla_app/core/services/apr_service.dart';
+import 'package:sympla_app/modules/apr/apr_service.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_assinatura_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_assinatura_repository.dart';
 import 'package:sympla_app/core/domain/repositories/apr/apr_repository.dart';
@@ -14,8 +14,8 @@ import 'package:sympla_app/core/data/repositories/apr/apr_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_perguntas_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_respostas_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/atividade/atividade_repository_impl.dart';
-import 'package:sympla_app/core/services/atividade_service.dart';
-import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
+import 'package:sympla_app/modules/home/atividade_service.dart';
+import 'package:sympla_app/core/syncService/atividade/atividade_sync_service.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/modules/apr/apr_controller.dart';
 

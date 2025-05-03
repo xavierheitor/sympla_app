@@ -8,7 +8,7 @@ import 'package:sympla_app/core/data/repositories/usuario_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/auth_repository.dart';
 import 'package:sympla_app/core/domain/repositories/usuario_repository.dart';
 
-import 'package:sympla_app/core/services/auth_service.dart';
+import 'package:sympla_app/modules/login/auth_service.dart';
 
 class GlobalBinding extends Bindings {
   @override

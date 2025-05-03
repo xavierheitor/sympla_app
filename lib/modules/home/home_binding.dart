@@ -1,8 +1,8 @@
 // HomeBinding
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/services/atividade_service.dart';
-import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
+import 'package:sympla_app/modules/home/atividade_service.dart';
+import 'package:sympla_app/core/syncService/atividade/atividade_sync_service.dart';
 import 'package:sympla_app/core/data/repositories/atividade/atividade_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
 import 'package:sympla_app/modules/home/home_controller.dart';
