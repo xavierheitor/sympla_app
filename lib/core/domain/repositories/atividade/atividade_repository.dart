@@ -12,4 +12,6 @@ abstract class AtividadeRepository {
   Future<void> iniciarAtividade(AtividadeModel atividade);
 
   Future<void> finalizarAtividade(AtividadeModel atividade);
+
+  Future<AtividadeModel?> buscarPorId(int id);
 }

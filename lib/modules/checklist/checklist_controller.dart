@@ -21,7 +21,6 @@ class ChecklistController extends GetxController {
   final _respostas = <int, RespostaChecklist>{}.obs;
   final _carregando = false.obs;
 
-  // Getters
   List<ChecklistPerguntaTableData> get perguntas => _perguntas;
   Map<int, RespostaChecklist> get respostas => _respostas;
   bool get carregando => _carregando.value;
@@ -39,11 +38,8 @@ class ChecklistController extends GetxController {
         continue;
       }
 
-      final key = GrupoSubgrupoKey(
-        grupoId: rel.grupoId,
-        subgrupoId: rel.subgrupoId,
-      );
-
+      final key =
+          GrupoSubgrupoKey(grupoId: rel.grupoId, subgrupoId: rel.subgrupoId);
       mapa.putIfAbsent(key, () => []).add(pergunta);
     }
 
@@ -57,7 +53,7 @@ class ChecklistController extends GetxController {
     super.onInit();
     AppLogger.d('[ChecklistController] Inicializando controller...');
     await checklistJaRespondido();
-    carregarChecklist();
+    await carregarChecklist();
   }
 
   Future<void> checklistJaRespondido() async {
@@ -72,7 +68,8 @@ class ChecklistController extends GetxController {
         await checklistService.checklistJaRespondido(atividade.value!.id);
 
     if (jaRespondido) {
-      AppLogger.e('[ChecklistController] Checklist já respondido');
+      AppLogger.e(
+          '[ChecklistController] Checklist já foi respondido anteriormente');
       Get.offAllNamed(Routes.resumoAnomalias);
     }
   }
@@ -85,27 +82,37 @@ class ChecklistController extends GetxController {
 
       final atividade = atividadeController.atividadeEmAndamento;
       if (atividade.value == null) {
-        AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
+        AppLogger.e(
+            '[ChecklistController] Nenhuma atividade em andamento disponível');
         throw Exception('Nenhuma atividade em andamento.');
       }
 
       AppLogger.d(
-          '[ChecklistController] Atividade atual: id=${atividade.value!.id}, tipo=${atividade.value!.tipoAtividadeId}');
+          '[ChecklistController] Atividade ID: ${atividade.value!.id}, Tipo: ${atividade.value!.tipoAtividadeId}');
 
       final checklist = await checklistService
           .buscarChecklistDaAtividade(atividade.value!.id);
+
       AppLogger.d(
           '[ChecklistController] Checklist carregado: id=${checklist.id}, nome=${checklist.nome}');
 
       final perguntasRelacionadas =
           await checklistService.buscarPerguntasRelacionadas(checklist.id);
       AppLogger.d(
-          '[ChecklistController] Perguntas relacionadas carregadas: ${perguntasRelacionadas.length}');
+          '[ChecklistController] Total de perguntas relacionadas: ${perguntasRelacionadas.length}');
+      if (perguntasRelacionadas.isEmpty) {
+        AppLogger.w(
+            '[ChecklistController] Nenhuma pergunta encontrada para o checklist ${checklist.id}');
+      }
 
       final relacionamentos =
           await checklistService.buscarRelacionamentos(checklist.id);
       AppLogger.d(
-          '[ChecklistController] Relacionamentos carregados: ${relacionamentos.length}');
+          '[ChecklistController] Total de relacionamentos carregados: ${relacionamentos.length}');
+      if (relacionamentos.isEmpty) {
+        AppLogger.w(
+            '[ChecklistController] Nenhum relacionamento grupo/subgrupo encontrado para o checklist ${checklist.id}');
+      }
 
       _perguntas.assignAll(perguntasRelacionadas);
       _relacionamentos.assignAll(relacionamentos);
@@ -115,13 +122,13 @@ class ChecklistController extends GetxController {
       rethrow;
     } finally {
       _carregando.value = false;
-      AppLogger.d('[ChecklistController] Finalizado carregamento do checklist');
+      AppLogger.d('[ChecklistController] Carregamento do checklist finalizado');
     }
   }
 
   void registrarResposta(int perguntaId, RespostaChecklist resposta) {
     AppLogger.d(
-        '[ChecklistController] Registrando resposta para pergunta $perguntaId: ${resposta.name}');
+        '[ChecklistController] Registrando resposta: pergunta $perguntaId → ${resposta.name}');
     _respostas[perguntaId] = resposta;
   }
 
@@ -129,13 +136,13 @@ class ChecklistController extends GetxController {
     final atividade = atividadeController.atividadeEmAndamento;
     if (atividade.value == null) {
       AppLogger.w(
-          '[ChecklistController] Tentativa de salvar respostas sem atividade');
+          '[ChecklistController] Tentativa de salvar respostas sem uma atividade ativa');
       return;
     }
 
     final lista = _respostas.entries.map((entry) {
       AppLogger.d(
-          '[ChecklistController] Montando resposta: pergunta ${entry.key}, resposta ${entry.value}');
+          '[ChecklistController] Preparando resposta para pergunta ${entry.key}: ${entry.value}');
       return ChecklistRespostaTableCompanion(
         perguntaId: d.Value(entry.key),
         atividadeId: d.Value(atividade.value!.id),
@@ -144,7 +151,7 @@ class ChecklistController extends GetxController {
     }).toList();
 
     AppLogger.d(
-        '[ChecklistController] Total de respostas a salvar: ${lista.length}');
+        '[ChecklistController] Total de respostas para salvar: ${lista.length}');
     await checklistService.salvarRespostas(lista);
     Get.offAllNamed(Routes.resumoAnomalias);
   }

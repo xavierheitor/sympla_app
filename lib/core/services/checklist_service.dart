@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/checklist_repository.dart';
@@ -21,6 +22,7 @@ class ChecklistService {
   final EquipamentoRepository equipamentoRepository;
   final DefeitoRepository defeitoRepository;
   final AnomaliaRepository anomaliaRepository;
+  final AtividadeRepository atividadeRepository;
 
   ChecklistService({
     required this.checklistRepository,
@@ -32,6 +34,7 @@ class ChecklistService {
     required this.equipamentoRepository,
     required this.defeitoRepository,
     required this.anomaliaRepository,
+    required this.atividadeRepository,
   });
 
   Future<ChecklistTableData> buscarChecklistPorTipoAtividade(
@@ -138,10 +141,13 @@ class ChecklistService {
 
   Future<ChecklistTableData> buscarChecklistDaAtividade(int id) async {
     try {
-      AppLogger.d(
-          '🔍 Buscando checklist da atividade $id (tipoAtividadeId: $id)',
+      AppLogger.d('🔍 Buscando checklist da atividade $id (atividade: $id)',
           tag: 'ChecklistService');
-      return await buscarChecklistPorTipoAtividade(id);
+
+      final atividade = await atividadeRepository.buscarPorId(id);
+
+      return await buscarChecklistPorTipoAtividade(
+          atividade?.tipoAtividadeId ?? 0);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

@@ -148,4 +148,33 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       ),
     );
   }
+
+  Future<AtividadeModel?> buscarPorId(int id) async {
+    final query = select(atividadeTable).join([
+      innerJoin(
+        equipamentoTable,
+        equipamentoTable.id.equalsExp(atividadeTable.equipamentoId),
+      ),
+    ])
+      ..where(atividadeTable.id.equals(id));
+
+    final row = await query.getSingleOrNull();
+
+    if (row == null) {
+      AppLogger.w('[AtividadeDao] Nenhuma atividade encontrada com id $id');
+      return null;
+    }
+
+    final atividade = row.readTable(atividadeTable);
+    final equipamento = row.readTable(equipamentoTable);
+
+    AppLogger.d(
+      '[AtividadeDao] Atividade carregada com id $id: equipamento=${equipamento.nome}',
+    );
+
+    return AtividadeModel.fromJoin(
+      atividade: atividade,
+      equipamento: equipamento,
+    );
+  }
 }

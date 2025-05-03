@@ -158,4 +158,16 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       rethrow;
     }
   }
+
+  @override
+  Future<AtividadeModel?> buscarPorId(int id) {
+    try {
+      return dao.buscarPorId(id);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AtividadeRepositoryImpl - buscarPorId] ${erro.mensagem}',
+          tag: 'AtividadeRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 }
