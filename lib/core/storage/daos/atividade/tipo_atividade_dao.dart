@@ -61,4 +61,16 @@ class TipoAtividadeDao extends DatabaseAccessor<AppDatabase>
     final result = await select(tipoAtividadeTable).get();
     return result.isEmpty;
   }
+
+  Future<TipoAtividadeTableData> buscarPorId(int tipoAtividadeId) async {
+    final result = await (select(tipoAtividadeTable)
+          ..where((t) => t.id.equals(tipoAtividadeId)))
+        .getSingleOrNull();
+
+    if (result == null) {
+      throw Exception('TipoAtividade com ID $tipoAtividadeId não encontrado.');
+    }
+
+    return result;
+  }
 }

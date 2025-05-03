@@ -6,5 +6,6 @@ abstract class Routes {
   static const apr = '/apr';
   static const checklist = '/checklist';
   static const resumoAnomalias = '/resumo-anomalias';
+  static const mpBbForm = '/mp-bb-form';
   // ... futuras rotas
 }

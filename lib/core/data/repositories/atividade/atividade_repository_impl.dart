@@ -9,16 +9,19 @@ import 'package:sympla_app/core/storage/converters/status_atividade_converter.da
 import 'package:sympla_app/core/storage/daos/atividade/atividade_dao.dart';
 import 'package:sympla_app/core/data/models/atividade_model.dart';
 import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
+import 'package:sympla_app/core/storage/daos/atividade/tipo_atividade_dao.dart';
 
 class AtividadeRepositoryImpl implements AtividadeRepository {
   final DioClient dio;
   final AtividadeDao dao;
+  final TipoAtividadeDao tipoAtividadeDao;
   final AppDatabase db;
 
   AtividadeRepositoryImpl({
     required this.dio,
     required this.db,
-  }) : dao = db.atividadeDao;
+  })  : dao = db.atividadeDao,
+        tipoAtividadeDao = db.tipoAtividadeDao;
 
   @override
   Future<List<AtividadeTableCompanion>> buscarDaApi() async {
@@ -167,6 +170,24 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeRepositoryImpl - buscarPorId] ${erro.mensagem}',
           tag: 'AtividadeRepositoryImpl', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
+
+  @override
+  Future<TipoAtividadeTableData> getTipoAtividadeId(
+      AtividadeModel atividade) async {
+    try {
+      final tipoAtividade =
+          await tipoAtividadeDao.buscarPorId(atividade.tipoAtividadeId);
+      return tipoAtividade;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AtividadeRepositoryImpl - getTipoAtividadeId] ${erro.mensagem}',
+          tag: 'AtividadeRepositoryImpl',
+          error: e,
+          stackTrace: s);
       rethrow;
     }
   }

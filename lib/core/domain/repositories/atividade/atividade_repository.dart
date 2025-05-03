@@ -14,4 +14,6 @@ abstract class AtividadeRepository {
   Future<void> finalizarAtividade(AtividadeModel atividade);
 
   Future<AtividadeModel?> buscarPorId(int id);
+
+  Future<TipoAtividadeTableData> getTipoAtividadeId(AtividadeModel atividade);
 }

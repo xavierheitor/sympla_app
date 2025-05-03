@@ -72,4 +72,16 @@ class AtividadeService {
       rethrow;
     }
   }
+
+  Future<TipoAtividadeTableData> getTipoAtividadeId(
+      AtividadeModel atividade) async {
+    try {
+      return await atividadeRepository.getTipoAtividadeId(atividade);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AtividadeService - getTipoAtividadeId] ${erro.mensagem}',
+          tag: 'AtividadeService', error: e, stackTrace: s);
+      rethrow;
+    }
+  }
 }

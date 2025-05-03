@@ -1,5 +1,7 @@
 // resumo_anomalias_controller.dart
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
+import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalia_service.dart';
@@ -147,12 +149,33 @@ class ResumoAnomaliasController extends GetxController {
     try {
       AppLogger.d(
           '[ResumoAnomaliasController] Concluindo atividade ID: ${atividade.id}');
-      await atividadeController.finalizarAtividade(atividade);
-      await atividadeController.carregarAtividades();
-      atividadeController.atualizarContadores();
-      AppLogger.d(
-          '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
-      Get.offAllNamed('/home');
+
+      //verificar o tipo da atividade em andamento atual
+      final tipoAtividade =
+          await atividadeController.getTipoAtividadeId(atividade);
+
+      switch (tipoAtividade.tipoAtividadeMobile) {
+        case TipoAtividadeMobile.mpBb:
+          Get.offAllNamed(Routes.mpBbForm);
+          break;
+
+        case TipoAtividadeMobile.ivItIu:
+          await atividadeController.finalizarAtividade(atividade);
+          await atividadeController.carregarAtividades();
+          atividadeController.atualizarContadores();
+          Get.offAllNamed(Routes.home);
+          AppLogger.d(
+              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
+          break;
+        default:
+          await atividadeController.finalizarAtividade(atividade);
+          await atividadeController.carregarAtividades();
+          atividadeController.atualizarContadores();
+          Get.offAllNamed(Routes.home);
+          AppLogger.d(
+              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
+          break;
+      }
     } catch (e, s) {
       AppLogger.e('[ResumoAnomaliasController] Erro ao concluir atividade',
           error: e, stackTrace: s);

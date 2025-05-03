@@ -6,4 +6,5 @@ enum TipoAtividadeMobile {
   testeCaCc,
   coletaOleo,
   testesFuncDisjuntor,
+  mpBb,
 }

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/home/atividade_service.dart';
 import 'package:sympla_app/core/syncService/atividade/atividade_sync_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
@@ -173,6 +174,11 @@ class AtividadeController extends GetxController {
       AppLogger.e('[AtividadeController - finalizarAtividade] ${erro.mensagem}',
           tag: 'AtividadeController', error: e, stackTrace: s);
     }
+  }
+
+  Future<TipoAtividadeTableData> getTipoAtividadeId(
+      AtividadeModel atividade) async {
+    return await atividadeService.getTipoAtividadeId(atividade);
   }
 }
 
