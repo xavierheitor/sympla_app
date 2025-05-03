@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_service.dart';
@@ -54,6 +55,8 @@ class MpBbFormController extends GetxController {
       carregando.value = true;
       await service.salvarFormulario(dados, medicoesList);
       await carregarFormulario();
+      AppLogger.d('[MpBbFormController] Formulário salvo com sucesso');
+      Get.offAllNamed(Routes.home);
     } catch (e, s) {
       AppLogger.e('[MpBbFormController] Erro ao salvar formulário',
           error: e, stackTrace: s);

@@ -149,17 +149,25 @@ class ResumoAnomaliasController extends GetxController {
     try {
       AppLogger.d(
           '[ResumoAnomaliasController] Concluindo atividade ID: ${atividade.id}');
+      AppLogger.d('[ResumoAnomaliasController] Buscando tipo de atividade...');
 
-      //verificar o tipo da atividade em andamento atual
       final tipoAtividade =
           await atividadeController.getTipoAtividadeId(atividade);
 
+      AppLogger.d(
+        '[ResumoAnomaliasController] Tipo atividade recebido: id=${tipoAtividade.id}, tipoMobile=${tipoAtividade.tipoAtividadeMobile}',
+      );
+
       switch (tipoAtividade.tipoAtividadeMobile) {
-        case TipoAtividadeMobile.mpBb:
+        case TipoAtividadeMobile.prevBcBat:
+          AppLogger.d(
+              '[ResumoAnomaliasController] Tipo mpBb identificado. Navegando para tela de formulário MPBB...');
           Get.offAllNamed(Routes.mpBbForm);
           break;
 
         case TipoAtividadeMobile.ivItIu:
+          AppLogger.d(
+              '[ResumoAnomaliasController] Tipo ivItIu identificado. Finalizando atividade...');
           await atividadeController.finalizarAtividade(atividade);
           await atividadeController.carregarAtividades();
           atividadeController.atualizarContadores();
@@ -167,13 +175,16 @@ class ResumoAnomaliasController extends GetxController {
           AppLogger.d(
               '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
           break;
+
         default:
+          AppLogger.d(
+              '[ResumoAnomaliasController] Tipo não mapeado. Finalizando por padrão...');
           await atividadeController.finalizarAtividade(atividade);
           await atividadeController.carregarAtividades();
           atividadeController.atualizarContadores();
           Get.offAllNamed(Routes.home);
           AppLogger.d(
-              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
+              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída (default)');
           break;
       }
     } catch (e, s) {

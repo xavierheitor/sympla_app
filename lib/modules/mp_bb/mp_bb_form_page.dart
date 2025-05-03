@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/data/models/medicao_temp.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
@@ -42,7 +43,13 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Formulário Banco de Baterias'),
+        title: const Text('Formulário BCBAT'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.offAllNamed(Routes.home);
+          },
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),
