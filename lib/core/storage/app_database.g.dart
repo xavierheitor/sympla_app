@@ -9198,6 +9198,1129 @@ class ChecklistPerguntaRelacionamentoTableCompanion
   }
 }
 
+class $FormularioBateriaTableTable extends FormularioBateriaTable
+    with TableInfo<$FormularioBateriaTableTable, FormularioBateriaTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FormularioBateriaTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _atividadeIdMeta =
+      const VerificationMeta('atividadeId');
+  @override
+  late final GeneratedColumn<int> atividadeId = GeneratedColumn<int>(
+      'atividade_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES atividade_table (id)'));
+  static const VerificationMeta _fabricanteMeta =
+      const VerificationMeta('fabricante');
+  @override
+  late final GeneratedColumn<String> fabricante = GeneratedColumn<String>(
+      'fabricante', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaNominalMeta =
+      const VerificationMeta('resistenciaNominal');
+  @override
+  late final GeneratedColumn<double> resistenciaNominal =
+      GeneratedColumn<double>('resistencia_nominal', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _densidadeNominalMeta =
+      const VerificationMeta('densidadeNominal');
+  @override
+  late final GeneratedColumn<double> densidadeNominal = GeneratedColumn<double>(
+      'densidade_nominal', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _tensaoFlutuacaoCelulaMeta =
+      const VerificationMeta('tensaoFlutuacaoCelula');
+  @override
+  late final GeneratedColumn<double> tensaoFlutuacaoCelula =
+      GeneratedColumn<double>('tensao_flutuacao_celula', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _densidadeCriticaMeta =
+      const VerificationMeta('densidadeCritica');
+  @override
+  late final GeneratedColumn<double> densidadeCritica = GeneratedColumn<double>(
+      'densidade_critica', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _tipoBateriaMeta =
+      const VerificationMeta('tipoBateria');
+  @override
+  late final GeneratedColumnWithTypeConverter<TipoBateria, String> tipoBateria =
+      GeneratedColumn<String>('tipo_bateria', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<TipoBateria>(
+              $FormularioBateriaTableTable.$convertertipoBateria);
+  static const VerificationMeta _modeloMeta = const VerificationMeta('modelo');
+  @override
+  late final GeneratedColumn<String> modelo = GeneratedColumn<String>(
+      'modelo', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _capacidadeAhMeta =
+      const VerificationMeta('capacidadeAh');
+  @override
+  late final GeneratedColumn<int> capacidadeAh = GeneratedColumn<int>(
+      'capacidade_ah', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _quantidadeCelulasMeta =
+      const VerificationMeta('quantidadeCelulas');
+  @override
+  late final GeneratedColumn<int> quantidadeCelulas = GeneratedColumn<int>(
+      'quantidade_celulas', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _tensaoFlutuacaoBancoMeta =
+      const VerificationMeta('tensaoFlutuacaoBanco');
+  @override
+  late final GeneratedColumn<double> tensaoFlutuacaoBanco =
+      GeneratedColumn<double>('tensao_flutuacao_banco', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _rippleMedidoMeta =
+      const VerificationMeta('rippleMedido');
+  @override
+  late final GeneratedColumn<double> rippleMedido = GeneratedColumn<double>(
+      'ripple_medido', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        atividadeId,
+        fabricante,
+        resistenciaNominal,
+        densidadeNominal,
+        tensaoFlutuacaoCelula,
+        densidadeCritica,
+        tipoBateria,
+        modelo,
+        capacidadeAh,
+        quantidadeCelulas,
+        tensaoFlutuacaoBanco,
+        rippleMedido,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'formulario_bateria_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<FormularioBateriaTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('atividade_id')) {
+      context.handle(
+          _atividadeIdMeta,
+          atividadeId.isAcceptableOrUnknown(
+              data['atividade_id']!, _atividadeIdMeta));
+    } else if (isInserting) {
+      context.missing(_atividadeIdMeta);
+    }
+    if (data.containsKey('fabricante')) {
+      context.handle(
+          _fabricanteMeta,
+          fabricante.isAcceptableOrUnknown(
+              data['fabricante']!, _fabricanteMeta));
+    }
+    if (data.containsKey('resistencia_nominal')) {
+      context.handle(
+          _resistenciaNominalMeta,
+          resistenciaNominal.isAcceptableOrUnknown(
+              data['resistencia_nominal']!, _resistenciaNominalMeta));
+    }
+    if (data.containsKey('densidade_nominal')) {
+      context.handle(
+          _densidadeNominalMeta,
+          densidadeNominal.isAcceptableOrUnknown(
+              data['densidade_nominal']!, _densidadeNominalMeta));
+    }
+    if (data.containsKey('tensao_flutuacao_celula')) {
+      context.handle(
+          _tensaoFlutuacaoCelulaMeta,
+          tensaoFlutuacaoCelula.isAcceptableOrUnknown(
+              data['tensao_flutuacao_celula']!, _tensaoFlutuacaoCelulaMeta));
+    }
+    if (data.containsKey('densidade_critica')) {
+      context.handle(
+          _densidadeCriticaMeta,
+          densidadeCritica.isAcceptableOrUnknown(
+              data['densidade_critica']!, _densidadeCriticaMeta));
+    }
+    context.handle(_tipoBateriaMeta, const VerificationResult.success());
+    if (data.containsKey('modelo')) {
+      context.handle(_modeloMeta,
+          modelo.isAcceptableOrUnknown(data['modelo']!, _modeloMeta));
+    }
+    if (data.containsKey('capacidade_ah')) {
+      context.handle(
+          _capacidadeAhMeta,
+          capacidadeAh.isAcceptableOrUnknown(
+              data['capacidade_ah']!, _capacidadeAhMeta));
+    }
+    if (data.containsKey('quantidade_celulas')) {
+      context.handle(
+          _quantidadeCelulasMeta,
+          quantidadeCelulas.isAcceptableOrUnknown(
+              data['quantidade_celulas']!, _quantidadeCelulasMeta));
+    }
+    if (data.containsKey('tensao_flutuacao_banco')) {
+      context.handle(
+          _tensaoFlutuacaoBancoMeta,
+          tensaoFlutuacaoBanco.isAcceptableOrUnknown(
+              data['tensao_flutuacao_banco']!, _tensaoFlutuacaoBancoMeta));
+    }
+    if (data.containsKey('ripple_medido')) {
+      context.handle(
+          _rippleMedidoMeta,
+          rippleMedido.isAcceptableOrUnknown(
+              data['ripple_medido']!, _rippleMedidoMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  FormularioBateriaTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FormularioBateriaTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      atividadeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}atividade_id'])!,
+      fabricante: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}fabricante']),
+      resistenciaNominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_nominal']),
+      densidadeNominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}densidade_nominal']),
+      tensaoFlutuacaoCelula: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}tensao_flutuacao_celula']),
+      densidadeCritica: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}densidade_critica']),
+      tipoBateria: $FormularioBateriaTableTable.$convertertipoBateria.fromSql(
+          attachedDatabase.typeMapping.read(
+              DriftSqlType.string, data['${effectivePrefix}tipo_bateria'])!),
+      modelo: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}modelo']),
+      capacidadeAh: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}capacidade_ah']),
+      quantidadeCelulas: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}quantidade_celulas']),
+      tensaoFlutuacaoBanco: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}tensao_flutuacao_banco']),
+      rippleMedido: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}ripple_medido']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
+    );
+  }
+
+  @override
+  $FormularioBateriaTableTable createAlias(String alias) {
+    return $FormularioBateriaTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<TipoBateria, String> $convertertipoBateria =
+      const TipoBateriaConverter();
+}
+
+class FormularioBateriaTableData extends DataClass
+    implements Insertable<FormularioBateriaTableData> {
+  final int id;
+  final int atividadeId;
+  final String? fabricante;
+  final double? resistenciaNominal;
+  final double? densidadeNominal;
+  final double? tensaoFlutuacaoCelula;
+  final double? densidadeCritica;
+  final TipoBateria tipoBateria;
+  final String? modelo;
+  final int? capacidadeAh;
+  final int? quantidadeCelulas;
+  final double? tensaoFlutuacaoBanco;
+  final double? rippleMedido;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const FormularioBateriaTableData(
+      {required this.id,
+      required this.atividadeId,
+      this.fabricante,
+      this.resistenciaNominal,
+      this.densidadeNominal,
+      this.tensaoFlutuacaoCelula,
+      this.densidadeCritica,
+      required this.tipoBateria,
+      this.modelo,
+      this.capacidadeAh,
+      this.quantidadeCelulas,
+      this.tensaoFlutuacaoBanco,
+      this.rippleMedido,
+      required this.createdAt,
+      this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['atividade_id'] = Variable<int>(atividadeId);
+    if (!nullToAbsent || fabricante != null) {
+      map['fabricante'] = Variable<String>(fabricante);
+    }
+    if (!nullToAbsent || resistenciaNominal != null) {
+      map['resistencia_nominal'] = Variable<double>(resistenciaNominal);
+    }
+    if (!nullToAbsent || densidadeNominal != null) {
+      map['densidade_nominal'] = Variable<double>(densidadeNominal);
+    }
+    if (!nullToAbsent || tensaoFlutuacaoCelula != null) {
+      map['tensao_flutuacao_celula'] = Variable<double>(tensaoFlutuacaoCelula);
+    }
+    if (!nullToAbsent || densidadeCritica != null) {
+      map['densidade_critica'] = Variable<double>(densidadeCritica);
+    }
+    {
+      map['tipo_bateria'] = Variable<String>($FormularioBateriaTableTable
+          .$convertertipoBateria
+          .toSql(tipoBateria));
+    }
+    if (!nullToAbsent || modelo != null) {
+      map['modelo'] = Variable<String>(modelo);
+    }
+    if (!nullToAbsent || capacidadeAh != null) {
+      map['capacidade_ah'] = Variable<int>(capacidadeAh);
+    }
+    if (!nullToAbsent || quantidadeCelulas != null) {
+      map['quantidade_celulas'] = Variable<int>(quantidadeCelulas);
+    }
+    if (!nullToAbsent || tensaoFlutuacaoBanco != null) {
+      map['tensao_flutuacao_banco'] = Variable<double>(tensaoFlutuacaoBanco);
+    }
+    if (!nullToAbsent || rippleMedido != null) {
+      map['ripple_medido'] = Variable<double>(rippleMedido);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  FormularioBateriaTableCompanion toCompanion(bool nullToAbsent) {
+    return FormularioBateriaTableCompanion(
+      id: Value(id),
+      atividadeId: Value(atividadeId),
+      fabricante: fabricante == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fabricante),
+      resistenciaNominal: resistenciaNominal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaNominal),
+      densidadeNominal: densidadeNominal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(densidadeNominal),
+      tensaoFlutuacaoCelula: tensaoFlutuacaoCelula == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tensaoFlutuacaoCelula),
+      densidadeCritica: densidadeCritica == null && nullToAbsent
+          ? const Value.absent()
+          : Value(densidadeCritica),
+      tipoBateria: Value(tipoBateria),
+      modelo:
+          modelo == null && nullToAbsent ? const Value.absent() : Value(modelo),
+      capacidadeAh: capacidadeAh == null && nullToAbsent
+          ? const Value.absent()
+          : Value(capacidadeAh),
+      quantidadeCelulas: quantidadeCelulas == null && nullToAbsent
+          ? const Value.absent()
+          : Value(quantidadeCelulas),
+      tensaoFlutuacaoBanco: tensaoFlutuacaoBanco == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tensaoFlutuacaoBanco),
+      rippleMedido: rippleMedido == null && nullToAbsent
+          ? const Value.absent()
+          : Value(rippleMedido),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory FormularioBateriaTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FormularioBateriaTableData(
+      id: serializer.fromJson<int>(json['id']),
+      atividadeId: serializer.fromJson<int>(json['atividadeId']),
+      fabricante: serializer.fromJson<String?>(json['fabricante']),
+      resistenciaNominal:
+          serializer.fromJson<double?>(json['resistenciaNominal']),
+      densidadeNominal: serializer.fromJson<double?>(json['densidadeNominal']),
+      tensaoFlutuacaoCelula:
+          serializer.fromJson<double?>(json['tensaoFlutuacaoCelula']),
+      densidadeCritica: serializer.fromJson<double?>(json['densidadeCritica']),
+      tipoBateria: serializer.fromJson<TipoBateria>(json['tipoBateria']),
+      modelo: serializer.fromJson<String?>(json['modelo']),
+      capacidadeAh: serializer.fromJson<int?>(json['capacidadeAh']),
+      quantidadeCelulas: serializer.fromJson<int?>(json['quantidadeCelulas']),
+      tensaoFlutuacaoBanco:
+          serializer.fromJson<double?>(json['tensaoFlutuacaoBanco']),
+      rippleMedido: serializer.fromJson<double?>(json['rippleMedido']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'atividadeId': serializer.toJson<int>(atividadeId),
+      'fabricante': serializer.toJson<String?>(fabricante),
+      'resistenciaNominal': serializer.toJson<double?>(resistenciaNominal),
+      'densidadeNominal': serializer.toJson<double?>(densidadeNominal),
+      'tensaoFlutuacaoCelula':
+          serializer.toJson<double?>(tensaoFlutuacaoCelula),
+      'densidadeCritica': serializer.toJson<double?>(densidadeCritica),
+      'tipoBateria': serializer.toJson<TipoBateria>(tipoBateria),
+      'modelo': serializer.toJson<String?>(modelo),
+      'capacidadeAh': serializer.toJson<int?>(capacidadeAh),
+      'quantidadeCelulas': serializer.toJson<int?>(quantidadeCelulas),
+      'tensaoFlutuacaoBanco': serializer.toJson<double?>(tensaoFlutuacaoBanco),
+      'rippleMedido': serializer.toJson<double?>(rippleMedido),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  FormularioBateriaTableData copyWith(
+          {int? id,
+          int? atividadeId,
+          Value<String?> fabricante = const Value.absent(),
+          Value<double?> resistenciaNominal = const Value.absent(),
+          Value<double?> densidadeNominal = const Value.absent(),
+          Value<double?> tensaoFlutuacaoCelula = const Value.absent(),
+          Value<double?> densidadeCritica = const Value.absent(),
+          TipoBateria? tipoBateria,
+          Value<String?> modelo = const Value.absent(),
+          Value<int?> capacidadeAh = const Value.absent(),
+          Value<int?> quantidadeCelulas = const Value.absent(),
+          Value<double?> tensaoFlutuacaoBanco = const Value.absent(),
+          Value<double?> rippleMedido = const Value.absent(),
+          DateTime? createdAt,
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
+      FormularioBateriaTableData(
+        id: id ?? this.id,
+        atividadeId: atividadeId ?? this.atividadeId,
+        fabricante: fabricante.present ? fabricante.value : this.fabricante,
+        resistenciaNominal: resistenciaNominal.present
+            ? resistenciaNominal.value
+            : this.resistenciaNominal,
+        densidadeNominal: densidadeNominal.present
+            ? densidadeNominal.value
+            : this.densidadeNominal,
+        tensaoFlutuacaoCelula: tensaoFlutuacaoCelula.present
+            ? tensaoFlutuacaoCelula.value
+            : this.tensaoFlutuacaoCelula,
+        densidadeCritica: densidadeCritica.present
+            ? densidadeCritica.value
+            : this.densidadeCritica,
+        tipoBateria: tipoBateria ?? this.tipoBateria,
+        modelo: modelo.present ? modelo.value : this.modelo,
+        capacidadeAh:
+            capacidadeAh.present ? capacidadeAh.value : this.capacidadeAh,
+        quantidadeCelulas: quantidadeCelulas.present
+            ? quantidadeCelulas.value
+            : this.quantidadeCelulas,
+        tensaoFlutuacaoBanco: tensaoFlutuacaoBanco.present
+            ? tensaoFlutuacaoBanco.value
+            : this.tensaoFlutuacaoBanco,
+        rippleMedido:
+            rippleMedido.present ? rippleMedido.value : this.rippleMedido,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+      );
+  FormularioBateriaTableData copyWithCompanion(
+      FormularioBateriaTableCompanion data) {
+    return FormularioBateriaTableData(
+      id: data.id.present ? data.id.value : this.id,
+      atividadeId:
+          data.atividadeId.present ? data.atividadeId.value : this.atividadeId,
+      fabricante:
+          data.fabricante.present ? data.fabricante.value : this.fabricante,
+      resistenciaNominal: data.resistenciaNominal.present
+          ? data.resistenciaNominal.value
+          : this.resistenciaNominal,
+      densidadeNominal: data.densidadeNominal.present
+          ? data.densidadeNominal.value
+          : this.densidadeNominal,
+      tensaoFlutuacaoCelula: data.tensaoFlutuacaoCelula.present
+          ? data.tensaoFlutuacaoCelula.value
+          : this.tensaoFlutuacaoCelula,
+      densidadeCritica: data.densidadeCritica.present
+          ? data.densidadeCritica.value
+          : this.densidadeCritica,
+      tipoBateria:
+          data.tipoBateria.present ? data.tipoBateria.value : this.tipoBateria,
+      modelo: data.modelo.present ? data.modelo.value : this.modelo,
+      capacidadeAh: data.capacidadeAh.present
+          ? data.capacidadeAh.value
+          : this.capacidadeAh,
+      quantidadeCelulas: data.quantidadeCelulas.present
+          ? data.quantidadeCelulas.value
+          : this.quantidadeCelulas,
+      tensaoFlutuacaoBanco: data.tensaoFlutuacaoBanco.present
+          ? data.tensaoFlutuacaoBanco.value
+          : this.tensaoFlutuacaoBanco,
+      rippleMedido: data.rippleMedido.present
+          ? data.rippleMedido.value
+          : this.rippleMedido,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FormularioBateriaTableData(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('fabricante: $fabricante, ')
+          ..write('resistenciaNominal: $resistenciaNominal, ')
+          ..write('densidadeNominal: $densidadeNominal, ')
+          ..write('tensaoFlutuacaoCelula: $tensaoFlutuacaoCelula, ')
+          ..write('densidadeCritica: $densidadeCritica, ')
+          ..write('tipoBateria: $tipoBateria, ')
+          ..write('modelo: $modelo, ')
+          ..write('capacidadeAh: $capacidadeAh, ')
+          ..write('quantidadeCelulas: $quantidadeCelulas, ')
+          ..write('tensaoFlutuacaoBanco: $tensaoFlutuacaoBanco, ')
+          ..write('rippleMedido: $rippleMedido, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      atividadeId,
+      fabricante,
+      resistenciaNominal,
+      densidadeNominal,
+      tensaoFlutuacaoCelula,
+      densidadeCritica,
+      tipoBateria,
+      modelo,
+      capacidadeAh,
+      quantidadeCelulas,
+      tensaoFlutuacaoBanco,
+      rippleMedido,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FormularioBateriaTableData &&
+          other.id == this.id &&
+          other.atividadeId == this.atividadeId &&
+          other.fabricante == this.fabricante &&
+          other.resistenciaNominal == this.resistenciaNominal &&
+          other.densidadeNominal == this.densidadeNominal &&
+          other.tensaoFlutuacaoCelula == this.tensaoFlutuacaoCelula &&
+          other.densidadeCritica == this.densidadeCritica &&
+          other.tipoBateria == this.tipoBateria &&
+          other.modelo == this.modelo &&
+          other.capacidadeAh == this.capacidadeAh &&
+          other.quantidadeCelulas == this.quantidadeCelulas &&
+          other.tensaoFlutuacaoBanco == this.tensaoFlutuacaoBanco &&
+          other.rippleMedido == this.rippleMedido &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class FormularioBateriaTableCompanion
+    extends UpdateCompanion<FormularioBateriaTableData> {
+  final Value<int> id;
+  final Value<int> atividadeId;
+  final Value<String?> fabricante;
+  final Value<double?> resistenciaNominal;
+  final Value<double?> densidadeNominal;
+  final Value<double?> tensaoFlutuacaoCelula;
+  final Value<double?> densidadeCritica;
+  final Value<TipoBateria> tipoBateria;
+  final Value<String?> modelo;
+  final Value<int?> capacidadeAh;
+  final Value<int?> quantidadeCelulas;
+  final Value<double?> tensaoFlutuacaoBanco;
+  final Value<double?> rippleMedido;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const FormularioBateriaTableCompanion({
+    this.id = const Value.absent(),
+    this.atividadeId = const Value.absent(),
+    this.fabricante = const Value.absent(),
+    this.resistenciaNominal = const Value.absent(),
+    this.densidadeNominal = const Value.absent(),
+    this.tensaoFlutuacaoCelula = const Value.absent(),
+    this.densidadeCritica = const Value.absent(),
+    this.tipoBateria = const Value.absent(),
+    this.modelo = const Value.absent(),
+    this.capacidadeAh = const Value.absent(),
+    this.quantidadeCelulas = const Value.absent(),
+    this.tensaoFlutuacaoBanco = const Value.absent(),
+    this.rippleMedido = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  FormularioBateriaTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int atividadeId,
+    this.fabricante = const Value.absent(),
+    this.resistenciaNominal = const Value.absent(),
+    this.densidadeNominal = const Value.absent(),
+    this.tensaoFlutuacaoCelula = const Value.absent(),
+    this.densidadeCritica = const Value.absent(),
+    required TipoBateria tipoBateria,
+    this.modelo = const Value.absent(),
+    this.capacidadeAh = const Value.absent(),
+    this.quantidadeCelulas = const Value.absent(),
+    this.tensaoFlutuacaoBanco = const Value.absent(),
+    this.rippleMedido = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  })  : atividadeId = Value(atividadeId),
+        tipoBateria = Value(tipoBateria);
+  static Insertable<FormularioBateriaTableData> custom({
+    Expression<int>? id,
+    Expression<int>? atividadeId,
+    Expression<String>? fabricante,
+    Expression<double>? resistenciaNominal,
+    Expression<double>? densidadeNominal,
+    Expression<double>? tensaoFlutuacaoCelula,
+    Expression<double>? densidadeCritica,
+    Expression<String>? tipoBateria,
+    Expression<String>? modelo,
+    Expression<int>? capacidadeAh,
+    Expression<int>? quantidadeCelulas,
+    Expression<double>? tensaoFlutuacaoBanco,
+    Expression<double>? rippleMedido,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (atividadeId != null) 'atividade_id': atividadeId,
+      if (fabricante != null) 'fabricante': fabricante,
+      if (resistenciaNominal != null) 'resistencia_nominal': resistenciaNominal,
+      if (densidadeNominal != null) 'densidade_nominal': densidadeNominal,
+      if (tensaoFlutuacaoCelula != null)
+        'tensao_flutuacao_celula': tensaoFlutuacaoCelula,
+      if (densidadeCritica != null) 'densidade_critica': densidadeCritica,
+      if (tipoBateria != null) 'tipo_bateria': tipoBateria,
+      if (modelo != null) 'modelo': modelo,
+      if (capacidadeAh != null) 'capacidade_ah': capacidadeAh,
+      if (quantidadeCelulas != null) 'quantidade_celulas': quantidadeCelulas,
+      if (tensaoFlutuacaoBanco != null)
+        'tensao_flutuacao_banco': tensaoFlutuacaoBanco,
+      if (rippleMedido != null) 'ripple_medido': rippleMedido,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  FormularioBateriaTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? atividadeId,
+      Value<String?>? fabricante,
+      Value<double?>? resistenciaNominal,
+      Value<double?>? densidadeNominal,
+      Value<double?>? tensaoFlutuacaoCelula,
+      Value<double?>? densidadeCritica,
+      Value<TipoBateria>? tipoBateria,
+      Value<String?>? modelo,
+      Value<int?>? capacidadeAh,
+      Value<int?>? quantidadeCelulas,
+      Value<double?>? tensaoFlutuacaoBanco,
+      Value<double?>? rippleMedido,
+      Value<DateTime>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return FormularioBateriaTableCompanion(
+      id: id ?? this.id,
+      atividadeId: atividadeId ?? this.atividadeId,
+      fabricante: fabricante ?? this.fabricante,
+      resistenciaNominal: resistenciaNominal ?? this.resistenciaNominal,
+      densidadeNominal: densidadeNominal ?? this.densidadeNominal,
+      tensaoFlutuacaoCelula:
+          tensaoFlutuacaoCelula ?? this.tensaoFlutuacaoCelula,
+      densidadeCritica: densidadeCritica ?? this.densidadeCritica,
+      tipoBateria: tipoBateria ?? this.tipoBateria,
+      modelo: modelo ?? this.modelo,
+      capacidadeAh: capacidadeAh ?? this.capacidadeAh,
+      quantidadeCelulas: quantidadeCelulas ?? this.quantidadeCelulas,
+      tensaoFlutuacaoBanco: tensaoFlutuacaoBanco ?? this.tensaoFlutuacaoBanco,
+      rippleMedido: rippleMedido ?? this.rippleMedido,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (atividadeId.present) {
+      map['atividade_id'] = Variable<int>(atividadeId.value);
+    }
+    if (fabricante.present) {
+      map['fabricante'] = Variable<String>(fabricante.value);
+    }
+    if (resistenciaNominal.present) {
+      map['resistencia_nominal'] = Variable<double>(resistenciaNominal.value);
+    }
+    if (densidadeNominal.present) {
+      map['densidade_nominal'] = Variable<double>(densidadeNominal.value);
+    }
+    if (tensaoFlutuacaoCelula.present) {
+      map['tensao_flutuacao_celula'] =
+          Variable<double>(tensaoFlutuacaoCelula.value);
+    }
+    if (densidadeCritica.present) {
+      map['densidade_critica'] = Variable<double>(densidadeCritica.value);
+    }
+    if (tipoBateria.present) {
+      map['tipo_bateria'] = Variable<String>($FormularioBateriaTableTable
+          .$convertertipoBateria
+          .toSql(tipoBateria.value));
+    }
+    if (modelo.present) {
+      map['modelo'] = Variable<String>(modelo.value);
+    }
+    if (capacidadeAh.present) {
+      map['capacidade_ah'] = Variable<int>(capacidadeAh.value);
+    }
+    if (quantidadeCelulas.present) {
+      map['quantidade_celulas'] = Variable<int>(quantidadeCelulas.value);
+    }
+    if (tensaoFlutuacaoBanco.present) {
+      map['tensao_flutuacao_banco'] =
+          Variable<double>(tensaoFlutuacaoBanco.value);
+    }
+    if (rippleMedido.present) {
+      map['ripple_medido'] = Variable<double>(rippleMedido.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FormularioBateriaTableCompanion(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('fabricante: $fabricante, ')
+          ..write('resistenciaNominal: $resistenciaNominal, ')
+          ..write('densidadeNominal: $densidadeNominal, ')
+          ..write('tensaoFlutuacaoCelula: $tensaoFlutuacaoCelula, ')
+          ..write('densidadeCritica: $densidadeCritica, ')
+          ..write('tipoBateria: $tipoBateria, ')
+          ..write('modelo: $modelo, ')
+          ..write('capacidadeAh: $capacidadeAh, ')
+          ..write('quantidadeCelulas: $quantidadeCelulas, ')
+          ..write('tensaoFlutuacaoBanco: $tensaoFlutuacaoBanco, ')
+          ..write('rippleMedido: $rippleMedido, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
+    with
+        TableInfo<$MedicaoElementoBateriaTableTable,
+            MedicaoElementoBateriaTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MedicaoElementoBateriaTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _formularioBateriaIdMeta =
+      const VerificationMeta('formularioBateriaId');
+  @override
+  late final GeneratedColumn<int> formularioBateriaId = GeneratedColumn<int>(
+      'formulario_bateria_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES formulario_bateria_table (id) ON DELETE CASCADE'));
+  static const VerificationMeta _elementoBateriaNumeroMeta =
+      const VerificationMeta('elementoBateriaNumero');
+  @override
+  late final GeneratedColumn<int> elementoBateriaNumero = GeneratedColumn<int>(
+      'elemento_bateria_numero', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _tensaoMeta = const VerificationMeta('tensao');
+  @override
+  late final GeneratedColumn<double> tensao = GeneratedColumn<double>(
+      'tensao', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaInternaMeta =
+      const VerificationMeta('resistenciaInterna');
+  @override
+  late final GeneratedColumn<double> resistenciaInterna =
+      GeneratedColumn<double>('resistencia_interna', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        formularioBateriaId,
+        elementoBateriaNumero,
+        tensao,
+        resistenciaInterna
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'medicao_elemento_bateria_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MedicaoElementoBateriaTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('formulario_bateria_id')) {
+      context.handle(
+          _formularioBateriaIdMeta,
+          formularioBateriaId.isAcceptableOrUnknown(
+              data['formulario_bateria_id']!, _formularioBateriaIdMeta));
+    } else if (isInserting) {
+      context.missing(_formularioBateriaIdMeta);
+    }
+    if (data.containsKey('elemento_bateria_numero')) {
+      context.handle(
+          _elementoBateriaNumeroMeta,
+          elementoBateriaNumero.isAcceptableOrUnknown(
+              data['elemento_bateria_numero']!, _elementoBateriaNumeroMeta));
+    } else if (isInserting) {
+      context.missing(_elementoBateriaNumeroMeta);
+    }
+    if (data.containsKey('tensao')) {
+      context.handle(_tensaoMeta,
+          tensao.isAcceptableOrUnknown(data['tensao']!, _tensaoMeta));
+    }
+    if (data.containsKey('resistencia_interna')) {
+      context.handle(
+          _resistenciaInternaMeta,
+          resistenciaInterna.isAcceptableOrUnknown(
+              data['resistencia_interna']!, _resistenciaInternaMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MedicaoElementoBateriaTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MedicaoElementoBateriaTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      formularioBateriaId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_bateria_id'])!,
+      elementoBateriaNumero: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}elemento_bateria_numero'])!,
+      tensao: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}tensao']),
+      resistenciaInterna: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_interna']),
+    );
+  }
+
+  @override
+  $MedicaoElementoBateriaTableTable createAlias(String alias) {
+    return $MedicaoElementoBateriaTableTable(attachedDatabase, alias);
+  }
+}
+
+class MedicaoElementoBateriaTableData extends DataClass
+    implements Insertable<MedicaoElementoBateriaTableData> {
+  final int id;
+  final int formularioBateriaId;
+  final int elementoBateriaNumero;
+  final double? tensao;
+  final double? resistenciaInterna;
+  const MedicaoElementoBateriaTableData(
+      {required this.id,
+      required this.formularioBateriaId,
+      required this.elementoBateriaNumero,
+      this.tensao,
+      this.resistenciaInterna});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['formulario_bateria_id'] = Variable<int>(formularioBateriaId);
+    map['elemento_bateria_numero'] = Variable<int>(elementoBateriaNumero);
+    if (!nullToAbsent || tensao != null) {
+      map['tensao'] = Variable<double>(tensao);
+    }
+    if (!nullToAbsent || resistenciaInterna != null) {
+      map['resistencia_interna'] = Variable<double>(resistenciaInterna);
+    }
+    return map;
+  }
+
+  MedicaoElementoBateriaTableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoElementoBateriaTableCompanion(
+      id: Value(id),
+      formularioBateriaId: Value(formularioBateriaId),
+      elementoBateriaNumero: Value(elementoBateriaNumero),
+      tensao:
+          tensao == null && nullToAbsent ? const Value.absent() : Value(tensao),
+      resistenciaInterna: resistenciaInterna == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaInterna),
+    );
+  }
+
+  factory MedicaoElementoBateriaTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MedicaoElementoBateriaTableData(
+      id: serializer.fromJson<int>(json['id']),
+      formularioBateriaId:
+          serializer.fromJson<int>(json['formularioBateriaId']),
+      elementoBateriaNumero:
+          serializer.fromJson<int>(json['elementoBateriaNumero']),
+      tensao: serializer.fromJson<double?>(json['tensao']),
+      resistenciaInterna:
+          serializer.fromJson<double?>(json['resistenciaInterna']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'formularioBateriaId': serializer.toJson<int>(formularioBateriaId),
+      'elementoBateriaNumero': serializer.toJson<int>(elementoBateriaNumero),
+      'tensao': serializer.toJson<double?>(tensao),
+      'resistenciaInterna': serializer.toJson<double?>(resistenciaInterna),
+    };
+  }
+
+  MedicaoElementoBateriaTableData copyWith(
+          {int? id,
+          int? formularioBateriaId,
+          int? elementoBateriaNumero,
+          Value<double?> tensao = const Value.absent(),
+          Value<double?> resistenciaInterna = const Value.absent()}) =>
+      MedicaoElementoBateriaTableData(
+        id: id ?? this.id,
+        formularioBateriaId: formularioBateriaId ?? this.formularioBateriaId,
+        elementoBateriaNumero:
+            elementoBateriaNumero ?? this.elementoBateriaNumero,
+        tensao: tensao.present ? tensao.value : this.tensao,
+        resistenciaInterna: resistenciaInterna.present
+            ? resistenciaInterna.value
+            : this.resistenciaInterna,
+      );
+  MedicaoElementoBateriaTableData copyWithCompanion(
+      MedicaoElementoBateriaTableCompanion data) {
+    return MedicaoElementoBateriaTableData(
+      id: data.id.present ? data.id.value : this.id,
+      formularioBateriaId: data.formularioBateriaId.present
+          ? data.formularioBateriaId.value
+          : this.formularioBateriaId,
+      elementoBateriaNumero: data.elementoBateriaNumero.present
+          ? data.elementoBateriaNumero.value
+          : this.elementoBateriaNumero,
+      tensao: data.tensao.present ? data.tensao.value : this.tensao,
+      resistenciaInterna: data.resistenciaInterna.present
+          ? data.resistenciaInterna.value
+          : this.resistenciaInterna,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoElementoBateriaTableData(')
+          ..write('id: $id, ')
+          ..write('formularioBateriaId: $formularioBateriaId, ')
+          ..write('elementoBateriaNumero: $elementoBateriaNumero, ')
+          ..write('tensao: $tensao, ')
+          ..write('resistenciaInterna: $resistenciaInterna')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, formularioBateriaId,
+      elementoBateriaNumero, tensao, resistenciaInterna);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MedicaoElementoBateriaTableData &&
+          other.id == this.id &&
+          other.formularioBateriaId == this.formularioBateriaId &&
+          other.elementoBateriaNumero == this.elementoBateriaNumero &&
+          other.tensao == this.tensao &&
+          other.resistenciaInterna == this.resistenciaInterna);
+}
+
+class MedicaoElementoBateriaTableCompanion
+    extends UpdateCompanion<MedicaoElementoBateriaTableData> {
+  final Value<int> id;
+  final Value<int> formularioBateriaId;
+  final Value<int> elementoBateriaNumero;
+  final Value<double?> tensao;
+  final Value<double?> resistenciaInterna;
+  const MedicaoElementoBateriaTableCompanion({
+    this.id = const Value.absent(),
+    this.formularioBateriaId = const Value.absent(),
+    this.elementoBateriaNumero = const Value.absent(),
+    this.tensao = const Value.absent(),
+    this.resistenciaInterna = const Value.absent(),
+  });
+  MedicaoElementoBateriaTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int formularioBateriaId,
+    required int elementoBateriaNumero,
+    this.tensao = const Value.absent(),
+    this.resistenciaInterna = const Value.absent(),
+  })  : formularioBateriaId = Value(formularioBateriaId),
+        elementoBateriaNumero = Value(elementoBateriaNumero);
+  static Insertable<MedicaoElementoBateriaTableData> custom({
+    Expression<int>? id,
+    Expression<int>? formularioBateriaId,
+    Expression<int>? elementoBateriaNumero,
+    Expression<double>? tensao,
+    Expression<double>? resistenciaInterna,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (formularioBateriaId != null)
+        'formulario_bateria_id': formularioBateriaId,
+      if (elementoBateriaNumero != null)
+        'elemento_bateria_numero': elementoBateriaNumero,
+      if (tensao != null) 'tensao': tensao,
+      if (resistenciaInterna != null) 'resistencia_interna': resistenciaInterna,
+    });
+  }
+
+  MedicaoElementoBateriaTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? formularioBateriaId,
+      Value<int>? elementoBateriaNumero,
+      Value<double?>? tensao,
+      Value<double?>? resistenciaInterna}) {
+    return MedicaoElementoBateriaTableCompanion(
+      id: id ?? this.id,
+      formularioBateriaId: formularioBateriaId ?? this.formularioBateriaId,
+      elementoBateriaNumero:
+          elementoBateriaNumero ?? this.elementoBateriaNumero,
+      tensao: tensao ?? this.tensao,
+      resistenciaInterna: resistenciaInterna ?? this.resistenciaInterna,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (formularioBateriaId.present) {
+      map['formulario_bateria_id'] = Variable<int>(formularioBateriaId.value);
+    }
+    if (elementoBateriaNumero.present) {
+      map['elemento_bateria_numero'] =
+          Variable<int>(elementoBateriaNumero.value);
+    }
+    if (tensao.present) {
+      map['tensao'] = Variable<double>(tensao.value);
+    }
+    if (resistenciaInterna.present) {
+      map['resistencia_interna'] = Variable<double>(resistenciaInterna.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoElementoBateriaTableCompanion(')
+          ..write('id: $id, ')
+          ..write('formularioBateriaId: $formularioBateriaId, ')
+          ..write('elementoBateriaNumero: $elementoBateriaNumero, ')
+          ..write('tensao: $tensao, ')
+          ..write('resistenciaInterna: $resistenciaInterna')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -9241,6 +10364,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $ChecklistPerguntaRelacionamentoTableTable
       checklistPerguntaRelacionamentoTable =
       $ChecklistPerguntaRelacionamentoTableTable(this);
+  late final $FormularioBateriaTableTable formularioBateriaTable =
+      $FormularioBateriaTableTable(this);
+  late final $MedicaoElementoBateriaTableTable medicaoElementoBateriaTable =
+      $MedicaoElementoBateriaTableTable(this);
   late final UsuarioDao usuarioDao = UsuarioDao(this as AppDatabase);
   late final TipoAtividadeDao tipoAtividadeDao =
       TipoAtividadeDao(this as AppDatabase);
@@ -9279,6 +10406,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final ChecklistPerguntaRelacionamentoDao
       checklistPerguntaRelacionamentoDao =
       ChecklistPerguntaRelacionamentoDao(this as AppDatabase);
+  late final FormularioBateriaDao formularioBateriaDao =
+      FormularioBateriaDao(this as AppDatabase);
+  late final MedicaoElementoBateriaDao medicaoElementoBateriaDao =
+      MedicaoElementoBateriaDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -9305,8 +10436,23 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         defeitoTable,
         anomaliaTable,
         correcaoAnomaliaTable,
-        checklistPerguntaRelacionamentoTable
+        checklistPerguntaRelacionamentoTable,
+        formularioBateriaTable,
+        medicaoElementoBateriaTable
       ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('formulario_bateria_table',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('medicao_elemento_bateria_table',
+                  kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
 typedef $$UsuarioTableTableCreateCompanionBuilder = UsuarioTableCompanion
@@ -11518,6 +12664,25 @@ final class $$AtividadeTableTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
+
+  static MultiTypedResultKey<$FormularioBateriaTableTable,
+      List<FormularioBateriaTableData>> _formularioBateriaTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.formularioBateriaTable,
+          aliasName: $_aliasNameGenerator(
+              db.atividadeTable.id, db.formularioBateriaTable.atividadeId));
+
+  $$FormularioBateriaTableTableProcessedTableManager
+      get formularioBateriaTableRefs {
+    final manager = $$FormularioBateriaTableTableTableManager(
+            $_db, $_db.formularioBateriaTable)
+        .filter((f) => f.atividadeId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_formularioBateriaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$AtividadeTableTableFilterComposer
@@ -11634,6 +12799,29 @@ class $$AtividadeTableTableFilterComposer
               $removeJoinBuilderFromRootComposer:
                   $removeJoinBuilderFromRootComposer,
             ));
+    return f(composer);
+  }
+
+  Expression<bool> formularioBateriaTableRefs(
+      Expression<bool> Function($$FormularioBateriaTableTableFilterComposer f)
+          f) {
+    final $$FormularioBateriaTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.formularioBateriaTable,
+            getReferencedColumn: (t) => t.atividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$FormularioBateriaTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.formularioBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
@@ -11847,6 +13035,29 @@ class $$AtividadeTableTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> formularioBateriaTableRefs<T extends Object>(
+      Expression<T> Function($$FormularioBateriaTableTableAnnotationComposer a)
+          f) {
+    final $$FormularioBateriaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.formularioBateriaTable,
+            getReferencedColumn: (t) => t.atividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$FormularioBateriaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.formularioBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$AtividadeTableTableTableManager extends RootTableManager<
@@ -11863,7 +13074,8 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
     PrefetchHooks Function(
         {bool equipamentoId,
         bool tipoAtividadeId,
-        bool aprPreenchidaTableRefs})> {
+        bool aprPreenchidaTableRefs,
+        bool formularioBateriaTableRefs})> {
   $$AtividadeTableTableTableManager(
       _$AppDatabase db, $AtividadeTableTable table)
       : super(TableManagerState(
@@ -11957,11 +13169,13 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
           prefetchHooksCallback: (
               {equipamentoId = false,
               tipoAtividadeId = false,
-              aprPreenchidaTableRefs = false}) {
+              aprPreenchidaTableRefs = false,
+              formularioBateriaTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (aprPreenchidaTableRefs) db.aprPreenchidaTable
+                if (aprPreenchidaTableRefs) db.aprPreenchidaTable,
+                if (formularioBateriaTableRefs) db.formularioBateriaTable
               ],
               addJoins: <
                   T extends TableManagerState<
@@ -12014,6 +13228,18 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.atividadeId == item.id),
+                        typedResults: items),
+                  if (formularioBateriaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AtividadeTableTableReferences
+                            ._formularioBateriaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AtividadeTableTableReferences(db, table, p0)
+                                .formularioBateriaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.atividadeId == item.id),
                         typedResults: items)
                 ];
               },
@@ -12036,7 +13262,8 @@ typedef $$AtividadeTableTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function(
         {bool equipamentoId,
         bool tipoAtividadeId,
-        bool aprPreenchidaTableRefs})>;
+        bool aprPreenchidaTableRefs,
+        bool formularioBateriaTableRefs})>;
 typedef $$AprTableTableCreateCompanionBuilder = AprTableCompanion Function({
   Value<int> id,
   required String uuid,
@@ -18545,6 +19772,827 @@ typedef $$ChecklistPerguntaRelacionamentoTableTableProcessedTableManager
             bool grupoId,
             bool subgrupoId,
             bool perguntaId})>;
+typedef $$FormularioBateriaTableTableCreateCompanionBuilder
+    = FormularioBateriaTableCompanion Function({
+  Value<int> id,
+  required int atividadeId,
+  Value<String?> fabricante,
+  Value<double?> resistenciaNominal,
+  Value<double?> densidadeNominal,
+  Value<double?> tensaoFlutuacaoCelula,
+  Value<double?> densidadeCritica,
+  required TipoBateria tipoBateria,
+  Value<String?> modelo,
+  Value<int?> capacidadeAh,
+  Value<int?> quantidadeCelulas,
+  Value<double?> tensaoFlutuacaoBanco,
+  Value<double?> rippleMedido,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+typedef $$FormularioBateriaTableTableUpdateCompanionBuilder
+    = FormularioBateriaTableCompanion Function({
+  Value<int> id,
+  Value<int> atividadeId,
+  Value<String?> fabricante,
+  Value<double?> resistenciaNominal,
+  Value<double?> densidadeNominal,
+  Value<double?> tensaoFlutuacaoCelula,
+  Value<double?> densidadeCritica,
+  Value<TipoBateria> tipoBateria,
+  Value<String?> modelo,
+  Value<int?> capacidadeAh,
+  Value<int?> quantidadeCelulas,
+  Value<double?> tensaoFlutuacaoBanco,
+  Value<double?> rippleMedido,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+
+final class $$FormularioBateriaTableTableReferences extends BaseReferences<
+    _$AppDatabase, $FormularioBateriaTableTable, FormularioBateriaTableData> {
+  $$FormularioBateriaTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $AtividadeTableTable _atividadeIdTable(_$AppDatabase db) =>
+      db.atividadeTable.createAlias($_aliasNameGenerator(
+          db.formularioBateriaTable.atividadeId, db.atividadeTable.id));
+
+  $$AtividadeTableTableProcessedTableManager get atividadeId {
+    final manager = $$AtividadeTableTableTableManager($_db, $_db.atividadeTable)
+        .filter((f) => f.id($_item.atividadeId));
+    final item = $_typedResult.readTableOrNull(_atividadeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$MedicaoElementoBateriaTableTable,
+          List<MedicaoElementoBateriaTableData>>
+      _medicaoElementoBateriaTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.medicaoElementoBateriaTable,
+              aliasName: $_aliasNameGenerator(db.formularioBateriaTable.id,
+                  db.medicaoElementoBateriaTable.formularioBateriaId));
+
+  $$MedicaoElementoBateriaTableTableProcessedTableManager
+      get medicaoElementoBateriaTableRefs {
+    final manager = $$MedicaoElementoBateriaTableTableTableManager(
+            $_db, $_db.medicaoElementoBateriaTable)
+        .filter((f) => f.formularioBateriaId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_medicaoElementoBateriaTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$FormularioBateriaTableTableFilterComposer
+    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
+  $$FormularioBateriaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get fabricante => $composableBuilder(
+      column: $table.fabricante, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaNominal => $composableBuilder(
+      column: $table.resistenciaNominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get densidadeNominal => $composableBuilder(
+      column: $table.densidadeNominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get tensaoFlutuacaoCelula => $composableBuilder(
+      column: $table.tensaoFlutuacaoCelula,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get densidadeCritica => $composableBuilder(
+      column: $table.densidadeCritica,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<TipoBateria, TipoBateria, String>
+      get tipoBateria => $composableBuilder(
+          column: $table.tipoBateria,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get modelo => $composableBuilder(
+      column: $table.modelo, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get capacidadeAh => $composableBuilder(
+      column: $table.capacidadeAh, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get quantidadeCelulas => $composableBuilder(
+      column: $table.quantidadeCelulas,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get tensaoFlutuacaoBanco => $composableBuilder(
+      column: $table.tensaoFlutuacaoBanco,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get rippleMedido => $composableBuilder(
+      column: $table.rippleMedido, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  $$AtividadeTableTableFilterComposer get atividadeId {
+    final $$AtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> medicaoElementoBateriaTableRefs(
+      Expression<bool> Function(
+              $$MedicaoElementoBateriaTableTableFilterComposer f)
+          f) {
+    final $$MedicaoElementoBateriaTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoElementoBateriaTable,
+            getReferencedColumn: (t) => t.formularioBateriaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoElementoBateriaTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.medicaoElementoBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$FormularioBateriaTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
+  $$FormularioBateriaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fabricante => $composableBuilder(
+      column: $table.fabricante, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaNominal => $composableBuilder(
+      column: $table.resistenciaNominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get densidadeNominal => $composableBuilder(
+      column: $table.densidadeNominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get tensaoFlutuacaoCelula => $composableBuilder(
+      column: $table.tensaoFlutuacaoCelula,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get densidadeCritica => $composableBuilder(
+      column: $table.densidadeCritica,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get tipoBateria => $composableBuilder(
+      column: $table.tipoBateria, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get modelo => $composableBuilder(
+      column: $table.modelo, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get capacidadeAh => $composableBuilder(
+      column: $table.capacidadeAh,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get quantidadeCelulas => $composableBuilder(
+      column: $table.quantidadeCelulas,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get tensaoFlutuacaoBanco => $composableBuilder(
+      column: $table.tensaoFlutuacaoBanco,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get rippleMedido => $composableBuilder(
+      column: $table.rippleMedido,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  $$AtividadeTableTableOrderingComposer get atividadeId {
+    final $$AtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$FormularioBateriaTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
+  $$FormularioBateriaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get fabricante => $composableBuilder(
+      column: $table.fabricante, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaNominal => $composableBuilder(
+      column: $table.resistenciaNominal, builder: (column) => column);
+
+  GeneratedColumn<double> get densidadeNominal => $composableBuilder(
+      column: $table.densidadeNominal, builder: (column) => column);
+
+  GeneratedColumn<double> get tensaoFlutuacaoCelula => $composableBuilder(
+      column: $table.tensaoFlutuacaoCelula, builder: (column) => column);
+
+  GeneratedColumn<double> get densidadeCritica => $composableBuilder(
+      column: $table.densidadeCritica, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<TipoBateria, String> get tipoBateria =>
+      $composableBuilder(
+          column: $table.tipoBateria, builder: (column) => column);
+
+  GeneratedColumn<String> get modelo =>
+      $composableBuilder(column: $table.modelo, builder: (column) => column);
+
+  GeneratedColumn<int> get capacidadeAh => $composableBuilder(
+      column: $table.capacidadeAh, builder: (column) => column);
+
+  GeneratedColumn<int> get quantidadeCelulas => $composableBuilder(
+      column: $table.quantidadeCelulas, builder: (column) => column);
+
+  GeneratedColumn<double> get tensaoFlutuacaoBanco => $composableBuilder(
+      column: $table.tensaoFlutuacaoBanco, builder: (column) => column);
+
+  GeneratedColumn<double> get rippleMedido => $composableBuilder(
+      column: $table.rippleMedido, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$AtividadeTableTableAnnotationComposer get atividadeId {
+    final $$AtividadeTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> medicaoElementoBateriaTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$MedicaoElementoBateriaTableTableAnnotationComposer a)
+          f) {
+    final $$MedicaoElementoBateriaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoElementoBateriaTable,
+            getReferencedColumn: (t) => t.formularioBateriaId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoElementoBateriaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.medicaoElementoBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$FormularioBateriaTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $FormularioBateriaTableTable,
+    FormularioBateriaTableData,
+    $$FormularioBateriaTableTableFilterComposer,
+    $$FormularioBateriaTableTableOrderingComposer,
+    $$FormularioBateriaTableTableAnnotationComposer,
+    $$FormularioBateriaTableTableCreateCompanionBuilder,
+    $$FormularioBateriaTableTableUpdateCompanionBuilder,
+    (FormularioBateriaTableData, $$FormularioBateriaTableTableReferences),
+    FormularioBateriaTableData,
+    PrefetchHooks Function(
+        {bool atividadeId, bool medicaoElementoBateriaTableRefs})> {
+  $$FormularioBateriaTableTableTableManager(
+      _$AppDatabase db, $FormularioBateriaTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FormularioBateriaTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FormularioBateriaTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FormularioBateriaTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> atividadeId = const Value.absent(),
+            Value<String?> fabricante = const Value.absent(),
+            Value<double?> resistenciaNominal = const Value.absent(),
+            Value<double?> densidadeNominal = const Value.absent(),
+            Value<double?> tensaoFlutuacaoCelula = const Value.absent(),
+            Value<double?> densidadeCritica = const Value.absent(),
+            Value<TipoBateria> tipoBateria = const Value.absent(),
+            Value<String?> modelo = const Value.absent(),
+            Value<int?> capacidadeAh = const Value.absent(),
+            Value<int?> quantidadeCelulas = const Value.absent(),
+            Value<double?> tensaoFlutuacaoBanco = const Value.absent(),
+            Value<double?> rippleMedido = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              FormularioBateriaTableCompanion(
+            id: id,
+            atividadeId: atividadeId,
+            fabricante: fabricante,
+            resistenciaNominal: resistenciaNominal,
+            densidadeNominal: densidadeNominal,
+            tensaoFlutuacaoCelula: tensaoFlutuacaoCelula,
+            densidadeCritica: densidadeCritica,
+            tipoBateria: tipoBateria,
+            modelo: modelo,
+            capacidadeAh: capacidadeAh,
+            quantidadeCelulas: quantidadeCelulas,
+            tensaoFlutuacaoBanco: tensaoFlutuacaoBanco,
+            rippleMedido: rippleMedido,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int atividadeId,
+            Value<String?> fabricante = const Value.absent(),
+            Value<double?> resistenciaNominal = const Value.absent(),
+            Value<double?> densidadeNominal = const Value.absent(),
+            Value<double?> tensaoFlutuacaoCelula = const Value.absent(),
+            Value<double?> densidadeCritica = const Value.absent(),
+            required TipoBateria tipoBateria,
+            Value<String?> modelo = const Value.absent(),
+            Value<int?> capacidadeAh = const Value.absent(),
+            Value<int?> quantidadeCelulas = const Value.absent(),
+            Value<double?> tensaoFlutuacaoBanco = const Value.absent(),
+            Value<double?> rippleMedido = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              FormularioBateriaTableCompanion.insert(
+            id: id,
+            atividadeId: atividadeId,
+            fabricante: fabricante,
+            resistenciaNominal: resistenciaNominal,
+            densidadeNominal: densidadeNominal,
+            tensaoFlutuacaoCelula: tensaoFlutuacaoCelula,
+            densidadeCritica: densidadeCritica,
+            tipoBateria: tipoBateria,
+            modelo: modelo,
+            capacidadeAh: capacidadeAh,
+            quantidadeCelulas: quantidadeCelulas,
+            tensaoFlutuacaoBanco: tensaoFlutuacaoBanco,
+            rippleMedido: rippleMedido,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$FormularioBateriaTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {atividadeId = false, medicaoElementoBateriaTableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (medicaoElementoBateriaTableRefs)
+                  db.medicaoElementoBateriaTable
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (atividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.atividadeId,
+                    referencedTable: $$FormularioBateriaTableTableReferences
+                        ._atividadeIdTable(db),
+                    referencedColumn: $$FormularioBateriaTableTableReferences
+                        ._atividadeIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (medicaoElementoBateriaTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$FormularioBateriaTableTableReferences
+                            ._medicaoElementoBateriaTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$FormularioBateriaTableTableReferences(
+                                    db, table, p0)
+                                .medicaoElementoBateriaTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.formularioBateriaId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$FormularioBateriaTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $FormularioBateriaTableTable,
+        FormularioBateriaTableData,
+        $$FormularioBateriaTableTableFilterComposer,
+        $$FormularioBateriaTableTableOrderingComposer,
+        $$FormularioBateriaTableTableAnnotationComposer,
+        $$FormularioBateriaTableTableCreateCompanionBuilder,
+        $$FormularioBateriaTableTableUpdateCompanionBuilder,
+        (FormularioBateriaTableData, $$FormularioBateriaTableTableReferences),
+        FormularioBateriaTableData,
+        PrefetchHooks Function(
+            {bool atividadeId, bool medicaoElementoBateriaTableRefs})>;
+typedef $$MedicaoElementoBateriaTableTableCreateCompanionBuilder
+    = MedicaoElementoBateriaTableCompanion Function({
+  Value<int> id,
+  required int formularioBateriaId,
+  required int elementoBateriaNumero,
+  Value<double?> tensao,
+  Value<double?> resistenciaInterna,
+});
+typedef $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder
+    = MedicaoElementoBateriaTableCompanion Function({
+  Value<int> id,
+  Value<int> formularioBateriaId,
+  Value<int> elementoBateriaNumero,
+  Value<double?> tensao,
+  Value<double?> resistenciaInterna,
+});
+
+final class $$MedicaoElementoBateriaTableTableReferences extends BaseReferences<
+    _$AppDatabase,
+    $MedicaoElementoBateriaTableTable,
+    MedicaoElementoBateriaTableData> {
+  $$MedicaoElementoBateriaTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $FormularioBateriaTableTable _formularioBateriaIdTable(
+          _$AppDatabase db) =>
+      db.formularioBateriaTable.createAlias($_aliasNameGenerator(
+          db.medicaoElementoBateriaTable.formularioBateriaId,
+          db.formularioBateriaTable.id));
+
+  $$FormularioBateriaTableTableProcessedTableManager get formularioBateriaId {
+    final manager = $$FormularioBateriaTableTableTableManager(
+            $_db, $_db.formularioBateriaTable)
+        .filter((f) => f.id($_item.formularioBateriaId));
+    final item = $_typedResult.readTableOrNull(_formularioBateriaIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MedicaoElementoBateriaTableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
+  $$MedicaoElementoBateriaTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get elementoBateriaNumero => $composableBuilder(
+      column: $table.elementoBateriaNumero,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get tensao => $composableBuilder(
+      column: $table.tensao, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaInterna => $composableBuilder(
+      column: $table.resistenciaInterna,
+      builder: (column) => ColumnFilters(column));
+
+  $$FormularioBateriaTableTableFilterComposer get formularioBateriaId {
+    final $$FormularioBateriaTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.formularioBateriaId,
+            referencedTable: $db.formularioBateriaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$FormularioBateriaTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.formularioBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MedicaoElementoBateriaTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
+  $$MedicaoElementoBateriaTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get elementoBateriaNumero => $composableBuilder(
+      column: $table.elementoBateriaNumero,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get tensao => $composableBuilder(
+      column: $table.tensao, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaInterna => $composableBuilder(
+      column: $table.resistenciaInterna,
+      builder: (column) => ColumnOrderings(column));
+
+  $$FormularioBateriaTableTableOrderingComposer get formularioBateriaId {
+    final $$FormularioBateriaTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.formularioBateriaId,
+            referencedTable: $db.formularioBateriaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$FormularioBateriaTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.formularioBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MedicaoElementoBateriaTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
+  $$MedicaoElementoBateriaTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get elementoBateriaNumero => $composableBuilder(
+      column: $table.elementoBateriaNumero, builder: (column) => column);
+
+  GeneratedColumn<double> get tensao =>
+      $composableBuilder(column: $table.tensao, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaInterna => $composableBuilder(
+      column: $table.resistenciaInterna, builder: (column) => column);
+
+  $$FormularioBateriaTableTableAnnotationComposer get formularioBateriaId {
+    final $$FormularioBateriaTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.formularioBateriaId,
+            referencedTable: $db.formularioBateriaTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$FormularioBateriaTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.formularioBateriaTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MedicaoElementoBateriaTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MedicaoElementoBateriaTableTable,
+    MedicaoElementoBateriaTableData,
+    $$MedicaoElementoBateriaTableTableFilterComposer,
+    $$MedicaoElementoBateriaTableTableOrderingComposer,
+    $$MedicaoElementoBateriaTableTableAnnotationComposer,
+    $$MedicaoElementoBateriaTableTableCreateCompanionBuilder,
+    $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder,
+    (
+      MedicaoElementoBateriaTableData,
+      $$MedicaoElementoBateriaTableTableReferences
+    ),
+    MedicaoElementoBateriaTableData,
+    PrefetchHooks Function({bool formularioBateriaId})> {
+  $$MedicaoElementoBateriaTableTableTableManager(
+      _$AppDatabase db, $MedicaoElementoBateriaTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MedicaoElementoBateriaTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MedicaoElementoBateriaTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MedicaoElementoBateriaTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> formularioBateriaId = const Value.absent(),
+            Value<int> elementoBateriaNumero = const Value.absent(),
+            Value<double?> tensao = const Value.absent(),
+            Value<double?> resistenciaInterna = const Value.absent(),
+          }) =>
+              MedicaoElementoBateriaTableCompanion(
+            id: id,
+            formularioBateriaId: formularioBateriaId,
+            elementoBateriaNumero: elementoBateriaNumero,
+            tensao: tensao,
+            resistenciaInterna: resistenciaInterna,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int formularioBateriaId,
+            required int elementoBateriaNumero,
+            Value<double?> tensao = const Value.absent(),
+            Value<double?> resistenciaInterna = const Value.absent(),
+          }) =>
+              MedicaoElementoBateriaTableCompanion.insert(
+            id: id,
+            formularioBateriaId: formularioBateriaId,
+            elementoBateriaNumero: elementoBateriaNumero,
+            tensao: tensao,
+            resistenciaInterna: resistenciaInterna,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MedicaoElementoBateriaTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({formularioBateriaId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (formularioBateriaId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.formularioBateriaId,
+                    referencedTable:
+                        $$MedicaoElementoBateriaTableTableReferences
+                            ._formularioBateriaIdTable(db),
+                    referencedColumn:
+                        $$MedicaoElementoBateriaTableTableReferences
+                            ._formularioBateriaIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MedicaoElementoBateriaTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $MedicaoElementoBateriaTableTable,
+    MedicaoElementoBateriaTableData,
+    $$MedicaoElementoBateriaTableTableFilterComposer,
+    $$MedicaoElementoBateriaTableTableOrderingComposer,
+    $$MedicaoElementoBateriaTableTableAnnotationComposer,
+    $$MedicaoElementoBateriaTableTableCreateCompanionBuilder,
+    $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder,
+    (
+      MedicaoElementoBateriaTableData,
+      $$MedicaoElementoBateriaTableTableReferences
+    ),
+    MedicaoElementoBateriaTableData,
+    PrefetchHooks Function({bool formularioBateriaId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -18604,4 +20652,11 @@ class $AppDatabaseManager {
       get checklistPerguntaRelacionamentoTable =>
           $$ChecklistPerguntaRelacionamentoTableTableTableManager(
               _db, _db.checklistPerguntaRelacionamentoTable);
+  $$FormularioBateriaTableTableTableManager get formularioBateriaTable =>
+      $$FormularioBateriaTableTableTableManager(
+          _db, _db.formularioBateriaTable);
+  $$MedicaoElementoBateriaTableTableTableManager
+      get medicaoElementoBateriaTable =>
+          $$MedicaoElementoBateriaTableTableTableManager(
+              _db, _db.medicaoElementoBateriaTable);
 }

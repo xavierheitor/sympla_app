@@ -10,6 +10,7 @@ import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
+import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_assinatura_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_pergunta_dao.dart';
@@ -29,6 +30,8 @@ import 'package:sympla_app/core/storage/daos/checklist/defeito_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/grupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist/subgrupo_defeito_equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/grupos_defeito/equipamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_bb/formulario_bateria_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_bb/medicao_elemento_bateria_dao.dart';
 import 'package:sympla_app/core/storage/daos/tecnicos_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
@@ -44,6 +47,7 @@ import 'package:sympla_app/core/storage/tables/checklist/checklist_schema.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/equipamento_table.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equipamento.dart';
+import 'package:sympla_app/core/storage/tables/prev_bc_bat/prev_bc_bat_schema.dart';
 import 'package:sympla_app/core/storage/tables/tecnicos_table.dart';
 import 'package:sympla_app/core/storage/tables/atividade/tipo_atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
@@ -58,7 +62,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla8.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -94,6 +98,10 @@ LazyDatabase _openConnection() {
     CorrecaoAnomaliaTable,
     ChecklistTable,
     ChecklistPerguntaRelacionamentoTable,
+
+    //prev_bc_bat
+    FormularioBateriaTable,
+    MedicaoElementoBateriaTable,
   ],
   daos: [
     UsuarioDao,
@@ -120,6 +128,10 @@ LazyDatabase _openConnection() {
     CorrecaoAnomaliaDao,
     ChecklistDao,
     ChecklistPerguntaRelacionamentoDao,
+
+    //prev_bc_bat
+    FormularioBateriaDao,
+    MedicaoElementoBateriaDao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {
