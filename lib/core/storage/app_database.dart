@@ -6,11 +6,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/converters/caracterizacao_ensaio_converter.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
+import 'package:sympla_app/core/storage/converters/posicao_disjuntor_ensaio_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
+import 'package:sympla_app/core/storage/converters/tipo_extinsao_disjutnor_converter.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_assinatura_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr/apr_pergunta_dao.dart';
@@ -32,6 +35,11 @@ import 'package:sympla_app/core/storage/daos/checklist/subgrupo_defeito_equipame
 import 'package:sympla_app/core/storage/daos/grupos_defeito/equipamento_dao.dart';
 import 'package:sympla_app/core/storage/daos/mp_bb/formulario_bateria_dao.dart';
 import 'package:sympla_app/core/storage/daos/mp_bb/medicao_elemento_bateria_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_dj/medicao_pressao_sf6_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_dj/medicao_resistencia_contato_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_dj/medicao_resistencia_isolamento_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_dj/medicao_tempo_operacao_dao.dart';
+import 'package:sympla_app/core/storage/daos/mp_dj/prev_disj_form_dao.dart';
 import 'package:sympla_app/core/storage/daos/tecnicos_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade/tipo_atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
@@ -48,6 +56,7 @@ import 'package:sympla_app/core/storage/tables/equipamento/equipamento_table.dar
 import 'package:sympla_app/core/storage/tables/equipamento/grupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/equipamento/subgrupo_defeito_equipamento.dart';
 import 'package:sympla_app/core/storage/tables/prev_bc_bat/prev_bc_bat_schema.dart';
+import 'package:sympla_app/core/storage/tables/prev_disj/prev_disj_schema.dart';
 import 'package:sympla_app/core/storage/tables/tecnicos_table.dart';
 import 'package:sympla_app/core/storage/tables/atividade/tipo_atividade_table.dart';
 import 'package:sympla_app/core/storage/tables/usuario_table.dart';
@@ -62,7 +71,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla1.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -102,6 +111,13 @@ LazyDatabase _openConnection() {
     //prev_bc_bat
     FormularioBateriaTable,
     MedicaoElementoBateriaTable,
+
+    //prev_disj
+    PrevDisjForm,
+    MedicaoResistenciaContatoTable,
+    MedicaoResistenciaIsolamentoTable,
+    MedicaoTempoOperacaoTable,
+    MedicaoPressaoSf6Table,
   ],
   daos: [
     UsuarioDao,
@@ -132,6 +148,13 @@ LazyDatabase _openConnection() {
     //prev_bc_bat
     FormularioBateriaDao,
     MedicaoElementoBateriaDao,
+
+    //prev_disj
+    PrevDisjFormDao,
+    MedicaoResistenciaContatoDao,
+    MedicaoResistenciaIsolamentoDao,
+    MedicaoTempoOperacaoDao,
+    MedicaoPressaoSf6Dao,
   ],
 ) // ← você vai adicionar as tabelas aqui
 class AppDatabase extends _$AppDatabase {

@@ -10321,6 +10321,3581 @@ class MedicaoElementoBateriaTableCompanion
   }
 }
 
+class $PrevDisjFormTable extends PrevDisjForm
+    with TableInfo<$PrevDisjFormTable, PrevDisjFormData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $PrevDisjFormTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _atividadeIdMeta =
+      const VerificationMeta('atividadeId');
+  @override
+  late final GeneratedColumn<int> atividadeId = GeneratedColumn<int>(
+      'atividade_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES atividade_table (id)'));
+  static const VerificationMeta _caracterizacaoEnsaioMeta =
+      const VerificationMeta('caracterizacaoEnsaio');
+  @override
+  late final GeneratedColumnWithTypeConverter<CaracterizacaoEnsaio?, String>
+      caracterizacaoEnsaio = GeneratedColumn<String>(
+              'caracterizacao_ensaio', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<CaracterizacaoEnsaio?>(
+              $PrevDisjFormTable.$convertercaracterizacaoEnsaion);
+  static const VerificationMeta _termohigrometroFabricanteMeta =
+      const VerificationMeta('termohigrometroFabricante');
+  @override
+  late final GeneratedColumn<String> termohigrometroFabricante =
+      GeneratedColumn<String>('termohigrometro_fabricante', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _termohigrometroTipoMeta =
+      const VerificationMeta('termohigrometroTipo');
+  @override
+  late final GeneratedColumn<String> termohigrometroTipo =
+      GeneratedColumn<String>('termohigrometro_tipo', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _termohigrometroUltimaCalibracaoMeta =
+      const VerificationMeta('termohigrometroUltimaCalibracao');
+  @override
+  late final GeneratedColumn<DateTime> termohigrometroUltimaCalibracao =
+      GeneratedColumn<DateTime>(
+          'termohigrometro_ultima_calibracao', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _micromimetroFabricanteMeta =
+      const VerificationMeta('micromimetroFabricante');
+  @override
+  late final GeneratedColumn<String> micromimetroFabricante =
+      GeneratedColumn<String>('micromimetro_fabricante', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _micromimetroTipoMeta =
+      const VerificationMeta('micromimetroTipo');
+  @override
+  late final GeneratedColumn<String> micromimetroTipo = GeneratedColumn<String>(
+      'micromimetro_tipo', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _micromimetroUltimaCalibracaoMeta =
+      const VerificationMeta('micromimetroUltimaCalibracao');
+  @override
+  late final GeneratedColumn<DateTime> micromimetroUltimaCalibracao =
+      GeneratedColumn<DateTime>(
+          'micromimetro_ultima_calibracao', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _megometroFabricanteMeta =
+      const VerificationMeta('megometroFabricante');
+  @override
+  late final GeneratedColumn<String> megometroFabricante =
+      GeneratedColumn<String>('megometro_fabricante', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _megometroTipoMeta =
+      const VerificationMeta('megometroTipo');
+  @override
+  late final GeneratedColumn<String> megometroTipo = GeneratedColumn<String>(
+      'megometro_tipo', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _megometroUltimaCalibracaoMeta =
+      const VerificationMeta('megometroUltimaCalibracao');
+  @override
+  late final GeneratedColumn<DateTime> megometroUltimaCalibracao =
+      GeneratedColumn<DateTime>(
+          'megometro_ultima_calibracao', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _oscilografoFabricanteMeta =
+      const VerificationMeta('oscilografoFabricante');
+  @override
+  late final GeneratedColumn<String> oscilografoFabricante =
+      GeneratedColumn<String>('oscilografo_fabricante', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _oscilografoTipoMeta =
+      const VerificationMeta('oscilografoTipo');
+  @override
+  late final GeneratedColumn<String> oscilografoTipo = GeneratedColumn<String>(
+      'oscilografo_tipo', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _oscilografoUltimaCalibracaoMeta =
+      const VerificationMeta('oscilografoUltimaCalibracao');
+  @override
+  late final GeneratedColumn<DateTime> oscilografoUltimaCalibracao =
+      GeneratedColumn<DateTime>(
+          'oscilografo_ultima_calibracao', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorFabricanteMeta =
+      const VerificationMeta('disjuntorFabricante');
+  @override
+  late final GeneratedColumn<String> disjuntorFabricante =
+      GeneratedColumn<String>('disjuntor_fabricante', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorAnoFabricacaoMeta =
+      const VerificationMeta('disjuntorAnoFabricacao');
+  @override
+  late final GeneratedColumn<String> disjuntorAnoFabricacao =
+      GeneratedColumn<String>('disjuntor_ano_fabricacao', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorTensaoNominalMeta =
+      const VerificationMeta('disjuntorTensaoNominal');
+  @override
+  late final GeneratedColumn<double> disjuntorTensaoNominal =
+      GeneratedColumn<double>('disjuntor_tensao_nominal', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorCorrenteNominalMeta =
+      const VerificationMeta('disjuntorCorrenteNominal');
+  @override
+  late final GeneratedColumn<int> disjuntorCorrenteNominal =
+      GeneratedColumn<int>('disjuntor_corrente_nominal', aliasedName, true,
+          type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorCapInterrupcaoNominalMeta =
+      const VerificationMeta('disjuntorCapInterrupcaoNominal');
+  @override
+  late final GeneratedColumn<int> disjuntorCapInterrupcaoNominal =
+      GeneratedColumn<int>(
+          'disjuntor_cap_interrupcao_nominal', aliasedName, true,
+          type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorTipoExtinsaoMeta =
+      const VerificationMeta('disjuntorTipoExtinsao');
+  @override
+  late final GeneratedColumnWithTypeConverter<TipoExtinsaoDisjuntor?, String>
+      disjuntorTipoExtinsao = GeneratedColumn<String>(
+              'disjuntor_tipo_extinsao', aliasedName, true,
+              type: DriftSqlType.string, requiredDuringInsert: false)
+          .withConverter<TipoExtinsaoDisjuntor?>(
+              $PrevDisjFormTable.$converterdisjuntorTipoExtinsaon);
+  static const VerificationMeta _disjuntorTipoAcionamentoMeta =
+      const VerificationMeta('disjuntorTipoAcionamento');
+  @override
+  late final GeneratedColumn<String> disjuntorTipoAcionamento =
+      GeneratedColumn<String>('disjuntor_tipo_acionamento', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorPressaoSf6NominalMeta =
+      const VerificationMeta('disjuntorPressaoSf6Nominal');
+  @override
+  late final GeneratedColumn<double> disjuntorPressaoSf6Nominal =
+      GeneratedColumn<double>(
+          'disjuntor_pressao_sf6_nominal', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _disjuntorPressaoSf6NominalTemperaturaMeta =
+      const VerificationMeta('disjuntorPressaoSf6NominalTemperatura');
+  @override
+  late final GeneratedColumn<double> disjuntorPressaoSf6NominalTemperatura =
+      GeneratedColumn<double>(
+          'disjuntor_pressao_sf6_nominal_temperatura', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _dataEnsaioMeta =
+      const VerificationMeta('dataEnsaio');
+  @override
+  late final GeneratedColumn<DateTime> dataEnsaio = GeneratedColumn<DateTime>(
+      'data_ensaio', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        atividadeId,
+        caracterizacaoEnsaio,
+        termohigrometroFabricante,
+        termohigrometroTipo,
+        termohigrometroUltimaCalibracao,
+        micromimetroFabricante,
+        micromimetroTipo,
+        micromimetroUltimaCalibracao,
+        megometroFabricante,
+        megometroTipo,
+        megometroUltimaCalibracao,
+        oscilografoFabricante,
+        oscilografoTipo,
+        oscilografoUltimaCalibracao,
+        disjuntorFabricante,
+        disjuntorAnoFabricacao,
+        disjuntorTensaoNominal,
+        disjuntorCorrenteNominal,
+        disjuntorCapInterrupcaoNominal,
+        disjuntorTipoExtinsao,
+        disjuntorTipoAcionamento,
+        disjuntorPressaoSf6Nominal,
+        disjuntorPressaoSf6NominalTemperatura,
+        dataEnsaio
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'prev_disj_form';
+  @override
+  VerificationContext validateIntegrity(Insertable<PrevDisjFormData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('atividade_id')) {
+      context.handle(
+          _atividadeIdMeta,
+          atividadeId.isAcceptableOrUnknown(
+              data['atividade_id']!, _atividadeIdMeta));
+    } else if (isInserting) {
+      context.missing(_atividadeIdMeta);
+    }
+    context.handle(
+        _caracterizacaoEnsaioMeta, const VerificationResult.success());
+    if (data.containsKey('termohigrometro_fabricante')) {
+      context.handle(
+          _termohigrometroFabricanteMeta,
+          termohigrometroFabricante.isAcceptableOrUnknown(
+              data['termohigrometro_fabricante']!,
+              _termohigrometroFabricanteMeta));
+    }
+    if (data.containsKey('termohigrometro_tipo')) {
+      context.handle(
+          _termohigrometroTipoMeta,
+          termohigrometroTipo.isAcceptableOrUnknown(
+              data['termohigrometro_tipo']!, _termohigrometroTipoMeta));
+    }
+    if (data.containsKey('termohigrometro_ultima_calibracao')) {
+      context.handle(
+          _termohigrometroUltimaCalibracaoMeta,
+          termohigrometroUltimaCalibracao.isAcceptableOrUnknown(
+              data['termohigrometro_ultima_calibracao']!,
+              _termohigrometroUltimaCalibracaoMeta));
+    }
+    if (data.containsKey('micromimetro_fabricante')) {
+      context.handle(
+          _micromimetroFabricanteMeta,
+          micromimetroFabricante.isAcceptableOrUnknown(
+              data['micromimetro_fabricante']!, _micromimetroFabricanteMeta));
+    }
+    if (data.containsKey('micromimetro_tipo')) {
+      context.handle(
+          _micromimetroTipoMeta,
+          micromimetroTipo.isAcceptableOrUnknown(
+              data['micromimetro_tipo']!, _micromimetroTipoMeta));
+    }
+    if (data.containsKey('micromimetro_ultima_calibracao')) {
+      context.handle(
+          _micromimetroUltimaCalibracaoMeta,
+          micromimetroUltimaCalibracao.isAcceptableOrUnknown(
+              data['micromimetro_ultima_calibracao']!,
+              _micromimetroUltimaCalibracaoMeta));
+    }
+    if (data.containsKey('megometro_fabricante')) {
+      context.handle(
+          _megometroFabricanteMeta,
+          megometroFabricante.isAcceptableOrUnknown(
+              data['megometro_fabricante']!, _megometroFabricanteMeta));
+    }
+    if (data.containsKey('megometro_tipo')) {
+      context.handle(
+          _megometroTipoMeta,
+          megometroTipo.isAcceptableOrUnknown(
+              data['megometro_tipo']!, _megometroTipoMeta));
+    }
+    if (data.containsKey('megometro_ultima_calibracao')) {
+      context.handle(
+          _megometroUltimaCalibracaoMeta,
+          megometroUltimaCalibracao.isAcceptableOrUnknown(
+              data['megometro_ultima_calibracao']!,
+              _megometroUltimaCalibracaoMeta));
+    }
+    if (data.containsKey('oscilografo_fabricante')) {
+      context.handle(
+          _oscilografoFabricanteMeta,
+          oscilografoFabricante.isAcceptableOrUnknown(
+              data['oscilografo_fabricante']!, _oscilografoFabricanteMeta));
+    }
+    if (data.containsKey('oscilografo_tipo')) {
+      context.handle(
+          _oscilografoTipoMeta,
+          oscilografoTipo.isAcceptableOrUnknown(
+              data['oscilografo_tipo']!, _oscilografoTipoMeta));
+    }
+    if (data.containsKey('oscilografo_ultima_calibracao')) {
+      context.handle(
+          _oscilografoUltimaCalibracaoMeta,
+          oscilografoUltimaCalibracao.isAcceptableOrUnknown(
+              data['oscilografo_ultima_calibracao']!,
+              _oscilografoUltimaCalibracaoMeta));
+    }
+    if (data.containsKey('disjuntor_fabricante')) {
+      context.handle(
+          _disjuntorFabricanteMeta,
+          disjuntorFabricante.isAcceptableOrUnknown(
+              data['disjuntor_fabricante']!, _disjuntorFabricanteMeta));
+    }
+    if (data.containsKey('disjuntor_ano_fabricacao')) {
+      context.handle(
+          _disjuntorAnoFabricacaoMeta,
+          disjuntorAnoFabricacao.isAcceptableOrUnknown(
+              data['disjuntor_ano_fabricacao']!, _disjuntorAnoFabricacaoMeta));
+    }
+    if (data.containsKey('disjuntor_tensao_nominal')) {
+      context.handle(
+          _disjuntorTensaoNominalMeta,
+          disjuntorTensaoNominal.isAcceptableOrUnknown(
+              data['disjuntor_tensao_nominal']!, _disjuntorTensaoNominalMeta));
+    }
+    if (data.containsKey('disjuntor_corrente_nominal')) {
+      context.handle(
+          _disjuntorCorrenteNominalMeta,
+          disjuntorCorrenteNominal.isAcceptableOrUnknown(
+              data['disjuntor_corrente_nominal']!,
+              _disjuntorCorrenteNominalMeta));
+    }
+    if (data.containsKey('disjuntor_cap_interrupcao_nominal')) {
+      context.handle(
+          _disjuntorCapInterrupcaoNominalMeta,
+          disjuntorCapInterrupcaoNominal.isAcceptableOrUnknown(
+              data['disjuntor_cap_interrupcao_nominal']!,
+              _disjuntorCapInterrupcaoNominalMeta));
+    }
+    context.handle(
+        _disjuntorTipoExtinsaoMeta, const VerificationResult.success());
+    if (data.containsKey('disjuntor_tipo_acionamento')) {
+      context.handle(
+          _disjuntorTipoAcionamentoMeta,
+          disjuntorTipoAcionamento.isAcceptableOrUnknown(
+              data['disjuntor_tipo_acionamento']!,
+              _disjuntorTipoAcionamentoMeta));
+    }
+    if (data.containsKey('disjuntor_pressao_sf6_nominal')) {
+      context.handle(
+          _disjuntorPressaoSf6NominalMeta,
+          disjuntorPressaoSf6Nominal.isAcceptableOrUnknown(
+              data['disjuntor_pressao_sf6_nominal']!,
+              _disjuntorPressaoSf6NominalMeta));
+    }
+    if (data.containsKey('disjuntor_pressao_sf6_nominal_temperatura')) {
+      context.handle(
+          _disjuntorPressaoSf6NominalTemperaturaMeta,
+          disjuntorPressaoSf6NominalTemperatura.isAcceptableOrUnknown(
+              data['disjuntor_pressao_sf6_nominal_temperatura']!,
+              _disjuntorPressaoSf6NominalTemperaturaMeta));
+    }
+    if (data.containsKey('data_ensaio')) {
+      context.handle(
+          _dataEnsaioMeta,
+          dataEnsaio.isAcceptableOrUnknown(
+              data['data_ensaio']!, _dataEnsaioMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  PrevDisjFormData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return PrevDisjFormData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      atividadeId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}atividade_id'])!,
+      caracterizacaoEnsaio: $PrevDisjFormTable.$convertercaracterizacaoEnsaion
+          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
+              data['${effectivePrefix}caracterizacao_ensaio'])),
+      termohigrometroFabricante: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}termohigrometro_fabricante']),
+      termohigrometroTipo: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}termohigrometro_tipo']),
+      termohigrometroUltimaCalibracao: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}termohigrometro_ultima_calibracao']),
+      micromimetroFabricante: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}micromimetro_fabricante']),
+      micromimetroTipo: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}micromimetro_tipo']),
+      micromimetroUltimaCalibracao: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}micromimetro_ultima_calibracao']),
+      megometroFabricante: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}megometro_fabricante']),
+      megometroTipo: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}megometro_tipo']),
+      megometroUltimaCalibracao: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}megometro_ultima_calibracao']),
+      oscilografoFabricante: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}oscilografo_fabricante']),
+      oscilografoTipo: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}oscilografo_tipo']),
+      oscilografoUltimaCalibracao: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime,
+          data['${effectivePrefix}oscilografo_ultima_calibracao']),
+      disjuntorFabricante: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}disjuntor_fabricante']),
+      disjuntorAnoFabricacao: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}disjuntor_ano_fabricacao']),
+      disjuntorTensaoNominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}disjuntor_tensao_nominal']),
+      disjuntorCorrenteNominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}disjuntor_corrente_nominal']),
+      disjuntorCapInterrupcaoNominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}disjuntor_cap_interrupcao_nominal']),
+      disjuntorTipoExtinsao: $PrevDisjFormTable.$converterdisjuntorTipoExtinsaon
+          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
+              data['${effectivePrefix}disjuntor_tipo_extinsao'])),
+      disjuntorTipoAcionamento: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}disjuntor_tipo_acionamento']),
+      disjuntorPressaoSf6Nominal: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}disjuntor_pressao_sf6_nominal']),
+      disjuntorPressaoSf6NominalTemperatura: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}disjuntor_pressao_sf6_nominal_temperatura']),
+      dataEnsaio: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}data_ensaio'])!,
+    );
+  }
+
+  @override
+  $PrevDisjFormTable createAlias(String alias) {
+    return $PrevDisjFormTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<CaracterizacaoEnsaio, String>
+      $convertercaracterizacaoEnsaio = const CaracterizacaoEnsaioConverter();
+  static TypeConverter<CaracterizacaoEnsaio?, String?>
+      $convertercaracterizacaoEnsaion =
+      NullAwareTypeConverter.wrap($convertercaracterizacaoEnsaio);
+  static TypeConverter<TipoExtinsaoDisjuntor, String>
+      $converterdisjuntorTipoExtinsao = const TipoExtinsaoDisjuntorConverter();
+  static TypeConverter<TipoExtinsaoDisjuntor?, String?>
+      $converterdisjuntorTipoExtinsaon =
+      NullAwareTypeConverter.wrap($converterdisjuntorTipoExtinsao);
+}
+
+class PrevDisjFormData extends DataClass
+    implements Insertable<PrevDisjFormData> {
+  final int id;
+  final int atividadeId;
+  final CaracterizacaoEnsaio? caracterizacaoEnsaio;
+  final String? termohigrometroFabricante;
+  final String? termohigrometroTipo;
+  final DateTime? termohigrometroUltimaCalibracao;
+  final String? micromimetroFabricante;
+  final String? micromimetroTipo;
+  final DateTime? micromimetroUltimaCalibracao;
+  final String? megometroFabricante;
+  final String? megometroTipo;
+  final DateTime? megometroUltimaCalibracao;
+  final String? oscilografoFabricante;
+  final String? oscilografoTipo;
+  final DateTime? oscilografoUltimaCalibracao;
+  final String? disjuntorFabricante;
+  final String? disjuntorAnoFabricacao;
+  final double? disjuntorTensaoNominal;
+  final int? disjuntorCorrenteNominal;
+  final int? disjuntorCapInterrupcaoNominal;
+  final TipoExtinsaoDisjuntor? disjuntorTipoExtinsao;
+  final String? disjuntorTipoAcionamento;
+  final double? disjuntorPressaoSf6Nominal;
+  final double? disjuntorPressaoSf6NominalTemperatura;
+  final DateTime dataEnsaio;
+  const PrevDisjFormData(
+      {required this.id,
+      required this.atividadeId,
+      this.caracterizacaoEnsaio,
+      this.termohigrometroFabricante,
+      this.termohigrometroTipo,
+      this.termohigrometroUltimaCalibracao,
+      this.micromimetroFabricante,
+      this.micromimetroTipo,
+      this.micromimetroUltimaCalibracao,
+      this.megometroFabricante,
+      this.megometroTipo,
+      this.megometroUltimaCalibracao,
+      this.oscilografoFabricante,
+      this.oscilografoTipo,
+      this.oscilografoUltimaCalibracao,
+      this.disjuntorFabricante,
+      this.disjuntorAnoFabricacao,
+      this.disjuntorTensaoNominal,
+      this.disjuntorCorrenteNominal,
+      this.disjuntorCapInterrupcaoNominal,
+      this.disjuntorTipoExtinsao,
+      this.disjuntorTipoAcionamento,
+      this.disjuntorPressaoSf6Nominal,
+      this.disjuntorPressaoSf6NominalTemperatura,
+      required this.dataEnsaio});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['atividade_id'] = Variable<int>(atividadeId);
+    if (!nullToAbsent || caracterizacaoEnsaio != null) {
+      map['caracterizacao_ensaio'] = Variable<String>($PrevDisjFormTable
+          .$convertercaracterizacaoEnsaion
+          .toSql(caracterizacaoEnsaio));
+    }
+    if (!nullToAbsent || termohigrometroFabricante != null) {
+      map['termohigrometro_fabricante'] =
+          Variable<String>(termohigrometroFabricante);
+    }
+    if (!nullToAbsent || termohigrometroTipo != null) {
+      map['termohigrometro_tipo'] = Variable<String>(termohigrometroTipo);
+    }
+    if (!nullToAbsent || termohigrometroUltimaCalibracao != null) {
+      map['termohigrometro_ultima_calibracao'] =
+          Variable<DateTime>(termohigrometroUltimaCalibracao);
+    }
+    if (!nullToAbsent || micromimetroFabricante != null) {
+      map['micromimetro_fabricante'] = Variable<String>(micromimetroFabricante);
+    }
+    if (!nullToAbsent || micromimetroTipo != null) {
+      map['micromimetro_tipo'] = Variable<String>(micromimetroTipo);
+    }
+    if (!nullToAbsent || micromimetroUltimaCalibracao != null) {
+      map['micromimetro_ultima_calibracao'] =
+          Variable<DateTime>(micromimetroUltimaCalibracao);
+    }
+    if (!nullToAbsent || megometroFabricante != null) {
+      map['megometro_fabricante'] = Variable<String>(megometroFabricante);
+    }
+    if (!nullToAbsent || megometroTipo != null) {
+      map['megometro_tipo'] = Variable<String>(megometroTipo);
+    }
+    if (!nullToAbsent || megometroUltimaCalibracao != null) {
+      map['megometro_ultima_calibracao'] =
+          Variable<DateTime>(megometroUltimaCalibracao);
+    }
+    if (!nullToAbsent || oscilografoFabricante != null) {
+      map['oscilografo_fabricante'] = Variable<String>(oscilografoFabricante);
+    }
+    if (!nullToAbsent || oscilografoTipo != null) {
+      map['oscilografo_tipo'] = Variable<String>(oscilografoTipo);
+    }
+    if (!nullToAbsent || oscilografoUltimaCalibracao != null) {
+      map['oscilografo_ultima_calibracao'] =
+          Variable<DateTime>(oscilografoUltimaCalibracao);
+    }
+    if (!nullToAbsent || disjuntorFabricante != null) {
+      map['disjuntor_fabricante'] = Variable<String>(disjuntorFabricante);
+    }
+    if (!nullToAbsent || disjuntorAnoFabricacao != null) {
+      map['disjuntor_ano_fabricacao'] =
+          Variable<String>(disjuntorAnoFabricacao);
+    }
+    if (!nullToAbsent || disjuntorTensaoNominal != null) {
+      map['disjuntor_tensao_nominal'] =
+          Variable<double>(disjuntorTensaoNominal);
+    }
+    if (!nullToAbsent || disjuntorCorrenteNominal != null) {
+      map['disjuntor_corrente_nominal'] =
+          Variable<int>(disjuntorCorrenteNominal);
+    }
+    if (!nullToAbsent || disjuntorCapInterrupcaoNominal != null) {
+      map['disjuntor_cap_interrupcao_nominal'] =
+          Variable<int>(disjuntorCapInterrupcaoNominal);
+    }
+    if (!nullToAbsent || disjuntorTipoExtinsao != null) {
+      map['disjuntor_tipo_extinsao'] = Variable<String>($PrevDisjFormTable
+          .$converterdisjuntorTipoExtinsaon
+          .toSql(disjuntorTipoExtinsao));
+    }
+    if (!nullToAbsent || disjuntorTipoAcionamento != null) {
+      map['disjuntor_tipo_acionamento'] =
+          Variable<String>(disjuntorTipoAcionamento);
+    }
+    if (!nullToAbsent || disjuntorPressaoSf6Nominal != null) {
+      map['disjuntor_pressao_sf6_nominal'] =
+          Variable<double>(disjuntorPressaoSf6Nominal);
+    }
+    if (!nullToAbsent || disjuntorPressaoSf6NominalTemperatura != null) {
+      map['disjuntor_pressao_sf6_nominal_temperatura'] =
+          Variable<double>(disjuntorPressaoSf6NominalTemperatura);
+    }
+    map['data_ensaio'] = Variable<DateTime>(dataEnsaio);
+    return map;
+  }
+
+  PrevDisjFormCompanion toCompanion(bool nullToAbsent) {
+    return PrevDisjFormCompanion(
+      id: Value(id),
+      atividadeId: Value(atividadeId),
+      caracterizacaoEnsaio: caracterizacaoEnsaio == null && nullToAbsent
+          ? const Value.absent()
+          : Value(caracterizacaoEnsaio),
+      termohigrometroFabricante:
+          termohigrometroFabricante == null && nullToAbsent
+              ? const Value.absent()
+              : Value(termohigrometroFabricante),
+      termohigrometroTipo: termohigrometroTipo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(termohigrometroTipo),
+      termohigrometroUltimaCalibracao:
+          termohigrometroUltimaCalibracao == null && nullToAbsent
+              ? const Value.absent()
+              : Value(termohigrometroUltimaCalibracao),
+      micromimetroFabricante: micromimetroFabricante == null && nullToAbsent
+          ? const Value.absent()
+          : Value(micromimetroFabricante),
+      micromimetroTipo: micromimetroTipo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(micromimetroTipo),
+      micromimetroUltimaCalibracao:
+          micromimetroUltimaCalibracao == null && nullToAbsent
+              ? const Value.absent()
+              : Value(micromimetroUltimaCalibracao),
+      megometroFabricante: megometroFabricante == null && nullToAbsent
+          ? const Value.absent()
+          : Value(megometroFabricante),
+      megometroTipo: megometroTipo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(megometroTipo),
+      megometroUltimaCalibracao:
+          megometroUltimaCalibracao == null && nullToAbsent
+              ? const Value.absent()
+              : Value(megometroUltimaCalibracao),
+      oscilografoFabricante: oscilografoFabricante == null && nullToAbsent
+          ? const Value.absent()
+          : Value(oscilografoFabricante),
+      oscilografoTipo: oscilografoTipo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(oscilografoTipo),
+      oscilografoUltimaCalibracao:
+          oscilografoUltimaCalibracao == null && nullToAbsent
+              ? const Value.absent()
+              : Value(oscilografoUltimaCalibracao),
+      disjuntorFabricante: disjuntorFabricante == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorFabricante),
+      disjuntorAnoFabricacao: disjuntorAnoFabricacao == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorAnoFabricacao),
+      disjuntorTensaoNominal: disjuntorTensaoNominal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorTensaoNominal),
+      disjuntorCorrenteNominal: disjuntorCorrenteNominal == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorCorrenteNominal),
+      disjuntorCapInterrupcaoNominal:
+          disjuntorCapInterrupcaoNominal == null && nullToAbsent
+              ? const Value.absent()
+              : Value(disjuntorCapInterrupcaoNominal),
+      disjuntorTipoExtinsao: disjuntorTipoExtinsao == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorTipoExtinsao),
+      disjuntorTipoAcionamento: disjuntorTipoAcionamento == null && nullToAbsent
+          ? const Value.absent()
+          : Value(disjuntorTipoAcionamento),
+      disjuntorPressaoSf6Nominal:
+          disjuntorPressaoSf6Nominal == null && nullToAbsent
+              ? const Value.absent()
+              : Value(disjuntorPressaoSf6Nominal),
+      disjuntorPressaoSf6NominalTemperatura:
+          disjuntorPressaoSf6NominalTemperatura == null && nullToAbsent
+              ? const Value.absent()
+              : Value(disjuntorPressaoSf6NominalTemperatura),
+      dataEnsaio: Value(dataEnsaio),
+    );
+  }
+
+  factory PrevDisjFormData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return PrevDisjFormData(
+      id: serializer.fromJson<int>(json['id']),
+      atividadeId: serializer.fromJson<int>(json['atividadeId']),
+      caracterizacaoEnsaio: serializer
+          .fromJson<CaracterizacaoEnsaio?>(json['caracterizacaoEnsaio']),
+      termohigrometroFabricante:
+          serializer.fromJson<String?>(json['termohigrometroFabricante']),
+      termohigrometroTipo:
+          serializer.fromJson<String?>(json['termohigrometroTipo']),
+      termohigrometroUltimaCalibracao: serializer
+          .fromJson<DateTime?>(json['termohigrometroUltimaCalibracao']),
+      micromimetroFabricante:
+          serializer.fromJson<String?>(json['micromimetroFabricante']),
+      micromimetroTipo: serializer.fromJson<String?>(json['micromimetroTipo']),
+      micromimetroUltimaCalibracao:
+          serializer.fromJson<DateTime?>(json['micromimetroUltimaCalibracao']),
+      megometroFabricante:
+          serializer.fromJson<String?>(json['megometroFabricante']),
+      megometroTipo: serializer.fromJson<String?>(json['megometroTipo']),
+      megometroUltimaCalibracao:
+          serializer.fromJson<DateTime?>(json['megometroUltimaCalibracao']),
+      oscilografoFabricante:
+          serializer.fromJson<String?>(json['oscilografoFabricante']),
+      oscilografoTipo: serializer.fromJson<String?>(json['oscilografoTipo']),
+      oscilografoUltimaCalibracao:
+          serializer.fromJson<DateTime?>(json['oscilografoUltimaCalibracao']),
+      disjuntorFabricante:
+          serializer.fromJson<String?>(json['disjuntorFabricante']),
+      disjuntorAnoFabricacao:
+          serializer.fromJson<String?>(json['disjuntorAnoFabricacao']),
+      disjuntorTensaoNominal:
+          serializer.fromJson<double?>(json['disjuntorTensaoNominal']),
+      disjuntorCorrenteNominal:
+          serializer.fromJson<int?>(json['disjuntorCorrenteNominal']),
+      disjuntorCapInterrupcaoNominal:
+          serializer.fromJson<int?>(json['disjuntorCapInterrupcaoNominal']),
+      disjuntorTipoExtinsao: serializer
+          .fromJson<TipoExtinsaoDisjuntor?>(json['disjuntorTipoExtinsao']),
+      disjuntorTipoAcionamento:
+          serializer.fromJson<String?>(json['disjuntorTipoAcionamento']),
+      disjuntorPressaoSf6Nominal:
+          serializer.fromJson<double?>(json['disjuntorPressaoSf6Nominal']),
+      disjuntorPressaoSf6NominalTemperatura: serializer
+          .fromJson<double?>(json['disjuntorPressaoSf6NominalTemperatura']),
+      dataEnsaio: serializer.fromJson<DateTime>(json['dataEnsaio']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'atividadeId': serializer.toJson<int>(atividadeId),
+      'caracterizacaoEnsaio':
+          serializer.toJson<CaracterizacaoEnsaio?>(caracterizacaoEnsaio),
+      'termohigrometroFabricante':
+          serializer.toJson<String?>(termohigrometroFabricante),
+      'termohigrometroTipo': serializer.toJson<String?>(termohigrometroTipo),
+      'termohigrometroUltimaCalibracao':
+          serializer.toJson<DateTime?>(termohigrometroUltimaCalibracao),
+      'micromimetroFabricante':
+          serializer.toJson<String?>(micromimetroFabricante),
+      'micromimetroTipo': serializer.toJson<String?>(micromimetroTipo),
+      'micromimetroUltimaCalibracao':
+          serializer.toJson<DateTime?>(micromimetroUltimaCalibracao),
+      'megometroFabricante': serializer.toJson<String?>(megometroFabricante),
+      'megometroTipo': serializer.toJson<String?>(megometroTipo),
+      'megometroUltimaCalibracao':
+          serializer.toJson<DateTime?>(megometroUltimaCalibracao),
+      'oscilografoFabricante':
+          serializer.toJson<String?>(oscilografoFabricante),
+      'oscilografoTipo': serializer.toJson<String?>(oscilografoTipo),
+      'oscilografoUltimaCalibracao':
+          serializer.toJson<DateTime?>(oscilografoUltimaCalibracao),
+      'disjuntorFabricante': serializer.toJson<String?>(disjuntorFabricante),
+      'disjuntorAnoFabricacao':
+          serializer.toJson<String?>(disjuntorAnoFabricacao),
+      'disjuntorTensaoNominal':
+          serializer.toJson<double?>(disjuntorTensaoNominal),
+      'disjuntorCorrenteNominal':
+          serializer.toJson<int?>(disjuntorCorrenteNominal),
+      'disjuntorCapInterrupcaoNominal':
+          serializer.toJson<int?>(disjuntorCapInterrupcaoNominal),
+      'disjuntorTipoExtinsao':
+          serializer.toJson<TipoExtinsaoDisjuntor?>(disjuntorTipoExtinsao),
+      'disjuntorTipoAcionamento':
+          serializer.toJson<String?>(disjuntorTipoAcionamento),
+      'disjuntorPressaoSf6Nominal':
+          serializer.toJson<double?>(disjuntorPressaoSf6Nominal),
+      'disjuntorPressaoSf6NominalTemperatura':
+          serializer.toJson<double?>(disjuntorPressaoSf6NominalTemperatura),
+      'dataEnsaio': serializer.toJson<DateTime>(dataEnsaio),
+    };
+  }
+
+  PrevDisjFormData copyWith(
+          {int? id,
+          int? atividadeId,
+          Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio =
+              const Value.absent(),
+          Value<String?> termohigrometroFabricante = const Value.absent(),
+          Value<String?> termohigrometroTipo = const Value.absent(),
+          Value<DateTime?> termohigrometroUltimaCalibracao =
+              const Value.absent(),
+          Value<String?> micromimetroFabricante = const Value.absent(),
+          Value<String?> micromimetroTipo = const Value.absent(),
+          Value<DateTime?> micromimetroUltimaCalibracao = const Value.absent(),
+          Value<String?> megometroFabricante = const Value.absent(),
+          Value<String?> megometroTipo = const Value.absent(),
+          Value<DateTime?> megometroUltimaCalibracao = const Value.absent(),
+          Value<String?> oscilografoFabricante = const Value.absent(),
+          Value<String?> oscilografoTipo = const Value.absent(),
+          Value<DateTime?> oscilografoUltimaCalibracao = const Value.absent(),
+          Value<String?> disjuntorFabricante = const Value.absent(),
+          Value<String?> disjuntorAnoFabricacao = const Value.absent(),
+          Value<double?> disjuntorTensaoNominal = const Value.absent(),
+          Value<int?> disjuntorCorrenteNominal = const Value.absent(),
+          Value<int?> disjuntorCapInterrupcaoNominal = const Value.absent(),
+          Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao =
+              const Value.absent(),
+          Value<String?> disjuntorTipoAcionamento = const Value.absent(),
+          Value<double?> disjuntorPressaoSf6Nominal = const Value.absent(),
+          Value<double?> disjuntorPressaoSf6NominalTemperatura =
+              const Value.absent(),
+          DateTime? dataEnsaio}) =>
+      PrevDisjFormData(
+        id: id ?? this.id,
+        atividadeId: atividadeId ?? this.atividadeId,
+        caracterizacaoEnsaio: caracterizacaoEnsaio.present
+            ? caracterizacaoEnsaio.value
+            : this.caracterizacaoEnsaio,
+        termohigrometroFabricante: termohigrometroFabricante.present
+            ? termohigrometroFabricante.value
+            : this.termohigrometroFabricante,
+        termohigrometroTipo: termohigrometroTipo.present
+            ? termohigrometroTipo.value
+            : this.termohigrometroTipo,
+        termohigrometroUltimaCalibracao: termohigrometroUltimaCalibracao.present
+            ? termohigrometroUltimaCalibracao.value
+            : this.termohigrometroUltimaCalibracao,
+        micromimetroFabricante: micromimetroFabricante.present
+            ? micromimetroFabricante.value
+            : this.micromimetroFabricante,
+        micromimetroTipo: micromimetroTipo.present
+            ? micromimetroTipo.value
+            : this.micromimetroTipo,
+        micromimetroUltimaCalibracao: micromimetroUltimaCalibracao.present
+            ? micromimetroUltimaCalibracao.value
+            : this.micromimetroUltimaCalibracao,
+        megometroFabricante: megometroFabricante.present
+            ? megometroFabricante.value
+            : this.megometroFabricante,
+        megometroTipo:
+            megometroTipo.present ? megometroTipo.value : this.megometroTipo,
+        megometroUltimaCalibracao: megometroUltimaCalibracao.present
+            ? megometroUltimaCalibracao.value
+            : this.megometroUltimaCalibracao,
+        oscilografoFabricante: oscilografoFabricante.present
+            ? oscilografoFabricante.value
+            : this.oscilografoFabricante,
+        oscilografoTipo: oscilografoTipo.present
+            ? oscilografoTipo.value
+            : this.oscilografoTipo,
+        oscilografoUltimaCalibracao: oscilografoUltimaCalibracao.present
+            ? oscilografoUltimaCalibracao.value
+            : this.oscilografoUltimaCalibracao,
+        disjuntorFabricante: disjuntorFabricante.present
+            ? disjuntorFabricante.value
+            : this.disjuntorFabricante,
+        disjuntorAnoFabricacao: disjuntorAnoFabricacao.present
+            ? disjuntorAnoFabricacao.value
+            : this.disjuntorAnoFabricacao,
+        disjuntorTensaoNominal: disjuntorTensaoNominal.present
+            ? disjuntorTensaoNominal.value
+            : this.disjuntorTensaoNominal,
+        disjuntorCorrenteNominal: disjuntorCorrenteNominal.present
+            ? disjuntorCorrenteNominal.value
+            : this.disjuntorCorrenteNominal,
+        disjuntorCapInterrupcaoNominal: disjuntorCapInterrupcaoNominal.present
+            ? disjuntorCapInterrupcaoNominal.value
+            : this.disjuntorCapInterrupcaoNominal,
+        disjuntorTipoExtinsao: disjuntorTipoExtinsao.present
+            ? disjuntorTipoExtinsao.value
+            : this.disjuntorTipoExtinsao,
+        disjuntorTipoAcionamento: disjuntorTipoAcionamento.present
+            ? disjuntorTipoAcionamento.value
+            : this.disjuntorTipoAcionamento,
+        disjuntorPressaoSf6Nominal: disjuntorPressaoSf6Nominal.present
+            ? disjuntorPressaoSf6Nominal.value
+            : this.disjuntorPressaoSf6Nominal,
+        disjuntorPressaoSf6NominalTemperatura:
+            disjuntorPressaoSf6NominalTemperatura.present
+                ? disjuntorPressaoSf6NominalTemperatura.value
+                : this.disjuntorPressaoSf6NominalTemperatura,
+        dataEnsaio: dataEnsaio ?? this.dataEnsaio,
+      );
+  PrevDisjFormData copyWithCompanion(PrevDisjFormCompanion data) {
+    return PrevDisjFormData(
+      id: data.id.present ? data.id.value : this.id,
+      atividadeId:
+          data.atividadeId.present ? data.atividadeId.value : this.atividadeId,
+      caracterizacaoEnsaio: data.caracterizacaoEnsaio.present
+          ? data.caracterizacaoEnsaio.value
+          : this.caracterizacaoEnsaio,
+      termohigrometroFabricante: data.termohigrometroFabricante.present
+          ? data.termohigrometroFabricante.value
+          : this.termohigrometroFabricante,
+      termohigrometroTipo: data.termohigrometroTipo.present
+          ? data.termohigrometroTipo.value
+          : this.termohigrometroTipo,
+      termohigrometroUltimaCalibracao:
+          data.termohigrometroUltimaCalibracao.present
+              ? data.termohigrometroUltimaCalibracao.value
+              : this.termohigrometroUltimaCalibracao,
+      micromimetroFabricante: data.micromimetroFabricante.present
+          ? data.micromimetroFabricante.value
+          : this.micromimetroFabricante,
+      micromimetroTipo: data.micromimetroTipo.present
+          ? data.micromimetroTipo.value
+          : this.micromimetroTipo,
+      micromimetroUltimaCalibracao: data.micromimetroUltimaCalibracao.present
+          ? data.micromimetroUltimaCalibracao.value
+          : this.micromimetroUltimaCalibracao,
+      megometroFabricante: data.megometroFabricante.present
+          ? data.megometroFabricante.value
+          : this.megometroFabricante,
+      megometroTipo: data.megometroTipo.present
+          ? data.megometroTipo.value
+          : this.megometroTipo,
+      megometroUltimaCalibracao: data.megometroUltimaCalibracao.present
+          ? data.megometroUltimaCalibracao.value
+          : this.megometroUltimaCalibracao,
+      oscilografoFabricante: data.oscilografoFabricante.present
+          ? data.oscilografoFabricante.value
+          : this.oscilografoFabricante,
+      oscilografoTipo: data.oscilografoTipo.present
+          ? data.oscilografoTipo.value
+          : this.oscilografoTipo,
+      oscilografoUltimaCalibracao: data.oscilografoUltimaCalibracao.present
+          ? data.oscilografoUltimaCalibracao.value
+          : this.oscilografoUltimaCalibracao,
+      disjuntorFabricante: data.disjuntorFabricante.present
+          ? data.disjuntorFabricante.value
+          : this.disjuntorFabricante,
+      disjuntorAnoFabricacao: data.disjuntorAnoFabricacao.present
+          ? data.disjuntorAnoFabricacao.value
+          : this.disjuntorAnoFabricacao,
+      disjuntorTensaoNominal: data.disjuntorTensaoNominal.present
+          ? data.disjuntorTensaoNominal.value
+          : this.disjuntorTensaoNominal,
+      disjuntorCorrenteNominal: data.disjuntorCorrenteNominal.present
+          ? data.disjuntorCorrenteNominal.value
+          : this.disjuntorCorrenteNominal,
+      disjuntorCapInterrupcaoNominal:
+          data.disjuntorCapInterrupcaoNominal.present
+              ? data.disjuntorCapInterrupcaoNominal.value
+              : this.disjuntorCapInterrupcaoNominal,
+      disjuntorTipoExtinsao: data.disjuntorTipoExtinsao.present
+          ? data.disjuntorTipoExtinsao.value
+          : this.disjuntorTipoExtinsao,
+      disjuntorTipoAcionamento: data.disjuntorTipoAcionamento.present
+          ? data.disjuntorTipoAcionamento.value
+          : this.disjuntorTipoAcionamento,
+      disjuntorPressaoSf6Nominal: data.disjuntorPressaoSf6Nominal.present
+          ? data.disjuntorPressaoSf6Nominal.value
+          : this.disjuntorPressaoSf6Nominal,
+      disjuntorPressaoSf6NominalTemperatura:
+          data.disjuntorPressaoSf6NominalTemperatura.present
+              ? data.disjuntorPressaoSf6NominalTemperatura.value
+              : this.disjuntorPressaoSf6NominalTemperatura,
+      dataEnsaio:
+          data.dataEnsaio.present ? data.dataEnsaio.value : this.dataEnsaio,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrevDisjFormData(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('caracterizacaoEnsaio: $caracterizacaoEnsaio, ')
+          ..write('termohigrometroFabricante: $termohigrometroFabricante, ')
+          ..write('termohigrometroTipo: $termohigrometroTipo, ')
+          ..write(
+              'termohigrometroUltimaCalibracao: $termohigrometroUltimaCalibracao, ')
+          ..write('micromimetroFabricante: $micromimetroFabricante, ')
+          ..write('micromimetroTipo: $micromimetroTipo, ')
+          ..write(
+              'micromimetroUltimaCalibracao: $micromimetroUltimaCalibracao, ')
+          ..write('megometroFabricante: $megometroFabricante, ')
+          ..write('megometroTipo: $megometroTipo, ')
+          ..write('megometroUltimaCalibracao: $megometroUltimaCalibracao, ')
+          ..write('oscilografoFabricante: $oscilografoFabricante, ')
+          ..write('oscilografoTipo: $oscilografoTipo, ')
+          ..write('oscilografoUltimaCalibracao: $oscilografoUltimaCalibracao, ')
+          ..write('disjuntorFabricante: $disjuntorFabricante, ')
+          ..write('disjuntorAnoFabricacao: $disjuntorAnoFabricacao, ')
+          ..write('disjuntorTensaoNominal: $disjuntorTensaoNominal, ')
+          ..write('disjuntorCorrenteNominal: $disjuntorCorrenteNominal, ')
+          ..write(
+              'disjuntorCapInterrupcaoNominal: $disjuntorCapInterrupcaoNominal, ')
+          ..write('disjuntorTipoExtinsao: $disjuntorTipoExtinsao, ')
+          ..write('disjuntorTipoAcionamento: $disjuntorTipoAcionamento, ')
+          ..write('disjuntorPressaoSf6Nominal: $disjuntorPressaoSf6Nominal, ')
+          ..write(
+              'disjuntorPressaoSf6NominalTemperatura: $disjuntorPressaoSf6NominalTemperatura, ')
+          ..write('dataEnsaio: $dataEnsaio')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+        id,
+        atividadeId,
+        caracterizacaoEnsaio,
+        termohigrometroFabricante,
+        termohigrometroTipo,
+        termohigrometroUltimaCalibracao,
+        micromimetroFabricante,
+        micromimetroTipo,
+        micromimetroUltimaCalibracao,
+        megometroFabricante,
+        megometroTipo,
+        megometroUltimaCalibracao,
+        oscilografoFabricante,
+        oscilografoTipo,
+        oscilografoUltimaCalibracao,
+        disjuntorFabricante,
+        disjuntorAnoFabricacao,
+        disjuntorTensaoNominal,
+        disjuntorCorrenteNominal,
+        disjuntorCapInterrupcaoNominal,
+        disjuntorTipoExtinsao,
+        disjuntorTipoAcionamento,
+        disjuntorPressaoSf6Nominal,
+        disjuntorPressaoSf6NominalTemperatura,
+        dataEnsaio
+      ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is PrevDisjFormData &&
+          other.id == this.id &&
+          other.atividadeId == this.atividadeId &&
+          other.caracterizacaoEnsaio == this.caracterizacaoEnsaio &&
+          other.termohigrometroFabricante == this.termohigrometroFabricante &&
+          other.termohigrometroTipo == this.termohigrometroTipo &&
+          other.termohigrometroUltimaCalibracao ==
+              this.termohigrometroUltimaCalibracao &&
+          other.micromimetroFabricante == this.micromimetroFabricante &&
+          other.micromimetroTipo == this.micromimetroTipo &&
+          other.micromimetroUltimaCalibracao ==
+              this.micromimetroUltimaCalibracao &&
+          other.megometroFabricante == this.megometroFabricante &&
+          other.megometroTipo == this.megometroTipo &&
+          other.megometroUltimaCalibracao == this.megometroUltimaCalibracao &&
+          other.oscilografoFabricante == this.oscilografoFabricante &&
+          other.oscilografoTipo == this.oscilografoTipo &&
+          other.oscilografoUltimaCalibracao ==
+              this.oscilografoUltimaCalibracao &&
+          other.disjuntorFabricante == this.disjuntorFabricante &&
+          other.disjuntorAnoFabricacao == this.disjuntorAnoFabricacao &&
+          other.disjuntorTensaoNominal == this.disjuntorTensaoNominal &&
+          other.disjuntorCorrenteNominal == this.disjuntorCorrenteNominal &&
+          other.disjuntorCapInterrupcaoNominal ==
+              this.disjuntorCapInterrupcaoNominal &&
+          other.disjuntorTipoExtinsao == this.disjuntorTipoExtinsao &&
+          other.disjuntorTipoAcionamento == this.disjuntorTipoAcionamento &&
+          other.disjuntorPressaoSf6Nominal == this.disjuntorPressaoSf6Nominal &&
+          other.disjuntorPressaoSf6NominalTemperatura ==
+              this.disjuntorPressaoSf6NominalTemperatura &&
+          other.dataEnsaio == this.dataEnsaio);
+}
+
+class PrevDisjFormCompanion extends UpdateCompanion<PrevDisjFormData> {
+  final Value<int> id;
+  final Value<int> atividadeId;
+  final Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio;
+  final Value<String?> termohigrometroFabricante;
+  final Value<String?> termohigrometroTipo;
+  final Value<DateTime?> termohigrometroUltimaCalibracao;
+  final Value<String?> micromimetroFabricante;
+  final Value<String?> micromimetroTipo;
+  final Value<DateTime?> micromimetroUltimaCalibracao;
+  final Value<String?> megometroFabricante;
+  final Value<String?> megometroTipo;
+  final Value<DateTime?> megometroUltimaCalibracao;
+  final Value<String?> oscilografoFabricante;
+  final Value<String?> oscilografoTipo;
+  final Value<DateTime?> oscilografoUltimaCalibracao;
+  final Value<String?> disjuntorFabricante;
+  final Value<String?> disjuntorAnoFabricacao;
+  final Value<double?> disjuntorTensaoNominal;
+  final Value<int?> disjuntorCorrenteNominal;
+  final Value<int?> disjuntorCapInterrupcaoNominal;
+  final Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao;
+  final Value<String?> disjuntorTipoAcionamento;
+  final Value<double?> disjuntorPressaoSf6Nominal;
+  final Value<double?> disjuntorPressaoSf6NominalTemperatura;
+  final Value<DateTime> dataEnsaio;
+  const PrevDisjFormCompanion({
+    this.id = const Value.absent(),
+    this.atividadeId = const Value.absent(),
+    this.caracterizacaoEnsaio = const Value.absent(),
+    this.termohigrometroFabricante = const Value.absent(),
+    this.termohigrometroTipo = const Value.absent(),
+    this.termohigrometroUltimaCalibracao = const Value.absent(),
+    this.micromimetroFabricante = const Value.absent(),
+    this.micromimetroTipo = const Value.absent(),
+    this.micromimetroUltimaCalibracao = const Value.absent(),
+    this.megometroFabricante = const Value.absent(),
+    this.megometroTipo = const Value.absent(),
+    this.megometroUltimaCalibracao = const Value.absent(),
+    this.oscilografoFabricante = const Value.absent(),
+    this.oscilografoTipo = const Value.absent(),
+    this.oscilografoUltimaCalibracao = const Value.absent(),
+    this.disjuntorFabricante = const Value.absent(),
+    this.disjuntorAnoFabricacao = const Value.absent(),
+    this.disjuntorTensaoNominal = const Value.absent(),
+    this.disjuntorCorrenteNominal = const Value.absent(),
+    this.disjuntorCapInterrupcaoNominal = const Value.absent(),
+    this.disjuntorTipoExtinsao = const Value.absent(),
+    this.disjuntorTipoAcionamento = const Value.absent(),
+    this.disjuntorPressaoSf6Nominal = const Value.absent(),
+    this.disjuntorPressaoSf6NominalTemperatura = const Value.absent(),
+    this.dataEnsaio = const Value.absent(),
+  });
+  PrevDisjFormCompanion.insert({
+    this.id = const Value.absent(),
+    required int atividadeId,
+    this.caracterizacaoEnsaio = const Value.absent(),
+    this.termohigrometroFabricante = const Value.absent(),
+    this.termohigrometroTipo = const Value.absent(),
+    this.termohigrometroUltimaCalibracao = const Value.absent(),
+    this.micromimetroFabricante = const Value.absent(),
+    this.micromimetroTipo = const Value.absent(),
+    this.micromimetroUltimaCalibracao = const Value.absent(),
+    this.megometroFabricante = const Value.absent(),
+    this.megometroTipo = const Value.absent(),
+    this.megometroUltimaCalibracao = const Value.absent(),
+    this.oscilografoFabricante = const Value.absent(),
+    this.oscilografoTipo = const Value.absent(),
+    this.oscilografoUltimaCalibracao = const Value.absent(),
+    this.disjuntorFabricante = const Value.absent(),
+    this.disjuntorAnoFabricacao = const Value.absent(),
+    this.disjuntorTensaoNominal = const Value.absent(),
+    this.disjuntorCorrenteNominal = const Value.absent(),
+    this.disjuntorCapInterrupcaoNominal = const Value.absent(),
+    this.disjuntorTipoExtinsao = const Value.absent(),
+    this.disjuntorTipoAcionamento = const Value.absent(),
+    this.disjuntorPressaoSf6Nominal = const Value.absent(),
+    this.disjuntorPressaoSf6NominalTemperatura = const Value.absent(),
+    this.dataEnsaio = const Value.absent(),
+  }) : atividadeId = Value(atividadeId);
+  static Insertable<PrevDisjFormData> custom({
+    Expression<int>? id,
+    Expression<int>? atividadeId,
+    Expression<String>? caracterizacaoEnsaio,
+    Expression<String>? termohigrometroFabricante,
+    Expression<String>? termohigrometroTipo,
+    Expression<DateTime>? termohigrometroUltimaCalibracao,
+    Expression<String>? micromimetroFabricante,
+    Expression<String>? micromimetroTipo,
+    Expression<DateTime>? micromimetroUltimaCalibracao,
+    Expression<String>? megometroFabricante,
+    Expression<String>? megometroTipo,
+    Expression<DateTime>? megometroUltimaCalibracao,
+    Expression<String>? oscilografoFabricante,
+    Expression<String>? oscilografoTipo,
+    Expression<DateTime>? oscilografoUltimaCalibracao,
+    Expression<String>? disjuntorFabricante,
+    Expression<String>? disjuntorAnoFabricacao,
+    Expression<double>? disjuntorTensaoNominal,
+    Expression<int>? disjuntorCorrenteNominal,
+    Expression<int>? disjuntorCapInterrupcaoNominal,
+    Expression<String>? disjuntorTipoExtinsao,
+    Expression<String>? disjuntorTipoAcionamento,
+    Expression<double>? disjuntorPressaoSf6Nominal,
+    Expression<double>? disjuntorPressaoSf6NominalTemperatura,
+    Expression<DateTime>? dataEnsaio,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (atividadeId != null) 'atividade_id': atividadeId,
+      if (caracterizacaoEnsaio != null)
+        'caracterizacao_ensaio': caracterizacaoEnsaio,
+      if (termohigrometroFabricante != null)
+        'termohigrometro_fabricante': termohigrometroFabricante,
+      if (termohigrometroTipo != null)
+        'termohigrometro_tipo': termohigrometroTipo,
+      if (termohigrometroUltimaCalibracao != null)
+        'termohigrometro_ultima_calibracao': termohigrometroUltimaCalibracao,
+      if (micromimetroFabricante != null)
+        'micromimetro_fabricante': micromimetroFabricante,
+      if (micromimetroTipo != null) 'micromimetro_tipo': micromimetroTipo,
+      if (micromimetroUltimaCalibracao != null)
+        'micromimetro_ultima_calibracao': micromimetroUltimaCalibracao,
+      if (megometroFabricante != null)
+        'megometro_fabricante': megometroFabricante,
+      if (megometroTipo != null) 'megometro_tipo': megometroTipo,
+      if (megometroUltimaCalibracao != null)
+        'megometro_ultima_calibracao': megometroUltimaCalibracao,
+      if (oscilografoFabricante != null)
+        'oscilografo_fabricante': oscilografoFabricante,
+      if (oscilografoTipo != null) 'oscilografo_tipo': oscilografoTipo,
+      if (oscilografoUltimaCalibracao != null)
+        'oscilografo_ultima_calibracao': oscilografoUltimaCalibracao,
+      if (disjuntorFabricante != null)
+        'disjuntor_fabricante': disjuntorFabricante,
+      if (disjuntorAnoFabricacao != null)
+        'disjuntor_ano_fabricacao': disjuntorAnoFabricacao,
+      if (disjuntorTensaoNominal != null)
+        'disjuntor_tensao_nominal': disjuntorTensaoNominal,
+      if (disjuntorCorrenteNominal != null)
+        'disjuntor_corrente_nominal': disjuntorCorrenteNominal,
+      if (disjuntorCapInterrupcaoNominal != null)
+        'disjuntor_cap_interrupcao_nominal': disjuntorCapInterrupcaoNominal,
+      if (disjuntorTipoExtinsao != null)
+        'disjuntor_tipo_extinsao': disjuntorTipoExtinsao,
+      if (disjuntorTipoAcionamento != null)
+        'disjuntor_tipo_acionamento': disjuntorTipoAcionamento,
+      if (disjuntorPressaoSf6Nominal != null)
+        'disjuntor_pressao_sf6_nominal': disjuntorPressaoSf6Nominal,
+      if (disjuntorPressaoSf6NominalTemperatura != null)
+        'disjuntor_pressao_sf6_nominal_temperatura':
+            disjuntorPressaoSf6NominalTemperatura,
+      if (dataEnsaio != null) 'data_ensaio': dataEnsaio,
+    });
+  }
+
+  PrevDisjFormCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? atividadeId,
+      Value<CaracterizacaoEnsaio?>? caracterizacaoEnsaio,
+      Value<String?>? termohigrometroFabricante,
+      Value<String?>? termohigrometroTipo,
+      Value<DateTime?>? termohigrometroUltimaCalibracao,
+      Value<String?>? micromimetroFabricante,
+      Value<String?>? micromimetroTipo,
+      Value<DateTime?>? micromimetroUltimaCalibracao,
+      Value<String?>? megometroFabricante,
+      Value<String?>? megometroTipo,
+      Value<DateTime?>? megometroUltimaCalibracao,
+      Value<String?>? oscilografoFabricante,
+      Value<String?>? oscilografoTipo,
+      Value<DateTime?>? oscilografoUltimaCalibracao,
+      Value<String?>? disjuntorFabricante,
+      Value<String?>? disjuntorAnoFabricacao,
+      Value<double?>? disjuntorTensaoNominal,
+      Value<int?>? disjuntorCorrenteNominal,
+      Value<int?>? disjuntorCapInterrupcaoNominal,
+      Value<TipoExtinsaoDisjuntor?>? disjuntorTipoExtinsao,
+      Value<String?>? disjuntorTipoAcionamento,
+      Value<double?>? disjuntorPressaoSf6Nominal,
+      Value<double?>? disjuntorPressaoSf6NominalTemperatura,
+      Value<DateTime>? dataEnsaio}) {
+    return PrevDisjFormCompanion(
+      id: id ?? this.id,
+      atividadeId: atividadeId ?? this.atividadeId,
+      caracterizacaoEnsaio: caracterizacaoEnsaio ?? this.caracterizacaoEnsaio,
+      termohigrometroFabricante:
+          termohigrometroFabricante ?? this.termohigrometroFabricante,
+      termohigrometroTipo: termohigrometroTipo ?? this.termohigrometroTipo,
+      termohigrometroUltimaCalibracao: termohigrometroUltimaCalibracao ??
+          this.termohigrometroUltimaCalibracao,
+      micromimetroFabricante:
+          micromimetroFabricante ?? this.micromimetroFabricante,
+      micromimetroTipo: micromimetroTipo ?? this.micromimetroTipo,
+      micromimetroUltimaCalibracao:
+          micromimetroUltimaCalibracao ?? this.micromimetroUltimaCalibracao,
+      megometroFabricante: megometroFabricante ?? this.megometroFabricante,
+      megometroTipo: megometroTipo ?? this.megometroTipo,
+      megometroUltimaCalibracao:
+          megometroUltimaCalibracao ?? this.megometroUltimaCalibracao,
+      oscilografoFabricante:
+          oscilografoFabricante ?? this.oscilografoFabricante,
+      oscilografoTipo: oscilografoTipo ?? this.oscilografoTipo,
+      oscilografoUltimaCalibracao:
+          oscilografoUltimaCalibracao ?? this.oscilografoUltimaCalibracao,
+      disjuntorFabricante: disjuntorFabricante ?? this.disjuntorFabricante,
+      disjuntorAnoFabricacao:
+          disjuntorAnoFabricacao ?? this.disjuntorAnoFabricacao,
+      disjuntorTensaoNominal:
+          disjuntorTensaoNominal ?? this.disjuntorTensaoNominal,
+      disjuntorCorrenteNominal:
+          disjuntorCorrenteNominal ?? this.disjuntorCorrenteNominal,
+      disjuntorCapInterrupcaoNominal:
+          disjuntorCapInterrupcaoNominal ?? this.disjuntorCapInterrupcaoNominal,
+      disjuntorTipoExtinsao:
+          disjuntorTipoExtinsao ?? this.disjuntorTipoExtinsao,
+      disjuntorTipoAcionamento:
+          disjuntorTipoAcionamento ?? this.disjuntorTipoAcionamento,
+      disjuntorPressaoSf6Nominal:
+          disjuntorPressaoSf6Nominal ?? this.disjuntorPressaoSf6Nominal,
+      disjuntorPressaoSf6NominalTemperatura:
+          disjuntorPressaoSf6NominalTemperatura ??
+              this.disjuntorPressaoSf6NominalTemperatura,
+      dataEnsaio: dataEnsaio ?? this.dataEnsaio,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (atividadeId.present) {
+      map['atividade_id'] = Variable<int>(atividadeId.value);
+    }
+    if (caracterizacaoEnsaio.present) {
+      map['caracterizacao_ensaio'] = Variable<String>($PrevDisjFormTable
+          .$convertercaracterizacaoEnsaion
+          .toSql(caracterizacaoEnsaio.value));
+    }
+    if (termohigrometroFabricante.present) {
+      map['termohigrometro_fabricante'] =
+          Variable<String>(termohigrometroFabricante.value);
+    }
+    if (termohigrometroTipo.present) {
+      map['termohigrometro_tipo'] = Variable<String>(termohigrometroTipo.value);
+    }
+    if (termohigrometroUltimaCalibracao.present) {
+      map['termohigrometro_ultima_calibracao'] =
+          Variable<DateTime>(termohigrometroUltimaCalibracao.value);
+    }
+    if (micromimetroFabricante.present) {
+      map['micromimetro_fabricante'] =
+          Variable<String>(micromimetroFabricante.value);
+    }
+    if (micromimetroTipo.present) {
+      map['micromimetro_tipo'] = Variable<String>(micromimetroTipo.value);
+    }
+    if (micromimetroUltimaCalibracao.present) {
+      map['micromimetro_ultima_calibracao'] =
+          Variable<DateTime>(micromimetroUltimaCalibracao.value);
+    }
+    if (megometroFabricante.present) {
+      map['megometro_fabricante'] = Variable<String>(megometroFabricante.value);
+    }
+    if (megometroTipo.present) {
+      map['megometro_tipo'] = Variable<String>(megometroTipo.value);
+    }
+    if (megometroUltimaCalibracao.present) {
+      map['megometro_ultima_calibracao'] =
+          Variable<DateTime>(megometroUltimaCalibracao.value);
+    }
+    if (oscilografoFabricante.present) {
+      map['oscilografo_fabricante'] =
+          Variable<String>(oscilografoFabricante.value);
+    }
+    if (oscilografoTipo.present) {
+      map['oscilografo_tipo'] = Variable<String>(oscilografoTipo.value);
+    }
+    if (oscilografoUltimaCalibracao.present) {
+      map['oscilografo_ultima_calibracao'] =
+          Variable<DateTime>(oscilografoUltimaCalibracao.value);
+    }
+    if (disjuntorFabricante.present) {
+      map['disjuntor_fabricante'] = Variable<String>(disjuntorFabricante.value);
+    }
+    if (disjuntorAnoFabricacao.present) {
+      map['disjuntor_ano_fabricacao'] =
+          Variable<String>(disjuntorAnoFabricacao.value);
+    }
+    if (disjuntorTensaoNominal.present) {
+      map['disjuntor_tensao_nominal'] =
+          Variable<double>(disjuntorTensaoNominal.value);
+    }
+    if (disjuntorCorrenteNominal.present) {
+      map['disjuntor_corrente_nominal'] =
+          Variable<int>(disjuntorCorrenteNominal.value);
+    }
+    if (disjuntorCapInterrupcaoNominal.present) {
+      map['disjuntor_cap_interrupcao_nominal'] =
+          Variable<int>(disjuntorCapInterrupcaoNominal.value);
+    }
+    if (disjuntorTipoExtinsao.present) {
+      map['disjuntor_tipo_extinsao'] = Variable<String>($PrevDisjFormTable
+          .$converterdisjuntorTipoExtinsaon
+          .toSql(disjuntorTipoExtinsao.value));
+    }
+    if (disjuntorTipoAcionamento.present) {
+      map['disjuntor_tipo_acionamento'] =
+          Variable<String>(disjuntorTipoAcionamento.value);
+    }
+    if (disjuntorPressaoSf6Nominal.present) {
+      map['disjuntor_pressao_sf6_nominal'] =
+          Variable<double>(disjuntorPressaoSf6Nominal.value);
+    }
+    if (disjuntorPressaoSf6NominalTemperatura.present) {
+      map['disjuntor_pressao_sf6_nominal_temperatura'] =
+          Variable<double>(disjuntorPressaoSf6NominalTemperatura.value);
+    }
+    if (dataEnsaio.present) {
+      map['data_ensaio'] = Variable<DateTime>(dataEnsaio.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('PrevDisjFormCompanion(')
+          ..write('id: $id, ')
+          ..write('atividadeId: $atividadeId, ')
+          ..write('caracterizacaoEnsaio: $caracterizacaoEnsaio, ')
+          ..write('termohigrometroFabricante: $termohigrometroFabricante, ')
+          ..write('termohigrometroTipo: $termohigrometroTipo, ')
+          ..write(
+              'termohigrometroUltimaCalibracao: $termohigrometroUltimaCalibracao, ')
+          ..write('micromimetroFabricante: $micromimetroFabricante, ')
+          ..write('micromimetroTipo: $micromimetroTipo, ')
+          ..write(
+              'micromimetroUltimaCalibracao: $micromimetroUltimaCalibracao, ')
+          ..write('megometroFabricante: $megometroFabricante, ')
+          ..write('megometroTipo: $megometroTipo, ')
+          ..write('megometroUltimaCalibracao: $megometroUltimaCalibracao, ')
+          ..write('oscilografoFabricante: $oscilografoFabricante, ')
+          ..write('oscilografoTipo: $oscilografoTipo, ')
+          ..write('oscilografoUltimaCalibracao: $oscilografoUltimaCalibracao, ')
+          ..write('disjuntorFabricante: $disjuntorFabricante, ')
+          ..write('disjuntorAnoFabricacao: $disjuntorAnoFabricacao, ')
+          ..write('disjuntorTensaoNominal: $disjuntorTensaoNominal, ')
+          ..write('disjuntorCorrenteNominal: $disjuntorCorrenteNominal, ')
+          ..write(
+              'disjuntorCapInterrupcaoNominal: $disjuntorCapInterrupcaoNominal, ')
+          ..write('disjuntorTipoExtinsao: $disjuntorTipoExtinsao, ')
+          ..write('disjuntorTipoAcionamento: $disjuntorTipoAcionamento, ')
+          ..write('disjuntorPressaoSf6Nominal: $disjuntorPressaoSf6Nominal, ')
+          ..write(
+              'disjuntorPressaoSf6NominalTemperatura: $disjuntorPressaoSf6NominalTemperatura, ')
+          ..write('dataEnsaio: $dataEnsaio')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MedicaoResistenciaContatoTableTable
+    extends MedicaoResistenciaContatoTable
+    with
+        TableInfo<$MedicaoResistenciaContatoTableTable,
+            MedicaoResistenciaContatoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MedicaoResistenciaContatoTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _formularioDisjuntorIdMeta =
+      const VerificationMeta('formularioDisjuntorId');
+  @override
+  late final GeneratedColumn<int> formularioDisjuntorId = GeneratedColumn<int>(
+      'formulario_disjuntor_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES prev_disj_form (id)'));
+  static const VerificationMeta _numeroCamaraMeta =
+      const VerificationMeta('numeroCamara');
+  @override
+  late final GeneratedColumn<int> numeroCamara = GeneratedColumn<int>(
+      'numero_camara', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _resistenciaFaseAMeta =
+      const VerificationMeta('resistenciaFaseA');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseA = GeneratedColumn<double>(
+      'resistencia_fase_a', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaFaseBMeta =
+      const VerificationMeta('resistenciaFaseB');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseB = GeneratedColumn<double>(
+      'resistencia_fase_b', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaFaseCMeta =
+      const VerificationMeta('resistenciaFaseC');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseC = GeneratedColumn<double>(
+      'resistencia_fase_c', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _temperaturaDisjuntorMeta =
+      const VerificationMeta('temperaturaDisjuntor');
+  @override
+  late final GeneratedColumn<double> temperaturaDisjuntor =
+      GeneratedColumn<double>('temperatura_disjuntor', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _umidadeRelativaArMeta =
+      const VerificationMeta('umidadeRelativaAr');
+  @override
+  late final GeneratedColumn<double> umidadeRelativaAr =
+      GeneratedColumn<double>('umidade_relativa_ar', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        formularioDisjuntorId,
+        numeroCamara,
+        resistenciaFaseA,
+        resistenciaFaseB,
+        resistenciaFaseC,
+        temperaturaDisjuntor,
+        umidadeRelativaAr
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'medicao_resistencia_contato_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MedicaoResistenciaContatoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('formulario_disjuntor_id')) {
+      context.handle(
+          _formularioDisjuntorIdMeta,
+          formularioDisjuntorId.isAcceptableOrUnknown(
+              data['formulario_disjuntor_id']!, _formularioDisjuntorIdMeta));
+    } else if (isInserting) {
+      context.missing(_formularioDisjuntorIdMeta);
+    }
+    if (data.containsKey('numero_camara')) {
+      context.handle(
+          _numeroCamaraMeta,
+          numeroCamara.isAcceptableOrUnknown(
+              data['numero_camara']!, _numeroCamaraMeta));
+    } else if (isInserting) {
+      context.missing(_numeroCamaraMeta);
+    }
+    if (data.containsKey('resistencia_fase_a')) {
+      context.handle(
+          _resistenciaFaseAMeta,
+          resistenciaFaseA.isAcceptableOrUnknown(
+              data['resistencia_fase_a']!, _resistenciaFaseAMeta));
+    }
+    if (data.containsKey('resistencia_fase_b')) {
+      context.handle(
+          _resistenciaFaseBMeta,
+          resistenciaFaseB.isAcceptableOrUnknown(
+              data['resistencia_fase_b']!, _resistenciaFaseBMeta));
+    }
+    if (data.containsKey('resistencia_fase_c')) {
+      context.handle(
+          _resistenciaFaseCMeta,
+          resistenciaFaseC.isAcceptableOrUnknown(
+              data['resistencia_fase_c']!, _resistenciaFaseCMeta));
+    }
+    if (data.containsKey('temperatura_disjuntor')) {
+      context.handle(
+          _temperaturaDisjuntorMeta,
+          temperaturaDisjuntor.isAcceptableOrUnknown(
+              data['temperatura_disjuntor']!, _temperaturaDisjuntorMeta));
+    }
+    if (data.containsKey('umidade_relativa_ar')) {
+      context.handle(
+          _umidadeRelativaArMeta,
+          umidadeRelativaAr.isAcceptableOrUnknown(
+              data['umidade_relativa_ar']!, _umidadeRelativaArMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MedicaoResistenciaContatoTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MedicaoResistenciaContatoTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      formularioDisjuntorId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_disjuntor_id'])!,
+      numeroCamara: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}numero_camara'])!,
+      resistenciaFaseA: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_a']),
+      resistenciaFaseB: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_b']),
+      resistenciaFaseC: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_c']),
+      temperaturaDisjuntor: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}temperatura_disjuntor']),
+      umidadeRelativaAr: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}umidade_relativa_ar']),
+    );
+  }
+
+  @override
+  $MedicaoResistenciaContatoTableTable createAlias(String alias) {
+    return $MedicaoResistenciaContatoTableTable(attachedDatabase, alias);
+  }
+}
+
+class MedicaoResistenciaContatoTableData extends DataClass
+    implements Insertable<MedicaoResistenciaContatoTableData> {
+  final int id;
+  final int formularioDisjuntorId;
+  final int numeroCamara;
+  final double? resistenciaFaseA;
+  final double? resistenciaFaseB;
+  final double? resistenciaFaseC;
+  final double? temperaturaDisjuntor;
+  final double? umidadeRelativaAr;
+  const MedicaoResistenciaContatoTableData(
+      {required this.id,
+      required this.formularioDisjuntorId,
+      required this.numeroCamara,
+      this.resistenciaFaseA,
+      this.resistenciaFaseB,
+      this.resistenciaFaseC,
+      this.temperaturaDisjuntor,
+      this.umidadeRelativaAr});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['formulario_disjuntor_id'] = Variable<int>(formularioDisjuntorId);
+    map['numero_camara'] = Variable<int>(numeroCamara);
+    if (!nullToAbsent || resistenciaFaseA != null) {
+      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA);
+    }
+    if (!nullToAbsent || resistenciaFaseB != null) {
+      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB);
+    }
+    if (!nullToAbsent || resistenciaFaseC != null) {
+      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC);
+    }
+    if (!nullToAbsent || temperaturaDisjuntor != null) {
+      map['temperatura_disjuntor'] = Variable<double>(temperaturaDisjuntor);
+    }
+    if (!nullToAbsent || umidadeRelativaAr != null) {
+      map['umidade_relativa_ar'] = Variable<double>(umidadeRelativaAr);
+    }
+    return map;
+  }
+
+  MedicaoResistenciaContatoTableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoResistenciaContatoTableCompanion(
+      id: Value(id),
+      formularioDisjuntorId: Value(formularioDisjuntorId),
+      numeroCamara: Value(numeroCamara),
+      resistenciaFaseA: resistenciaFaseA == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseA),
+      resistenciaFaseB: resistenciaFaseB == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseB),
+      resistenciaFaseC: resistenciaFaseC == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseC),
+      temperaturaDisjuntor: temperaturaDisjuntor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(temperaturaDisjuntor),
+      umidadeRelativaAr: umidadeRelativaAr == null && nullToAbsent
+          ? const Value.absent()
+          : Value(umidadeRelativaAr),
+    );
+  }
+
+  factory MedicaoResistenciaContatoTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MedicaoResistenciaContatoTableData(
+      id: serializer.fromJson<int>(json['id']),
+      formularioDisjuntorId:
+          serializer.fromJson<int>(json['formularioDisjuntorId']),
+      numeroCamara: serializer.fromJson<int>(json['numeroCamara']),
+      resistenciaFaseA: serializer.fromJson<double?>(json['resistenciaFaseA']),
+      resistenciaFaseB: serializer.fromJson<double?>(json['resistenciaFaseB']),
+      resistenciaFaseC: serializer.fromJson<double?>(json['resistenciaFaseC']),
+      temperaturaDisjuntor:
+          serializer.fromJson<double?>(json['temperaturaDisjuntor']),
+      umidadeRelativaAr:
+          serializer.fromJson<double?>(json['umidadeRelativaAr']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'formularioDisjuntorId': serializer.toJson<int>(formularioDisjuntorId),
+      'numeroCamara': serializer.toJson<int>(numeroCamara),
+      'resistenciaFaseA': serializer.toJson<double?>(resistenciaFaseA),
+      'resistenciaFaseB': serializer.toJson<double?>(resistenciaFaseB),
+      'resistenciaFaseC': serializer.toJson<double?>(resistenciaFaseC),
+      'temperaturaDisjuntor': serializer.toJson<double?>(temperaturaDisjuntor),
+      'umidadeRelativaAr': serializer.toJson<double?>(umidadeRelativaAr),
+    };
+  }
+
+  MedicaoResistenciaContatoTableData copyWith(
+          {int? id,
+          int? formularioDisjuntorId,
+          int? numeroCamara,
+          Value<double?> resistenciaFaseA = const Value.absent(),
+          Value<double?> resistenciaFaseB = const Value.absent(),
+          Value<double?> resistenciaFaseC = const Value.absent(),
+          Value<double?> temperaturaDisjuntor = const Value.absent(),
+          Value<double?> umidadeRelativaAr = const Value.absent()}) =>
+      MedicaoResistenciaContatoTableData(
+        id: id ?? this.id,
+        formularioDisjuntorId:
+            formularioDisjuntorId ?? this.formularioDisjuntorId,
+        numeroCamara: numeroCamara ?? this.numeroCamara,
+        resistenciaFaseA: resistenciaFaseA.present
+            ? resistenciaFaseA.value
+            : this.resistenciaFaseA,
+        resistenciaFaseB: resistenciaFaseB.present
+            ? resistenciaFaseB.value
+            : this.resistenciaFaseB,
+        resistenciaFaseC: resistenciaFaseC.present
+            ? resistenciaFaseC.value
+            : this.resistenciaFaseC,
+        temperaturaDisjuntor: temperaturaDisjuntor.present
+            ? temperaturaDisjuntor.value
+            : this.temperaturaDisjuntor,
+        umidadeRelativaAr: umidadeRelativaAr.present
+            ? umidadeRelativaAr.value
+            : this.umidadeRelativaAr,
+      );
+  MedicaoResistenciaContatoTableData copyWithCompanion(
+      MedicaoResistenciaContatoTableCompanion data) {
+    return MedicaoResistenciaContatoTableData(
+      id: data.id.present ? data.id.value : this.id,
+      formularioDisjuntorId: data.formularioDisjuntorId.present
+          ? data.formularioDisjuntorId.value
+          : this.formularioDisjuntorId,
+      numeroCamara: data.numeroCamara.present
+          ? data.numeroCamara.value
+          : this.numeroCamara,
+      resistenciaFaseA: data.resistenciaFaseA.present
+          ? data.resistenciaFaseA.value
+          : this.resistenciaFaseA,
+      resistenciaFaseB: data.resistenciaFaseB.present
+          ? data.resistenciaFaseB.value
+          : this.resistenciaFaseB,
+      resistenciaFaseC: data.resistenciaFaseC.present
+          ? data.resistenciaFaseC.value
+          : this.resistenciaFaseC,
+      temperaturaDisjuntor: data.temperaturaDisjuntor.present
+          ? data.temperaturaDisjuntor.value
+          : this.temperaturaDisjuntor,
+      umidadeRelativaAr: data.umidadeRelativaAr.present
+          ? data.umidadeRelativaAr.value
+          : this.umidadeRelativaAr,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoResistenciaContatoTableData(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('numeroCamara: $numeroCamara, ')
+          ..write('resistenciaFaseA: $resistenciaFaseA, ')
+          ..write('resistenciaFaseB: $resistenciaFaseB, ')
+          ..write('resistenciaFaseC: $resistenciaFaseC, ')
+          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
+          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      formularioDisjuntorId,
+      numeroCamara,
+      resistenciaFaseA,
+      resistenciaFaseB,
+      resistenciaFaseC,
+      temperaturaDisjuntor,
+      umidadeRelativaAr);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MedicaoResistenciaContatoTableData &&
+          other.id == this.id &&
+          other.formularioDisjuntorId == this.formularioDisjuntorId &&
+          other.numeroCamara == this.numeroCamara &&
+          other.resistenciaFaseA == this.resistenciaFaseA &&
+          other.resistenciaFaseB == this.resistenciaFaseB &&
+          other.resistenciaFaseC == this.resistenciaFaseC &&
+          other.temperaturaDisjuntor == this.temperaturaDisjuntor &&
+          other.umidadeRelativaAr == this.umidadeRelativaAr);
+}
+
+class MedicaoResistenciaContatoTableCompanion
+    extends UpdateCompanion<MedicaoResistenciaContatoTableData> {
+  final Value<int> id;
+  final Value<int> formularioDisjuntorId;
+  final Value<int> numeroCamara;
+  final Value<double?> resistenciaFaseA;
+  final Value<double?> resistenciaFaseB;
+  final Value<double?> resistenciaFaseC;
+  final Value<double?> temperaturaDisjuntor;
+  final Value<double?> umidadeRelativaAr;
+  const MedicaoResistenciaContatoTableCompanion({
+    this.id = const Value.absent(),
+    this.formularioDisjuntorId = const Value.absent(),
+    this.numeroCamara = const Value.absent(),
+    this.resistenciaFaseA = const Value.absent(),
+    this.resistenciaFaseB = const Value.absent(),
+    this.resistenciaFaseC = const Value.absent(),
+    this.temperaturaDisjuntor = const Value.absent(),
+    this.umidadeRelativaAr = const Value.absent(),
+  });
+  MedicaoResistenciaContatoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int formularioDisjuntorId,
+    required int numeroCamara,
+    this.resistenciaFaseA = const Value.absent(),
+    this.resistenciaFaseB = const Value.absent(),
+    this.resistenciaFaseC = const Value.absent(),
+    this.temperaturaDisjuntor = const Value.absent(),
+    this.umidadeRelativaAr = const Value.absent(),
+  })  : formularioDisjuntorId = Value(formularioDisjuntorId),
+        numeroCamara = Value(numeroCamara);
+  static Insertable<MedicaoResistenciaContatoTableData> custom({
+    Expression<int>? id,
+    Expression<int>? formularioDisjuntorId,
+    Expression<int>? numeroCamara,
+    Expression<double>? resistenciaFaseA,
+    Expression<double>? resistenciaFaseB,
+    Expression<double>? resistenciaFaseC,
+    Expression<double>? temperaturaDisjuntor,
+    Expression<double>? umidadeRelativaAr,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (formularioDisjuntorId != null)
+        'formulario_disjuntor_id': formularioDisjuntorId,
+      if (numeroCamara != null) 'numero_camara': numeroCamara,
+      if (resistenciaFaseA != null) 'resistencia_fase_a': resistenciaFaseA,
+      if (resistenciaFaseB != null) 'resistencia_fase_b': resistenciaFaseB,
+      if (resistenciaFaseC != null) 'resistencia_fase_c': resistenciaFaseC,
+      if (temperaturaDisjuntor != null)
+        'temperatura_disjuntor': temperaturaDisjuntor,
+      if (umidadeRelativaAr != null) 'umidade_relativa_ar': umidadeRelativaAr,
+    });
+  }
+
+  MedicaoResistenciaContatoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? formularioDisjuntorId,
+      Value<int>? numeroCamara,
+      Value<double?>? resistenciaFaseA,
+      Value<double?>? resistenciaFaseB,
+      Value<double?>? resistenciaFaseC,
+      Value<double?>? temperaturaDisjuntor,
+      Value<double?>? umidadeRelativaAr}) {
+    return MedicaoResistenciaContatoTableCompanion(
+      id: id ?? this.id,
+      formularioDisjuntorId:
+          formularioDisjuntorId ?? this.formularioDisjuntorId,
+      numeroCamara: numeroCamara ?? this.numeroCamara,
+      resistenciaFaseA: resistenciaFaseA ?? this.resistenciaFaseA,
+      resistenciaFaseB: resistenciaFaseB ?? this.resistenciaFaseB,
+      resistenciaFaseC: resistenciaFaseC ?? this.resistenciaFaseC,
+      temperaturaDisjuntor: temperaturaDisjuntor ?? this.temperaturaDisjuntor,
+      umidadeRelativaAr: umidadeRelativaAr ?? this.umidadeRelativaAr,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (formularioDisjuntorId.present) {
+      map['formulario_disjuntor_id'] =
+          Variable<int>(formularioDisjuntorId.value);
+    }
+    if (numeroCamara.present) {
+      map['numero_camara'] = Variable<int>(numeroCamara.value);
+    }
+    if (resistenciaFaseA.present) {
+      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA.value);
+    }
+    if (resistenciaFaseB.present) {
+      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB.value);
+    }
+    if (resistenciaFaseC.present) {
+      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC.value);
+    }
+    if (temperaturaDisjuntor.present) {
+      map['temperatura_disjuntor'] =
+          Variable<double>(temperaturaDisjuntor.value);
+    }
+    if (umidadeRelativaAr.present) {
+      map['umidade_relativa_ar'] = Variable<double>(umidadeRelativaAr.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoResistenciaContatoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('numeroCamara: $numeroCamara, ')
+          ..write('resistenciaFaseA: $resistenciaFaseA, ')
+          ..write('resistenciaFaseB: $resistenciaFaseB, ')
+          ..write('resistenciaFaseC: $resistenciaFaseC, ')
+          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
+          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MedicaoResistenciaIsolamentoTableTable
+    extends MedicaoResistenciaIsolamentoTable
+    with
+        TableInfo<$MedicaoResistenciaIsolamentoTableTable,
+            MedicaoResistenciaIsolamentoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MedicaoResistenciaIsolamentoTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _formularioDisjuntorIdMeta =
+      const VerificationMeta('formularioDisjuntorId');
+  @override
+  late final GeneratedColumn<int> formularioDisjuntorId = GeneratedColumn<int>(
+      'formulario_disjuntor_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES prev_disj_form (id)'));
+  static const VerificationMeta _linhaMeta = const VerificationMeta('linha');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      linha = GeneratedColumn<String>('linha', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MedicaoResistenciaIsolamentoTableTable.$converterlinha);
+  static const VerificationMeta _terraMeta = const VerificationMeta('terra');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      terra = GeneratedColumn<String>('terra', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MedicaoResistenciaIsolamentoTableTable.$converterterra);
+  static const VerificationMeta _guardaMeta = const VerificationMeta('guarda');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      guarda = GeneratedColumn<String>('guarda', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MedicaoResistenciaIsolamentoTableTable.$converterguarda);
+  static const VerificationMeta _tensaoKvMeta =
+      const VerificationMeta('tensaoKv');
+  @override
+  late final GeneratedColumn<double> tensaoKv = GeneratedColumn<double>(
+      'tensao_kv', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _resistenciaFaseAMeta =
+      const VerificationMeta('resistenciaFaseA');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseA = GeneratedColumn<double>(
+      'resistencia_fase_a', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaFaseBMeta =
+      const VerificationMeta('resistenciaFaseB');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseB = GeneratedColumn<double>(
+      'resistencia_fase_b', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistenciaFaseCMeta =
+      const VerificationMeta('resistenciaFaseC');
+  @override
+  late final GeneratedColumn<double> resistenciaFaseC = GeneratedColumn<double>(
+      'resistencia_fase_c', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _temperaturaDisjuntorMeta =
+      const VerificationMeta('temperaturaDisjuntor');
+  @override
+  late final GeneratedColumn<double> temperaturaDisjuntor =
+      GeneratedColumn<double>('temperatura_disjuntor', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _umidadeRelativaArMeta =
+      const VerificationMeta('umidadeRelativaAr');
+  @override
+  late final GeneratedColumn<double> umidadeRelativaAr =
+      GeneratedColumn<double>('umidade_relativa_ar', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        formularioDisjuntorId,
+        linha,
+        terra,
+        guarda,
+        tensaoKv,
+        resistenciaFaseA,
+        resistenciaFaseB,
+        resistenciaFaseC,
+        temperaturaDisjuntor,
+        umidadeRelativaAr
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'medicao_resistencia_isolamento_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MedicaoResistenciaIsolamentoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('formulario_disjuntor_id')) {
+      context.handle(
+          _formularioDisjuntorIdMeta,
+          formularioDisjuntorId.isAcceptableOrUnknown(
+              data['formulario_disjuntor_id']!, _formularioDisjuntorIdMeta));
+    } else if (isInserting) {
+      context.missing(_formularioDisjuntorIdMeta);
+    }
+    context.handle(_linhaMeta, const VerificationResult.success());
+    context.handle(_terraMeta, const VerificationResult.success());
+    context.handle(_guardaMeta, const VerificationResult.success());
+    if (data.containsKey('tensao_kv')) {
+      context.handle(_tensaoKvMeta,
+          tensaoKv.isAcceptableOrUnknown(data['tensao_kv']!, _tensaoKvMeta));
+    } else if (isInserting) {
+      context.missing(_tensaoKvMeta);
+    }
+    if (data.containsKey('resistencia_fase_a')) {
+      context.handle(
+          _resistenciaFaseAMeta,
+          resistenciaFaseA.isAcceptableOrUnknown(
+              data['resistencia_fase_a']!, _resistenciaFaseAMeta));
+    }
+    if (data.containsKey('resistencia_fase_b')) {
+      context.handle(
+          _resistenciaFaseBMeta,
+          resistenciaFaseB.isAcceptableOrUnknown(
+              data['resistencia_fase_b']!, _resistenciaFaseBMeta));
+    }
+    if (data.containsKey('resistencia_fase_c')) {
+      context.handle(
+          _resistenciaFaseCMeta,
+          resistenciaFaseC.isAcceptableOrUnknown(
+              data['resistencia_fase_c']!, _resistenciaFaseCMeta));
+    }
+    if (data.containsKey('temperatura_disjuntor')) {
+      context.handle(
+          _temperaturaDisjuntorMeta,
+          temperaturaDisjuntor.isAcceptableOrUnknown(
+              data['temperatura_disjuntor']!, _temperaturaDisjuntorMeta));
+    }
+    if (data.containsKey('umidade_relativa_ar')) {
+      context.handle(
+          _umidadeRelativaArMeta,
+          umidadeRelativaAr.isAcceptableOrUnknown(
+              data['umidade_relativa_ar']!, _umidadeRelativaArMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MedicaoResistenciaIsolamentoTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MedicaoResistenciaIsolamentoTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      formularioDisjuntorId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_disjuntor_id'])!,
+      linha: $MedicaoResistenciaIsolamentoTableTable.$converterlinha.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}linha'])!),
+      terra: $MedicaoResistenciaIsolamentoTableTable.$converterterra.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}terra'])!),
+      guarda: $MedicaoResistenciaIsolamentoTableTable.$converterguarda.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}guarda'])!),
+      tensaoKv: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}tensao_kv'])!,
+      resistenciaFaseA: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_a']),
+      resistenciaFaseB: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_b']),
+      resistenciaFaseC: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_c']),
+      temperaturaDisjuntor: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}temperatura_disjuntor']),
+      umidadeRelativaAr: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}umidade_relativa_ar']),
+    );
+  }
+
+  @override
+  $MedicaoResistenciaIsolamentoTableTable createAlias(String alias) {
+    return $MedicaoResistenciaIsolamentoTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterlinha =
+      const PosicaoDisjuntorEnsaioConverter();
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterterra =
+      const PosicaoDisjuntorEnsaioConverter();
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterguarda =
+      const PosicaoDisjuntorEnsaioConverter();
+}
+
+class MedicaoResistenciaIsolamentoTableData extends DataClass
+    implements Insertable<MedicaoResistenciaIsolamentoTableData> {
+  final int id;
+  final int formularioDisjuntorId;
+  final PosicaoDisjuntorEnsaio linha;
+  final PosicaoDisjuntorEnsaio terra;
+  final PosicaoDisjuntorEnsaio guarda;
+  final double tensaoKv;
+  final double? resistenciaFaseA;
+  final double? resistenciaFaseB;
+  final double? resistenciaFaseC;
+  final double? temperaturaDisjuntor;
+  final double? umidadeRelativaAr;
+  const MedicaoResistenciaIsolamentoTableData(
+      {required this.id,
+      required this.formularioDisjuntorId,
+      required this.linha,
+      required this.terra,
+      required this.guarda,
+      required this.tensaoKv,
+      this.resistenciaFaseA,
+      this.resistenciaFaseB,
+      this.resistenciaFaseC,
+      this.temperaturaDisjuntor,
+      this.umidadeRelativaAr});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['formulario_disjuntor_id'] = Variable<int>(formularioDisjuntorId);
+    {
+      map['linha'] = Variable<String>(
+          $MedicaoResistenciaIsolamentoTableTable.$converterlinha.toSql(linha));
+    }
+    {
+      map['terra'] = Variable<String>(
+          $MedicaoResistenciaIsolamentoTableTable.$converterterra.toSql(terra));
+    }
+    {
+      map['guarda'] = Variable<String>($MedicaoResistenciaIsolamentoTableTable
+          .$converterguarda
+          .toSql(guarda));
+    }
+    map['tensao_kv'] = Variable<double>(tensaoKv);
+    if (!nullToAbsent || resistenciaFaseA != null) {
+      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA);
+    }
+    if (!nullToAbsent || resistenciaFaseB != null) {
+      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB);
+    }
+    if (!nullToAbsent || resistenciaFaseC != null) {
+      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC);
+    }
+    if (!nullToAbsent || temperaturaDisjuntor != null) {
+      map['temperatura_disjuntor'] = Variable<double>(temperaturaDisjuntor);
+    }
+    if (!nullToAbsent || umidadeRelativaAr != null) {
+      map['umidade_relativa_ar'] = Variable<double>(umidadeRelativaAr);
+    }
+    return map;
+  }
+
+  MedicaoResistenciaIsolamentoTableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoResistenciaIsolamentoTableCompanion(
+      id: Value(id),
+      formularioDisjuntorId: Value(formularioDisjuntorId),
+      linha: Value(linha),
+      terra: Value(terra),
+      guarda: Value(guarda),
+      tensaoKv: Value(tensaoKv),
+      resistenciaFaseA: resistenciaFaseA == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseA),
+      resistenciaFaseB: resistenciaFaseB == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseB),
+      resistenciaFaseC: resistenciaFaseC == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistenciaFaseC),
+      temperaturaDisjuntor: temperaturaDisjuntor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(temperaturaDisjuntor),
+      umidadeRelativaAr: umidadeRelativaAr == null && nullToAbsent
+          ? const Value.absent()
+          : Value(umidadeRelativaAr),
+    );
+  }
+
+  factory MedicaoResistenciaIsolamentoTableData.fromJson(
+      Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MedicaoResistenciaIsolamentoTableData(
+      id: serializer.fromJson<int>(json['id']),
+      formularioDisjuntorId:
+          serializer.fromJson<int>(json['formularioDisjuntorId']),
+      linha: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['linha']),
+      terra: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['terra']),
+      guarda: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['guarda']),
+      tensaoKv: serializer.fromJson<double>(json['tensaoKv']),
+      resistenciaFaseA: serializer.fromJson<double?>(json['resistenciaFaseA']),
+      resistenciaFaseB: serializer.fromJson<double?>(json['resistenciaFaseB']),
+      resistenciaFaseC: serializer.fromJson<double?>(json['resistenciaFaseC']),
+      temperaturaDisjuntor:
+          serializer.fromJson<double?>(json['temperaturaDisjuntor']),
+      umidadeRelativaAr:
+          serializer.fromJson<double?>(json['umidadeRelativaAr']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'formularioDisjuntorId': serializer.toJson<int>(formularioDisjuntorId),
+      'linha': serializer.toJson<PosicaoDisjuntorEnsaio>(linha),
+      'terra': serializer.toJson<PosicaoDisjuntorEnsaio>(terra),
+      'guarda': serializer.toJson<PosicaoDisjuntorEnsaio>(guarda),
+      'tensaoKv': serializer.toJson<double>(tensaoKv),
+      'resistenciaFaseA': serializer.toJson<double?>(resistenciaFaseA),
+      'resistenciaFaseB': serializer.toJson<double?>(resistenciaFaseB),
+      'resistenciaFaseC': serializer.toJson<double?>(resistenciaFaseC),
+      'temperaturaDisjuntor': serializer.toJson<double?>(temperaturaDisjuntor),
+      'umidadeRelativaAr': serializer.toJson<double?>(umidadeRelativaAr),
+    };
+  }
+
+  MedicaoResistenciaIsolamentoTableData copyWith(
+          {int? id,
+          int? formularioDisjuntorId,
+          PosicaoDisjuntorEnsaio? linha,
+          PosicaoDisjuntorEnsaio? terra,
+          PosicaoDisjuntorEnsaio? guarda,
+          double? tensaoKv,
+          Value<double?> resistenciaFaseA = const Value.absent(),
+          Value<double?> resistenciaFaseB = const Value.absent(),
+          Value<double?> resistenciaFaseC = const Value.absent(),
+          Value<double?> temperaturaDisjuntor = const Value.absent(),
+          Value<double?> umidadeRelativaAr = const Value.absent()}) =>
+      MedicaoResistenciaIsolamentoTableData(
+        id: id ?? this.id,
+        formularioDisjuntorId:
+            formularioDisjuntorId ?? this.formularioDisjuntorId,
+        linha: linha ?? this.linha,
+        terra: terra ?? this.terra,
+        guarda: guarda ?? this.guarda,
+        tensaoKv: tensaoKv ?? this.tensaoKv,
+        resistenciaFaseA: resistenciaFaseA.present
+            ? resistenciaFaseA.value
+            : this.resistenciaFaseA,
+        resistenciaFaseB: resistenciaFaseB.present
+            ? resistenciaFaseB.value
+            : this.resistenciaFaseB,
+        resistenciaFaseC: resistenciaFaseC.present
+            ? resistenciaFaseC.value
+            : this.resistenciaFaseC,
+        temperaturaDisjuntor: temperaturaDisjuntor.present
+            ? temperaturaDisjuntor.value
+            : this.temperaturaDisjuntor,
+        umidadeRelativaAr: umidadeRelativaAr.present
+            ? umidadeRelativaAr.value
+            : this.umidadeRelativaAr,
+      );
+  MedicaoResistenciaIsolamentoTableData copyWithCompanion(
+      MedicaoResistenciaIsolamentoTableCompanion data) {
+    return MedicaoResistenciaIsolamentoTableData(
+      id: data.id.present ? data.id.value : this.id,
+      formularioDisjuntorId: data.formularioDisjuntorId.present
+          ? data.formularioDisjuntorId.value
+          : this.formularioDisjuntorId,
+      linha: data.linha.present ? data.linha.value : this.linha,
+      terra: data.terra.present ? data.terra.value : this.terra,
+      guarda: data.guarda.present ? data.guarda.value : this.guarda,
+      tensaoKv: data.tensaoKv.present ? data.tensaoKv.value : this.tensaoKv,
+      resistenciaFaseA: data.resistenciaFaseA.present
+          ? data.resistenciaFaseA.value
+          : this.resistenciaFaseA,
+      resistenciaFaseB: data.resistenciaFaseB.present
+          ? data.resistenciaFaseB.value
+          : this.resistenciaFaseB,
+      resistenciaFaseC: data.resistenciaFaseC.present
+          ? data.resistenciaFaseC.value
+          : this.resistenciaFaseC,
+      temperaturaDisjuntor: data.temperaturaDisjuntor.present
+          ? data.temperaturaDisjuntor.value
+          : this.temperaturaDisjuntor,
+      umidadeRelativaAr: data.umidadeRelativaAr.present
+          ? data.umidadeRelativaAr.value
+          : this.umidadeRelativaAr,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoResistenciaIsolamentoTableData(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('linha: $linha, ')
+          ..write('terra: $terra, ')
+          ..write('guarda: $guarda, ')
+          ..write('tensaoKv: $tensaoKv, ')
+          ..write('resistenciaFaseA: $resistenciaFaseA, ')
+          ..write('resistenciaFaseB: $resistenciaFaseB, ')
+          ..write('resistenciaFaseC: $resistenciaFaseC, ')
+          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
+          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      formularioDisjuntorId,
+      linha,
+      terra,
+      guarda,
+      tensaoKv,
+      resistenciaFaseA,
+      resistenciaFaseB,
+      resistenciaFaseC,
+      temperaturaDisjuntor,
+      umidadeRelativaAr);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MedicaoResistenciaIsolamentoTableData &&
+          other.id == this.id &&
+          other.formularioDisjuntorId == this.formularioDisjuntorId &&
+          other.linha == this.linha &&
+          other.terra == this.terra &&
+          other.guarda == this.guarda &&
+          other.tensaoKv == this.tensaoKv &&
+          other.resistenciaFaseA == this.resistenciaFaseA &&
+          other.resistenciaFaseB == this.resistenciaFaseB &&
+          other.resistenciaFaseC == this.resistenciaFaseC &&
+          other.temperaturaDisjuntor == this.temperaturaDisjuntor &&
+          other.umidadeRelativaAr == this.umidadeRelativaAr);
+}
+
+class MedicaoResistenciaIsolamentoTableCompanion
+    extends UpdateCompanion<MedicaoResistenciaIsolamentoTableData> {
+  final Value<int> id;
+  final Value<int> formularioDisjuntorId;
+  final Value<PosicaoDisjuntorEnsaio> linha;
+  final Value<PosicaoDisjuntorEnsaio> terra;
+  final Value<PosicaoDisjuntorEnsaio> guarda;
+  final Value<double> tensaoKv;
+  final Value<double?> resistenciaFaseA;
+  final Value<double?> resistenciaFaseB;
+  final Value<double?> resistenciaFaseC;
+  final Value<double?> temperaturaDisjuntor;
+  final Value<double?> umidadeRelativaAr;
+  const MedicaoResistenciaIsolamentoTableCompanion({
+    this.id = const Value.absent(),
+    this.formularioDisjuntorId = const Value.absent(),
+    this.linha = const Value.absent(),
+    this.terra = const Value.absent(),
+    this.guarda = const Value.absent(),
+    this.tensaoKv = const Value.absent(),
+    this.resistenciaFaseA = const Value.absent(),
+    this.resistenciaFaseB = const Value.absent(),
+    this.resistenciaFaseC = const Value.absent(),
+    this.temperaturaDisjuntor = const Value.absent(),
+    this.umidadeRelativaAr = const Value.absent(),
+  });
+  MedicaoResistenciaIsolamentoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int formularioDisjuntorId,
+    required PosicaoDisjuntorEnsaio linha,
+    required PosicaoDisjuntorEnsaio terra,
+    required PosicaoDisjuntorEnsaio guarda,
+    required double tensaoKv,
+    this.resistenciaFaseA = const Value.absent(),
+    this.resistenciaFaseB = const Value.absent(),
+    this.resistenciaFaseC = const Value.absent(),
+    this.temperaturaDisjuntor = const Value.absent(),
+    this.umidadeRelativaAr = const Value.absent(),
+  })  : formularioDisjuntorId = Value(formularioDisjuntorId),
+        linha = Value(linha),
+        terra = Value(terra),
+        guarda = Value(guarda),
+        tensaoKv = Value(tensaoKv);
+  static Insertable<MedicaoResistenciaIsolamentoTableData> custom({
+    Expression<int>? id,
+    Expression<int>? formularioDisjuntorId,
+    Expression<String>? linha,
+    Expression<String>? terra,
+    Expression<String>? guarda,
+    Expression<double>? tensaoKv,
+    Expression<double>? resistenciaFaseA,
+    Expression<double>? resistenciaFaseB,
+    Expression<double>? resistenciaFaseC,
+    Expression<double>? temperaturaDisjuntor,
+    Expression<double>? umidadeRelativaAr,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (formularioDisjuntorId != null)
+        'formulario_disjuntor_id': formularioDisjuntorId,
+      if (linha != null) 'linha': linha,
+      if (terra != null) 'terra': terra,
+      if (guarda != null) 'guarda': guarda,
+      if (tensaoKv != null) 'tensao_kv': tensaoKv,
+      if (resistenciaFaseA != null) 'resistencia_fase_a': resistenciaFaseA,
+      if (resistenciaFaseB != null) 'resistencia_fase_b': resistenciaFaseB,
+      if (resistenciaFaseC != null) 'resistencia_fase_c': resistenciaFaseC,
+      if (temperaturaDisjuntor != null)
+        'temperatura_disjuntor': temperaturaDisjuntor,
+      if (umidadeRelativaAr != null) 'umidade_relativa_ar': umidadeRelativaAr,
+    });
+  }
+
+  MedicaoResistenciaIsolamentoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? formularioDisjuntorId,
+      Value<PosicaoDisjuntorEnsaio>? linha,
+      Value<PosicaoDisjuntorEnsaio>? terra,
+      Value<PosicaoDisjuntorEnsaio>? guarda,
+      Value<double>? tensaoKv,
+      Value<double?>? resistenciaFaseA,
+      Value<double?>? resistenciaFaseB,
+      Value<double?>? resistenciaFaseC,
+      Value<double?>? temperaturaDisjuntor,
+      Value<double?>? umidadeRelativaAr}) {
+    return MedicaoResistenciaIsolamentoTableCompanion(
+      id: id ?? this.id,
+      formularioDisjuntorId:
+          formularioDisjuntorId ?? this.formularioDisjuntorId,
+      linha: linha ?? this.linha,
+      terra: terra ?? this.terra,
+      guarda: guarda ?? this.guarda,
+      tensaoKv: tensaoKv ?? this.tensaoKv,
+      resistenciaFaseA: resistenciaFaseA ?? this.resistenciaFaseA,
+      resistenciaFaseB: resistenciaFaseB ?? this.resistenciaFaseB,
+      resistenciaFaseC: resistenciaFaseC ?? this.resistenciaFaseC,
+      temperaturaDisjuntor: temperaturaDisjuntor ?? this.temperaturaDisjuntor,
+      umidadeRelativaAr: umidadeRelativaAr ?? this.umidadeRelativaAr,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (formularioDisjuntorId.present) {
+      map['formulario_disjuntor_id'] =
+          Variable<int>(formularioDisjuntorId.value);
+    }
+    if (linha.present) {
+      map['linha'] = Variable<String>($MedicaoResistenciaIsolamentoTableTable
+          .$converterlinha
+          .toSql(linha.value));
+    }
+    if (terra.present) {
+      map['terra'] = Variable<String>($MedicaoResistenciaIsolamentoTableTable
+          .$converterterra
+          .toSql(terra.value));
+    }
+    if (guarda.present) {
+      map['guarda'] = Variable<String>($MedicaoResistenciaIsolamentoTableTable
+          .$converterguarda
+          .toSql(guarda.value));
+    }
+    if (tensaoKv.present) {
+      map['tensao_kv'] = Variable<double>(tensaoKv.value);
+    }
+    if (resistenciaFaseA.present) {
+      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA.value);
+    }
+    if (resistenciaFaseB.present) {
+      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB.value);
+    }
+    if (resistenciaFaseC.present) {
+      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC.value);
+    }
+    if (temperaturaDisjuntor.present) {
+      map['temperatura_disjuntor'] =
+          Variable<double>(temperaturaDisjuntor.value);
+    }
+    if (umidadeRelativaAr.present) {
+      map['umidade_relativa_ar'] = Variable<double>(umidadeRelativaAr.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoResistenciaIsolamentoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('linha: $linha, ')
+          ..write('terra: $terra, ')
+          ..write('guarda: $guarda, ')
+          ..write('tensaoKv: $tensaoKv, ')
+          ..write('resistenciaFaseA: $resistenciaFaseA, ')
+          ..write('resistenciaFaseB: $resistenciaFaseB, ')
+          ..write('resistenciaFaseC: $resistenciaFaseC, ')
+          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
+          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MedicaoTempoOperacaoTableTable extends MedicaoTempoOperacaoTable
+    with
+        TableInfo<$MedicaoTempoOperacaoTableTable,
+            MedicaoTempoOperacaoTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MedicaoTempoOperacaoTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _formularioDisjuntorIdMeta =
+      const VerificationMeta('formularioDisjuntorId');
+  @override
+  late final GeneratedColumn<int> formularioDisjuntorId = GeneratedColumn<int>(
+      'formulario_disjuntor_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES prev_disj_form (id)'));
+  static const VerificationMeta _faseMeta = const VerificationMeta('fase');
+  @override
+  late final GeneratedColumnWithTypeConverter<FaseAnomalia, String> fase =
+      GeneratedColumn<String>('fase', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<FaseAnomalia>(
+              $MedicaoTempoOperacaoTableTable.$converterfase);
+  static const VerificationMeta _fechamentoMeta =
+      const VerificationMeta('fechamento');
+  @override
+  late final GeneratedColumn<double> fechamento = GeneratedColumn<double>(
+      'fechamento', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _aberturaBobina1Meta =
+      const VerificationMeta('aberturaBobina1');
+  @override
+  late final GeneratedColumn<double> aberturaBobina1 = GeneratedColumn<double>(
+      'abertura_bobina1', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _aberturaBobina2Meta =
+      const VerificationMeta('aberturaBobina2');
+  @override
+  late final GeneratedColumn<double> aberturaBobina2 = GeneratedColumn<double>(
+      'abertura_bobina2', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _fechamentoTripFreeMeta =
+      const VerificationMeta('fechamentoTripFree');
+  @override
+  late final GeneratedColumn<double> fechamentoTripFree =
+      GeneratedColumn<double>('fechamento_trip_free', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _aberturaTripFreeBob1Meta =
+      const VerificationMeta('aberturaTripFreeBob1');
+  @override
+  late final GeneratedColumn<double> aberturaTripFreeBob1 =
+      GeneratedColumn<double>('abertura_trip_free_bob1', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _aberturaTripFreeBob2Meta =
+      const VerificationMeta('aberturaTripFreeBob2');
+  @override
+  late final GeneratedColumn<double> aberturaTripFreeBob2 =
+      GeneratedColumn<double>('abertura_trip_free_bob2', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _curtoBob1Meta =
+      const VerificationMeta('curtoBob1');
+  @override
+  late final GeneratedColumn<double> curtoBob1 = GeneratedColumn<double>(
+      'curto_bob1', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _curtoBob2Meta =
+      const VerificationMeta('curtoBob2');
+  @override
+  late final GeneratedColumn<double> curtoBob2 = GeneratedColumn<double>(
+      'curto_bob2', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _dadoPlacaFechamentoMeta =
+      const VerificationMeta('dadoPlacaFechamento');
+  @override
+  late final GeneratedColumn<double> dadoPlacaFechamento =
+      GeneratedColumn<double>('dado_placa_fechamento', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _dadoPlacaAberturaMeta =
+      const VerificationMeta('dadoPlacaAbertura');
+  @override
+  late final GeneratedColumn<double> dadoPlacaAbertura =
+      GeneratedColumn<double>('dado_placa_abertura', aliasedName, true,
+          type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        formularioDisjuntorId,
+        fase,
+        fechamento,
+        aberturaBobina1,
+        aberturaBobina2,
+        fechamentoTripFree,
+        aberturaTripFreeBob1,
+        aberturaTripFreeBob2,
+        curtoBob1,
+        curtoBob2,
+        dadoPlacaFechamento,
+        dadoPlacaAbertura
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'medicao_tempo_operacao_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MedicaoTempoOperacaoTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('formulario_disjuntor_id')) {
+      context.handle(
+          _formularioDisjuntorIdMeta,
+          formularioDisjuntorId.isAcceptableOrUnknown(
+              data['formulario_disjuntor_id']!, _formularioDisjuntorIdMeta));
+    } else if (isInserting) {
+      context.missing(_formularioDisjuntorIdMeta);
+    }
+    context.handle(_faseMeta, const VerificationResult.success());
+    if (data.containsKey('fechamento')) {
+      context.handle(
+          _fechamentoMeta,
+          fechamento.isAcceptableOrUnknown(
+              data['fechamento']!, _fechamentoMeta));
+    }
+    if (data.containsKey('abertura_bobina1')) {
+      context.handle(
+          _aberturaBobina1Meta,
+          aberturaBobina1.isAcceptableOrUnknown(
+              data['abertura_bobina1']!, _aberturaBobina1Meta));
+    }
+    if (data.containsKey('abertura_bobina2')) {
+      context.handle(
+          _aberturaBobina2Meta,
+          aberturaBobina2.isAcceptableOrUnknown(
+              data['abertura_bobina2']!, _aberturaBobina2Meta));
+    }
+    if (data.containsKey('fechamento_trip_free')) {
+      context.handle(
+          _fechamentoTripFreeMeta,
+          fechamentoTripFree.isAcceptableOrUnknown(
+              data['fechamento_trip_free']!, _fechamentoTripFreeMeta));
+    }
+    if (data.containsKey('abertura_trip_free_bob1')) {
+      context.handle(
+          _aberturaTripFreeBob1Meta,
+          aberturaTripFreeBob1.isAcceptableOrUnknown(
+              data['abertura_trip_free_bob1']!, _aberturaTripFreeBob1Meta));
+    }
+    if (data.containsKey('abertura_trip_free_bob2')) {
+      context.handle(
+          _aberturaTripFreeBob2Meta,
+          aberturaTripFreeBob2.isAcceptableOrUnknown(
+              data['abertura_trip_free_bob2']!, _aberturaTripFreeBob2Meta));
+    }
+    if (data.containsKey('curto_bob1')) {
+      context.handle(_curtoBob1Meta,
+          curtoBob1.isAcceptableOrUnknown(data['curto_bob1']!, _curtoBob1Meta));
+    }
+    if (data.containsKey('curto_bob2')) {
+      context.handle(_curtoBob2Meta,
+          curtoBob2.isAcceptableOrUnknown(data['curto_bob2']!, _curtoBob2Meta));
+    }
+    if (data.containsKey('dado_placa_fechamento')) {
+      context.handle(
+          _dadoPlacaFechamentoMeta,
+          dadoPlacaFechamento.isAcceptableOrUnknown(
+              data['dado_placa_fechamento']!, _dadoPlacaFechamentoMeta));
+    }
+    if (data.containsKey('dado_placa_abertura')) {
+      context.handle(
+          _dadoPlacaAberturaMeta,
+          dadoPlacaAbertura.isAcceptableOrUnknown(
+              data['dado_placa_abertura']!, _dadoPlacaAberturaMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MedicaoTempoOperacaoTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MedicaoTempoOperacaoTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      formularioDisjuntorId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_disjuntor_id'])!,
+      fase: $MedicaoTempoOperacaoTableTable.$converterfase.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}fase'])!),
+      fechamento: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}fechamento']),
+      aberturaBobina1: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}abertura_bobina1']),
+      aberturaBobina2: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}abertura_bobina2']),
+      fechamentoTripFree: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}fechamento_trip_free']),
+      aberturaTripFreeBob1: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}abertura_trip_free_bob1']),
+      aberturaTripFreeBob2: attachedDatabase.typeMapping.read(
+          DriftSqlType.double,
+          data['${effectivePrefix}abertura_trip_free_bob2']),
+      curtoBob1: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}curto_bob1']),
+      curtoBob2: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}curto_bob2']),
+      dadoPlacaFechamento: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}dado_placa_fechamento']),
+      dadoPlacaAbertura: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}dado_placa_abertura']),
+    );
+  }
+
+  @override
+  $MedicaoTempoOperacaoTableTable createAlias(String alias) {
+    return $MedicaoTempoOperacaoTableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<FaseAnomalia, String> $converterfase =
+      const FaseAnomaliaConverter();
+}
+
+class MedicaoTempoOperacaoTableData extends DataClass
+    implements Insertable<MedicaoTempoOperacaoTableData> {
+  final int id;
+  final int formularioDisjuntorId;
+  final FaseAnomalia fase;
+  final double? fechamento;
+  final double? aberturaBobina1;
+  final double? aberturaBobina2;
+  final double? fechamentoTripFree;
+  final double? aberturaTripFreeBob1;
+  final double? aberturaTripFreeBob2;
+  final double? curtoBob1;
+  final double? curtoBob2;
+  final double? dadoPlacaFechamento;
+  final double? dadoPlacaAbertura;
+  const MedicaoTempoOperacaoTableData(
+      {required this.id,
+      required this.formularioDisjuntorId,
+      required this.fase,
+      this.fechamento,
+      this.aberturaBobina1,
+      this.aberturaBobina2,
+      this.fechamentoTripFree,
+      this.aberturaTripFreeBob1,
+      this.aberturaTripFreeBob2,
+      this.curtoBob1,
+      this.curtoBob2,
+      this.dadoPlacaFechamento,
+      this.dadoPlacaAbertura});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['formulario_disjuntor_id'] = Variable<int>(formularioDisjuntorId);
+    {
+      map['fase'] = Variable<String>(
+          $MedicaoTempoOperacaoTableTable.$converterfase.toSql(fase));
+    }
+    if (!nullToAbsent || fechamento != null) {
+      map['fechamento'] = Variable<double>(fechamento);
+    }
+    if (!nullToAbsent || aberturaBobina1 != null) {
+      map['abertura_bobina1'] = Variable<double>(aberturaBobina1);
+    }
+    if (!nullToAbsent || aberturaBobina2 != null) {
+      map['abertura_bobina2'] = Variable<double>(aberturaBobina2);
+    }
+    if (!nullToAbsent || fechamentoTripFree != null) {
+      map['fechamento_trip_free'] = Variable<double>(fechamentoTripFree);
+    }
+    if (!nullToAbsent || aberturaTripFreeBob1 != null) {
+      map['abertura_trip_free_bob1'] = Variable<double>(aberturaTripFreeBob1);
+    }
+    if (!nullToAbsent || aberturaTripFreeBob2 != null) {
+      map['abertura_trip_free_bob2'] = Variable<double>(aberturaTripFreeBob2);
+    }
+    if (!nullToAbsent || curtoBob1 != null) {
+      map['curto_bob1'] = Variable<double>(curtoBob1);
+    }
+    if (!nullToAbsent || curtoBob2 != null) {
+      map['curto_bob2'] = Variable<double>(curtoBob2);
+    }
+    if (!nullToAbsent || dadoPlacaFechamento != null) {
+      map['dado_placa_fechamento'] = Variable<double>(dadoPlacaFechamento);
+    }
+    if (!nullToAbsent || dadoPlacaAbertura != null) {
+      map['dado_placa_abertura'] = Variable<double>(dadoPlacaAbertura);
+    }
+    return map;
+  }
+
+  MedicaoTempoOperacaoTableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoTempoOperacaoTableCompanion(
+      id: Value(id),
+      formularioDisjuntorId: Value(formularioDisjuntorId),
+      fase: Value(fase),
+      fechamento: fechamento == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fechamento),
+      aberturaBobina1: aberturaBobina1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(aberturaBobina1),
+      aberturaBobina2: aberturaBobina2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(aberturaBobina2),
+      fechamentoTripFree: fechamentoTripFree == null && nullToAbsent
+          ? const Value.absent()
+          : Value(fechamentoTripFree),
+      aberturaTripFreeBob1: aberturaTripFreeBob1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(aberturaTripFreeBob1),
+      aberturaTripFreeBob2: aberturaTripFreeBob2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(aberturaTripFreeBob2),
+      curtoBob1: curtoBob1 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(curtoBob1),
+      curtoBob2: curtoBob2 == null && nullToAbsent
+          ? const Value.absent()
+          : Value(curtoBob2),
+      dadoPlacaFechamento: dadoPlacaFechamento == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dadoPlacaFechamento),
+      dadoPlacaAbertura: dadoPlacaAbertura == null && nullToAbsent
+          ? const Value.absent()
+          : Value(dadoPlacaAbertura),
+    );
+  }
+
+  factory MedicaoTempoOperacaoTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MedicaoTempoOperacaoTableData(
+      id: serializer.fromJson<int>(json['id']),
+      formularioDisjuntorId:
+          serializer.fromJson<int>(json['formularioDisjuntorId']),
+      fase: serializer.fromJson<FaseAnomalia>(json['fase']),
+      fechamento: serializer.fromJson<double?>(json['fechamento']),
+      aberturaBobina1: serializer.fromJson<double?>(json['aberturaBobina1']),
+      aberturaBobina2: serializer.fromJson<double?>(json['aberturaBobina2']),
+      fechamentoTripFree:
+          serializer.fromJson<double?>(json['fechamentoTripFree']),
+      aberturaTripFreeBob1:
+          serializer.fromJson<double?>(json['aberturaTripFreeBob1']),
+      aberturaTripFreeBob2:
+          serializer.fromJson<double?>(json['aberturaTripFreeBob2']),
+      curtoBob1: serializer.fromJson<double?>(json['curtoBob1']),
+      curtoBob2: serializer.fromJson<double?>(json['curtoBob2']),
+      dadoPlacaFechamento:
+          serializer.fromJson<double?>(json['dadoPlacaFechamento']),
+      dadoPlacaAbertura:
+          serializer.fromJson<double?>(json['dadoPlacaAbertura']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'formularioDisjuntorId': serializer.toJson<int>(formularioDisjuntorId),
+      'fase': serializer.toJson<FaseAnomalia>(fase),
+      'fechamento': serializer.toJson<double?>(fechamento),
+      'aberturaBobina1': serializer.toJson<double?>(aberturaBobina1),
+      'aberturaBobina2': serializer.toJson<double?>(aberturaBobina2),
+      'fechamentoTripFree': serializer.toJson<double?>(fechamentoTripFree),
+      'aberturaTripFreeBob1': serializer.toJson<double?>(aberturaTripFreeBob1),
+      'aberturaTripFreeBob2': serializer.toJson<double?>(aberturaTripFreeBob2),
+      'curtoBob1': serializer.toJson<double?>(curtoBob1),
+      'curtoBob2': serializer.toJson<double?>(curtoBob2),
+      'dadoPlacaFechamento': serializer.toJson<double?>(dadoPlacaFechamento),
+      'dadoPlacaAbertura': serializer.toJson<double?>(dadoPlacaAbertura),
+    };
+  }
+
+  MedicaoTempoOperacaoTableData copyWith(
+          {int? id,
+          int? formularioDisjuntorId,
+          FaseAnomalia? fase,
+          Value<double?> fechamento = const Value.absent(),
+          Value<double?> aberturaBobina1 = const Value.absent(),
+          Value<double?> aberturaBobina2 = const Value.absent(),
+          Value<double?> fechamentoTripFree = const Value.absent(),
+          Value<double?> aberturaTripFreeBob1 = const Value.absent(),
+          Value<double?> aberturaTripFreeBob2 = const Value.absent(),
+          Value<double?> curtoBob1 = const Value.absent(),
+          Value<double?> curtoBob2 = const Value.absent(),
+          Value<double?> dadoPlacaFechamento = const Value.absent(),
+          Value<double?> dadoPlacaAbertura = const Value.absent()}) =>
+      MedicaoTempoOperacaoTableData(
+        id: id ?? this.id,
+        formularioDisjuntorId:
+            formularioDisjuntorId ?? this.formularioDisjuntorId,
+        fase: fase ?? this.fase,
+        fechamento: fechamento.present ? fechamento.value : this.fechamento,
+        aberturaBobina1: aberturaBobina1.present
+            ? aberturaBobina1.value
+            : this.aberturaBobina1,
+        aberturaBobina2: aberturaBobina2.present
+            ? aberturaBobina2.value
+            : this.aberturaBobina2,
+        fechamentoTripFree: fechamentoTripFree.present
+            ? fechamentoTripFree.value
+            : this.fechamentoTripFree,
+        aberturaTripFreeBob1: aberturaTripFreeBob1.present
+            ? aberturaTripFreeBob1.value
+            : this.aberturaTripFreeBob1,
+        aberturaTripFreeBob2: aberturaTripFreeBob2.present
+            ? aberturaTripFreeBob2.value
+            : this.aberturaTripFreeBob2,
+        curtoBob1: curtoBob1.present ? curtoBob1.value : this.curtoBob1,
+        curtoBob2: curtoBob2.present ? curtoBob2.value : this.curtoBob2,
+        dadoPlacaFechamento: dadoPlacaFechamento.present
+            ? dadoPlacaFechamento.value
+            : this.dadoPlacaFechamento,
+        dadoPlacaAbertura: dadoPlacaAbertura.present
+            ? dadoPlacaAbertura.value
+            : this.dadoPlacaAbertura,
+      );
+  MedicaoTempoOperacaoTableData copyWithCompanion(
+      MedicaoTempoOperacaoTableCompanion data) {
+    return MedicaoTempoOperacaoTableData(
+      id: data.id.present ? data.id.value : this.id,
+      formularioDisjuntorId: data.formularioDisjuntorId.present
+          ? data.formularioDisjuntorId.value
+          : this.formularioDisjuntorId,
+      fase: data.fase.present ? data.fase.value : this.fase,
+      fechamento:
+          data.fechamento.present ? data.fechamento.value : this.fechamento,
+      aberturaBobina1: data.aberturaBobina1.present
+          ? data.aberturaBobina1.value
+          : this.aberturaBobina1,
+      aberturaBobina2: data.aberturaBobina2.present
+          ? data.aberturaBobina2.value
+          : this.aberturaBobina2,
+      fechamentoTripFree: data.fechamentoTripFree.present
+          ? data.fechamentoTripFree.value
+          : this.fechamentoTripFree,
+      aberturaTripFreeBob1: data.aberturaTripFreeBob1.present
+          ? data.aberturaTripFreeBob1.value
+          : this.aberturaTripFreeBob1,
+      aberturaTripFreeBob2: data.aberturaTripFreeBob2.present
+          ? data.aberturaTripFreeBob2.value
+          : this.aberturaTripFreeBob2,
+      curtoBob1: data.curtoBob1.present ? data.curtoBob1.value : this.curtoBob1,
+      curtoBob2: data.curtoBob2.present ? data.curtoBob2.value : this.curtoBob2,
+      dadoPlacaFechamento: data.dadoPlacaFechamento.present
+          ? data.dadoPlacaFechamento.value
+          : this.dadoPlacaFechamento,
+      dadoPlacaAbertura: data.dadoPlacaAbertura.present
+          ? data.dadoPlacaAbertura.value
+          : this.dadoPlacaAbertura,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoTempoOperacaoTableData(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('fase: $fase, ')
+          ..write('fechamento: $fechamento, ')
+          ..write('aberturaBobina1: $aberturaBobina1, ')
+          ..write('aberturaBobina2: $aberturaBobina2, ')
+          ..write('fechamentoTripFree: $fechamentoTripFree, ')
+          ..write('aberturaTripFreeBob1: $aberturaTripFreeBob1, ')
+          ..write('aberturaTripFreeBob2: $aberturaTripFreeBob2, ')
+          ..write('curtoBob1: $curtoBob1, ')
+          ..write('curtoBob2: $curtoBob2, ')
+          ..write('dadoPlacaFechamento: $dadoPlacaFechamento, ')
+          ..write('dadoPlacaAbertura: $dadoPlacaAbertura')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      formularioDisjuntorId,
+      fase,
+      fechamento,
+      aberturaBobina1,
+      aberturaBobina2,
+      fechamentoTripFree,
+      aberturaTripFreeBob1,
+      aberturaTripFreeBob2,
+      curtoBob1,
+      curtoBob2,
+      dadoPlacaFechamento,
+      dadoPlacaAbertura);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MedicaoTempoOperacaoTableData &&
+          other.id == this.id &&
+          other.formularioDisjuntorId == this.formularioDisjuntorId &&
+          other.fase == this.fase &&
+          other.fechamento == this.fechamento &&
+          other.aberturaBobina1 == this.aberturaBobina1 &&
+          other.aberturaBobina2 == this.aberturaBobina2 &&
+          other.fechamentoTripFree == this.fechamentoTripFree &&
+          other.aberturaTripFreeBob1 == this.aberturaTripFreeBob1 &&
+          other.aberturaTripFreeBob2 == this.aberturaTripFreeBob2 &&
+          other.curtoBob1 == this.curtoBob1 &&
+          other.curtoBob2 == this.curtoBob2 &&
+          other.dadoPlacaFechamento == this.dadoPlacaFechamento &&
+          other.dadoPlacaAbertura == this.dadoPlacaAbertura);
+}
+
+class MedicaoTempoOperacaoTableCompanion
+    extends UpdateCompanion<MedicaoTempoOperacaoTableData> {
+  final Value<int> id;
+  final Value<int> formularioDisjuntorId;
+  final Value<FaseAnomalia> fase;
+  final Value<double?> fechamento;
+  final Value<double?> aberturaBobina1;
+  final Value<double?> aberturaBobina2;
+  final Value<double?> fechamentoTripFree;
+  final Value<double?> aberturaTripFreeBob1;
+  final Value<double?> aberturaTripFreeBob2;
+  final Value<double?> curtoBob1;
+  final Value<double?> curtoBob2;
+  final Value<double?> dadoPlacaFechamento;
+  final Value<double?> dadoPlacaAbertura;
+  const MedicaoTempoOperacaoTableCompanion({
+    this.id = const Value.absent(),
+    this.formularioDisjuntorId = const Value.absent(),
+    this.fase = const Value.absent(),
+    this.fechamento = const Value.absent(),
+    this.aberturaBobina1 = const Value.absent(),
+    this.aberturaBobina2 = const Value.absent(),
+    this.fechamentoTripFree = const Value.absent(),
+    this.aberturaTripFreeBob1 = const Value.absent(),
+    this.aberturaTripFreeBob2 = const Value.absent(),
+    this.curtoBob1 = const Value.absent(),
+    this.curtoBob2 = const Value.absent(),
+    this.dadoPlacaFechamento = const Value.absent(),
+    this.dadoPlacaAbertura = const Value.absent(),
+  });
+  MedicaoTempoOperacaoTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int formularioDisjuntorId,
+    required FaseAnomalia fase,
+    this.fechamento = const Value.absent(),
+    this.aberturaBobina1 = const Value.absent(),
+    this.aberturaBobina2 = const Value.absent(),
+    this.fechamentoTripFree = const Value.absent(),
+    this.aberturaTripFreeBob1 = const Value.absent(),
+    this.aberturaTripFreeBob2 = const Value.absent(),
+    this.curtoBob1 = const Value.absent(),
+    this.curtoBob2 = const Value.absent(),
+    this.dadoPlacaFechamento = const Value.absent(),
+    this.dadoPlacaAbertura = const Value.absent(),
+  })  : formularioDisjuntorId = Value(formularioDisjuntorId),
+        fase = Value(fase);
+  static Insertable<MedicaoTempoOperacaoTableData> custom({
+    Expression<int>? id,
+    Expression<int>? formularioDisjuntorId,
+    Expression<String>? fase,
+    Expression<double>? fechamento,
+    Expression<double>? aberturaBobina1,
+    Expression<double>? aberturaBobina2,
+    Expression<double>? fechamentoTripFree,
+    Expression<double>? aberturaTripFreeBob1,
+    Expression<double>? aberturaTripFreeBob2,
+    Expression<double>? curtoBob1,
+    Expression<double>? curtoBob2,
+    Expression<double>? dadoPlacaFechamento,
+    Expression<double>? dadoPlacaAbertura,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (formularioDisjuntorId != null)
+        'formulario_disjuntor_id': formularioDisjuntorId,
+      if (fase != null) 'fase': fase,
+      if (fechamento != null) 'fechamento': fechamento,
+      if (aberturaBobina1 != null) 'abertura_bobina1': aberturaBobina1,
+      if (aberturaBobina2 != null) 'abertura_bobina2': aberturaBobina2,
+      if (fechamentoTripFree != null)
+        'fechamento_trip_free': fechamentoTripFree,
+      if (aberturaTripFreeBob1 != null)
+        'abertura_trip_free_bob1': aberturaTripFreeBob1,
+      if (aberturaTripFreeBob2 != null)
+        'abertura_trip_free_bob2': aberturaTripFreeBob2,
+      if (curtoBob1 != null) 'curto_bob1': curtoBob1,
+      if (curtoBob2 != null) 'curto_bob2': curtoBob2,
+      if (dadoPlacaFechamento != null)
+        'dado_placa_fechamento': dadoPlacaFechamento,
+      if (dadoPlacaAbertura != null) 'dado_placa_abertura': dadoPlacaAbertura,
+    });
+  }
+
+  MedicaoTempoOperacaoTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? formularioDisjuntorId,
+      Value<FaseAnomalia>? fase,
+      Value<double?>? fechamento,
+      Value<double?>? aberturaBobina1,
+      Value<double?>? aberturaBobina2,
+      Value<double?>? fechamentoTripFree,
+      Value<double?>? aberturaTripFreeBob1,
+      Value<double?>? aberturaTripFreeBob2,
+      Value<double?>? curtoBob1,
+      Value<double?>? curtoBob2,
+      Value<double?>? dadoPlacaFechamento,
+      Value<double?>? dadoPlacaAbertura}) {
+    return MedicaoTempoOperacaoTableCompanion(
+      id: id ?? this.id,
+      formularioDisjuntorId:
+          formularioDisjuntorId ?? this.formularioDisjuntorId,
+      fase: fase ?? this.fase,
+      fechamento: fechamento ?? this.fechamento,
+      aberturaBobina1: aberturaBobina1 ?? this.aberturaBobina1,
+      aberturaBobina2: aberturaBobina2 ?? this.aberturaBobina2,
+      fechamentoTripFree: fechamentoTripFree ?? this.fechamentoTripFree,
+      aberturaTripFreeBob1: aberturaTripFreeBob1 ?? this.aberturaTripFreeBob1,
+      aberturaTripFreeBob2: aberturaTripFreeBob2 ?? this.aberturaTripFreeBob2,
+      curtoBob1: curtoBob1 ?? this.curtoBob1,
+      curtoBob2: curtoBob2 ?? this.curtoBob2,
+      dadoPlacaFechamento: dadoPlacaFechamento ?? this.dadoPlacaFechamento,
+      dadoPlacaAbertura: dadoPlacaAbertura ?? this.dadoPlacaAbertura,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (formularioDisjuntorId.present) {
+      map['formulario_disjuntor_id'] =
+          Variable<int>(formularioDisjuntorId.value);
+    }
+    if (fase.present) {
+      map['fase'] = Variable<String>(
+          $MedicaoTempoOperacaoTableTable.$converterfase.toSql(fase.value));
+    }
+    if (fechamento.present) {
+      map['fechamento'] = Variable<double>(fechamento.value);
+    }
+    if (aberturaBobina1.present) {
+      map['abertura_bobina1'] = Variable<double>(aberturaBobina1.value);
+    }
+    if (aberturaBobina2.present) {
+      map['abertura_bobina2'] = Variable<double>(aberturaBobina2.value);
+    }
+    if (fechamentoTripFree.present) {
+      map['fechamento_trip_free'] = Variable<double>(fechamentoTripFree.value);
+    }
+    if (aberturaTripFreeBob1.present) {
+      map['abertura_trip_free_bob1'] =
+          Variable<double>(aberturaTripFreeBob1.value);
+    }
+    if (aberturaTripFreeBob2.present) {
+      map['abertura_trip_free_bob2'] =
+          Variable<double>(aberturaTripFreeBob2.value);
+    }
+    if (curtoBob1.present) {
+      map['curto_bob1'] = Variable<double>(curtoBob1.value);
+    }
+    if (curtoBob2.present) {
+      map['curto_bob2'] = Variable<double>(curtoBob2.value);
+    }
+    if (dadoPlacaFechamento.present) {
+      map['dado_placa_fechamento'] =
+          Variable<double>(dadoPlacaFechamento.value);
+    }
+    if (dadoPlacaAbertura.present) {
+      map['dado_placa_abertura'] = Variable<double>(dadoPlacaAbertura.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoTempoOperacaoTableCompanion(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('fase: $fase, ')
+          ..write('fechamento: $fechamento, ')
+          ..write('aberturaBobina1: $aberturaBobina1, ')
+          ..write('aberturaBobina2: $aberturaBobina2, ')
+          ..write('fechamentoTripFree: $fechamentoTripFree, ')
+          ..write('aberturaTripFreeBob1: $aberturaTripFreeBob1, ')
+          ..write('aberturaTripFreeBob2: $aberturaTripFreeBob2, ')
+          ..write('curtoBob1: $curtoBob1, ')
+          ..write('curtoBob2: $curtoBob2, ')
+          ..write('dadoPlacaFechamento: $dadoPlacaFechamento, ')
+          ..write('dadoPlacaAbertura: $dadoPlacaAbertura')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MedicaoPressaoSf6TableTable extends MedicaoPressaoSf6Table
+    with TableInfo<$MedicaoPressaoSf6TableTable, MedicaoPressaoSf6TableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MedicaoPressaoSf6TableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _formularioDisjuntorIdMeta =
+      const VerificationMeta('formularioDisjuntorId');
+  @override
+  late final GeneratedColumn<int> formularioDisjuntorId = GeneratedColumn<int>(
+      'formulario_disjuntor_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES prev_disj_form (id)'));
+  static const VerificationMeta _faseMeta = const VerificationMeta('fase');
+  @override
+  late final GeneratedColumnWithTypeConverter<FaseAnomalia, String> fase =
+      GeneratedColumn<String>('fase', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<FaseAnomalia>(
+              $MedicaoPressaoSf6TableTable.$converterfase);
+  static const VerificationMeta _valorPressaoMeta =
+      const VerificationMeta('valorPressao');
+  @override
+  late final GeneratedColumn<double> valorPressao = GeneratedColumn<double>(
+      'valor_pressao', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  static const VerificationMeta _temperaturaMeta =
+      const VerificationMeta('temperatura');
+  @override
+  late final GeneratedColumn<double> temperatura = GeneratedColumn<double>(
+      'temperatura', aliasedName, false,
+      type: DriftSqlType.double, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, formularioDisjuntorId, fase, valorPressao, temperatura];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'medicao_pressao_sf6_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MedicaoPressaoSf6TableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('formulario_disjuntor_id')) {
+      context.handle(
+          _formularioDisjuntorIdMeta,
+          formularioDisjuntorId.isAcceptableOrUnknown(
+              data['formulario_disjuntor_id']!, _formularioDisjuntorIdMeta));
+    } else if (isInserting) {
+      context.missing(_formularioDisjuntorIdMeta);
+    }
+    context.handle(_faseMeta, const VerificationResult.success());
+    if (data.containsKey('valor_pressao')) {
+      context.handle(
+          _valorPressaoMeta,
+          valorPressao.isAcceptableOrUnknown(
+              data['valor_pressao']!, _valorPressaoMeta));
+    } else if (isInserting) {
+      context.missing(_valorPressaoMeta);
+    }
+    if (data.containsKey('temperatura')) {
+      context.handle(
+          _temperaturaMeta,
+          temperatura.isAcceptableOrUnknown(
+              data['temperatura']!, _temperaturaMeta));
+    } else if (isInserting) {
+      context.missing(_temperaturaMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MedicaoPressaoSf6TableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MedicaoPressaoSf6TableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      formularioDisjuntorId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_disjuntor_id'])!,
+      fase: $MedicaoPressaoSf6TableTable.$converterfase.fromSql(attachedDatabase
+          .typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}fase'])!),
+      valorPressao: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}valor_pressao'])!,
+      temperatura: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}temperatura'])!,
+    );
+  }
+
+  @override
+  $MedicaoPressaoSf6TableTable createAlias(String alias) {
+    return $MedicaoPressaoSf6TableTable(attachedDatabase, alias);
+  }
+
+  static TypeConverter<FaseAnomalia, String> $converterfase =
+      const FaseAnomaliaConverter();
+}
+
+class MedicaoPressaoSf6TableData extends DataClass
+    implements Insertable<MedicaoPressaoSf6TableData> {
+  final int id;
+  final int formularioDisjuntorId;
+  final FaseAnomalia fase;
+  final double valorPressao;
+  final double temperatura;
+  const MedicaoPressaoSf6TableData(
+      {required this.id,
+      required this.formularioDisjuntorId,
+      required this.fase,
+      required this.valorPressao,
+      required this.temperatura});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['formulario_disjuntor_id'] = Variable<int>(formularioDisjuntorId);
+    {
+      map['fase'] = Variable<String>(
+          $MedicaoPressaoSf6TableTable.$converterfase.toSql(fase));
+    }
+    map['valor_pressao'] = Variable<double>(valorPressao);
+    map['temperatura'] = Variable<double>(temperatura);
+    return map;
+  }
+
+  MedicaoPressaoSf6TableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoPressaoSf6TableCompanion(
+      id: Value(id),
+      formularioDisjuntorId: Value(formularioDisjuntorId),
+      fase: Value(fase),
+      valorPressao: Value(valorPressao),
+      temperatura: Value(temperatura),
+    );
+  }
+
+  factory MedicaoPressaoSf6TableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MedicaoPressaoSf6TableData(
+      id: serializer.fromJson<int>(json['id']),
+      formularioDisjuntorId:
+          serializer.fromJson<int>(json['formularioDisjuntorId']),
+      fase: serializer.fromJson<FaseAnomalia>(json['fase']),
+      valorPressao: serializer.fromJson<double>(json['valorPressao']),
+      temperatura: serializer.fromJson<double>(json['temperatura']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'formularioDisjuntorId': serializer.toJson<int>(formularioDisjuntorId),
+      'fase': serializer.toJson<FaseAnomalia>(fase),
+      'valorPressao': serializer.toJson<double>(valorPressao),
+      'temperatura': serializer.toJson<double>(temperatura),
+    };
+  }
+
+  MedicaoPressaoSf6TableData copyWith(
+          {int? id,
+          int? formularioDisjuntorId,
+          FaseAnomalia? fase,
+          double? valorPressao,
+          double? temperatura}) =>
+      MedicaoPressaoSf6TableData(
+        id: id ?? this.id,
+        formularioDisjuntorId:
+            formularioDisjuntorId ?? this.formularioDisjuntorId,
+        fase: fase ?? this.fase,
+        valorPressao: valorPressao ?? this.valorPressao,
+        temperatura: temperatura ?? this.temperatura,
+      );
+  MedicaoPressaoSf6TableData copyWithCompanion(
+      MedicaoPressaoSf6TableCompanion data) {
+    return MedicaoPressaoSf6TableData(
+      id: data.id.present ? data.id.value : this.id,
+      formularioDisjuntorId: data.formularioDisjuntorId.present
+          ? data.formularioDisjuntorId.value
+          : this.formularioDisjuntorId,
+      fase: data.fase.present ? data.fase.value : this.fase,
+      valorPressao: data.valorPressao.present
+          ? data.valorPressao.value
+          : this.valorPressao,
+      temperatura:
+          data.temperatura.present ? data.temperatura.value : this.temperatura,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoPressaoSf6TableData(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('fase: $fase, ')
+          ..write('valorPressao: $valorPressao, ')
+          ..write('temperatura: $temperatura')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, formularioDisjuntorId, fase, valorPressao, temperatura);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MedicaoPressaoSf6TableData &&
+          other.id == this.id &&
+          other.formularioDisjuntorId == this.formularioDisjuntorId &&
+          other.fase == this.fase &&
+          other.valorPressao == this.valorPressao &&
+          other.temperatura == this.temperatura);
+}
+
+class MedicaoPressaoSf6TableCompanion
+    extends UpdateCompanion<MedicaoPressaoSf6TableData> {
+  final Value<int> id;
+  final Value<int> formularioDisjuntorId;
+  final Value<FaseAnomalia> fase;
+  final Value<double> valorPressao;
+  final Value<double> temperatura;
+  const MedicaoPressaoSf6TableCompanion({
+    this.id = const Value.absent(),
+    this.formularioDisjuntorId = const Value.absent(),
+    this.fase = const Value.absent(),
+    this.valorPressao = const Value.absent(),
+    this.temperatura = const Value.absent(),
+  });
+  MedicaoPressaoSf6TableCompanion.insert({
+    this.id = const Value.absent(),
+    required int formularioDisjuntorId,
+    required FaseAnomalia fase,
+    required double valorPressao,
+    required double temperatura,
+  })  : formularioDisjuntorId = Value(formularioDisjuntorId),
+        fase = Value(fase),
+        valorPressao = Value(valorPressao),
+        temperatura = Value(temperatura);
+  static Insertable<MedicaoPressaoSf6TableData> custom({
+    Expression<int>? id,
+    Expression<int>? formularioDisjuntorId,
+    Expression<String>? fase,
+    Expression<double>? valorPressao,
+    Expression<double>? temperatura,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (formularioDisjuntorId != null)
+        'formulario_disjuntor_id': formularioDisjuntorId,
+      if (fase != null) 'fase': fase,
+      if (valorPressao != null) 'valor_pressao': valorPressao,
+      if (temperatura != null) 'temperatura': temperatura,
+    });
+  }
+
+  MedicaoPressaoSf6TableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? formularioDisjuntorId,
+      Value<FaseAnomalia>? fase,
+      Value<double>? valorPressao,
+      Value<double>? temperatura}) {
+    return MedicaoPressaoSf6TableCompanion(
+      id: id ?? this.id,
+      formularioDisjuntorId:
+          formularioDisjuntorId ?? this.formularioDisjuntorId,
+      fase: fase ?? this.fase,
+      valorPressao: valorPressao ?? this.valorPressao,
+      temperatura: temperatura ?? this.temperatura,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (formularioDisjuntorId.present) {
+      map['formulario_disjuntor_id'] =
+          Variable<int>(formularioDisjuntorId.value);
+    }
+    if (fase.present) {
+      map['fase'] = Variable<String>(
+          $MedicaoPressaoSf6TableTable.$converterfase.toSql(fase.value));
+    }
+    if (valorPressao.present) {
+      map['valor_pressao'] = Variable<double>(valorPressao.value);
+    }
+    if (temperatura.present) {
+      map['temperatura'] = Variable<double>(temperatura.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MedicaoPressaoSf6TableCompanion(')
+          ..write('id: $id, ')
+          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
+          ..write('fase: $fase, ')
+          ..write('valorPressao: $valorPressao, ')
+          ..write('temperatura: $temperatura')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -10368,6 +13943,17 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $FormularioBateriaTableTable(this);
   late final $MedicaoElementoBateriaTableTable medicaoElementoBateriaTable =
       $MedicaoElementoBateriaTableTable(this);
+  late final $PrevDisjFormTable prevDisjForm = $PrevDisjFormTable(this);
+  late final $MedicaoResistenciaContatoTableTable
+      medicaoResistenciaContatoTable =
+      $MedicaoResistenciaContatoTableTable(this);
+  late final $MedicaoResistenciaIsolamentoTableTable
+      medicaoResistenciaIsolamentoTable =
+      $MedicaoResistenciaIsolamentoTableTable(this);
+  late final $MedicaoTempoOperacaoTableTable medicaoTempoOperacaoTable =
+      $MedicaoTempoOperacaoTableTable(this);
+  late final $MedicaoPressaoSf6TableTable medicaoPressaoSf6Table =
+      $MedicaoPressaoSf6TableTable(this);
   late final UsuarioDao usuarioDao = UsuarioDao(this as AppDatabase);
   late final TipoAtividadeDao tipoAtividadeDao =
       TipoAtividadeDao(this as AppDatabase);
@@ -10410,6 +13996,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       FormularioBateriaDao(this as AppDatabase);
   late final MedicaoElementoBateriaDao medicaoElementoBateriaDao =
       MedicaoElementoBateriaDao(this as AppDatabase);
+  late final PrevDisjFormDao prevDisjFormDao =
+      PrevDisjFormDao(this as AppDatabase);
+  late final MedicaoResistenciaContatoDao medicaoResistenciaContatoDao =
+      MedicaoResistenciaContatoDao(this as AppDatabase);
+  late final MedicaoResistenciaIsolamentoDao medicaoResistenciaIsolamentoDao =
+      MedicaoResistenciaIsolamentoDao(this as AppDatabase);
+  late final MedicaoTempoOperacaoDao medicaoTempoOperacaoDao =
+      MedicaoTempoOperacaoDao(this as AppDatabase);
+  late final MedicaoPressaoSf6Dao medicaoPressaoSf6Dao =
+      MedicaoPressaoSf6Dao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10438,7 +14034,12 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         correcaoAnomaliaTable,
         checklistPerguntaRelacionamentoTable,
         formularioBateriaTable,
-        medicaoElementoBateriaTable
+        medicaoElementoBateriaTable,
+        prevDisjForm,
+        medicaoResistenciaContatoTable,
+        medicaoResistenciaIsolamentoTable,
+        medicaoTempoOperacaoTable,
+        medicaoPressaoSf6Table
       ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
@@ -12683,6 +16284,21 @@ final class $$AtividadeTableTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
+
+  static MultiTypedResultKey<$PrevDisjFormTable, List<PrevDisjFormData>>
+      _prevDisjFormRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.prevDisjForm,
+              aliasName: $_aliasNameGenerator(
+                  db.atividadeTable.id, db.prevDisjForm.atividadeId));
+
+  $$PrevDisjFormTableProcessedTableManager get prevDisjFormRefs {
+    final manager = $$PrevDisjFormTableTableManager($_db, $_db.prevDisjForm)
+        .filter((f) => f.atividadeId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_prevDisjFormRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$AtividadeTableTableFilterComposer
@@ -12822,6 +16438,27 @@ class $$AtividadeTableTableFilterComposer
                   $removeJoinBuilderFromRootComposer:
                       $removeJoinBuilderFromRootComposer,
                 ));
+    return f(composer);
+  }
+
+  Expression<bool> prevDisjFormRefs(
+      Expression<bool> Function($$PrevDisjFormTableFilterComposer f) f) {
+    final $$PrevDisjFormTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.atividadeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableFilterComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -13058,6 +16695,27 @@ class $$AtividadeTableTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> prevDisjFormRefs<T extends Object>(
+      Expression<T> Function($$PrevDisjFormTableAnnotationComposer a) f) {
+    final $$PrevDisjFormTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.atividadeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableAnnotationComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$AtividadeTableTableTableManager extends RootTableManager<
@@ -13075,7 +16733,8 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
         {bool equipamentoId,
         bool tipoAtividadeId,
         bool aprPreenchidaTableRefs,
-        bool formularioBateriaTableRefs})> {
+        bool formularioBateriaTableRefs,
+        bool prevDisjFormRefs})> {
   $$AtividadeTableTableTableManager(
       _$AppDatabase db, $AtividadeTableTable table)
       : super(TableManagerState(
@@ -13170,12 +16829,14 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
               {equipamentoId = false,
               tipoAtividadeId = false,
               aprPreenchidaTableRefs = false,
-              formularioBateriaTableRefs = false}) {
+              formularioBateriaTableRefs = false,
+              prevDisjFormRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (aprPreenchidaTableRefs) db.aprPreenchidaTable,
-                if (formularioBateriaTableRefs) db.formularioBateriaTable
+                if (formularioBateriaTableRefs) db.formularioBateriaTable,
+                if (prevDisjFormRefs) db.prevDisjForm
               ],
               addJoins: <
                   T extends TableManagerState<
@@ -13240,6 +16901,18 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.atividadeId == item.id),
+                        typedResults: items),
+                  if (prevDisjFormRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AtividadeTableTableReferences
+                            ._prevDisjFormRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AtividadeTableTableReferences(db, table, p0)
+                                .prevDisjFormRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.atividadeId == item.id),
                         typedResults: items)
                 ];
               },
@@ -13263,7 +16936,8 @@ typedef $$AtividadeTableTableProcessedTableManager = ProcessedTableManager<
         {bool equipamentoId,
         bool tipoAtividadeId,
         bool aprPreenchidaTableRefs,
-        bool formularioBateriaTableRefs})>;
+        bool formularioBateriaTableRefs,
+        bool prevDisjFormRefs})>;
 typedef $$AprTableTableCreateCompanionBuilder = AprTableCompanion Function({
   Value<int> id,
   required String uuid,
@@ -20593,6 +24267,2423 @@ typedef $$MedicaoElementoBateriaTableTableProcessedTableManager = ProcessedTable
     ),
     MedicaoElementoBateriaTableData,
     PrefetchHooks Function({bool formularioBateriaId})>;
+typedef $$PrevDisjFormTableCreateCompanionBuilder = PrevDisjFormCompanion
+    Function({
+  Value<int> id,
+  required int atividadeId,
+  Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio,
+  Value<String?> termohigrometroFabricante,
+  Value<String?> termohigrometroTipo,
+  Value<DateTime?> termohigrometroUltimaCalibracao,
+  Value<String?> micromimetroFabricante,
+  Value<String?> micromimetroTipo,
+  Value<DateTime?> micromimetroUltimaCalibracao,
+  Value<String?> megometroFabricante,
+  Value<String?> megometroTipo,
+  Value<DateTime?> megometroUltimaCalibracao,
+  Value<String?> oscilografoFabricante,
+  Value<String?> oscilografoTipo,
+  Value<DateTime?> oscilografoUltimaCalibracao,
+  Value<String?> disjuntorFabricante,
+  Value<String?> disjuntorAnoFabricacao,
+  Value<double?> disjuntorTensaoNominal,
+  Value<int?> disjuntorCorrenteNominal,
+  Value<int?> disjuntorCapInterrupcaoNominal,
+  Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao,
+  Value<String?> disjuntorTipoAcionamento,
+  Value<double?> disjuntorPressaoSf6Nominal,
+  Value<double?> disjuntorPressaoSf6NominalTemperatura,
+  Value<DateTime> dataEnsaio,
+});
+typedef $$PrevDisjFormTableUpdateCompanionBuilder = PrevDisjFormCompanion
+    Function({
+  Value<int> id,
+  Value<int> atividadeId,
+  Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio,
+  Value<String?> termohigrometroFabricante,
+  Value<String?> termohigrometroTipo,
+  Value<DateTime?> termohigrometroUltimaCalibracao,
+  Value<String?> micromimetroFabricante,
+  Value<String?> micromimetroTipo,
+  Value<DateTime?> micromimetroUltimaCalibracao,
+  Value<String?> megometroFabricante,
+  Value<String?> megometroTipo,
+  Value<DateTime?> megometroUltimaCalibracao,
+  Value<String?> oscilografoFabricante,
+  Value<String?> oscilografoTipo,
+  Value<DateTime?> oscilografoUltimaCalibracao,
+  Value<String?> disjuntorFabricante,
+  Value<String?> disjuntorAnoFabricacao,
+  Value<double?> disjuntorTensaoNominal,
+  Value<int?> disjuntorCorrenteNominal,
+  Value<int?> disjuntorCapInterrupcaoNominal,
+  Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao,
+  Value<String?> disjuntorTipoAcionamento,
+  Value<double?> disjuntorPressaoSf6Nominal,
+  Value<double?> disjuntorPressaoSf6NominalTemperatura,
+  Value<DateTime> dataEnsaio,
+});
+
+final class $$PrevDisjFormTableReferences extends BaseReferences<_$AppDatabase,
+    $PrevDisjFormTable, PrevDisjFormData> {
+  $$PrevDisjFormTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $AtividadeTableTable _atividadeIdTable(_$AppDatabase db) =>
+      db.atividadeTable.createAlias($_aliasNameGenerator(
+          db.prevDisjForm.atividadeId, db.atividadeTable.id));
+
+  $$AtividadeTableTableProcessedTableManager get atividadeId {
+    final manager = $$AtividadeTableTableTableManager($_db, $_db.atividadeTable)
+        .filter((f) => f.id($_item.atividadeId));
+    final item = $_typedResult.readTableOrNull(_atividadeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$MedicaoResistenciaContatoTableTable,
+          List<MedicaoResistenciaContatoTableData>>
+      _medicaoResistenciaContatoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.medicaoResistenciaContatoTable,
+              aliasName: $_aliasNameGenerator(db.prevDisjForm.id,
+                  db.medicaoResistenciaContatoTable.formularioDisjuntorId));
+
+  $$MedicaoResistenciaContatoTableTableProcessedTableManager
+      get medicaoResistenciaContatoTableRefs {
+    final manager = $$MedicaoResistenciaContatoTableTableTableManager(
+            $_db, $_db.medicaoResistenciaContatoTable)
+        .filter((f) => f.formularioDisjuntorId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_medicaoResistenciaContatoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$MedicaoResistenciaIsolamentoTableTable,
+          List<MedicaoResistenciaIsolamentoTableData>>
+      _medicaoResistenciaIsolamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.medicaoResistenciaIsolamentoTable,
+              aliasName: $_aliasNameGenerator(db.prevDisjForm.id,
+                  db.medicaoResistenciaIsolamentoTable.formularioDisjuntorId));
+
+  $$MedicaoResistenciaIsolamentoTableTableProcessedTableManager
+      get medicaoResistenciaIsolamentoTableRefs {
+    final manager = $$MedicaoResistenciaIsolamentoTableTableTableManager(
+            $_db, $_db.medicaoResistenciaIsolamentoTable)
+        .filter((f) => f.formularioDisjuntorId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_medicaoResistenciaIsolamentoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$MedicaoTempoOperacaoTableTable,
+      List<MedicaoTempoOperacaoTableData>> _medicaoTempoOperacaoTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.medicaoTempoOperacaoTable,
+          aliasName: $_aliasNameGenerator(db.prevDisjForm.id,
+              db.medicaoTempoOperacaoTable.formularioDisjuntorId));
+
+  $$MedicaoTempoOperacaoTableTableProcessedTableManager
+      get medicaoTempoOperacaoTableRefs {
+    final manager = $$MedicaoTempoOperacaoTableTableTableManager(
+            $_db, $_db.medicaoTempoOperacaoTable)
+        .filter((f) => f.formularioDisjuntorId.id($_item.id));
+
+    final cache = $_typedResult
+        .readTableOrNull(_medicaoTempoOperacaoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$MedicaoPressaoSf6TableTable,
+      List<MedicaoPressaoSf6TableData>> _medicaoPressaoSf6TableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.medicaoPressaoSf6Table,
+          aliasName: $_aliasNameGenerator(db.prevDisjForm.id,
+              db.medicaoPressaoSf6Table.formularioDisjuntorId));
+
+  $$MedicaoPressaoSf6TableTableProcessedTableManager
+      get medicaoPressaoSf6TableRefs {
+    final manager = $$MedicaoPressaoSf6TableTableTableManager(
+            $_db, $_db.medicaoPressaoSf6Table)
+        .filter((f) => f.formularioDisjuntorId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_medicaoPressaoSf6TableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$PrevDisjFormTableFilterComposer
+    extends Composer<_$AppDatabase, $PrevDisjFormTable> {
+  $$PrevDisjFormTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<CaracterizacaoEnsaio?, CaracterizacaoEnsaio,
+          String>
+      get caracterizacaoEnsaio => $composableBuilder(
+          column: $table.caracterizacaoEnsaio,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get termohigrometroFabricante => $composableBuilder(
+      column: $table.termohigrometroFabricante,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get termohigrometroTipo => $composableBuilder(
+      column: $table.termohigrometroTipo,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get termohigrometroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.termohigrometroUltimaCalibracao,
+          builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get micromimetroFabricante => $composableBuilder(
+      column: $table.micromimetroFabricante,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get micromimetroTipo => $composableBuilder(
+      column: $table.micromimetroTipo,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get micromimetroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.micromimetroUltimaCalibracao,
+          builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get megometroFabricante => $composableBuilder(
+      column: $table.megometroFabricante,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get megometroTipo => $composableBuilder(
+      column: $table.megometroTipo, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get megometroUltimaCalibracao => $composableBuilder(
+      column: $table.megometroUltimaCalibracao,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get oscilografoFabricante => $composableBuilder(
+      column: $table.oscilografoFabricante,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get oscilografoTipo => $composableBuilder(
+      column: $table.oscilografoTipo,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get oscilografoUltimaCalibracao => $composableBuilder(
+      column: $table.oscilografoUltimaCalibracao,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get disjuntorFabricante => $composableBuilder(
+      column: $table.disjuntorFabricante,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get disjuntorAnoFabricacao => $composableBuilder(
+      column: $table.disjuntorAnoFabricacao,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get disjuntorTensaoNominal => $composableBuilder(
+      column: $table.disjuntorTensaoNominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get disjuntorCorrenteNominal => $composableBuilder(
+      column: $table.disjuntorCorrenteNominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get disjuntorCapInterrupcaoNominal => $composableBuilder(
+      column: $table.disjuntorCapInterrupcaoNominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<TipoExtinsaoDisjuntor?, TipoExtinsaoDisjuntor,
+          String>
+      get disjuntorTipoExtinsao => $composableBuilder(
+          column: $table.disjuntorTipoExtinsao,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<String> get disjuntorTipoAcionamento => $composableBuilder(
+      column: $table.disjuntorTipoAcionamento,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get disjuntorPressaoSf6Nominal => $composableBuilder(
+      column: $table.disjuntorPressaoSf6Nominal,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get disjuntorPressaoSf6NominalTemperatura =>
+      $composableBuilder(
+          column: $table.disjuntorPressaoSf6NominalTemperatura,
+          builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get dataEnsaio => $composableBuilder(
+      column: $table.dataEnsaio, builder: (column) => ColumnFilters(column));
+
+  $$AtividadeTableTableFilterComposer get atividadeId {
+    final $$AtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> medicaoResistenciaContatoTableRefs(
+      Expression<bool> Function(
+              $$MedicaoResistenciaContatoTableTableFilterComposer f)
+          f) {
+    final $$MedicaoResistenciaContatoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoResistenciaContatoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoResistenciaContatoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.medicaoResistenciaContatoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> medicaoResistenciaIsolamentoTableRefs(
+      Expression<bool> Function(
+              $$MedicaoResistenciaIsolamentoTableTableFilterComposer f)
+          f) {
+    final $$MedicaoResistenciaIsolamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoResistenciaIsolamentoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoResistenciaIsolamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.medicaoResistenciaIsolamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> medicaoTempoOperacaoTableRefs(
+      Expression<bool> Function(
+              $$MedicaoTempoOperacaoTableTableFilterComposer f)
+          f) {
+    final $$MedicaoTempoOperacaoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoTempoOperacaoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoTempoOperacaoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.medicaoTempoOperacaoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> medicaoPressaoSf6TableRefs(
+      Expression<bool> Function($$MedicaoPressaoSf6TableTableFilterComposer f)
+          f) {
+    final $$MedicaoPressaoSf6TableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoPressaoSf6Table,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoPressaoSf6TableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.medicaoPressaoSf6Table,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$PrevDisjFormTableOrderingComposer
+    extends Composer<_$AppDatabase, $PrevDisjFormTable> {
+  $$PrevDisjFormTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get caracterizacaoEnsaio => $composableBuilder(
+      column: $table.caracterizacaoEnsaio,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get termohigrometroFabricante => $composableBuilder(
+      column: $table.termohigrometroFabricante,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get termohigrometroTipo => $composableBuilder(
+      column: $table.termohigrometroTipo,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get termohigrometroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.termohigrometroUltimaCalibracao,
+          builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get micromimetroFabricante => $composableBuilder(
+      column: $table.micromimetroFabricante,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get micromimetroTipo => $composableBuilder(
+      column: $table.micromimetroTipo,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get micromimetroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.micromimetroUltimaCalibracao,
+          builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get megometroFabricante => $composableBuilder(
+      column: $table.megometroFabricante,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get megometroTipo => $composableBuilder(
+      column: $table.megometroTipo,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get megometroUltimaCalibracao => $composableBuilder(
+      column: $table.megometroUltimaCalibracao,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get oscilografoFabricante => $composableBuilder(
+      column: $table.oscilografoFabricante,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get oscilografoTipo => $composableBuilder(
+      column: $table.oscilografoTipo,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get oscilografoUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.oscilografoUltimaCalibracao,
+          builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get disjuntorFabricante => $composableBuilder(
+      column: $table.disjuntorFabricante,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get disjuntorAnoFabricacao => $composableBuilder(
+      column: $table.disjuntorAnoFabricacao,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get disjuntorTensaoNominal => $composableBuilder(
+      column: $table.disjuntorTensaoNominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get disjuntorCorrenteNominal => $composableBuilder(
+      column: $table.disjuntorCorrenteNominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get disjuntorCapInterrupcaoNominal => $composableBuilder(
+      column: $table.disjuntorCapInterrupcaoNominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get disjuntorTipoExtinsao => $composableBuilder(
+      column: $table.disjuntorTipoExtinsao,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get disjuntorTipoAcionamento => $composableBuilder(
+      column: $table.disjuntorTipoAcionamento,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get disjuntorPressaoSf6Nominal => $composableBuilder(
+      column: $table.disjuntorPressaoSf6Nominal,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get disjuntorPressaoSf6NominalTemperatura =>
+      $composableBuilder(
+          column: $table.disjuntorPressaoSf6NominalTemperatura,
+          builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get dataEnsaio => $composableBuilder(
+      column: $table.dataEnsaio, builder: (column) => ColumnOrderings(column));
+
+  $$AtividadeTableTableOrderingComposer get atividadeId {
+    final $$AtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$PrevDisjFormTableAnnotationComposer
+    extends Composer<_$AppDatabase, $PrevDisjFormTable> {
+  $$PrevDisjFormTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<CaracterizacaoEnsaio?, String>
+      get caracterizacaoEnsaio => $composableBuilder(
+          column: $table.caracterizacaoEnsaio, builder: (column) => column);
+
+  GeneratedColumn<String> get termohigrometroFabricante => $composableBuilder(
+      column: $table.termohigrometroFabricante, builder: (column) => column);
+
+  GeneratedColumn<String> get termohigrometroTipo => $composableBuilder(
+      column: $table.termohigrometroTipo, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get termohigrometroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.termohigrometroUltimaCalibracao,
+          builder: (column) => column);
+
+  GeneratedColumn<String> get micromimetroFabricante => $composableBuilder(
+      column: $table.micromimetroFabricante, builder: (column) => column);
+
+  GeneratedColumn<String> get micromimetroTipo => $composableBuilder(
+      column: $table.micromimetroTipo, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get micromimetroUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.micromimetroUltimaCalibracao,
+          builder: (column) => column);
+
+  GeneratedColumn<String> get megometroFabricante => $composableBuilder(
+      column: $table.megometroFabricante, builder: (column) => column);
+
+  GeneratedColumn<String> get megometroTipo => $composableBuilder(
+      column: $table.megometroTipo, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get megometroUltimaCalibracao => $composableBuilder(
+      column: $table.megometroUltimaCalibracao, builder: (column) => column);
+
+  GeneratedColumn<String> get oscilografoFabricante => $composableBuilder(
+      column: $table.oscilografoFabricante, builder: (column) => column);
+
+  GeneratedColumn<String> get oscilografoTipo => $composableBuilder(
+      column: $table.oscilografoTipo, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get oscilografoUltimaCalibracao =>
+      $composableBuilder(
+          column: $table.oscilografoUltimaCalibracao,
+          builder: (column) => column);
+
+  GeneratedColumn<String> get disjuntorFabricante => $composableBuilder(
+      column: $table.disjuntorFabricante, builder: (column) => column);
+
+  GeneratedColumn<String> get disjuntorAnoFabricacao => $composableBuilder(
+      column: $table.disjuntorAnoFabricacao, builder: (column) => column);
+
+  GeneratedColumn<double> get disjuntorTensaoNominal => $composableBuilder(
+      column: $table.disjuntorTensaoNominal, builder: (column) => column);
+
+  GeneratedColumn<int> get disjuntorCorrenteNominal => $composableBuilder(
+      column: $table.disjuntorCorrenteNominal, builder: (column) => column);
+
+  GeneratedColumn<int> get disjuntorCapInterrupcaoNominal => $composableBuilder(
+      column: $table.disjuntorCapInterrupcaoNominal,
+      builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<TipoExtinsaoDisjuntor?, String>
+      get disjuntorTipoExtinsao => $composableBuilder(
+          column: $table.disjuntorTipoExtinsao, builder: (column) => column);
+
+  GeneratedColumn<String> get disjuntorTipoAcionamento => $composableBuilder(
+      column: $table.disjuntorTipoAcionamento, builder: (column) => column);
+
+  GeneratedColumn<double> get disjuntorPressaoSf6Nominal => $composableBuilder(
+      column: $table.disjuntorPressaoSf6Nominal, builder: (column) => column);
+
+  GeneratedColumn<double> get disjuntorPressaoSf6NominalTemperatura =>
+      $composableBuilder(
+          column: $table.disjuntorPressaoSf6NominalTemperatura,
+          builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dataEnsaio => $composableBuilder(
+      column: $table.dataEnsaio, builder: (column) => column);
+
+  $$AtividadeTableTableAnnotationComposer get atividadeId {
+    final $$AtividadeTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.atividadeId,
+        referencedTable: $db.atividadeTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AtividadeTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.atividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> medicaoResistenciaContatoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$MedicaoResistenciaContatoTableTableAnnotationComposer a)
+          f) {
+    final $$MedicaoResistenciaContatoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoResistenciaContatoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoResistenciaContatoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.medicaoResistenciaContatoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> medicaoResistenciaIsolamentoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer a)
+          f) {
+    final $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoResistenciaIsolamentoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.medicaoResistenciaIsolamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> medicaoTempoOperacaoTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$MedicaoTempoOperacaoTableTableAnnotationComposer a)
+          f) {
+    final $$MedicaoTempoOperacaoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoTempoOperacaoTable,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoTempoOperacaoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.medicaoTempoOperacaoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> medicaoPressaoSf6TableRefs<T extends Object>(
+      Expression<T> Function($$MedicaoPressaoSf6TableTableAnnotationComposer a)
+          f) {
+    final $$MedicaoPressaoSf6TableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.medicaoPressaoSf6Table,
+            getReferencedColumn: (t) => t.formularioDisjuntorId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MedicaoPressaoSf6TableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.medicaoPressaoSf6Table,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+}
+
+class $$PrevDisjFormTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $PrevDisjFormTable,
+    PrevDisjFormData,
+    $$PrevDisjFormTableFilterComposer,
+    $$PrevDisjFormTableOrderingComposer,
+    $$PrevDisjFormTableAnnotationComposer,
+    $$PrevDisjFormTableCreateCompanionBuilder,
+    $$PrevDisjFormTableUpdateCompanionBuilder,
+    (PrevDisjFormData, $$PrevDisjFormTableReferences),
+    PrevDisjFormData,
+    PrefetchHooks Function(
+        {bool atividadeId,
+        bool medicaoResistenciaContatoTableRefs,
+        bool medicaoResistenciaIsolamentoTableRefs,
+        bool medicaoTempoOperacaoTableRefs,
+        bool medicaoPressaoSf6TableRefs})> {
+  $$PrevDisjFormTableTableManager(_$AppDatabase db, $PrevDisjFormTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$PrevDisjFormTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$PrevDisjFormTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$PrevDisjFormTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> atividadeId = const Value.absent(),
+            Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio =
+                const Value.absent(),
+            Value<String?> termohigrometroFabricante = const Value.absent(),
+            Value<String?> termohigrometroTipo = const Value.absent(),
+            Value<DateTime?> termohigrometroUltimaCalibracao =
+                const Value.absent(),
+            Value<String?> micromimetroFabricante = const Value.absent(),
+            Value<String?> micromimetroTipo = const Value.absent(),
+            Value<DateTime?> micromimetroUltimaCalibracao =
+                const Value.absent(),
+            Value<String?> megometroFabricante = const Value.absent(),
+            Value<String?> megometroTipo = const Value.absent(),
+            Value<DateTime?> megometroUltimaCalibracao = const Value.absent(),
+            Value<String?> oscilografoFabricante = const Value.absent(),
+            Value<String?> oscilografoTipo = const Value.absent(),
+            Value<DateTime?> oscilografoUltimaCalibracao = const Value.absent(),
+            Value<String?> disjuntorFabricante = const Value.absent(),
+            Value<String?> disjuntorAnoFabricacao = const Value.absent(),
+            Value<double?> disjuntorTensaoNominal = const Value.absent(),
+            Value<int?> disjuntorCorrenteNominal = const Value.absent(),
+            Value<int?> disjuntorCapInterrupcaoNominal = const Value.absent(),
+            Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao =
+                const Value.absent(),
+            Value<String?> disjuntorTipoAcionamento = const Value.absent(),
+            Value<double?> disjuntorPressaoSf6Nominal = const Value.absent(),
+            Value<double?> disjuntorPressaoSf6NominalTemperatura =
+                const Value.absent(),
+            Value<DateTime> dataEnsaio = const Value.absent(),
+          }) =>
+              PrevDisjFormCompanion(
+            id: id,
+            atividadeId: atividadeId,
+            caracterizacaoEnsaio: caracterizacaoEnsaio,
+            termohigrometroFabricante: termohigrometroFabricante,
+            termohigrometroTipo: termohigrometroTipo,
+            termohigrometroUltimaCalibracao: termohigrometroUltimaCalibracao,
+            micromimetroFabricante: micromimetroFabricante,
+            micromimetroTipo: micromimetroTipo,
+            micromimetroUltimaCalibracao: micromimetroUltimaCalibracao,
+            megometroFabricante: megometroFabricante,
+            megometroTipo: megometroTipo,
+            megometroUltimaCalibracao: megometroUltimaCalibracao,
+            oscilografoFabricante: oscilografoFabricante,
+            oscilografoTipo: oscilografoTipo,
+            oscilografoUltimaCalibracao: oscilografoUltimaCalibracao,
+            disjuntorFabricante: disjuntorFabricante,
+            disjuntorAnoFabricacao: disjuntorAnoFabricacao,
+            disjuntorTensaoNominal: disjuntorTensaoNominal,
+            disjuntorCorrenteNominal: disjuntorCorrenteNominal,
+            disjuntorCapInterrupcaoNominal: disjuntorCapInterrupcaoNominal,
+            disjuntorTipoExtinsao: disjuntorTipoExtinsao,
+            disjuntorTipoAcionamento: disjuntorTipoAcionamento,
+            disjuntorPressaoSf6Nominal: disjuntorPressaoSf6Nominal,
+            disjuntorPressaoSf6NominalTemperatura:
+                disjuntorPressaoSf6NominalTemperatura,
+            dataEnsaio: dataEnsaio,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int atividadeId,
+            Value<CaracterizacaoEnsaio?> caracterizacaoEnsaio =
+                const Value.absent(),
+            Value<String?> termohigrometroFabricante = const Value.absent(),
+            Value<String?> termohigrometroTipo = const Value.absent(),
+            Value<DateTime?> termohigrometroUltimaCalibracao =
+                const Value.absent(),
+            Value<String?> micromimetroFabricante = const Value.absent(),
+            Value<String?> micromimetroTipo = const Value.absent(),
+            Value<DateTime?> micromimetroUltimaCalibracao =
+                const Value.absent(),
+            Value<String?> megometroFabricante = const Value.absent(),
+            Value<String?> megometroTipo = const Value.absent(),
+            Value<DateTime?> megometroUltimaCalibracao = const Value.absent(),
+            Value<String?> oscilografoFabricante = const Value.absent(),
+            Value<String?> oscilografoTipo = const Value.absent(),
+            Value<DateTime?> oscilografoUltimaCalibracao = const Value.absent(),
+            Value<String?> disjuntorFabricante = const Value.absent(),
+            Value<String?> disjuntorAnoFabricacao = const Value.absent(),
+            Value<double?> disjuntorTensaoNominal = const Value.absent(),
+            Value<int?> disjuntorCorrenteNominal = const Value.absent(),
+            Value<int?> disjuntorCapInterrupcaoNominal = const Value.absent(),
+            Value<TipoExtinsaoDisjuntor?> disjuntorTipoExtinsao =
+                const Value.absent(),
+            Value<String?> disjuntorTipoAcionamento = const Value.absent(),
+            Value<double?> disjuntorPressaoSf6Nominal = const Value.absent(),
+            Value<double?> disjuntorPressaoSf6NominalTemperatura =
+                const Value.absent(),
+            Value<DateTime> dataEnsaio = const Value.absent(),
+          }) =>
+              PrevDisjFormCompanion.insert(
+            id: id,
+            atividadeId: atividadeId,
+            caracterizacaoEnsaio: caracterizacaoEnsaio,
+            termohigrometroFabricante: termohigrometroFabricante,
+            termohigrometroTipo: termohigrometroTipo,
+            termohigrometroUltimaCalibracao: termohigrometroUltimaCalibracao,
+            micromimetroFabricante: micromimetroFabricante,
+            micromimetroTipo: micromimetroTipo,
+            micromimetroUltimaCalibracao: micromimetroUltimaCalibracao,
+            megometroFabricante: megometroFabricante,
+            megometroTipo: megometroTipo,
+            megometroUltimaCalibracao: megometroUltimaCalibracao,
+            oscilografoFabricante: oscilografoFabricante,
+            oscilografoTipo: oscilografoTipo,
+            oscilografoUltimaCalibracao: oscilografoUltimaCalibracao,
+            disjuntorFabricante: disjuntorFabricante,
+            disjuntorAnoFabricacao: disjuntorAnoFabricacao,
+            disjuntorTensaoNominal: disjuntorTensaoNominal,
+            disjuntorCorrenteNominal: disjuntorCorrenteNominal,
+            disjuntorCapInterrupcaoNominal: disjuntorCapInterrupcaoNominal,
+            disjuntorTipoExtinsao: disjuntorTipoExtinsao,
+            disjuntorTipoAcionamento: disjuntorTipoAcionamento,
+            disjuntorPressaoSf6Nominal: disjuntorPressaoSf6Nominal,
+            disjuntorPressaoSf6NominalTemperatura:
+                disjuntorPressaoSf6NominalTemperatura,
+            dataEnsaio: dataEnsaio,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$PrevDisjFormTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {atividadeId = false,
+              medicaoResistenciaContatoTableRefs = false,
+              medicaoResistenciaIsolamentoTableRefs = false,
+              medicaoTempoOperacaoTableRefs = false,
+              medicaoPressaoSf6TableRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (medicaoResistenciaContatoTableRefs)
+                  db.medicaoResistenciaContatoTable,
+                if (medicaoResistenciaIsolamentoTableRefs)
+                  db.medicaoResistenciaIsolamentoTable,
+                if (medicaoTempoOperacaoTableRefs) db.medicaoTempoOperacaoTable,
+                if (medicaoPressaoSf6TableRefs) db.medicaoPressaoSf6Table
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (atividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.atividadeId,
+                    referencedTable:
+                        $$PrevDisjFormTableReferences._atividadeIdTable(db),
+                    referencedColumn:
+                        $$PrevDisjFormTableReferences._atividadeIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (medicaoResistenciaContatoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$PrevDisjFormTableReferences
+                            ._medicaoResistenciaContatoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$PrevDisjFormTableReferences(db, table, p0)
+                                .medicaoResistenciaContatoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) => e.formularioDisjuntorId == item.id),
+                        typedResults: items),
+                  if (medicaoResistenciaIsolamentoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$PrevDisjFormTableReferences
+                            ._medicaoResistenciaIsolamentoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$PrevDisjFormTableReferences(db, table, p0)
+                                .medicaoResistenciaIsolamentoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) => e.formularioDisjuntorId == item.id),
+                        typedResults: items),
+                  if (medicaoTempoOperacaoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$PrevDisjFormTableReferences
+                            ._medicaoTempoOperacaoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$PrevDisjFormTableReferences(db, table, p0)
+                                .medicaoTempoOperacaoTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) => e.formularioDisjuntorId == item.id),
+                        typedResults: items),
+                  if (medicaoPressaoSf6TableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$PrevDisjFormTableReferences
+                            ._medicaoPressaoSf6TableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$PrevDisjFormTableReferences(db, table, p0)
+                                .medicaoPressaoSf6TableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) => e.formularioDisjuntorId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$PrevDisjFormTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $PrevDisjFormTable,
+    PrevDisjFormData,
+    $$PrevDisjFormTableFilterComposer,
+    $$PrevDisjFormTableOrderingComposer,
+    $$PrevDisjFormTableAnnotationComposer,
+    $$PrevDisjFormTableCreateCompanionBuilder,
+    $$PrevDisjFormTableUpdateCompanionBuilder,
+    (PrevDisjFormData, $$PrevDisjFormTableReferences),
+    PrevDisjFormData,
+    PrefetchHooks Function(
+        {bool atividadeId,
+        bool medicaoResistenciaContatoTableRefs,
+        bool medicaoResistenciaIsolamentoTableRefs,
+        bool medicaoTempoOperacaoTableRefs,
+        bool medicaoPressaoSf6TableRefs})>;
+typedef $$MedicaoResistenciaContatoTableTableCreateCompanionBuilder
+    = MedicaoResistenciaContatoTableCompanion Function({
+  Value<int> id,
+  required int formularioDisjuntorId,
+  required int numeroCamara,
+  Value<double?> resistenciaFaseA,
+  Value<double?> resistenciaFaseB,
+  Value<double?> resistenciaFaseC,
+  Value<double?> temperaturaDisjuntor,
+  Value<double?> umidadeRelativaAr,
+});
+typedef $$MedicaoResistenciaContatoTableTableUpdateCompanionBuilder
+    = MedicaoResistenciaContatoTableCompanion Function({
+  Value<int> id,
+  Value<int> formularioDisjuntorId,
+  Value<int> numeroCamara,
+  Value<double?> resistenciaFaseA,
+  Value<double?> resistenciaFaseB,
+  Value<double?> resistenciaFaseC,
+  Value<double?> temperaturaDisjuntor,
+  Value<double?> umidadeRelativaAr,
+});
+
+final class $$MedicaoResistenciaContatoTableTableReferences
+    extends BaseReferences<_$AppDatabase, $MedicaoResistenciaContatoTableTable,
+        MedicaoResistenciaContatoTableData> {
+  $$MedicaoResistenciaContatoTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $PrevDisjFormTable _formularioDisjuntorIdTable(_$AppDatabase db) =>
+      db.prevDisjForm.createAlias($_aliasNameGenerator(
+          db.medicaoResistenciaContatoTable.formularioDisjuntorId,
+          db.prevDisjForm.id));
+
+  $$PrevDisjFormTableProcessedTableManager get formularioDisjuntorId {
+    final manager = $$PrevDisjFormTableTableManager($_db, $_db.prevDisjForm)
+        .filter((f) => f.id($_item.formularioDisjuntorId));
+    final item =
+        $_typedResult.readTableOrNull(_formularioDisjuntorIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MedicaoResistenciaContatoTableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaContatoTableTable> {
+  $$MedicaoResistenciaContatoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get numeroCamara => $composableBuilder(
+      column: $table.numeroCamara, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr,
+      builder: (column) => ColumnFilters(column));
+
+  $$PrevDisjFormTableFilterComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableFilterComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaContatoTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaContatoTableTable> {
+  $$MedicaoResistenciaContatoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get numeroCamara => $composableBuilder(
+      column: $table.numeroCamara,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr,
+      builder: (column) => ColumnOrderings(column));
+
+  $$PrevDisjFormTableOrderingComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableOrderingComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaContatoTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaContatoTableTable> {
+  $$MedicaoResistenciaContatoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get numeroCamara => $composableBuilder(
+      column: $table.numeroCamara, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC, builder: (column) => column);
+
+  GeneratedColumn<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor, builder: (column) => column);
+
+  GeneratedColumn<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr, builder: (column) => column);
+
+  $$PrevDisjFormTableAnnotationComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableAnnotationComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaContatoTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $MedicaoResistenciaContatoTableTable,
+        MedicaoResistenciaContatoTableData,
+        $$MedicaoResistenciaContatoTableTableFilterComposer,
+        $$MedicaoResistenciaContatoTableTableOrderingComposer,
+        $$MedicaoResistenciaContatoTableTableAnnotationComposer,
+        $$MedicaoResistenciaContatoTableTableCreateCompanionBuilder,
+        $$MedicaoResistenciaContatoTableTableUpdateCompanionBuilder,
+        (
+          MedicaoResistenciaContatoTableData,
+          $$MedicaoResistenciaContatoTableTableReferences
+        ),
+        MedicaoResistenciaContatoTableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})> {
+  $$MedicaoResistenciaContatoTableTableTableManager(
+      _$AppDatabase db, $MedicaoResistenciaContatoTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MedicaoResistenciaContatoTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MedicaoResistenciaContatoTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MedicaoResistenciaContatoTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> formularioDisjuntorId = const Value.absent(),
+            Value<int> numeroCamara = const Value.absent(),
+            Value<double?> resistenciaFaseA = const Value.absent(),
+            Value<double?> resistenciaFaseB = const Value.absent(),
+            Value<double?> resistenciaFaseC = const Value.absent(),
+            Value<double?> temperaturaDisjuntor = const Value.absent(),
+            Value<double?> umidadeRelativaAr = const Value.absent(),
+          }) =>
+              MedicaoResistenciaContatoTableCompanion(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            numeroCamara: numeroCamara,
+            resistenciaFaseA: resistenciaFaseA,
+            resistenciaFaseB: resistenciaFaseB,
+            resistenciaFaseC: resistenciaFaseC,
+            temperaturaDisjuntor: temperaturaDisjuntor,
+            umidadeRelativaAr: umidadeRelativaAr,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int formularioDisjuntorId,
+            required int numeroCamara,
+            Value<double?> resistenciaFaseA = const Value.absent(),
+            Value<double?> resistenciaFaseB = const Value.absent(),
+            Value<double?> resistenciaFaseC = const Value.absent(),
+            Value<double?> temperaturaDisjuntor = const Value.absent(),
+            Value<double?> umidadeRelativaAr = const Value.absent(),
+          }) =>
+              MedicaoResistenciaContatoTableCompanion.insert(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            numeroCamara: numeroCamara,
+            resistenciaFaseA: resistenciaFaseA,
+            resistenciaFaseB: resistenciaFaseB,
+            resistenciaFaseC: resistenciaFaseC,
+            temperaturaDisjuntor: temperaturaDisjuntor,
+            umidadeRelativaAr: umidadeRelativaAr,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MedicaoResistenciaContatoTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({formularioDisjuntorId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (formularioDisjuntorId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.formularioDisjuntorId,
+                    referencedTable:
+                        $$MedicaoResistenciaContatoTableTableReferences
+                            ._formularioDisjuntorIdTable(db),
+                    referencedColumn:
+                        $$MedicaoResistenciaContatoTableTableReferences
+                            ._formularioDisjuntorIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MedicaoResistenciaContatoTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MedicaoResistenciaContatoTableTable,
+        MedicaoResistenciaContatoTableData,
+        $$MedicaoResistenciaContatoTableTableFilterComposer,
+        $$MedicaoResistenciaContatoTableTableOrderingComposer,
+        $$MedicaoResistenciaContatoTableTableAnnotationComposer,
+        $$MedicaoResistenciaContatoTableTableCreateCompanionBuilder,
+        $$MedicaoResistenciaContatoTableTableUpdateCompanionBuilder,
+        (
+          MedicaoResistenciaContatoTableData,
+          $$MedicaoResistenciaContatoTableTableReferences
+        ),
+        MedicaoResistenciaContatoTableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})>;
+typedef $$MedicaoResistenciaIsolamentoTableTableCreateCompanionBuilder
+    = MedicaoResistenciaIsolamentoTableCompanion Function({
+  Value<int> id,
+  required int formularioDisjuntorId,
+  required PosicaoDisjuntorEnsaio linha,
+  required PosicaoDisjuntorEnsaio terra,
+  required PosicaoDisjuntorEnsaio guarda,
+  required double tensaoKv,
+  Value<double?> resistenciaFaseA,
+  Value<double?> resistenciaFaseB,
+  Value<double?> resistenciaFaseC,
+  Value<double?> temperaturaDisjuntor,
+  Value<double?> umidadeRelativaAr,
+});
+typedef $$MedicaoResistenciaIsolamentoTableTableUpdateCompanionBuilder
+    = MedicaoResistenciaIsolamentoTableCompanion Function({
+  Value<int> id,
+  Value<int> formularioDisjuntorId,
+  Value<PosicaoDisjuntorEnsaio> linha,
+  Value<PosicaoDisjuntorEnsaio> terra,
+  Value<PosicaoDisjuntorEnsaio> guarda,
+  Value<double> tensaoKv,
+  Value<double?> resistenciaFaseA,
+  Value<double?> resistenciaFaseB,
+  Value<double?> resistenciaFaseC,
+  Value<double?> temperaturaDisjuntor,
+  Value<double?> umidadeRelativaAr,
+});
+
+final class $$MedicaoResistenciaIsolamentoTableTableReferences
+    extends BaseReferences<
+        _$AppDatabase,
+        $MedicaoResistenciaIsolamentoTableTable,
+        MedicaoResistenciaIsolamentoTableData> {
+  $$MedicaoResistenciaIsolamentoTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $PrevDisjFormTable _formularioDisjuntorIdTable(_$AppDatabase db) =>
+      db.prevDisjForm.createAlias($_aliasNameGenerator(
+          db.medicaoResistenciaIsolamentoTable.formularioDisjuntorId,
+          db.prevDisjForm.id));
+
+  $$PrevDisjFormTableProcessedTableManager get formularioDisjuntorId {
+    final manager = $$PrevDisjFormTableTableManager($_db, $_db.prevDisjForm)
+        .filter((f) => f.id($_item.formularioDisjuntorId));
+    final item =
+        $_typedResult.readTableOrNull(_formularioDisjuntorIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MedicaoResistenciaIsolamentoTableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaIsolamentoTableTable> {
+  $$MedicaoResistenciaIsolamentoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get linha => $composableBuilder(
+          column: $table.linha,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get terra => $composableBuilder(
+          column: $table.terra,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get guarda => $composableBuilder(
+          column: $table.guarda,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<double> get tensaoKv => $composableBuilder(
+      column: $table.tensaoKv, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr,
+      builder: (column) => ColumnFilters(column));
+
+  $$PrevDisjFormTableFilterComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableFilterComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaIsolamentoTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaIsolamentoTableTable> {
+  $$MedicaoResistenciaIsolamentoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get linha => $composableBuilder(
+      column: $table.linha, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get terra => $composableBuilder(
+      column: $table.terra, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get guarda => $composableBuilder(
+      column: $table.guarda, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get tensaoKv => $composableBuilder(
+      column: $table.tensaoKv, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr,
+      builder: (column) => ColumnOrderings(column));
+
+  $$PrevDisjFormTableOrderingComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableOrderingComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoResistenciaIsolamentoTableTable> {
+  $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get linha =>
+      $composableBuilder(column: $table.linha, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get terra =>
+      $composableBuilder(column: $table.terra, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get guarda =>
+      $composableBuilder(column: $table.guarda, builder: (column) => column);
+
+  GeneratedColumn<double> get tensaoKv =>
+      $composableBuilder(column: $table.tensaoKv, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseA => $composableBuilder(
+      column: $table.resistenciaFaseA, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseB => $composableBuilder(
+      column: $table.resistenciaFaseB, builder: (column) => column);
+
+  GeneratedColumn<double> get resistenciaFaseC => $composableBuilder(
+      column: $table.resistenciaFaseC, builder: (column) => column);
+
+  GeneratedColumn<double> get temperaturaDisjuntor => $composableBuilder(
+      column: $table.temperaturaDisjuntor, builder: (column) => column);
+
+  GeneratedColumn<double> get umidadeRelativaAr => $composableBuilder(
+      column: $table.umidadeRelativaAr, builder: (column) => column);
+
+  $$PrevDisjFormTableAnnotationComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableAnnotationComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoResistenciaIsolamentoTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $MedicaoResistenciaIsolamentoTableTable,
+        MedicaoResistenciaIsolamentoTableData,
+        $$MedicaoResistenciaIsolamentoTableTableFilterComposer,
+        $$MedicaoResistenciaIsolamentoTableTableOrderingComposer,
+        $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer,
+        $$MedicaoResistenciaIsolamentoTableTableCreateCompanionBuilder,
+        $$MedicaoResistenciaIsolamentoTableTableUpdateCompanionBuilder,
+        (
+          MedicaoResistenciaIsolamentoTableData,
+          $$MedicaoResistenciaIsolamentoTableTableReferences
+        ),
+        MedicaoResistenciaIsolamentoTableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})> {
+  $$MedicaoResistenciaIsolamentoTableTableTableManager(
+      _$AppDatabase db, $MedicaoResistenciaIsolamentoTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MedicaoResistenciaIsolamentoTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MedicaoResistenciaIsolamentoTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> formularioDisjuntorId = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> linha = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> terra = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> guarda = const Value.absent(),
+            Value<double> tensaoKv = const Value.absent(),
+            Value<double?> resistenciaFaseA = const Value.absent(),
+            Value<double?> resistenciaFaseB = const Value.absent(),
+            Value<double?> resistenciaFaseC = const Value.absent(),
+            Value<double?> temperaturaDisjuntor = const Value.absent(),
+            Value<double?> umidadeRelativaAr = const Value.absent(),
+          }) =>
+              MedicaoResistenciaIsolamentoTableCompanion(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            linha: linha,
+            terra: terra,
+            guarda: guarda,
+            tensaoKv: tensaoKv,
+            resistenciaFaseA: resistenciaFaseA,
+            resistenciaFaseB: resistenciaFaseB,
+            resistenciaFaseC: resistenciaFaseC,
+            temperaturaDisjuntor: temperaturaDisjuntor,
+            umidadeRelativaAr: umidadeRelativaAr,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int formularioDisjuntorId,
+            required PosicaoDisjuntorEnsaio linha,
+            required PosicaoDisjuntorEnsaio terra,
+            required PosicaoDisjuntorEnsaio guarda,
+            required double tensaoKv,
+            Value<double?> resistenciaFaseA = const Value.absent(),
+            Value<double?> resistenciaFaseB = const Value.absent(),
+            Value<double?> resistenciaFaseC = const Value.absent(),
+            Value<double?> temperaturaDisjuntor = const Value.absent(),
+            Value<double?> umidadeRelativaAr = const Value.absent(),
+          }) =>
+              MedicaoResistenciaIsolamentoTableCompanion.insert(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            linha: linha,
+            terra: terra,
+            guarda: guarda,
+            tensaoKv: tensaoKv,
+            resistenciaFaseA: resistenciaFaseA,
+            resistenciaFaseB: resistenciaFaseB,
+            resistenciaFaseC: resistenciaFaseC,
+            temperaturaDisjuntor: temperaturaDisjuntor,
+            umidadeRelativaAr: umidadeRelativaAr,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MedicaoResistenciaIsolamentoTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({formularioDisjuntorId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (formularioDisjuntorId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.formularioDisjuntorId,
+                    referencedTable:
+                        $$MedicaoResistenciaIsolamentoTableTableReferences
+                            ._formularioDisjuntorIdTable(db),
+                    referencedColumn:
+                        $$MedicaoResistenciaIsolamentoTableTableReferences
+                            ._formularioDisjuntorIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MedicaoResistenciaIsolamentoTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MedicaoResistenciaIsolamentoTableTable,
+        MedicaoResistenciaIsolamentoTableData,
+        $$MedicaoResistenciaIsolamentoTableTableFilterComposer,
+        $$MedicaoResistenciaIsolamentoTableTableOrderingComposer,
+        $$MedicaoResistenciaIsolamentoTableTableAnnotationComposer,
+        $$MedicaoResistenciaIsolamentoTableTableCreateCompanionBuilder,
+        $$MedicaoResistenciaIsolamentoTableTableUpdateCompanionBuilder,
+        (
+          MedicaoResistenciaIsolamentoTableData,
+          $$MedicaoResistenciaIsolamentoTableTableReferences
+        ),
+        MedicaoResistenciaIsolamentoTableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})>;
+typedef $$MedicaoTempoOperacaoTableTableCreateCompanionBuilder
+    = MedicaoTempoOperacaoTableCompanion Function({
+  Value<int> id,
+  required int formularioDisjuntorId,
+  required FaseAnomalia fase,
+  Value<double?> fechamento,
+  Value<double?> aberturaBobina1,
+  Value<double?> aberturaBobina2,
+  Value<double?> fechamentoTripFree,
+  Value<double?> aberturaTripFreeBob1,
+  Value<double?> aberturaTripFreeBob2,
+  Value<double?> curtoBob1,
+  Value<double?> curtoBob2,
+  Value<double?> dadoPlacaFechamento,
+  Value<double?> dadoPlacaAbertura,
+});
+typedef $$MedicaoTempoOperacaoTableTableUpdateCompanionBuilder
+    = MedicaoTempoOperacaoTableCompanion Function({
+  Value<int> id,
+  Value<int> formularioDisjuntorId,
+  Value<FaseAnomalia> fase,
+  Value<double?> fechamento,
+  Value<double?> aberturaBobina1,
+  Value<double?> aberturaBobina2,
+  Value<double?> fechamentoTripFree,
+  Value<double?> aberturaTripFreeBob1,
+  Value<double?> aberturaTripFreeBob2,
+  Value<double?> curtoBob1,
+  Value<double?> curtoBob2,
+  Value<double?> dadoPlacaFechamento,
+  Value<double?> dadoPlacaAbertura,
+});
+
+final class $$MedicaoTempoOperacaoTableTableReferences extends BaseReferences<
+    _$AppDatabase,
+    $MedicaoTempoOperacaoTableTable,
+    MedicaoTempoOperacaoTableData> {
+  $$MedicaoTempoOperacaoTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $PrevDisjFormTable _formularioDisjuntorIdTable(_$AppDatabase db) =>
+      db.prevDisjForm.createAlias($_aliasNameGenerator(
+          db.medicaoTempoOperacaoTable.formularioDisjuntorId,
+          db.prevDisjForm.id));
+
+  $$PrevDisjFormTableProcessedTableManager get formularioDisjuntorId {
+    final manager = $$PrevDisjFormTableTableManager($_db, $_db.prevDisjForm)
+        .filter((f) => f.id($_item.formularioDisjuntorId));
+    final item =
+        $_typedResult.readTableOrNull(_formularioDisjuntorIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MedicaoTempoOperacaoTableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoTempoOperacaoTableTable> {
+  $$MedicaoTempoOperacaoTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<FaseAnomalia, FaseAnomalia, String> get fase =>
+      $composableBuilder(
+          column: $table.fase,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<double> get fechamento => $composableBuilder(
+      column: $table.fechamento, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get aberturaBobina1 => $composableBuilder(
+      column: $table.aberturaBobina1,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get aberturaBobina2 => $composableBuilder(
+      column: $table.aberturaBobina2,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get fechamentoTripFree => $composableBuilder(
+      column: $table.fechamentoTripFree,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get aberturaTripFreeBob1 => $composableBuilder(
+      column: $table.aberturaTripFreeBob1,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get aberturaTripFreeBob2 => $composableBuilder(
+      column: $table.aberturaTripFreeBob2,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get curtoBob1 => $composableBuilder(
+      column: $table.curtoBob1, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get curtoBob2 => $composableBuilder(
+      column: $table.curtoBob2, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get dadoPlacaFechamento => $composableBuilder(
+      column: $table.dadoPlacaFechamento,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get dadoPlacaAbertura => $composableBuilder(
+      column: $table.dadoPlacaAbertura,
+      builder: (column) => ColumnFilters(column));
+
+  $$PrevDisjFormTableFilterComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableFilterComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoTempoOperacaoTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoTempoOperacaoTableTable> {
+  $$MedicaoTempoOperacaoTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fase => $composableBuilder(
+      column: $table.fase, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get fechamento => $composableBuilder(
+      column: $table.fechamento, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get aberturaBobina1 => $composableBuilder(
+      column: $table.aberturaBobina1,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get aberturaBobina2 => $composableBuilder(
+      column: $table.aberturaBobina2,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get fechamentoTripFree => $composableBuilder(
+      column: $table.fechamentoTripFree,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get aberturaTripFreeBob1 => $composableBuilder(
+      column: $table.aberturaTripFreeBob1,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get aberturaTripFreeBob2 => $composableBuilder(
+      column: $table.aberturaTripFreeBob2,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get curtoBob1 => $composableBuilder(
+      column: $table.curtoBob1, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get curtoBob2 => $composableBuilder(
+      column: $table.curtoBob2, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get dadoPlacaFechamento => $composableBuilder(
+      column: $table.dadoPlacaFechamento,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get dadoPlacaAbertura => $composableBuilder(
+      column: $table.dadoPlacaAbertura,
+      builder: (column) => ColumnOrderings(column));
+
+  $$PrevDisjFormTableOrderingComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableOrderingComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoTempoOperacaoTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoTempoOperacaoTableTable> {
+  $$MedicaoTempoOperacaoTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<FaseAnomalia, String> get fase =>
+      $composableBuilder(column: $table.fase, builder: (column) => column);
+
+  GeneratedColumn<double> get fechamento => $composableBuilder(
+      column: $table.fechamento, builder: (column) => column);
+
+  GeneratedColumn<double> get aberturaBobina1 => $composableBuilder(
+      column: $table.aberturaBobina1, builder: (column) => column);
+
+  GeneratedColumn<double> get aberturaBobina2 => $composableBuilder(
+      column: $table.aberturaBobina2, builder: (column) => column);
+
+  GeneratedColumn<double> get fechamentoTripFree => $composableBuilder(
+      column: $table.fechamentoTripFree, builder: (column) => column);
+
+  GeneratedColumn<double> get aberturaTripFreeBob1 => $composableBuilder(
+      column: $table.aberturaTripFreeBob1, builder: (column) => column);
+
+  GeneratedColumn<double> get aberturaTripFreeBob2 => $composableBuilder(
+      column: $table.aberturaTripFreeBob2, builder: (column) => column);
+
+  GeneratedColumn<double> get curtoBob1 =>
+      $composableBuilder(column: $table.curtoBob1, builder: (column) => column);
+
+  GeneratedColumn<double> get curtoBob2 =>
+      $composableBuilder(column: $table.curtoBob2, builder: (column) => column);
+
+  GeneratedColumn<double> get dadoPlacaFechamento => $composableBuilder(
+      column: $table.dadoPlacaFechamento, builder: (column) => column);
+
+  GeneratedColumn<double> get dadoPlacaAbertura => $composableBuilder(
+      column: $table.dadoPlacaAbertura, builder: (column) => column);
+
+  $$PrevDisjFormTableAnnotationComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableAnnotationComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoTempoOperacaoTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MedicaoTempoOperacaoTableTable,
+    MedicaoTempoOperacaoTableData,
+    $$MedicaoTempoOperacaoTableTableFilterComposer,
+    $$MedicaoTempoOperacaoTableTableOrderingComposer,
+    $$MedicaoTempoOperacaoTableTableAnnotationComposer,
+    $$MedicaoTempoOperacaoTableTableCreateCompanionBuilder,
+    $$MedicaoTempoOperacaoTableTableUpdateCompanionBuilder,
+    (MedicaoTempoOperacaoTableData, $$MedicaoTempoOperacaoTableTableReferences),
+    MedicaoTempoOperacaoTableData,
+    PrefetchHooks Function({bool formularioDisjuntorId})> {
+  $$MedicaoTempoOperacaoTableTableTableManager(
+      _$AppDatabase db, $MedicaoTempoOperacaoTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MedicaoTempoOperacaoTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MedicaoTempoOperacaoTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MedicaoTempoOperacaoTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> formularioDisjuntorId = const Value.absent(),
+            Value<FaseAnomalia> fase = const Value.absent(),
+            Value<double?> fechamento = const Value.absent(),
+            Value<double?> aberturaBobina1 = const Value.absent(),
+            Value<double?> aberturaBobina2 = const Value.absent(),
+            Value<double?> fechamentoTripFree = const Value.absent(),
+            Value<double?> aberturaTripFreeBob1 = const Value.absent(),
+            Value<double?> aberturaTripFreeBob2 = const Value.absent(),
+            Value<double?> curtoBob1 = const Value.absent(),
+            Value<double?> curtoBob2 = const Value.absent(),
+            Value<double?> dadoPlacaFechamento = const Value.absent(),
+            Value<double?> dadoPlacaAbertura = const Value.absent(),
+          }) =>
+              MedicaoTempoOperacaoTableCompanion(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            fase: fase,
+            fechamento: fechamento,
+            aberturaBobina1: aberturaBobina1,
+            aberturaBobina2: aberturaBobina2,
+            fechamentoTripFree: fechamentoTripFree,
+            aberturaTripFreeBob1: aberturaTripFreeBob1,
+            aberturaTripFreeBob2: aberturaTripFreeBob2,
+            curtoBob1: curtoBob1,
+            curtoBob2: curtoBob2,
+            dadoPlacaFechamento: dadoPlacaFechamento,
+            dadoPlacaAbertura: dadoPlacaAbertura,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int formularioDisjuntorId,
+            required FaseAnomalia fase,
+            Value<double?> fechamento = const Value.absent(),
+            Value<double?> aberturaBobina1 = const Value.absent(),
+            Value<double?> aberturaBobina2 = const Value.absent(),
+            Value<double?> fechamentoTripFree = const Value.absent(),
+            Value<double?> aberturaTripFreeBob1 = const Value.absent(),
+            Value<double?> aberturaTripFreeBob2 = const Value.absent(),
+            Value<double?> curtoBob1 = const Value.absent(),
+            Value<double?> curtoBob2 = const Value.absent(),
+            Value<double?> dadoPlacaFechamento = const Value.absent(),
+            Value<double?> dadoPlacaAbertura = const Value.absent(),
+          }) =>
+              MedicaoTempoOperacaoTableCompanion.insert(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            fase: fase,
+            fechamento: fechamento,
+            aberturaBobina1: aberturaBobina1,
+            aberturaBobina2: aberturaBobina2,
+            fechamentoTripFree: fechamentoTripFree,
+            aberturaTripFreeBob1: aberturaTripFreeBob1,
+            aberturaTripFreeBob2: aberturaTripFreeBob2,
+            curtoBob1: curtoBob1,
+            curtoBob2: curtoBob2,
+            dadoPlacaFechamento: dadoPlacaFechamento,
+            dadoPlacaAbertura: dadoPlacaAbertura,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MedicaoTempoOperacaoTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({formularioDisjuntorId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (formularioDisjuntorId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.formularioDisjuntorId,
+                    referencedTable: $$MedicaoTempoOperacaoTableTableReferences
+                        ._formularioDisjuntorIdTable(db),
+                    referencedColumn: $$MedicaoTempoOperacaoTableTableReferences
+                        ._formularioDisjuntorIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MedicaoTempoOperacaoTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MedicaoTempoOperacaoTableTable,
+        MedicaoTempoOperacaoTableData,
+        $$MedicaoTempoOperacaoTableTableFilterComposer,
+        $$MedicaoTempoOperacaoTableTableOrderingComposer,
+        $$MedicaoTempoOperacaoTableTableAnnotationComposer,
+        $$MedicaoTempoOperacaoTableTableCreateCompanionBuilder,
+        $$MedicaoTempoOperacaoTableTableUpdateCompanionBuilder,
+        (
+          MedicaoTempoOperacaoTableData,
+          $$MedicaoTempoOperacaoTableTableReferences
+        ),
+        MedicaoTempoOperacaoTableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})>;
+typedef $$MedicaoPressaoSf6TableTableCreateCompanionBuilder
+    = MedicaoPressaoSf6TableCompanion Function({
+  Value<int> id,
+  required int formularioDisjuntorId,
+  required FaseAnomalia fase,
+  required double valorPressao,
+  required double temperatura,
+});
+typedef $$MedicaoPressaoSf6TableTableUpdateCompanionBuilder
+    = MedicaoPressaoSf6TableCompanion Function({
+  Value<int> id,
+  Value<int> formularioDisjuntorId,
+  Value<FaseAnomalia> fase,
+  Value<double> valorPressao,
+  Value<double> temperatura,
+});
+
+final class $$MedicaoPressaoSf6TableTableReferences extends BaseReferences<
+    _$AppDatabase, $MedicaoPressaoSf6TableTable, MedicaoPressaoSf6TableData> {
+  $$MedicaoPressaoSf6TableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $PrevDisjFormTable _formularioDisjuntorIdTable(_$AppDatabase db) =>
+      db.prevDisjForm.createAlias($_aliasNameGenerator(
+          db.medicaoPressaoSf6Table.formularioDisjuntorId, db.prevDisjForm.id));
+
+  $$PrevDisjFormTableProcessedTableManager get formularioDisjuntorId {
+    final manager = $$PrevDisjFormTableTableManager($_db, $_db.prevDisjForm)
+        .filter((f) => f.id($_item.formularioDisjuntorId));
+    final item =
+        $_typedResult.readTableOrNull(_formularioDisjuntorIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MedicaoPressaoSf6TableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoPressaoSf6TableTable> {
+  $$MedicaoPressaoSf6TableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<FaseAnomalia, FaseAnomalia, String> get fase =>
+      $composableBuilder(
+          column: $table.fase,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<double> get valorPressao => $composableBuilder(
+      column: $table.valorPressao, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get temperatura => $composableBuilder(
+      column: $table.temperatura, builder: (column) => ColumnFilters(column));
+
+  $$PrevDisjFormTableFilterComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableFilterComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoPressaoSf6TableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoPressaoSf6TableTable> {
+  $$MedicaoPressaoSf6TableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fase => $composableBuilder(
+      column: $table.fase, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get valorPressao => $composableBuilder(
+      column: $table.valorPressao,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get temperatura => $composableBuilder(
+      column: $table.temperatura, builder: (column) => ColumnOrderings(column));
+
+  $$PrevDisjFormTableOrderingComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableOrderingComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoPressaoSf6TableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoPressaoSf6TableTable> {
+  $$MedicaoPressaoSf6TableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<FaseAnomalia, String> get fase =>
+      $composableBuilder(column: $table.fase, builder: (column) => column);
+
+  GeneratedColumn<double> get valorPressao => $composableBuilder(
+      column: $table.valorPressao, builder: (column) => column);
+
+  GeneratedColumn<double> get temperatura => $composableBuilder(
+      column: $table.temperatura, builder: (column) => column);
+
+  $$PrevDisjFormTableAnnotationComposer get formularioDisjuntorId {
+    final $$PrevDisjFormTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioDisjuntorId,
+        referencedTable: $db.prevDisjForm,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$PrevDisjFormTableAnnotationComposer(
+              $db: $db,
+              $table: $db.prevDisjForm,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$MedicaoPressaoSf6TableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $MedicaoPressaoSf6TableTable,
+    MedicaoPressaoSf6TableData,
+    $$MedicaoPressaoSf6TableTableFilterComposer,
+    $$MedicaoPressaoSf6TableTableOrderingComposer,
+    $$MedicaoPressaoSf6TableTableAnnotationComposer,
+    $$MedicaoPressaoSf6TableTableCreateCompanionBuilder,
+    $$MedicaoPressaoSf6TableTableUpdateCompanionBuilder,
+    (MedicaoPressaoSf6TableData, $$MedicaoPressaoSf6TableTableReferences),
+    MedicaoPressaoSf6TableData,
+    PrefetchHooks Function({bool formularioDisjuntorId})> {
+  $$MedicaoPressaoSf6TableTableTableManager(
+      _$AppDatabase db, $MedicaoPressaoSf6TableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MedicaoPressaoSf6TableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MedicaoPressaoSf6TableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MedicaoPressaoSf6TableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> formularioDisjuntorId = const Value.absent(),
+            Value<FaseAnomalia> fase = const Value.absent(),
+            Value<double> valorPressao = const Value.absent(),
+            Value<double> temperatura = const Value.absent(),
+          }) =>
+              MedicaoPressaoSf6TableCompanion(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            fase: fase,
+            valorPressao: valorPressao,
+            temperatura: temperatura,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int formularioDisjuntorId,
+            required FaseAnomalia fase,
+            required double valorPressao,
+            required double temperatura,
+          }) =>
+              MedicaoPressaoSf6TableCompanion.insert(
+            id: id,
+            formularioDisjuntorId: formularioDisjuntorId,
+            fase: fase,
+            valorPressao: valorPressao,
+            temperatura: temperatura,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MedicaoPressaoSf6TableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({formularioDisjuntorId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (formularioDisjuntorId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.formularioDisjuntorId,
+                    referencedTable: $$MedicaoPressaoSf6TableTableReferences
+                        ._formularioDisjuntorIdTable(db),
+                    referencedColumn: $$MedicaoPressaoSf6TableTableReferences
+                        ._formularioDisjuntorIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MedicaoPressaoSf6TableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MedicaoPressaoSf6TableTable,
+        MedicaoPressaoSf6TableData,
+        $$MedicaoPressaoSf6TableTableFilterComposer,
+        $$MedicaoPressaoSf6TableTableOrderingComposer,
+        $$MedicaoPressaoSf6TableTableAnnotationComposer,
+        $$MedicaoPressaoSf6TableTableCreateCompanionBuilder,
+        $$MedicaoPressaoSf6TableTableUpdateCompanionBuilder,
+        (MedicaoPressaoSf6TableData, $$MedicaoPressaoSf6TableTableReferences),
+        MedicaoPressaoSf6TableData,
+        PrefetchHooks Function({bool formularioDisjuntorId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -20659,4 +26750,20 @@ class $AppDatabaseManager {
       get medicaoElementoBateriaTable =>
           $$MedicaoElementoBateriaTableTableTableManager(
               _db, _db.medicaoElementoBateriaTable);
+  $$PrevDisjFormTableTableManager get prevDisjForm =>
+      $$PrevDisjFormTableTableManager(_db, _db.prevDisjForm);
+  $$MedicaoResistenciaContatoTableTableTableManager
+      get medicaoResistenciaContatoTable =>
+          $$MedicaoResistenciaContatoTableTableTableManager(
+              _db, _db.medicaoResistenciaContatoTable);
+  $$MedicaoResistenciaIsolamentoTableTableTableManager
+      get medicaoResistenciaIsolamentoTable =>
+          $$MedicaoResistenciaIsolamentoTableTableTableManager(
+              _db, _db.medicaoResistenciaIsolamentoTable);
+  $$MedicaoTempoOperacaoTableTableTableManager get medicaoTempoOperacaoTable =>
+      $$MedicaoTempoOperacaoTableTableTableManager(
+          _db, _db.medicaoTempoOperacaoTable);
+  $$MedicaoPressaoSf6TableTableTableManager get medicaoPressaoSf6Table =>
+      $$MedicaoPressaoSf6TableTableTableManager(
+          _db, _db.medicaoPressaoSf6Table);
 }
