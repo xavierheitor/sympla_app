@@ -1,14 +1,5 @@
 import 'package:drift/drift.dart';
-
-enum TipoAtividadeMobile {
-  ivItIu,
-  prevBcBat,
-  prevDisjuntor,
-  medMalha,
-  testeCaCc,
-  coletaOleo,
-  testesFuncDisjuntor,
-}
+import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 
 class TipoAtividadeMobileConverter
     extends TypeConverter<TipoAtividadeMobile, String> {

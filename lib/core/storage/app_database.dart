@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
