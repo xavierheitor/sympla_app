@@ -3,12 +3,14 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/services/atividade_service.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/data/models/atividade_model.dart';
 
 class AtividadeController extends GetxController {
+  final AtividadeService atividadeService;
   final AtividadeSyncService atividadeSyncService;
 
   final RxList<AtividadeModel> atividades = <AtividadeModel>[].obs;
@@ -21,7 +23,10 @@ class AtividadeController extends GetxController {
 
   final Rx<AtividadeModel?> atividadeEmAndamento = Rx<AtividadeModel?>(null);
 
-  AtividadeController({required this.atividadeSyncService});
+  AtividadeController({
+    required this.atividadeService,
+    required this.atividadeSyncService,
+  });
 
   @override
   Future<void> onInit() async {
@@ -48,8 +53,7 @@ class AtividadeController extends GetxController {
       }
 
       // Carrega atividades do banco (join com equipamento)
-      final listaComEquipamento =
-          await atividadeSyncService.buscarComEquipamento();
+      final listaComEquipamento = await atividadeService.buscarComEquipamento();
       atividades.assignAll(listaComEquipamento);
 
       // Atualiza contadores
@@ -96,7 +100,7 @@ class AtividadeController extends GetxController {
 
   Future<void> buscarAtividadeEmAndamento() async {
     try {
-      final atividade = await atividadeSyncService.buscarAtividadeEmAndamento();
+      final atividade = await atividadeService.buscarAtividadeEmAndamento();
       atividadeEmAndamento.value = atividade;
     } catch (e, s) {
       AppLogger.e(
@@ -110,7 +114,7 @@ class AtividadeController extends GetxController {
   Future<void> iniciarAtividade(AtividadeModel atividade) async {
     try {
       atividadeEmAndamento.value = atividade;
-      await atividadeSyncService.iniciarAtividade(atividade);
+      await atividadeService.iniciarAtividade(atividade);
 
       // Atualiza o status na lista em memória também
       final index = atividades.indexWhere((a) => a.id == atividade.id);
@@ -156,7 +160,7 @@ class AtividadeController extends GetxController {
 
   Future<void> finalizarAtividade(AtividadeModel atividade) async {
     try {
-      await atividadeSyncService.finalizarAtividade(atividade);
+      await atividadeService.finalizarAtividade(atividade);
       atividadeEmAndamento.value = null;
       atividades.refresh();
       atualizarContadores();

@@ -1,6 +1,7 @@
 // HomeBinding
 import 'package:get/get.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/services/atividade_service.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/core/data/repositories/atividade/atividade_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
@@ -16,8 +17,15 @@ class HomeBinding extends Bindings {
 
     Get.lazyPut(() => AtividadeSyncService(Get.find()));
 
+    Get.lazyPut(() => AtividadeService(
+          atividadeRepository: Get.find(),
+        ));
+
     Get.put<AtividadeController>(
-      AtividadeController(atividadeSyncService: Get.find()),
+      AtividadeController(
+        atividadeService: Get.find(),
+        atividadeSyncService: Get.find(),
+      ),
       permanent: true,
     );
 

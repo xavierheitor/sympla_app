@@ -14,6 +14,7 @@ import 'package:sympla_app/core/data/repositories/apr/apr_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_perguntas_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/apr/apr_respostas_repository_impl.dart';
 import 'package:sympla_app/core/data/repositories/atividade/atividade_repository_impl.dart';
+import 'package:sympla_app/core/services/atividade_service.dart';
 import 'package:sympla_app/core/services/sync/atividade_sync_service.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/modules/apr/apr_controller.dart';
@@ -60,7 +61,12 @@ class AprBinding extends Bindings {
           aprAssinaturaRepository: Get.find(),
         ));
 
+    Get.lazyPut(() => AtividadeService(
+          atividadeRepository: Get.find(),
+        ));
+
     Get.lazyPut(() => AtividadeController(
+        atividadeService: Get.find(),
         atividadeSyncService: Get.find<AtividadeSyncService>()));
 
     // Controller

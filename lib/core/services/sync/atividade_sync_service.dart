@@ -1,7 +1,5 @@
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/data/models/atividade_model.dart';
 import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
 
 class AtividadeSyncService {
@@ -30,70 +28,6 @@ class AtividadeSyncService {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeSyncService - estaVazio] ${erro.mensagem}',
           tag: 'AtividadeSync', error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<List<AtividadeTableData>> buscarTodas() async {
-    try {
-      return await repository.buscarTodas();
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AtividadeSyncService - buscarTodas] ${erro.mensagem}',
-          tag: 'AtividadeSync', error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<List<AtividadeModel>> buscarComEquipamento() async {
-    try {
-      return await repository.buscarComEquipamento();
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[AtividadeSyncService - buscarComEquipamento] ${erro.mensagem}',
-          tag: 'AtividadeSync',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  buscarAtividadeEmAndamento() async {
-    try {
-      return await repository.buscarEmAndamento();
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[AtividadeSyncService - buscarAtividadeEmAndamento] ${erro.mensagem}',
-          tag: 'AtividadeSync',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<void> iniciarAtividade(AtividadeModel atividade) async {
-    try {
-      await repository.iniciarAtividade(atividade);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AtividadeSyncService - iniciarAtividade] ${erro.mensagem}',
-          tag: 'AtividadeSync', error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<void> finalizarAtividade(AtividadeModel atividade) async {
-    try {
-      await repository.finalizarAtividade(atividade);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[AtividadeSyncService - finalizarAtividade] ${erro.mensagem}',
-          tag: 'AtividadeSync',
-          error: e,
-          stackTrace: s);
       rethrow;
     }
   }
