@@ -22,7 +22,6 @@ class ChecklistPage extends StatelessWidget {
             icon: const Icon(Icons.save),
             onPressed: () async {
               await controller.salvarRespostas();
-              Get.snackbar('Sucesso', 'Respostas salvas com sucesso');
             },
           ),
         ],

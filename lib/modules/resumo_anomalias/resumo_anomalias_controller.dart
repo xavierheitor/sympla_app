@@ -148,6 +148,8 @@ class ResumoAnomaliasController extends GetxController {
       AppLogger.d(
           '[ResumoAnomaliasController] Concluindo atividade ID: ${atividade.id}');
       await atividadeController.finalizarAtividade(atividade);
+      await atividadeController.carregarAtividades();
+      atividadeController.atualizarContadores();
       AppLogger.d(
           '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
       Get.offAllNamed('/home');

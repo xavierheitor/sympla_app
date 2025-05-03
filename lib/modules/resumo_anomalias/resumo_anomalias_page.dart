@@ -23,7 +23,6 @@ class ResumoAnomaliasPage extends StatelessWidget {
               AppLogger.d(
                   '[ResumoAnomaliasPage] Botão concluir atividade pressionado');
               await controller.concluirAtividade();
-              Get.snackbar('Sucesso', 'Atividade concluída com sucesso');
             },
           ),
         ],
