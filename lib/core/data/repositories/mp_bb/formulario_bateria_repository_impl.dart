@@ -40,9 +40,9 @@ class FormularioBateriaRepositoryImpl implements FormularioBateriaRepository {
   }
 
   @override
-  Future<void> insert(FormularioBateriaTableCompanion data) async {
+  Future<int> insert(FormularioBateriaTableCompanion data) async {
     try {
-      await dao.insert(data);
+      return await dao.insert(data);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[FormularioBateriaRepositoryImpl - insert] ${erro.mensagem}',
