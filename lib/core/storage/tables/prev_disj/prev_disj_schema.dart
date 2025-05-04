@@ -43,6 +43,14 @@ class PrevDisjForm extends Table {
 
   //dados do ensaio
   DateTimeColumn get dataEnsaio => dateTime().withDefault(currentDateAndTime)();
+
+  @override
+  List<Set<Column>>? get uniqueKeys => [
+        {atividadeId},
+      ];
+
+  @override
+  List<String> get customConstraints => ['UNIQUE(atividade_id)'];
 }
 
 class MedicaoResistenciaContatoTable extends Table {
