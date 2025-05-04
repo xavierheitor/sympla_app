@@ -24,6 +24,12 @@ class HomeController extends GetxController {
     }
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    atividadeController.carregarAtividades(); // garante atualização ao voltar
+  }
+
   void sincronizarAtividades() {
     atividadeController.sincronizarAtividades();
   }

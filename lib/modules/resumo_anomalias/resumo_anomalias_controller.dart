@@ -1,7 +1,5 @@
 // resumo_anomalias_controller.dart
 import 'package:get/get.dart';
-import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalia_service.dart';
@@ -148,54 +146,13 @@ class ResumoAnomaliasController extends GetxController {
 
     try {
       AppLogger.d(
-          '[ResumoAnomaliasController] Concluindo atividade ID: ${atividade.id}');
-      AppLogger.d('[ResumoAnomaliasController] Buscando tipo de atividade...');
-
-      final tipoAtividade =
-          await atividadeController.getTipoAtividadeId(atividade);
-
-      AppLogger.d(
-        '[ResumoAnomaliasController] Tipo atividade recebido: id=${tipoAtividade.id}, tipoMobile=${tipoAtividade.tipoAtividadeMobile}',
-      );
-
-      switch (tipoAtividade.tipoAtividadeMobile) {
-        case TipoAtividadeMobile.prevBcBat:
-          AppLogger.d(
-              '[ResumoAnomaliasController] Tipo mpBb identificado. Navegando para tela de formulário MPBB...');
-          Get.offAllNamed(Routes.mpBbForm);
-          break;
-
-        case TipoAtividadeMobile.prevDisjuntor:
-          AppLogger.d(
-              '[ResumoAnomaliasController] Tipo mpDj identificado. Navegando para tela de formulário MPDJ...');
-          Get.offAllNamed(Routes.mpDjForm);
-          break;
-
-        case TipoAtividadeMobile.ivItIu:
-          AppLogger.d(
-              '[ResumoAnomaliasController] Tipo ivItIu identificado. Finalizando atividade...');
-          await atividadeController.finalizarAtividade(atividade);
-          await atividadeController.carregarAtividades();
-          atividadeController.atualizarContadores();
-          Get.offAllNamed(Routes.home);
-          AppLogger.d(
-              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída');
-          break;
-
-        default:
-          AppLogger.d(
-              '[ResumoAnomaliasController] Tipo não mapeado. Finalizando por padrão...');
-          await atividadeController.finalizarAtividade(atividade);
-          await atividadeController.carregarAtividades();
-          atividadeController.atualizarContadores();
-          Get.offAllNamed(Routes.home);
-          AppLogger.d(
-              '[ResumoAnomaliasController] Atividade ${atividade.id} concluída (default)');
-          break;
-      }
+          '[ResumoAnomaliasController] Concluindo etapa atual da atividade ID: ${atividade.id}');
+      await atividadeController.avancar();
     } catch (e, s) {
-      AppLogger.e('[ResumoAnomaliasController] Erro ao concluir atividade',
-          error: e, stackTrace: s);
+      AppLogger.e(
+          '[ResumoAnomaliasController] Erro ao concluir etapa e avançar',
+          error: e,
+          stackTrace: s);
     }
   }
 }

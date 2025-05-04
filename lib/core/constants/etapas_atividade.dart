@@ -10,6 +10,15 @@ enum EtapaAtividade {
   // Adicione outras etapas conforme necessário
 }
 
+final Map<EtapaAtividade, bool> etapasSempreMostram = {
+  EtapaAtividade.apr: true,
+  EtapaAtividade.checklist: true,
+  EtapaAtividade.resumoAnomalias: true, // ✅ Sempre aparece
+  EtapaAtividade.mpBbForm: false,
+  EtapaAtividade.mpDjForm: false,
+  EtapaAtividade.finalizada: true,
+};
+
 final Map<TipoAtividadeMobile, List<EtapaAtividade>> fluxoPorTipoAtividade = {
   TipoAtividadeMobile.ivItIu: [
     EtapaAtividade.apr,
