@@ -39,3 +39,6 @@ void main() {
         tag: 'GlobalError', error: error, stackTrace: stack);
   });
 }
+
+
+//iremos comecar a implementar o controle de fluxo da atividade, isso pode gerar bastante alteracoes, esse comit servira como marco
