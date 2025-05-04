@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_service.dart';
+import 'package:sympla_app/core/controllers/atividade_controller.dart';
 
 class MpBbFormController extends GetxController {
   final MpBbFormService service;
@@ -39,6 +39,13 @@ class MpBbFormController extends GetxController {
 
       AppLogger.d(
           '[MpBbFormController] Formulário: ${form != null}, Medições: ${lista.length}');
+
+      if (form != null && lista.isNotEmpty) {
+        AppLogger.d(
+            '[MpBbFormController] Formulário já preenchido. Sinalizando conclusão da etapa MPBB');
+        final atividadeController = Get.find<AtividadeController>();
+        atividadeController.avancar();
+      }
     } catch (e, s) {
       AppLogger.e('[MpBbFormController] Erro ao carregar formulário',
           error: e, stackTrace: s);
@@ -56,7 +63,9 @@ class MpBbFormController extends GetxController {
       await service.salvarFormulario(dados, medicoesList);
       await carregarFormulario();
       AppLogger.d('[MpBbFormController] Formulário salvo com sucesso');
-      Get.offAllNamed(Routes.home);
+
+      final atividadeController = Get.find<AtividadeController>();
+      atividadeController.avancar();
     } catch (e, s) {
       AppLogger.e('[MpBbFormController] Erro ao salvar formulário',
           error: e, stackTrace: s);

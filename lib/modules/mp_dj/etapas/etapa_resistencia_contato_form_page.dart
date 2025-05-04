@@ -142,7 +142,7 @@ class _EtapaResistenciaContatoPageState
                   ),
                 ),
               );
-            }).toList(),
+            }),
             ElevatedButton.icon(
               onPressed: _adicionarCamara,
               icon: const Icon(Icons.add),

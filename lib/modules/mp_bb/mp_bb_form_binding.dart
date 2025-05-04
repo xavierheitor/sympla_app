@@ -12,8 +12,12 @@ class MpBbFormBinding extends Bindings {
   @override
   void dependencies() {
     final db = Get.find<AppDatabase>();
-    final atividadeId =
-        Get.find<AtividadeController>().atividadeEmAndamento.value?.id ?? 0;
+
+    final atividade =
+        Get.find<AtividadeController>().atividadeEmAndamento.value;
+    assert(atividade != null,
+        'Nenhuma atividade em andamento encontrada no binding de MPBB');
+    final atividadeId = atividade!.id;
 
     Get.lazyPut<FormularioBateriaRepository>(
         () => FormularioBateriaRepositoryImpl(db: db));
