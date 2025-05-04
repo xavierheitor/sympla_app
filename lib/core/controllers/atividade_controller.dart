@@ -12,18 +12,26 @@ import 'package:sympla_app/core/storage/converters/status_atividade_converter.da
 import 'package:sympla_app/core/data/models/atividade_model.dart';
 
 class AtividadeController extends GetxController {
+  //servicos da atividade
   final AtividadeService atividadeService;
   final AtividadeSyncService atividadeSyncService;
 
+  //lista de atividades
   final RxList<AtividadeModel> atividades = <AtividadeModel>[].obs;
+
+  //loading
   final RxBool isLoading = false.obs;
 
+  //contadores
   final RxInt atividadesPendentes = 0.obs;
   final RxInt atividadesConcluidas = 0.obs;
   final RxInt atividadesCanceladas = 0.obs;
   final RxInt atividadesEmAndamento = 0.obs;
 
+  //atividade em andamento
   final Rx<AtividadeModel?> atividadeEmAndamento = Rx<AtividadeModel?>(null);
+
+  //etapa atual
   final Rx<EtapaAtividade?> etapaAtual = Rx<EtapaAtividade?>(null);
 
   AtividadeController({
@@ -31,11 +39,12 @@ class AtividadeController extends GetxController {
     required this.atividadeSyncService,
   });
 
+  //inicializacao
   @override
   Future<void> onInit() async {
     super.onInit();
+    //verifica se o usuario esta logado
     final session = Get.find<SessionManager>();
-
     if (!session.estaLogado) {
       AppLogger.w(
           '🔐 Usuário não logado. Pulando carga inicial de atividades.');
@@ -43,11 +52,13 @@ class AtividadeController extends GetxController {
       return;
     }
 
+    //carrega as atividades
     AppLogger.d('🚀 Iniciando carregamento de atividades...',
         tag: 'AtividadeController');
     await carregarAtividades();
   }
 
+  //sincroniza as atividades chamando o servico de sincronizacao
   Future<void> sincronizarAtividades() async {
     try {
       isLoading.value = true;
@@ -64,10 +75,12 @@ class AtividadeController extends GetxController {
     }
   }
 
+  //carrega as atividades do banco de dados chamando o servico de atividade
   Future<void> carregarAtividades() async {
     try {
       isLoading.value = true;
 
+      //verifica se o banco esta vazio
       final vazio = await atividadeSyncService.estaVazio();
       if (vazio) {
         AppLogger.d('📡 Banco vazio, iniciando sincronização...',
@@ -75,11 +88,15 @@ class AtividadeController extends GetxController {
         await atividadeSyncService.sincronizar();
       }
 
+      //carrega as atividades com equipamento
       final listaComEquipamento = await atividadeService.buscarComEquipamento();
       atividades.assignAll(listaComEquipamento);
 
-      atualizarContadores();
-      await buscarAtividadeEmAndamento();
+      //atualiza os contadores
+      _atualizarContadores();
+
+      //busca a atividade em andamento
+      await _buscarAtividadeEmAndamento();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[carregarAtividades] ${erro.mensagem}',
@@ -91,7 +108,8 @@ class AtividadeController extends GetxController {
     }
   }
 
-  void atualizarContadores() {
+  //atualiza os contadores com base na lista de atividades
+  void _atualizarContadores() {
     atividadesPendentes.value = 0;
     atividadesConcluidas.value = 0;
     atividadesCanceladas.value = 0;
@@ -122,7 +140,8 @@ class AtividadeController extends GetxController {
     );
   }
 
-  Future<void> buscarAtividadeEmAndamento() async {
+  //busca a atividade em andamento no banco de dados
+  Future<void> _buscarAtividadeEmAndamento() async {
     try {
       final atividade = await atividadeService.buscarAtividadeEmAndamento();
       atividadeEmAndamento.value = atividade;
@@ -142,22 +161,26 @@ class AtividadeController extends GetxController {
     }
   }
 
+  //inicia a atividade salva no banco e manda executar a atividade
   Future<void> iniciarAtividade(AtividadeModel atividade) async {
     try {
       AppLogger.d('⚙️ Iniciando atividade ID: ${atividade.id}',
           tag: 'AtividadeController');
 
+      //atualiza a atividade em andamento
       atividadeEmAndamento.value = atividade;
 
+      //inicia a atividade no banco de dados
       await atividadeService.iniciarAtividade(atividade);
 
+      //atualiza a lista de atividades
       final index = atividades.indexWhere((a) => a.id == atividade.id);
       if (index != -1) {
         atividades[index] =
             atividade.copyWithStatus(StatusAtividade.emAndamento);
         atividades.refresh();
         atividadeEmAndamento.value = atividades[index];
-        atualizarContadores();
+        _atualizarContadores();
       }
 
       // 🧠 Não define etapaAtual aqui — deixa o executarAtividade resolver se necessário
@@ -172,6 +195,7 @@ class AtividadeController extends GetxController {
     }
   }
 
+  //finaliza a atividade no banco de dados e faz as tratativas relacionadas
   Future<void> finalizarAtividade(AtividadeModel atividade) async {
     try {
       await atividadeService.finalizarAtividade(atividade);
@@ -190,7 +214,8 @@ class AtividadeController extends GetxController {
     }
   }
 
-  Future<TipoAtividadeMobile> tipoAtividadeMobileDo(
+  //pega o tipo da atividade no banco
+  Future<TipoAtividadeMobile> _tipoAtividadeMobileDo(
       AtividadeModel atividade) async {
     final tipoAtividade = await atividadeService.getTipoAtividadeId(atividade);
     return tipoAtividade.tipoAtividadeMobile;
@@ -198,7 +223,7 @@ class AtividadeController extends GetxController {
 
   Future<EtapaAtividade?> _proximaEtapa(
       AtividadeModel atividade, EtapaAtividade etapaAtual) async {
-    final tipo = await tipoAtividadeMobileDo(atividade);
+    final tipo = await _tipoAtividadeMobileDo(atividade);
     final etapas = fluxoPorTipoAtividade[tipo] ?? [];
     final idx = etapas.indexOf(etapaAtual);
     return (idx >= 0 && idx + 1 < etapas.length) ? etapas[idx + 1] : null;
@@ -216,7 +241,7 @@ class AtividadeController extends GetxController {
 
     // Se etapa atual estiver nula, assume a primeira do fluxo
     if (etapa == null) {
-      final tipo = await tipoAtividadeMobileDo(atividade);
+      final tipo = await _tipoAtividadeMobileDo(atividade);
       final fluxo = fluxoPorTipoAtividade[tipo];
       if (fluxo == null || fluxo.isEmpty) {
         AppLogger.w('⚠️ Nenhum fluxo definido para tipo $tipo',
@@ -227,8 +252,10 @@ class AtividadeController extends GetxController {
       etapaAtual.value = etapa;
     }
 
+    //pega a proxima etapa
     final proxima = await _proximaEtapa(atividade, etapa);
 
+    //se a etapa atual for a ultima, finaliza a atividade
     if (proxima == null) {
       AppLogger.d('🏁 Etapa final atingida. Executando finalização...',
           tag: 'AtividadeController');
@@ -237,14 +264,17 @@ class AtividadeController extends GetxController {
       return;
     }
 
+    //atualiza a etapa atual
     etapaAtual.value = proxima;
+
+    //executa a atividade
     await executarAtividade(atividade);
   }
 
   Future<void> executarAtividade(AtividadeModel atividade) async {
     // 🧠 Garante etapa inicial se não estiver setada
     if (etapaAtual.value == null) {
-      final tipoMobile = await tipoAtividadeMobileDo(atividade);
+      final tipoMobile = await _tipoAtividadeMobileDo(atividade);
       final fluxo = fluxoPorTipoAtividade[tipoMobile];
 
       if (fluxo == null || fluxo.isEmpty) {

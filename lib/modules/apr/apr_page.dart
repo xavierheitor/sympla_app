@@ -15,8 +15,6 @@ class AprPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppLogger.d('🏗️ Construindo interface da AprPage', tag: 'AprPage');
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Análise Preliminar de Risco'),
@@ -50,12 +48,12 @@ class AprPage extends StatelessWidget {
         ],
       ),
       body: Obx(() {
-        AppLogger.d('🔄 Atualizando estado da interface', tag: 'AprPage');
-
+        //verifica se esta carregando
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
 
+        //retorna a lista de perguntas
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [

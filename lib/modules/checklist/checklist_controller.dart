@@ -16,15 +16,28 @@ class ChecklistController extends GetxController {
     required this.atividadeController,
   });
 
+  //lista de perguntas
   final _perguntas = <ChecklistPerguntaTableData>[].obs;
+
+  //lista de relacionamentos
   final _relacionamentos = <ChecklistPerguntaRelacionamentoTableData>[].obs;
+
+  //respostas
   final _respostas = <int, RespostaChecklist>{}.obs;
+
+  //carregando
   final _carregando = false.obs;
 
+  //pega as perguntas
   List<ChecklistPerguntaTableData> get perguntas => _perguntas;
+
+  //pega as respostas
   Map<int, RespostaChecklist> get respostas => _respostas;
+
+  //pega se esta carregando
   bool get carregando => _carregando.value;
 
+  //pega as perguntas por grupo/subgrupo
   Map<GrupoSubgrupoKey, List<ChecklistPerguntaTableData>>
       get perguntasPorGrupoSubgrupo {
     final Map<GrupoSubgrupoKey, List<ChecklistPerguntaTableData>> mapa = {};
@@ -53,12 +66,14 @@ class ChecklistController extends GetxController {
     super.onInit();
     AppLogger.d('[ChecklistController] Inicializando controller...');
 
+    //pega a atividade em andamento
     final atividade = atividadeController.atividadeEmAndamento.value;
     if (atividade == null) {
       AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
       return;
     }
 
+    //verifica se o checklist ja foi respondido
     final jaRespondido =
         await checklistService.checklistJaRespondido(atividade.id);
     if (jaRespondido) {
@@ -69,9 +84,11 @@ class ChecklistController extends GetxController {
       return;
     }
 
-    await carregarChecklist(); // Só carrega se ainda não respondeu
+    //carrega o checklist
+    await carregarChecklist();
   }
 
+  //verifica se o checklist ja foi respondido
   Future<void> checklistJaRespondido() async {
     final atividade = atividadeController.atividadeEmAndamento;
 
@@ -90,6 +107,7 @@ class ChecklistController extends GetxController {
     }
   }
 
+  //carrega o checklist
   Future<void> carregarChecklist() async {
     try {
       _carregando.value = true;
@@ -142,12 +160,14 @@ class ChecklistController extends GetxController {
     }
   }
 
+  //registra a resposta de uma pergunta
   void registrarResposta(int perguntaId, RespostaChecklist resposta) {
     AppLogger.d(
         '[ChecklistController] Registrando resposta: pergunta $perguntaId → ${resposta.name}');
     _respostas[perguntaId] = resposta;
   }
 
+  //salva as respostas no banco de dados
   Future<void> salvarRespostas() async {
     final atividade = atividadeController.atividadeEmAndamento;
     if (atividade.value == null) {
@@ -170,6 +190,7 @@ class ChecklistController extends GetxController {
         '[ChecklistController] Total de respostas para salvar: ${lista.length}');
     await checklistService.salvarRespostas(lista);
 
+    //avanca para a proxima etapa
     await atividadeController.avancar();
   }
 }

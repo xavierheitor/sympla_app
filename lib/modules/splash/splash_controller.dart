@@ -34,7 +34,11 @@ class SplashController extends GetxController {
     final sincronizou = await _sincronizarDados();
 
     if (!sincronizou) {
+      //verifica se as tabelas necessarias para a execucao do app ja estao preenchidas, caso ja estejam preenchidas, pode pular a sincronizacao pra
+      // nao prejudicar o app e evitar erros
       final primeiraExecucao = await _dadosLocaisEstaoVazios();
+
+      //agora se for a primeira execucao, o banco esta vazio, ai nao tem jeito, tem que sincronizar de toda forma
       if (primeiraExecucao) {
         Get.offAllNamed(Routes.erroSplash);
         return;

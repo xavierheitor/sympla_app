@@ -38,21 +38,26 @@ class AprController extends GetxController {
     super.onInit();
     AppLogger.d('🎯 [AprController] onInit chamado');
 
+    //pega a atividade em andamento
     final atividade = atividadeController.atividadeEmAndamento.value;
 
+    //verifica se a atividade em andamento esta vazia
     if (atividade == null) {
       AppLogger.w(
           '⚠️ [AprController] Nenhuma atividade em andamento encontrada');
       return;
     }
 
+    //pega o id da atividade em andamento
     atividadeId = atividade.id;
     AppLogger.d(
         'ℹ️ [AprController] ID da atividade em andamento: $atividadeId');
 
+    //tenta carregar a apr
     try {
       isLoading.value = true;
 
+      //verifica se a apr ja esta preenchida
       final jaPreenchida = await aprService.aprJaPreenchida(atividadeId!);
       AppLogger.d(
           'ℹ️ [AprController] Resultado de aprJaPreenchida: $jaPreenchida');
@@ -60,12 +65,18 @@ class AprController extends GetxController {
       if (jaPreenchida) {
         AppLogger.d(
             '✅ [AprController] APR já preenchida. Chamando atividadeController.avancar()');
+        //avanca para a proxima etapa
         await atividadeController.avancar();
         return;
       }
 
+      //carrega a apr
       await carregarApr();
+
+      //cria a apr preenchida
       await criarAprPreenchida();
+
+      //carrega os tecnicos
       await carregarTecnicos();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
@@ -82,20 +93,29 @@ class AprController extends GetxController {
   @override
   void onClose() {
     AppLogger.d('🧹 [AprController] onClose chamado');
+
+    //apaga a apr preenchida se nao salvou
     apagarAprPreenchidaSeNaoSalvou();
+
+    //fecha o controller
     super.onClose();
   }
 
   Future<void> carregarApr() async {
+    //pega a atividade em andamento
     final atividade = atividadeController.atividadeEmAndamento.value;
+
+    //verifica se a atividade em andamento esta vazia
     if (atividade == null) {
       AppLogger.w(
           '⚠️ [AprController] Nenhuma atividade disponível para carregar APR');
       return;
     }
 
+    //pega o id da atividade em andamento
     atividadeId = atividade.id;
 
+    //tenta carregar a apr
     try {
       AppLogger.d(
           '🔄 [AprController] Carregando APR para tipoAtividadeId=${atividade.tipoAtividadeId}');
@@ -127,6 +147,7 @@ class AprController extends GetxController {
     }
   }
 
+  //atualiza a resposta da pergunta
   void atualizarResposta(int perguntaId, RespostaApr? resposta,
       {String? observacao}) {
     final index =
@@ -141,6 +162,7 @@ class AprController extends GetxController {
     }
   }
 
+  //salva as respostas
   Future<void> salvarRespostas() async {
     try {
       AppLogger.d('💾 [AprController] Salvando respostas...');
@@ -171,6 +193,8 @@ class AprController extends GetxController {
           DateTime.now(),
         );
         salvouFormulario = true;
+
+        //avanca para a proxima etapa
         await atividadeController.avancar();
       }
     } catch (e, s) {
@@ -185,6 +209,7 @@ class AprController extends GetxController {
     }
   }
 
+  //adiciona a assinatura
   Future<void> adicionarAssinatura(
       Uint8List assinaturaBytes, int tecnicoId) async {
     try {
@@ -215,6 +240,7 @@ class AprController extends GetxController {
     }
   }
 
+  //carrega as assinaturas
   Future<void> carregarAssinaturas() async {
     if (aprPreenchidaId == null) return;
 
@@ -238,6 +264,7 @@ class AprController extends GetxController {
     }
   }
 
+  //carrega os tecnicos
   Future<void> carregarTecnicos() async {
     try {
       AppLogger.d('👷 [AprController] Carregando técnicos disponíveis...');
@@ -251,6 +278,7 @@ class AprController extends GetxController {
     }
   }
 
+  //cria a apr preenchida
   Future<void> criarAprPreenchida() async {
     if (atividadeId == null || aprSelecionada == null) return;
 
@@ -272,6 +300,7 @@ class AprController extends GetxController {
     }
   }
 
+  //apaga a apr preenchida se nao salvou
   Future<void> apagarAprPreenchidaSeNaoSalvou() async {
     try {
       if (aprPreenchidaId != null && !salvouFormulario) {
@@ -290,6 +319,7 @@ class AprController extends GetxController {
     }
   }
 
+  //verifica se pode salvar - trava do botao de salvar
   bool podeSalvar() {
     final respostasPreenchidas =
         respostasFormulario.where((r) => r.resposta != null).length;
