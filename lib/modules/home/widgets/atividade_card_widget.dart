@@ -46,21 +46,28 @@ class AtividadeCard extends StatelessWidget {
           onTap: isConcluida
               ? null
               : () async {
+                  final atividadeAtual = controller.atividadeEmAndamento.value;
+
+                  // Caso seja a própria atividade em execução → executa a etapa atual
                   if (isEmExecucao) {
-                    Get.toNamed('/apr');
-                  } else {
-                    if (controller.atividadeEmAndamento.value != null) {
-                      Get.snackbar(
-                        'Aviso',
-                        'Já existe uma atividade em andamento. Finalize-a antes de iniciar outra.',
-                        snackPosition: SnackPosition.BOTTOM,
-                        backgroundColor: Colors.orange,
-                        colorText: Colors.white,
-                      );
-                      return;
-                    }
-                    _mostrarDialogoConfirmacao(context, atividade, controller);
+                    await controller.executarAtividade(atividade);
+                    return;
                   }
+
+                  // Se houver outra atividade em andamento → exibe aviso
+                  if (atividadeAtual != null) {
+                    Get.snackbar(
+                      'Aviso',
+                      'Já existe uma atividade em andamento. Finalize-a antes de iniciar outra.',
+                      snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.orange,
+                      colorText: Colors.white,
+                    );
+                    return;
+                  }
+
+                  // Nenhuma atividade em andamento → mostrar confirmação
+                  _mostrarDialogoConfirmacao(context, atividade, controller);
                 },
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -186,7 +193,7 @@ class AtividadeCard extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(context);
               await controller.iniciarAtividade(atividade);
-              Get.toNamed('/apr', arguments: atividade);
+              // Nada mais aqui — o controller decide a navegação
             },
             child: const Text('Confirmar'),
           ),

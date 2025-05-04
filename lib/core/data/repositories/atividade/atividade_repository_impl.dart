@@ -1,6 +1,5 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/constants/api_constants.dart';
-import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
@@ -39,12 +38,6 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
           titulo: Value(json['titulo']),
           descricao: Value(json['descricao']),
           tipoAtividadeId: Value(json['tipoAtividadeId']),
-          tipoAtividadeMobile: Value(
-            TipoAtividadeMobile.values.firstWhere(
-              (e) => e.name == json['tipoAtividadeMobile'],
-              orElse: () => TipoAtividadeMobile.ivItIu,
-            ),
-          ),
           ordemServico: Value(json['ordemServico']),
           dataLimite: Value(DateTime.parse(json['dataLimite'])),
           createdAt: Value(DateTime.parse(json['createdAt'])),

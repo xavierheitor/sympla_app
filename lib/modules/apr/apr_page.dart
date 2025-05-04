@@ -21,7 +21,6 @@ class AprPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Análise Preliminar de Risco'),
         actions: [
-          //obs pra monitorar se pode salvar a apr
           Obx(() {
             final podeSalvar = controller.podeSalvar();
 
@@ -48,31 +47,18 @@ class AprPage extends StatelessWidget {
                   : 'Preencha todas as perguntas e colete 2 assinaturas',
             );
           }),
-          //obs pra redirecionar para o checklist caso a apr ja esteja preenchida
-          Obx(() {
-            if (controller.redirecionarParaChecklist.value) {
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                Get.offAllNamed('/checklist');
-              });
-            }
-            return const SizedBox.shrink();
-          }),
         ],
       ),
       body: Obx(() {
         AppLogger.d('🔄 Atualizando estado da interface', tag: 'AprPage');
 
         if (controller.isLoading.value) {
-          AppLogger.d('⏳ Mostrando indicador de carregamento', tag: 'AprPage');
           return const Center(child: CircularProgressIndicator());
         }
 
-        AppLogger.d('📊 Renderizando lista de perguntas e assinaturas',
-            tag: 'AprPage');
         return ListView(
           padding: const EdgeInsets.all(16),
           children: [
-            // Perguntas
             ...controller.perguntas.map((pergunta) {
               final respostaSelecionada =
                   controller.respostasFormulario.firstWhereOrNull(
@@ -90,18 +76,14 @@ class AprPage extends StatelessWidget {
                 },
               );
             }),
-
             const SizedBox(height: 24),
             const Divider(),
             const SizedBox(height: 16),
-
             const Text(
               'Assinaturas:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-
             const SizedBox(height: 12),
-
             if (controller.assinaturas.isEmpty)
               const Padding(
                 padding: EdgeInsets.all(8.0),
@@ -111,26 +93,18 @@ class AprPage extends StatelessWidget {
                   style: TextStyle(fontSize: 16, color: Colors.grey),
                 ),
               ),
+            ...controller.assinaturas.map((assinatura) {
+              final tecnico = controller.tecnicos.firstWhereOrNull(
+                (t) => t.id == assinatura.tecnicoId,
+              );
+              final nomeTecnico = tecnico?.nome ?? 'Técnico desconhecido';
 
-            ...controller.assinaturas.map(
-              (assinatura) {
-                // Encontrar o nome do técnico pela assinatura (precisamos associar)
-                final tecnico = controller.tecnicos.firstWhereOrNull(
-                  (t) => t.id == assinatura.tecnicoId,
-                );
-
-                final nomeTecnico = tecnico?.nome ?? 'Técnico desconhecido';
-
-                return AprAssinaturaCard(
-                  nomeTecnico: nomeTecnico,
-                  assinaturaBytes: assinatura.assinatura,
-                );
-              },
-            ),
-
+              return AprAssinaturaCard(
+                nomeTecnico: nomeTecnico,
+                assinaturaBytes: assinatura.assinatura,
+              );
+            }),
             const SizedBox(height: 24),
-
-            // Botão Adicionar Assinatura
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
@@ -152,7 +126,6 @@ class AprPage extends StatelessWidget {
                 label: const Text('Adicionar Assinatura'),
               ),
             ),
-
             const SizedBox(height: 24),
           ],
         );

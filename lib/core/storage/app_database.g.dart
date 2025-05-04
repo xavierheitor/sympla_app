@@ -2275,15 +2275,6 @@ class $AtividadeTableTable extends AtividadeTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES tipo_atividade_table (id)'));
-  static const VerificationMeta _tipoAtividadeMobileMeta =
-      const VerificationMeta('tipoAtividadeMobile');
-  @override
-  late final GeneratedColumnWithTypeConverter<TipoAtividadeMobile, String>
-      tipoAtividadeMobile = GeneratedColumn<String>(
-              'tipo_atividade_mobile', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<TipoAtividadeMobile>(
-              $AtividadeTableTable.$convertertipoAtividadeMobile);
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -2300,8 +2291,7 @@ class $AtividadeTableTable extends AtividadeTable
         status,
         dataInicio,
         dataFim,
-        tipoAtividadeId,
-        tipoAtividadeMobile
+        tipoAtividadeId
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -2403,8 +2393,6 @@ class $AtividadeTableTable extends AtividadeTable
     } else if (isInserting) {
       context.missing(_tipoAtividadeIdMeta);
     }
-    context.handle(
-        _tipoAtividadeMobileMeta, const VerificationResult.success());
     return context;
   }
 
@@ -2445,9 +2433,6 @@ class $AtividadeTableTable extends AtividadeTable
           .read(DriftSqlType.dateTime, data['${effectivePrefix}data_fim']),
       tipoAtividadeId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tipo_atividade_id'])!,
-      tipoAtividadeMobile: $AtividadeTableTable.$convertertipoAtividadeMobile
-          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
-              data['${effectivePrefix}tipo_atividade_mobile'])!),
     );
   }
 
@@ -2458,8 +2443,6 @@ class $AtividadeTableTable extends AtividadeTable
 
   static TypeConverter<StatusAtividade, String> $converterstatus =
       const StatusAtividadeConverter();
-  static TypeConverter<TipoAtividadeMobile, String>
-      $convertertipoAtividadeMobile = const TipoAtividadeMobileConverter();
 }
 
 class AtividadeTableData extends DataClass
@@ -2479,7 +2462,6 @@ class AtividadeTableData extends DataClass
   final DateTime? dataInicio;
   final DateTime? dataFim;
   final int tipoAtividadeId;
-  final TipoAtividadeMobile tipoAtividadeMobile;
   const AtividadeTableData(
       {required this.id,
       required this.uuid,
@@ -2495,8 +2477,7 @@ class AtividadeTableData extends DataClass
       required this.status,
       this.dataInicio,
       this.dataFim,
-      required this.tipoAtividadeId,
-      required this.tipoAtividadeMobile});
+      required this.tipoAtividadeId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -2522,11 +2503,6 @@ class AtividadeTableData extends DataClass
       map['data_fim'] = Variable<DateTime>(dataFim);
     }
     map['tipo_atividade_id'] = Variable<int>(tipoAtividadeId);
-    {
-      map['tipo_atividade_mobile'] = Variable<String>($AtividadeTableTable
-          .$convertertipoAtividadeMobile
-          .toSql(tipoAtividadeMobile));
-    }
     return map;
   }
 
@@ -2551,7 +2527,6 @@ class AtividadeTableData extends DataClass
           ? const Value.absent()
           : Value(dataFim),
       tipoAtividadeId: Value(tipoAtividadeId),
-      tipoAtividadeMobile: Value(tipoAtividadeMobile),
     );
   }
 
@@ -2574,8 +2549,6 @@ class AtividadeTableData extends DataClass
       dataInicio: serializer.fromJson<DateTime?>(json['dataInicio']),
       dataFim: serializer.fromJson<DateTime?>(json['dataFim']),
       tipoAtividadeId: serializer.fromJson<int>(json['tipoAtividadeId']),
-      tipoAtividadeMobile:
-          serializer.fromJson<TipoAtividadeMobile>(json['tipoAtividadeMobile']),
     );
   }
   @override
@@ -2597,8 +2570,6 @@ class AtividadeTableData extends DataClass
       'dataInicio': serializer.toJson<DateTime?>(dataInicio),
       'dataFim': serializer.toJson<DateTime?>(dataFim),
       'tipoAtividadeId': serializer.toJson<int>(tipoAtividadeId),
-      'tipoAtividadeMobile':
-          serializer.toJson<TipoAtividadeMobile>(tipoAtividadeMobile),
     };
   }
 
@@ -2617,8 +2588,7 @@ class AtividadeTableData extends DataClass
           StatusAtividade? status,
           Value<DateTime?> dataInicio = const Value.absent(),
           Value<DateTime?> dataFim = const Value.absent(),
-          int? tipoAtividadeId,
-          TipoAtividadeMobile? tipoAtividadeMobile}) =>
+          int? tipoAtividadeId}) =>
       AtividadeTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -2635,7 +2605,6 @@ class AtividadeTableData extends DataClass
         dataInicio: dataInicio.present ? dataInicio.value : this.dataInicio,
         dataFim: dataFim.present ? dataFim.value : this.dataFim,
         tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
-        tipoAtividadeMobile: tipoAtividadeMobile ?? this.tipoAtividadeMobile,
       );
   AtividadeTableData copyWithCompanion(AtividadeTableCompanion data) {
     return AtividadeTableData(
@@ -2665,9 +2634,6 @@ class AtividadeTableData extends DataClass
       tipoAtividadeId: data.tipoAtividadeId.present
           ? data.tipoAtividadeId.value
           : this.tipoAtividadeId,
-      tipoAtividadeMobile: data.tipoAtividadeMobile.present
-          ? data.tipoAtividadeMobile.value
-          : this.tipoAtividadeMobile,
     );
   }
 
@@ -2688,8 +2654,7 @@ class AtividadeTableData extends DataClass
           ..write('status: $status, ')
           ..write('dataInicio: $dataInicio, ')
           ..write('dataFim: $dataFim, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId, ')
-          ..write('tipoAtividadeMobile: $tipoAtividadeMobile')
+          ..write('tipoAtividadeId: $tipoAtividadeId')
           ..write(')'))
         .toString();
   }
@@ -2710,8 +2675,7 @@ class AtividadeTableData extends DataClass
       status,
       dataInicio,
       dataFim,
-      tipoAtividadeId,
-      tipoAtividadeMobile);
+      tipoAtividadeId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -2730,8 +2694,7 @@ class AtividadeTableData extends DataClass
           other.status == this.status &&
           other.dataInicio == this.dataInicio &&
           other.dataFim == this.dataFim &&
-          other.tipoAtividadeId == this.tipoAtividadeId &&
-          other.tipoAtividadeMobile == this.tipoAtividadeMobile);
+          other.tipoAtividadeId == this.tipoAtividadeId);
 }
 
 class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
@@ -2750,7 +2713,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
   final Value<DateTime?> dataInicio;
   final Value<DateTime?> dataFim;
   final Value<int> tipoAtividadeId;
-  final Value<TipoAtividadeMobile> tipoAtividadeMobile;
   const AtividadeTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -2767,7 +2729,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     this.dataInicio = const Value.absent(),
     this.dataFim = const Value.absent(),
     this.tipoAtividadeId = const Value.absent(),
-    this.tipoAtividadeMobile = const Value.absent(),
   });
   AtividadeTableCompanion.insert({
     this.id = const Value.absent(),
@@ -2785,7 +2746,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     this.dataInicio = const Value.absent(),
     this.dataFim = const Value.absent(),
     required int tipoAtividadeId,
-    required TipoAtividadeMobile tipoAtividadeMobile,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
@@ -2796,8 +2756,7 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
         subestacao = Value(subestacao),
         equipamentoId = Value(equipamentoId),
         status = Value(status),
-        tipoAtividadeId = Value(tipoAtividadeId),
-        tipoAtividadeMobile = Value(tipoAtividadeMobile);
+        tipoAtividadeId = Value(tipoAtividadeId);
   static Insertable<AtividadeTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -2814,7 +2773,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     Expression<DateTime>? dataInicio,
     Expression<DateTime>? dataFim,
     Expression<int>? tipoAtividadeId,
-    Expression<String>? tipoAtividadeMobile,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2832,8 +2790,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       if (dataInicio != null) 'data_inicio': dataInicio,
       if (dataFim != null) 'data_fim': dataFim,
       if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
-      if (tipoAtividadeMobile != null)
-        'tipo_atividade_mobile': tipoAtividadeMobile,
     });
   }
 
@@ -2852,8 +2808,7 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       Value<StatusAtividade>? status,
       Value<DateTime?>? dataInicio,
       Value<DateTime?>? dataFim,
-      Value<int>? tipoAtividadeId,
-      Value<TipoAtividadeMobile>? tipoAtividadeMobile}) {
+      Value<int>? tipoAtividadeId}) {
     return AtividadeTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -2870,7 +2825,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
       dataInicio: dataInicio ?? this.dataInicio,
       dataFim: dataFim ?? this.dataFim,
       tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
-      tipoAtividadeMobile: tipoAtividadeMobile ?? this.tipoAtividadeMobile,
     );
   }
 
@@ -2923,11 +2877,6 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
     if (tipoAtividadeId.present) {
       map['tipo_atividade_id'] = Variable<int>(tipoAtividadeId.value);
     }
-    if (tipoAtividadeMobile.present) {
-      map['tipo_atividade_mobile'] = Variable<String>($AtividadeTableTable
-          .$convertertipoAtividadeMobile
-          .toSql(tipoAtividadeMobile.value));
-    }
     return map;
   }
 
@@ -2948,8 +2897,7 @@ class AtividadeTableCompanion extends UpdateCompanion<AtividadeTableData> {
           ..write('status: $status, ')
           ..write('dataInicio: $dataInicio, ')
           ..write('dataFim: $dataFim, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId, ')
-          ..write('tipoAtividadeMobile: $tipoAtividadeMobile')
+          ..write('tipoAtividadeId: $tipoAtividadeId')
           ..write(')'))
         .toString();
   }
@@ -16197,7 +16145,6 @@ typedef $$AtividadeTableTableCreateCompanionBuilder = AtividadeTableCompanion
   Value<DateTime?> dataInicio,
   Value<DateTime?> dataFim,
   required int tipoAtividadeId,
-  required TipoAtividadeMobile tipoAtividadeMobile,
 });
 typedef $$AtividadeTableTableUpdateCompanionBuilder = AtividadeTableCompanion
     Function({
@@ -16216,7 +16163,6 @@ typedef $$AtividadeTableTableUpdateCompanionBuilder = AtividadeTableCompanion
   Value<DateTime?> dataInicio,
   Value<DateTime?> dataFim,
   Value<int> tipoAtividadeId,
-  Value<TipoAtividadeMobile> tipoAtividadeMobile,
 });
 
 final class $$AtividadeTableTableReferences extends BaseReferences<
@@ -16354,12 +16300,6 @@ class $$AtividadeTableTableFilterComposer
 
   ColumnFilters<DateTime> get dataFim => $composableBuilder(
       column: $table.dataFim, builder: (column) => ColumnFilters(column));
-
-  ColumnWithTypeConverterFilters<TipoAtividadeMobile, TipoAtividadeMobile,
-          String>
-      get tipoAtividadeMobile => $composableBuilder(
-          column: $table.tipoAtividadeMobile,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
 
   $$EquipamentoTableTableFilterComposer get equipamentoId {
     final $$EquipamentoTableTableFilterComposer composer = $composerBuilder(
@@ -16517,10 +16457,6 @@ class $$AtividadeTableTableOrderingComposer
   ColumnOrderings<DateTime> get dataFim => $composableBuilder(
       column: $table.dataFim, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get tipoAtividadeMobile => $composableBuilder(
-      column: $table.tipoAtividadeMobile,
-      builder: (column) => ColumnOrderings(column));
-
   $$EquipamentoTableTableOrderingComposer get equipamentoId {
     final $$EquipamentoTableTableOrderingComposer composer = $composerBuilder(
         composer: this,
@@ -16609,10 +16545,6 @@ class $$AtividadeTableTableAnnotationComposer
 
   GeneratedColumn<DateTime> get dataFim =>
       $composableBuilder(column: $table.dataFim, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<TipoAtividadeMobile, String>
-      get tipoAtividadeMobile => $composableBuilder(
-          column: $table.tipoAtividadeMobile, builder: (column) => column);
 
   $$EquipamentoTableTableAnnotationComposer get equipamentoId {
     final $$EquipamentoTableTableAnnotationComposer composer = $composerBuilder(
@@ -16766,8 +16698,6 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             Value<DateTime?> dataInicio = const Value.absent(),
             Value<DateTime?> dataFim = const Value.absent(),
             Value<int> tipoAtividadeId = const Value.absent(),
-            Value<TipoAtividadeMobile> tipoAtividadeMobile =
-                const Value.absent(),
           }) =>
               AtividadeTableCompanion(
             id: id,
@@ -16785,7 +16715,6 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             dataInicio: dataInicio,
             dataFim: dataFim,
             tipoAtividadeId: tipoAtividadeId,
-            tipoAtividadeMobile: tipoAtividadeMobile,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -16803,7 +16732,6 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             Value<DateTime?> dataInicio = const Value.absent(),
             Value<DateTime?> dataFim = const Value.absent(),
             required int tipoAtividadeId,
-            required TipoAtividadeMobile tipoAtividadeMobile,
           }) =>
               AtividadeTableCompanion.insert(
             id: id,
@@ -16821,7 +16749,6 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
             dataInicio: dataInicio,
             dataFim: dataFim,
             tipoAtividadeId: tipoAtividadeId,
-            tipoAtividadeMobile: tipoAtividadeMobile,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
