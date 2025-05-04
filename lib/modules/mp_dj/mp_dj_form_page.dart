@@ -127,7 +127,7 @@ class _MpDjFormPageState extends State<MpDjFormPage> {
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () {
-              controller.salvarEDirecionarComCampos(
+              controller.salvarFormularioFromControllers(
                 termohigrometroFabricante: termohigrometroFabricante.text,
                 termohigrometroTipo: termohigrometroTipo.text,
                 termohigrometroData: termohigrometroData.text,

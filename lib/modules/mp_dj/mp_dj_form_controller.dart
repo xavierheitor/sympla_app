@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
+import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/caracterizacao_ensaio_converter.dart';
@@ -9,9 +10,12 @@ import 'package:drift/drift.dart' as d;
 
 class MpDjFormController extends GetxController {
   final MpDjFormService service;
-  final int atividadeId;
+  final AtividadeController atividadeController;
 
-  MpDjFormController({required this.service, required this.atividadeId});
+  MpDjFormController({
+    required this.service,
+    required this.atividadeController,
+  });
 
   var carregando = false.obs;
   var etapaAtual = 0.obs;
@@ -22,9 +26,20 @@ class MpDjFormController extends GetxController {
   var tempos = <MedicaoTempoOperacaoTableData>[].obs;
   var pressoes = <MedicaoPressaoSf6TableData>[].obs;
 
+  int get atividadeId {
+    final atividade = atividadeController.atividadeEmAndamento.value;
+    if (atividade == null) {
+      AppLogger.e('[MpDjFormController] ERRO: atividadeEmAndamento está nula!');
+      throw Exception(
+          '[MpDjFormController] Nenhuma atividade em andamento encontrada');
+    }
+    return atividade.id;
+  }
+
   @override
   void onInit() {
     super.onInit();
+    AppLogger.d('[MpDjFormController] onInit chamado');
     _carregarDadosIniciais();
   }
 
@@ -32,23 +47,28 @@ class MpDjFormController extends GetxController {
     try {
       carregando.value = true;
       AppLogger.d(
-          '[MpDjFormController] Carregando formulário da atividade \$atividadeId');
+          '[MpDjFormController] Iniciando carregamento de dados da atividade $atividadeId');
 
       final form = await service.buscarFormulario(atividadeId);
       formulario.value = form;
+      AppLogger.d('[MpDjFormController] Formulário carregado: ${form?.id}');
 
       if (form != null) {
         final id = form.id;
+        AppLogger.d(
+            '[MpDjFormController] Carregando medições para formulário id=$id');
         resistenciasContato.value = await service.buscarResistenciaContato(id);
         isolamentos.value = await service.buscarResistenciaIsolamento(id);
         tempos.value = await service.buscarTempoOperacao(id);
         pressoes.value = await service.buscarPressaoSf6(id);
-        _definirEtapaAtual();
       } else {
-        etapaAtual.value = 0;
+        AppLogger.w(
+            '[MpDjFormController] Nenhum formulário encontrado para a atividade. Etapa começa em 1.');
       }
+
+      _definirEtapaAtual();
     } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao carregar dados',
+      AppLogger.e('[MpDjFormController] ERRO ao carregar dados iniciais',
           error: e, stackTrace: s);
     } finally {
       carregando.value = false;
@@ -56,6 +76,7 @@ class MpDjFormController extends GetxController {
   }
 
   void _definirEtapaAtual() {
+    AppLogger.d('[MpDjFormController] Determinando etapa atual...');
     if (resistenciasContato.isEmpty) {
       etapaAtual.value = 1;
     } else if (isolamentos.isEmpty) {
@@ -67,105 +88,11 @@ class MpDjFormController extends GetxController {
     } else {
       etapaAtual.value = 5;
     }
-    AppLogger.d('[MpDjFormController] Etapa atual: \${etapaAtual.value}');
+    AppLogger.d(
+        '[MpDjFormController] Etapa atual definida: ${etapaAtual.value}');
   }
 
-  Future<void> salvarEDirecionar(PrevDisjFormCompanion companion) async {
-    try {
-      carregando.value = true;
-      await service.salvarFormulario(companion);
-      await _carregarDadosIniciais();
-
-      switch (etapaAtual.value) {
-        case 1:
-          Get.toNamed(Routes.etapaResistenciaContato);
-          break;
-        case 2:
-          Get.toNamed(Routes.etapaIsolamento);
-          break;
-        case 3:
-          Get.toNamed(Routes.etapaTempoOperacao);
-          break;
-        case 4:
-          Get.toNamed(Routes.etapaPressaoSf6);
-          break;
-        default:
-          Get.back();
-      }
-    } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao salvar e redirecionar',
-          error: e, stackTrace: s);
-      Get.snackbar('Erro', 'Falha ao salvar dados iniciais.');
-    } finally {
-      carregando.value = false;
-    }
-  }
-
-  Future<void> salvarResistenciasContato(
-      List<MedicaoResistenciaContatoTableCompanion> dados) async {
-    try {
-      final id = formulario.value?.id;
-      if (id != null) {
-        await service.salvarResistenciaContato(id, dados);
-        resistenciasContato.value = await service.buscarResistenciaContato(id);
-        _definirEtapaAtual();
-        Get.back();
-      }
-    } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao salvar resistência de contato',
-          error: e, stackTrace: s);
-    }
-  }
-
-  Future<void> salvarIsolamentos(
-      List<MedicaoResistenciaIsolamentoTableCompanion> dados) async {
-    try {
-      final id = formulario.value?.id;
-      if (id != null) {
-        await service.salvarResistenciaIsolamento(id, dados);
-        isolamentos.value = await service.buscarResistenciaIsolamento(id);
-        _definirEtapaAtual();
-        Get.back();
-      }
-    } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao salvar isolamentos',
-          error: e, stackTrace: s);
-    }
-  }
-
-  Future<void> salvarTempos(
-      List<MedicaoTempoOperacaoTableCompanion> dados) async {
-    try {
-      final id = formulario.value?.id;
-      if (id != null) {
-        await service.salvarTempoOperacao(id, dados);
-        tempos.value = await service.buscarTempoOperacao(id);
-        _definirEtapaAtual();
-        Get.back();
-      }
-    } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao salvar tempos',
-          error: e, stackTrace: s);
-    }
-  }
-
-  Future<void> salvarPressaoSf6(
-      List<MedicaoPressaoSf6TableCompanion> dados) async {
-    try {
-      final id = formulario.value?.id;
-      if (id != null) {
-        await service.salvarPressaoSf6(id, dados);
-        pressoes.value = await service.buscarPressaoSf6(id);
-        _definirEtapaAtual();
-        Get.back();
-      }
-    } catch (e, s) {
-      AppLogger.e('[MpDjFormController] Erro ao salvar pressão SF6',
-          error: e, stackTrace: s);
-    }
-  }
-
-  Future<void> salvarEDirecionarComCampos({
+  Future<void> salvarFormularioFromControllers({
     required String termohigrometroFabricante,
     required String termohigrometroTipo,
     required String termohigrometroData,
@@ -191,6 +118,7 @@ class MpDjFormController extends GetxController {
   }) async {
     try {
       carregando.value = true;
+      AppLogger.d('[MpDjFormController] Salvando formulário...');
 
       final dados = PrevDisjFormCompanion(
         atividadeId: d.Value(atividadeId),
@@ -224,50 +152,138 @@ class MpDjFormController extends GetxController {
             d.Value(_tryParseDouble(disjuntorPressaoSf6NominalTemperatura)),
       );
 
+      AppLogger.d('[MpDjFormController] Dados montados, salvando no banco...');
       await service.salvarFormulario(dados);
+
+      AppLogger.d('[MpDjFormController] Formulário salvo. Recarregando...');
       await _carregarDadosIniciais();
 
-      switch (etapaAtual.value) {
-        case 1:
-          Get.toNamed(Routes.etapaResistenciaContato);
-          break;
-        case 2:
-          Get.toNamed(Routes.etapaIsolamento);
-          break;
-        case 3:
-          Get.toNamed(Routes.etapaTempoOperacao);
-          break;
-        case 4:
-          Get.toNamed(Routes.etapaPressaoSf6);
-          break;
-        default:
-          Get.back();
-      }
+      AppLogger.d(
+          '[MpDjFormController] Redirecionando para a próxima etapa...');
+      await _redirecionar();
     } catch (e, s) {
-      AppLogger.e(
-          '[MpDjFormController] Erro ao salvar com campos e redirecionar',
-          error: e,
-          stackTrace: s);
+      AppLogger.e('[MpDjFormController] ERRO ao salvar formulário',
+          error: e, stackTrace: s);
       Get.snackbar('Erro', 'Falha ao salvar dados.');
     } finally {
       carregando.value = false;
     }
   }
 
+  Future<void> salvarResistenciasContato(
+      List<MedicaoResistenciaContatoTableCompanion> dados) async {
+    try {
+      final id = formulario.value?.id;
+      AppLogger.d(
+          '[MpDjFormController] Salvando resistências de contato (formId: $id)...');
+      if (id != null) {
+        await service.salvarResistenciaContato(id, dados);
+        resistenciasContato.value = await service.buscarResistenciaContato(id);
+        _definirEtapaAtual();
+        await _redirecionar();
+      }
+    } catch (e, s) {
+      AppLogger.e('[MpDjFormController] ERRO ao salvar resistência de contato',
+          error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> salvarIsolamentos(
+      List<MedicaoResistenciaIsolamentoTableCompanion> dados) async {
+    try {
+      final id = formulario.value?.id;
+      AppLogger.d('[MpDjFormController] Salvando isolamentos (formId: $id)...');
+      if (id != null) {
+        await service.salvarResistenciaIsolamento(id, dados);
+        isolamentos.value = await service.buscarResistenciaIsolamento(id);
+        _definirEtapaAtual();
+        await _redirecionar();
+      }
+    } catch (e, s) {
+      AppLogger.e('[MpDjFormController] ERRO ao salvar isolamento',
+          error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> salvarTempos(
+      List<MedicaoTempoOperacaoTableCompanion> dados) async {
+    try {
+      final id = formulario.value?.id;
+      AppLogger.d(
+          '[MpDjFormController] Salvando tempos de operação (formId: $id)...');
+      if (id != null) {
+        await service.salvarTempoOperacao(id, dados);
+        tempos.value = await service.buscarTempoOperacao(id);
+        _definirEtapaAtual();
+        await _redirecionar();
+      }
+    } catch (e, s) {
+      AppLogger.e('[MpDjFormController] ERRO ao salvar tempo de operação',
+          error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> salvarPressaoSf6(
+      List<MedicaoPressaoSf6TableCompanion> dados) async {
+    try {
+      final id = formulario.value?.id;
+      AppLogger.d('[MpDjFormController] Salvando pressão SF6 (formId: $id)...');
+      if (id != null) {
+        await service.salvarPressaoSf6(id, dados);
+        pressoes.value = await service.buscarPressaoSf6(id);
+        _definirEtapaAtual();
+        await atividadeController.avancar(); // ✅ Etapa final
+      }
+    } catch (e, s) {
+      AppLogger.e('[MpDjFormController] ERRO ao salvar pressão SF6',
+          error: e, stackTrace: s);
+    }
+  }
+
+  Future<void> _redirecionar() async {
+    final etapa = etapaAtual.value;
+    AppLogger.d('[MpDjFormController] Redirecionando com etapaAtual=$etapa');
+
+    switch (etapa) {
+      case 1:
+        Get.toNamed(Routes.etapaResistenciaContato);
+        break;
+      case 2:
+        Get.toNamed(Routes.etapaIsolamento);
+        break;
+      case 3:
+        Get.toNamed(Routes.etapaTempoOperacao);
+        break;
+      case 4:
+        Get.toNamed(Routes.etapaPressaoSf6);
+        break;
+      case 5:
+        AppLogger.d('[MpDjFormController] Finalizando atividade...');
+        await atividadeController.avancar();
+        break;
+      default:
+        AppLogger.w(
+            '[MpDjFormController] Etapa inválida ou indefinida. Redirecionando para etapa 1.');
+        etapaAtual.value = 1;
+        Get.toNamed(Routes.etapaResistenciaContato);
+        break;
+    }
+  }
+
   DateTime? _tryParseDate(String input) {
     try {
-      if (input.trim().isEmpty) return null;
-      return DateTime.tryParse(input.trim());
+      return input.trim().isEmpty ? null : DateTime.tryParse(input.trim());
     } catch (_) {
+      AppLogger.w('[MpDjFormController] Falha ao converter data: "$input"');
       return null;
     }
   }
 
   double? _tryParseDouble(String input) {
     try {
-      if (input.trim().isEmpty) return null;
-      return double.tryParse(input.trim());
+      return input.trim().isEmpty ? null : double.tryParse(input.trim());
     } catch (_) {
+      AppLogger.w('[MpDjFormController] Falha ao converter double: "$input"');
       return null;
     }
   }

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_pressao_sf6_repository.dart';
 import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_resistencia_contato_repository.dart';
 import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_resistencia_isolamento_repository.dart';
@@ -19,8 +18,6 @@ class MpDjFormBinding extends Bindings {
   @override
   void dependencies() {
     final db = Get.find<AppDatabase>();
-    final atividadeId =
-        Get.find<AtividadeController>().atividadeEmAndamento.value?.id ?? 0;
 
     // Repositórios
     // Repositórios (registrando como as interfaces)
@@ -47,7 +44,7 @@ class MpDjFormBinding extends Bindings {
     // Controller
     Get.lazyPut(() => MpDjFormController(
           service: Get.find(),
-          atividadeId: atividadeId,
+          atividadeController: Get.find(),
         ));
   }
 }
