@@ -52,8 +52,24 @@ class ChecklistController extends GetxController {
   Future<void> onInit() async {
     super.onInit();
     AppLogger.d('[ChecklistController] Inicializando controller...');
-    await checklistJaRespondido();
-    await carregarChecklist();
+
+    final atividade = atividadeController.atividadeEmAndamento.value;
+    if (atividade == null) {
+      AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
+      return;
+    }
+
+    final jaRespondido =
+        await checklistService.checklistJaRespondido(atividade.id);
+    if (jaRespondido) {
+      AppLogger.d(
+          '[ChecklistController] Checklist já respondido. Redirecionando para próxima etapa...');
+      await atividadeController
+          .avancar(); // Deixa o controller global cuidar disso
+      return;
+    }
+
+    await carregarChecklist(); // Só carrega se ainda não respondeu
   }
 
   Future<void> checklistJaRespondido() async {
@@ -153,7 +169,8 @@ class ChecklistController extends GetxController {
     AppLogger.d(
         '[ChecklistController] Total de respostas para salvar: ${lista.length}');
     await checklistService.salvarRespostas(lista);
-    Get.offAllNamed(Routes.resumoAnomalias);
+
+    await atividadeController.avancar();
   }
 }
 
