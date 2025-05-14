@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/session/session_manager.dart';
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
 class SplashController extends GetxController {
   final status = ''.obs;

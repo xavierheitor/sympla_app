@@ -3,7 +3,7 @@ import 'package:sympla_app/core/core_app/services/auth_service.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/usuario_repository_impl.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
-import 'package:sympla_app/core/session/session_manager.dart';
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
 class GlobalBinding extends Bindings {

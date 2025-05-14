@@ -11,7 +11,7 @@ import 'package:sympla_app/core/domain/repositories/abstracts/apr_repository.dar
 import 'package:sympla_app/core/domain/repositories/abstracts/tecnico_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/session/session_manager.dart';
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
 class AprService {
   final AprRepository aprRepository;
