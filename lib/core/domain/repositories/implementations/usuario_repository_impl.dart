@@ -1,5 +1,5 @@
 import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
-import 'package:sympla_app/core/domain/models/login_response.dart';
+import 'package:sympla_app/core/domain/dto/auth/login_response_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -43,13 +43,13 @@ class UsuarioRepositoryImpl implements UsuarioRepository {
   }
 
   @override
-  Future<LoginResponse> login(String matricula, String senha) {
+  Future<LoginResponseDto> login(String matricula, String senha) {
     // TODO: implement login
     throw UnimplementedError();
   }
 
   @override
-  Future<LoginResponse> refreshToken(String refreshToken) {
+  Future<LoginResponseDto> refreshToken(String refreshToken) {
     // TODO: implement refreshToken
     throw UnimplementedError();
   }

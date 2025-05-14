@@ -1,4 +1,4 @@
-class LoginResponse {
+class LoginResponseDto {
   final String token;
   final String refreshToken;
   final DateTime expiresAt;
@@ -8,7 +8,7 @@ class LoginResponse {
   final String nome;
   final String matricula;
 
-  LoginResponse({
+  LoginResponseDto({
     required this.token,
     required this.refreshToken,
     required this.expiresAt,
@@ -19,9 +19,9 @@ class LoginResponse {
     this.id,
   });
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+  factory LoginResponseDto.fromJson(Map<String, dynamic> json) {
     final usuario = json['usuario'] ?? {};
-    return LoginResponse(
+    return LoginResponseDto(
       token: json['token'] ?? '',
       refreshToken: json['refreshToken'] ?? '',
       expiresAt: DateTime.parse(json['expiresAt']),
