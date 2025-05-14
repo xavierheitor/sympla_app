@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/core_app/services/auth_serice.dart';
+import 'package:sympla_app/core/core_app/services/auth_service.dart';
 
 class SessionManager extends GetxService {
   final AuthService authService;

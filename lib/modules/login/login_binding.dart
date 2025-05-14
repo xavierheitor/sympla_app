@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/core_app/services/auth_serice.dart';
+import 'package:sympla_app/core/core_app/services/auth_service.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/usuario_repository_impl.dart';
 
