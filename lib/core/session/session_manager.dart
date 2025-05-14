@@ -2,14 +2,12 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/modules/login/auth_service.dart';
+import 'package:sympla_app/core/core_app/services/auth_serice.dart';
 
 class SessionManager extends GetxService {
-  final AppDatabase db;
   final AuthService authService;
 
-  SessionManager(AppDatabase find,
-      {required this.db, required this.authService});
+  SessionManager({required this.authService});
 
   UsuarioTableData? _usuario;
   UsuarioTableData? get usuario => _usuario;
@@ -19,7 +17,7 @@ class SessionManager extends GetxService {
   Future<void> init() async {
     AppLogger.d('[session_manager - init] Buscando usuários locais...');
     try {
-      final usuarios = await db.usuarioDao.getAllUsuarios();
+      final usuarios = await authService.getUsuarios();
       AppLogger.d(
           '[session_manager - init] Encontrado ${usuarios.length} usuário(s)');
 
@@ -79,7 +77,7 @@ class SessionManager extends GetxService {
 
   Future<bool> logout() async {
     try {
-      final result = await db.usuarioDao.limparUsuarios();
+      final result = await authService.logout();
       AppLogger.i('Usuário deslogado', tag: 'Sessão');
       if (result) {
         _usuario = null;
@@ -108,7 +106,7 @@ class SessionManager extends GetxService {
       }
 
       await authService.refresh(refreshToken);
-      final atualizado = await db.usuarioDao.getAllUsuarios();
+      final atualizado = await authService.getUsuarios();
       _usuario = atualizado.first;
       AppLogger.i('🔐 Token renovado com sucesso', tag: 'Sessão');
     } catch (e, s) {

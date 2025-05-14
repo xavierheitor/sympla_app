@@ -8,11 +8,11 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_service.dart';
 
-import 'package:sympla_app/core/data/repositories/mp_dj/prev_disj_form_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/mp_dj/medicao_resistencia_contato_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/mp_dj/medicao_resistencia_isolamento_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/mp_dj/medicao_tempo_operacao_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/mp_dj/medicao_pressao_sf6_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/mp_dj/prev_disj_form_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/mp_dj/medicao_resistencia_contato_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/mp_dj/medicao_resistencia_isolamento_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/mp_dj/medicao_tempo_operacao_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/mp_dj/medicao_pressao_sf6_repository_impl.dart';
 
 class MpDjFormBinding extends Bindings {
   @override

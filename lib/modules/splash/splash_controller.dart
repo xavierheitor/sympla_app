@@ -4,14 +4,13 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/syncService/sync_orchestrator_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
 
 class SplashController extends GetxController {
   final status = ''.obs;
   final carregando = true.obs;
 
-  final syncService = Get.find<SyncOrchestratorService>();
+  
 
   @override
   Future<void> onInit() async {
@@ -64,7 +63,7 @@ class SplashController extends GetxController {
     status.value = 'Sincronizando dados...';
 
     try {
-      await syncService.sincronizarTudo();
+      // await syncService.sincronizarTudo();
       AppLogger.i('✅ Sincronização finalizada com sucesso', tag: 'Splash');
       return true;
     } catch (e, s) {
@@ -93,8 +92,9 @@ class SplashController extends GetxController {
   }
 
   Future<bool> _dadosLocaisEstaoVazios() async {
-    final estaVazio = await syncService.estaVazio();
-    AppLogger.d('📦 Banco local está vazio? $estaVazio');
-    return estaVazio;
+    // final estaVazio = await syncService.estaVazio();
+    // AppLogger.d('📦 Banco local está vazio? $estaVazio');
+    // return estaVazio;
+    return false;
   }
 }

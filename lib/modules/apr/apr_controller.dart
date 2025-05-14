@@ -1,15 +1,16 @@
 import 'dart:typed_data';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/data/models/resposta_formulario.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/data/models/new/apr_question_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_assinatura_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_resposta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/tecnico_table_dto.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/apr/apr_service.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:drift/drift.dart' as d;
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
-import 'package:sympla_app/core/data/models/assinatura_model.dart';
 // ... imports mantidos
 
 class AprController extends GetxController {
@@ -22,14 +23,15 @@ class AprController extends GetxController {
   });
 
   final RxBool isLoading = false.obs;
-  final RxList<AprQuestionTableData> perguntas = <AprQuestionTableData>[].obs;
-  final RxList<RespostaFormulario> respostasFormulario =
-      <RespostaFormulario>[].obs;
-  final RxList<AssinaturaModel> assinaturas = <AssinaturaModel>[].obs;
-  final RxList<TecnicosTableData> tecnicos = <TecnicosTableData>[].obs;
+  final RxList<AprQuestionTableDto> perguntas = <AprQuestionTableDto>[].obs;
+  final RxList<AprRespostaTableDto> respostasFormulario =
+      <AprRespostaTableDto>[].obs;
+  final RxList<AprAssinaturaTableDto> assinaturas =
+      <AprAssinaturaTableDto>[].obs;
+  final RxList<TecnicoTableDto> tecnicos = <TecnicoTableDto>[].obs;
 
-  AprTableData? aprSelecionada;
-  int? atividadeId;
+  AprTableDto? aprSelecionada;
+  String? atividadeId;
   int? aprPreenchidaId;
   bool salvouFormulario = false;
 
@@ -49,7 +51,7 @@ class AprController extends GetxController {
     }
 
     //pega o id da atividade em andamento
-    atividadeId = atividade.id;
+    atividadeId = atividade.uuid;
     AppLogger.d(
         'ℹ️ [AprController] ID da atividade em andamento: $atividadeId');
 
@@ -70,11 +72,10 @@ class AprController extends GetxController {
         return;
       }
 
-      //carrega a apr
-      await carregarApr();
-
-      //cria a apr preenchida
+      //cria a apr preenchida primeiro
       await criarAprPreenchida();
+      //carrega a apr depois
+      await carregarApr();
 
       //carrega os tecnicos
       await carregarTecnicos();
@@ -113,7 +114,7 @@ class AprController extends GetxController {
     }
 
     //pega o id da atividade em andamento
-    atividadeId = atividade.id;
+    atividadeId = atividade.uuid;
 
     //tenta carregar a apr
     try {
@@ -124,16 +125,21 @@ class AprController extends GetxController {
       aprSelecionada =
           await aprService.buscarAprPorTipoAtividade(atividade.tipoAtividadeId);
       AppLogger.d(
-          '✅ [AprController] APR selecionada: id=${aprSelecionada!.id}, nome=${aprSelecionada!.nome}');
+          '✅ [AprController] APR selecionada: id=${aprSelecionada!.uuid}, nome=${aprSelecionada!.nome}');
 
       final perguntasCarregadas =
-          await aprService.buscarPerguntas(aprSelecionada!.id);
-      perguntas.assignAll(perguntasCarregadas);
+          await aprService.buscarPerguntas(aprSelecionada!.uuid);
+      perguntas.assignAll(perguntasCarregadas as Iterable<AprQuestionTableDto>);
       AppLogger.d(
           '📋 [AprController] Perguntas carregadas: ${perguntas.length}');
 
-      final respostasIniciais =
-          perguntas.map((p) => RespostaFormulario(perguntaId: p.id)).toList();
+      final respostasIniciais = perguntas
+          .map((p) => AprRespostaTableDto(
+                perguntaId: p.uuid,
+                resposta: null,
+                aprPreenchidaId: aprPreenchidaId!,
+              ))
+          .toList();
       respostasFormulario.assignAll(respostasIniciais);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
@@ -148,15 +154,16 @@ class AprController extends GetxController {
   }
 
   //atualiza a resposta da pergunta
-  void atualizarResposta(int perguntaId, RespostaApr? resposta,
+  void atualizarResposta(String perguntaId, RespostaApr? resposta,
       {String? observacao}) {
     final index =
         respostasFormulario.indexWhere((r) => r.perguntaId == perguntaId);
     if (index != -1) {
       AppLogger.d('✏️ Atualizando resposta da perguntaId=$perguntaId');
-      respostasFormulario[index] = RespostaFormulario(
+      respostasFormulario[index] = AprRespostaTableDto(
         perguntaId: perguntaId,
-        resposta: resposta,
+        resposta: resposta!,
+        aprPreenchidaId: aprPreenchidaId!,
         observacao: observacao ?? respostasFormulario[index].observacao,
       );
     }
@@ -172,11 +179,11 @@ class AprController extends GetxController {
         if (r.resposta == null) {
           throw Exception('Pergunta ${r.perguntaId} sem resposta!');
         }
-        return AprRespostaTableCompanion(
-          perguntaId: d.Value(r.perguntaId),
-          resposta: d.Value(r.resposta!),
-          aprPreenchidaId: d.Value(aprPreenchidaId!),
-          observacao: d.Value(r.observacao),
+        return AprRespostaTableDto(
+          perguntaId: r.perguntaId,
+          resposta: r.resposta!,
+          aprPreenchidaId: aprPreenchidaId!,
+          observacao: r.observacao,
         );
       }).toList();
 
@@ -211,7 +218,7 @@ class AprController extends GetxController {
 
   //adiciona a assinatura
   Future<void> adicionarAssinatura(
-      Uint8List assinaturaBytes, int tecnicoId) async {
+      Uint8List assinaturaBytes, String tecnicoId) async {
     try {
       if (aprPreenchidaId == null) {
         throw Exception('APR preenchida ainda não criada');
@@ -220,12 +227,12 @@ class AprController extends GetxController {
       AppLogger.d(
           '🖋️ [AprController] Salvando assinatura para técnico $tecnicoId');
 
-      final assinatura = AprAssinaturaTableCompanion(
-        aprPreenchidaId: d.Value(aprPreenchidaId!),
-        assinatura: d.Value(assinaturaBytes),
-        dataAssinatura: d.Value(DateTime.now()),
-        usuarioId: d.Value(Get.find<SessionManager>().usuario!.id),
-        tecnicoId: d.Value(tecnicoId),
+      final assinatura = AprAssinaturaTableDto(
+        aprPreenchidaId: aprPreenchidaId!,
+        assinatura: assinaturaBytes,
+        dataAssinatura: DateTime.now(),
+        usuarioId: Get.find<SessionManager>().usuario!.uuid,
+        tecnicoId: tecnicoId,
       );
 
       await aprService.salvarAssinatura(assinatura);
@@ -250,9 +257,12 @@ class AprController extends GetxController {
       final assinaturasData =
           await aprService.buscarAssinaturas(aprPreenchidaId!);
       assinaturas.assignAll(
-        assinaturasData.map((a) => AssinaturaModel(
+        assinaturasData.map((a) => AprAssinaturaTableDto(
               assinatura: a.assinatura,
               tecnicoId: a.tecnicoId,
+              aprPreenchidaId: aprPreenchidaId!,
+              dataAssinatura: a.dataAssinatura,
+              usuarioId: a.usuarioId,
             )),
       );
       AppLogger.d(
@@ -286,7 +296,7 @@ class AprController extends GetxController {
       AppLogger.d('📄 [AprController] Criando APR preenchida...');
       aprPreenchidaId = await aprService.criarAprPreenchida(
         atividadeId!,
-        aprSelecionada!.id,
+        aprSelecionada!.uuid,
       );
       AppLogger.d(
           '✅ [AprController] APR preenchida criada com ID $aprPreenchidaId');

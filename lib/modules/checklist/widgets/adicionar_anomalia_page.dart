@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
@@ -13,7 +15,7 @@ import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
 import 'package:drift/drift.dart' as d;
 
 class AdicionarAnomaliaPage extends StatefulWidget {
-  final int perguntaId;
+  final String perguntaId;
 
   const AdicionarAnomaliaPage({
     super.key,
@@ -26,7 +28,7 @@ class AdicionarAnomaliaPage extends StatefulWidget {
 
 class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
   final _formKey = GlobalKey<FormState>();
-  final Rxn<DefeitoTableData> defeitoSelecionado = Rxn();
+  final Rxn<DefeitoTableDto> defeitoSelecionado = Rxn();
   final Rxn<FaseAnomalia> faseSelecionada = Rxn();
   final Rxn<LadoAnomalia> ladoSelecionado = Rxn();
 
@@ -65,22 +67,23 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                   return;
                 }
 
-                final anomalia = AnomaliaTableCompanion(
-                  perguntaId: d.Value(widget.perguntaId),
-                  atividadeId: d.Value(atividade.id),
-                  equipamentoId: d.Value(equipamento.id),
-                  defeitoId: d.Value(defeito.id),
-                  fase: d.Value(fase),
-                  lado: d.Value(lado),
-                  delta: d.Value(double.tryParse(deltaController.text) ?? 0),
-                  observacao: d.Value(observacaoController.text),
-                  foto: _imagemSelecionada != null
-                      ? d.Value(await _imagemSelecionada!.readAsBytes())
-                      : const d.Value.absent(),
-                );
+                //   final anomalia = AnomaliaTableCompanion(
+                //     perguntaId: d.Value(widget.perguntaId),
+                //     atividadeId: d.Value(atividade.id),
+                //     equipamentoId: d.Value(equipamento.id),
+                //     defeitoId: d.Value(defeito.id),
+                //     fase: d.Value(fase),
+                //     lado: d.Value(lado),
+                //     delta: d.Value(double.tryParse(deltaController.text) ?? 0),
+                //     observacao: d.Value(observacaoController.text),
+                //     foto: _imagemSelecionada != null
+                //         ? d.Value(await _imagemSelecionada!.readAsBytes())
+                //         : const d.Value.absent(),
+                //   );
 
-                controller.salvarAnomalia(widget.perguntaId, anomalia);
-                Get.back();
+                //   controller.salvarAnomalia(widget.perguntaId, anomalia);
+                //   Get.back();
+                // }
               }
             },
           )
@@ -93,7 +96,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Obx(() => DropdownButtonFormField<EquipamentoTableData>(
+                Obx(() => DropdownButtonFormField<EquipamentoTableDto>(
                       value: controller.equipamentoSelecionado.value,
                       decoration:
                           const InputDecoration(labelText: 'Equipamento'),
@@ -111,7 +114,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                           value == null ? 'Selecione o equipamento' : null,
                     )),
                 const SizedBox(height: 16),
-                Obx(() => DropdownButtonFormField<DefeitoTableData>(
+                Obx(() => DropdownButtonFormField<DefeitoTableDto>(
                       value: defeitoSelecionado.value,
                       decoration: const InputDecoration(labelText: 'Defeito'),
                       items: controller.defeitos.map((d) {

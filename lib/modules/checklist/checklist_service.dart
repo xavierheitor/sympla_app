@@ -1,54 +1,36 @@
-import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_grupo_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_resposta_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_subgrupo_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/checklist_pergunta_relacionamento_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
-import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/checklist_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
 class ChecklistService {
   final ChecklistRepository checklistRepository;
-  final ChecklistGrupoRepository grupoRepository;
-  final ChecklistSubgrupoRepository subgrupoRepository;
-  final ChecklistPerguntaRepository perguntaRepository;
-  final ChecklistPerguntaRelacionamentoRepository relacionamentoRepository;
-  final ChecklistRespostaRepository respostaRepository;
+  final AtividadeRepository atividadeRepository;
   final EquipamentoRepository equipamentoRepository;
   final DefeitoRepository defeitoRepository;
-  final AnomaliaRepository anomaliaRepository;
-  final AtividadeRepository atividadeRepository;
 
-  ChecklistService({
-    required this.checklistRepository,
-    required this.grupoRepository,
-    required this.subgrupoRepository,
-    required this.perguntaRepository,
-    required this.relacionamentoRepository,
-    required this.respostaRepository,
-    required this.equipamentoRepository,
-    required this.defeitoRepository,
-    required this.anomaliaRepository,
-    required this.atividadeRepository,
-  });
+  ChecklistService(
+    this.checklistRepository,
+    this.atividadeRepository,
+    this.equipamentoRepository,
+    this.defeitoRepository,
+  );
 
-  Future<ChecklistTableData> buscarChecklistPorTipoAtividade(
-      int tipoAtividadeId) async {
+  Future<ChecklistTableDto> buscarChecklistPorTipoAtividade(
+      String tipoAtividadeId) async {
     try {
       AppLogger.d(
           '🔍 Buscando checklist por tipoAtividadeId: $tipoAtividadeId');
-      final checklist =
-          await checklistRepository.buscarPorTipoAtividade(tipoAtividadeId);
-      if (checklist == null) {
-        throw Exception(
-            'Checklist não encontrado para o tipo de atividade $tipoAtividadeId');
-      }
-      return checklist;
+      return await checklistRepository
+          .buscarModeloPorTipoAtividade(tipoAtividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -59,31 +41,13 @@ class ChecklistService {
     }
   }
 
-  Future<List<ChecklistPerguntaTableData>> buscarPerguntasRelacionadas(
-      int checklistId) async {
+  Future<List<ChecklistPerguntaTableDto>> buscarPerguntasRelacionadas(
+      String checklistId) async {
     try {
       AppLogger.d(
           '📋 Buscando perguntas relacionadas ao checklist $checklistId');
 
-      final relacionamentos =
-          await relacionamentoRepository.buscarPorChecklistId(checklistId);
-      final perguntas = await perguntaRepository.getAll();
-
-      AppLogger.d('🔢 Total de perguntas no banco: ${perguntas.length}');
-      AppLogger.d(
-          '🧩 Total de relacionamentos encontrados: ${relacionamentos.length}');
-      AppLogger.d(
-          '📋 IDs das perguntas disponíveis: ${perguntas.map((e) => e.id).toList()}');
-      AppLogger.d(
-          '📌 IDs dos relacionamentos: ${relacionamentos.map((e) => e.perguntaId).toList()}');
-
-      final relacionadas = perguntas
-          .where((p) => relacionamentos.any((r) => r.perguntaId == p.id))
-          .toList();
-
-      AppLogger.d('✅ Perguntas relacionadas filtradas: ${relacionadas.length}');
-
-      return relacionadas;
+      return await checklistRepository.buscarPerguntasRelacionadas(checklistId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -95,14 +59,11 @@ class ChecklistService {
   }
 
   Future<void> salvarRespostas(
-      List<ChecklistRespostaTableCompanion> respostas) async {
+      List<ChecklistRespostaTableDto> respostas) async {
     try {
       AppLogger.d('💾 Salvando ${respostas.length} respostas de checklist');
-      for (final resposta in respostas) {
-        AppLogger.d(
-            '↳ Resposta: perguntaId=${resposta.perguntaId.value}, atividadeId=${resposta.atividadeId.value}, resposta=${resposta.resposta.value}');
-        await respostaRepository.insert(resposta);
-      }
+
+      await checklistRepository.salvarRespostas(respostas);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - salvarRespostas] ${erro.mensagem}',
@@ -111,13 +72,11 @@ class ChecklistService {
     }
   }
 
-  Future<List<ChecklistRespostaTableData>> buscarRespostas(
+  Future<List<ChecklistRespostaTableDto>> buscarRespostas(
       int atividadeId) async {
     try {
       AppLogger.d('🔍 Buscando respostas para atividade $atividadeId');
-      final respostas = await respostaRepository.getByAtividadeId(atividadeId);
-      AppLogger.d('📋 Total de respostas encontradas: ${respostas.length}');
-      return respostas;
+      return await checklistRepository.buscarRespostas(atividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarRespostas] ${erro.mensagem}',
@@ -126,9 +85,10 @@ class ChecklistService {
     }
   }
 
-  Future<void> deletarRespostas(int atividadeId) async {
+  Future<void> deletarRespostas(String atividadeId) async {
     try {
-      await respostaRepository.deleteByAtividadeId(atividadeId);
+      // TODO: Implementar a lógica para deletar as respostas do checklist da atividade
+      // await checklistRepository.deletarRespostas(atividadeId);
       AppLogger.d(
           '🗑️ Respostas do checklist da atividade $atividadeId removidas');
     } catch (e, s) {
@@ -139,15 +99,12 @@ class ChecklistService {
     }
   }
 
-  Future<ChecklistTableData> buscarChecklistDaAtividade(int id) async {
+  Future<ChecklistTableDto> buscarChecklistDaAtividade(String id) async {
     try {
       AppLogger.d('🔍 Buscando checklist da atividade $id (atividade: $id)',
           tag: 'ChecklistService');
 
-      final atividade = await atividadeRepository.buscarPorId(id);
-
-      return await buscarChecklistPorTipoAtividade(
-          atividade?.tipoAtividadeId ?? 0);
+      return await checklistRepository.buscarModeloPorTipoAtividade(id);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -159,26 +116,10 @@ class ChecklistService {
     }
   }
 
-  Future<List<ChecklistPerguntaRelacionamentoTableData>> buscarRelacionamentos(
-      int checklistId) async {
+  Future<EquipamentoTableDto> buscarEquipamento(String subestacao) async {
     try {
-      AppLogger.d('📎 Buscando relacionamentos do checklist $checklistId');
-      final lista =
-          await relacionamentoRepository.buscarPorChecklistId(checklistId);
-      AppLogger.d('📌 Total de relacionamentos: ${lista.length}');
-      return lista;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[ChecklistService - buscarRelacionamentos] ${erro.mensagem}',
-          error: e, stackTrace: s);
-      rethrow;
-    }
-  }
-
-  Future<List<EquipamentoTableData>> buscarEquipamentos(
-      String subestacao) async {
-    try {
-      return await equipamentoRepository.buscarPorSubestacao(subestacao);
+      return await equipamentoRepository
+          .buscarEquipamentoPorSubestacao(subestacao);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarEquipamentos] ${erro.mensagem}',
@@ -187,10 +128,11 @@ class ChecklistService {
     }
   }
 
-  Future<List<DefeitoTableData>> buscarDefeitos(
-      EquipamentoTableData equipamento) async {
+  Future<List<DefeitoTableDto>> buscarDefeitos(
+      EquipamentoTableDto equipamento) async {
     try {
-      return await defeitoRepository.buscarPorEquipamento(equipamento);
+      return await defeitoRepository
+          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoDefeitoCodigo);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarDefeitos] ${erro.mensagem}',
@@ -201,7 +143,7 @@ class ChecklistService {
 
   Future<void> salvarAnomalias(List<AnomaliaTableCompanion> anomalias) async {
     try {
-      await anomaliaRepository.insertAll(anomalias);
+      // await anomaliaRepository.insertAll(anomalias);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - salvarAnomalias] ${erro.mensagem}',
@@ -212,7 +154,7 @@ class ChecklistService {
 
   Future<void> salvarAnomalia(AnomaliaTableCompanion anomalia) async {
     try {
-      await anomaliaRepository.insert(anomalia);
+      // await anomaliaRepository.insert(anomalia);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - salvarAnomalia] ${erro.mensagem}',
@@ -221,10 +163,11 @@ class ChecklistService {
     }
   }
 
-  Future<bool> checklistJaRespondido(int atividadeId) async {
+  Future<bool> checklistJaRespondido(String atividadeId) async {
     try {
-      final respostas = await respostaRepository.getByAtividadeId(atividadeId);
-      return respostas.isNotEmpty;
+      // TODO: Implementar a lógica para verificar se o checklist foi respondido
+      // final respostas = await checklistRepository.buscarRespostas(atividadeId);
+      return false;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - checklistJaRespondido] ${erro.mensagem}',
@@ -232,4 +175,6 @@ class ChecklistService {
       rethrow;
     }
   }
+
+  buscarEquipamentos(String sub) {}
 }

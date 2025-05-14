@@ -1,17 +1,17 @@
-import 'package:sympla_app/core/data/models/atividade_model.dart';
-import 'package:sympla_app/core/domain/repositories/atividade/atividade_repository.dart';
+import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/atividade/tipo_atividade_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
 class AtividadeService {
   final AtividadeRepository atividadeRepository;
 
   AtividadeService({required this.atividadeRepository});
 
-  Future<List<AtividadeTableData>> buscarTodas() async {
+  Future<List<AtividadeTableDto>> buscarTodas() async {
     try {
-      return await atividadeRepository.buscarTodas();
+      return await atividadeRepository.buscarTodasAtividades();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeSyncService - buscarTodas] ${erro.mensagem}',
@@ -20,9 +20,9 @@ class AtividadeService {
     }
   }
 
-  Future<List<AtividadeModel>> buscarComEquipamento() async {
+  Future<List<AtividadeTableDto>> buscarComEquipamento() async {
     try {
-      return await atividadeRepository.buscarComEquipamento();
+      return await atividadeRepository.buscarAtividadesComEquipamento();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -34,9 +34,9 @@ class AtividadeService {
     }
   }
 
-  Future<AtividadeModel?> buscarAtividadeEmAndamento() async {
+  Future<AtividadeTableDto?> buscarAtividadeEmAndamento() async {
     try {
-      return await atividadeRepository.buscarEmAndamento();
+      return await atividadeRepository.buscarAtividadeEmAndamento();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -48,7 +48,7 @@ class AtividadeService {
     }
   }
 
-  Future<void> iniciarAtividade(AtividadeModel atividade) async {
+  Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
     try {
       await atividadeRepository.iniciarAtividade(atividade);
     } catch (e, s) {
@@ -59,7 +59,7 @@ class AtividadeService {
     }
   }
 
-  Future<void> finalizarAtividade(AtividadeModel atividade) async {
+  Future<void> finalizarAtividade(AtividadeTableDto atividade) async {
     try {
       await atividadeRepository.finalizarAtividade(atividade);
     } catch (e, s) {
@@ -73,10 +73,11 @@ class AtividadeService {
     }
   }
 
-  Future<TipoAtividadeTableData> getTipoAtividadeId(
-      AtividadeModel atividade) async {
+  Future<TipoAtividadeTableDto> getTipoAtividadeId(
+      AtividadeTableDto atividade) async {
     try {
-      return await atividadeRepository.getTipoAtividadeId(atividade);
+      return await atividadeRepository
+          .buscarTipoAtividadePorAtividadeId(atividade.uuid);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AtividadeService - getTipoAtividadeId] ${erro.mensagem}',

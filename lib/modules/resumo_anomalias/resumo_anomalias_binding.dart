@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/data/repositories/checklist/anomalia_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/checklist/defeito_repository_impl.dart';
-import 'package:sympla_app/core/data/repositories/equipamento_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/checklist/anomalia_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/checklist/defeito_repository_impl.dart';
+import 'package:sympla_app/core/data_old/repositories/equipamento_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';

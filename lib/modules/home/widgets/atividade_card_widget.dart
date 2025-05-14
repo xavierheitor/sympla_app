@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
-import 'package:sympla_app/core/data/models/atividade_model.dart';
+import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_descricao_widget.dart';
 
 class AtividadeCard extends StatelessWidget {
-  final AtividadeModel atividade;
+  final AtividadeTableDto atividade;
 
   const AtividadeCard({
     super.key,
@@ -120,7 +120,7 @@ class AtividadeCard extends StatelessWidget {
                     AtividadeDescricaoItem(
                       icon: Icons.build,
                       label: 'Equipamento',
-                      value: atividade.nomeEquipamento ?? 'N/A',
+                      value: atividade.equipamento?.nome ?? 'N/A',
                     ),
                     if (atividade.ordemServico.isNotEmpty)
                       AtividadeDescricaoItem(
@@ -177,7 +177,7 @@ class AtividadeCard extends StatelessWidget {
   }
 
   void _mostrarDialogoConfirmacao(BuildContext context,
-      AtividadeModel atividade, AtividadeController controller) {
+      AtividadeTableDto atividade, AtividadeController controller) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(

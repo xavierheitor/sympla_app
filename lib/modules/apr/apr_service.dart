@@ -1,41 +1,33 @@
 // === apr_service.dart ===
 
-import 'package:drift/drift.dart';
 import 'package:get/get.dart' as g;
-import 'package:sympla_app/core/domain/repositories/apr/apr_assinatura_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr/apr_preenchida_repository.dart';
-import 'package:sympla_app/core/domain/repositories/tecnicos_repository.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_question_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_assinatura_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_preenchida_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_resposta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/tecnico_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/apr_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/tecnico_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/session/session_manager.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/domain/repositories/apr/apr_perguntas_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr/apr_repository.dart';
-import 'package:sympla_app/core/domain/repositories/apr/apr_respostas_repository.dart';
 
 class AprService {
   final AprRepository aprRepository;
-  final AprPerguntasRepository aprPerguntasRepository;
-  final AprRespostasRepository aprRespostasRepository;
-  final AprPreenchidaRepository aprPreenchidaRepository;
-  final TecnicosRepository tecnicosRepository;
-  final AprAssinaturaRepository aprAssinaturaRepository;
-
+  final TecnicoRepository tecnicoRepository;
   AprService({
     required this.aprRepository,
-    required this.aprPerguntasRepository,
-    required this.aprRespostasRepository,
-    required this.tecnicosRepository,
-    required this.aprPreenchidaRepository,
-    required this.aprAssinaturaRepository,
+    required this.tecnicoRepository,
   });
 
-  Future<AprTableData> buscarAprPorTipoAtividade(int idTipoAtividade) async {
+  Future<AprTableDto> buscarAprPorTipoAtividade(String idTipoAtividade) async {
     try {
       AppLogger.d(
           '🔍 [AprService] Buscando APR para tipoAtividade: \$idTipoAtividade',
           tag: 'AprService');
-      final apr = await aprRepository.buscarPorTipoAtividade(idTipoAtividade);
+      final apr =
+          await aprRepository.buscarModeloPorTipoAtividade(idTipoAtividade);
       AppLogger.d(
           '✅ [AprService] APR encontrada - ID: \${apr.id}, Nome: \${apr.nome}',
           tag: 'AprService');
@@ -48,18 +40,11 @@ class AprService {
     }
   }
 
-  Future<List<AprQuestionTableData>> buscarPerguntas(int aprId) async {
+  Future<List<AprQuestionTableDto>> buscarPerguntas(String aprId) async {
     try {
       AppLogger.d('🔍 [AprService] Buscando perguntas para APR: \$aprId',
           tag: 'AprService');
-      final perguntas = await aprPerguntasRepository.buscarTodos(aprId);
-      AppLogger.d(
-          '✅ [AprService] \${perguntas.length} perguntas encontradas para APR \$aprId',
-          tag: 'AprService');
-      AppLogger.d(
-          '📋 [AprService] IDs das perguntas: \${perguntas.map((p) => p.id).join(',
-          tag: 'AprService');
-      return perguntas;
+      return await aprRepository.buscarPerguntasRelacionadas(aprId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - buscarPerguntas] \${erro.mensagem}',
@@ -68,8 +53,7 @@ class AprService {
     }
   }
 
-  Future<bool> salvarRespostas(
-      List<AprRespostaTableCompanion> respostas) async {
+  Future<bool> salvarRespostas(List<AprRespostaTableDto> respostas) async {
     try {
       AppLogger.d(
           '💾 [AprService] Iniciando salvamento de \${respostas.length} respostas',
@@ -77,7 +61,7 @@ class AprService {
       AppLogger.d(
           '📋 [AprService] IDs das perguntas: \${respostas.map((r) => r.perguntaId.value).join(',
           tag: 'AprService');
-      final sucesso = await aprRespostasRepository.salvarRespostas(respostas);
+      final sucesso = await aprRepository.salvarRespostas(respostas);
       AppLogger.d('✅ [AprService] Respostas salvas com sucesso: \$sucesso',
           tag: 'AprService');
       return sucesso;
@@ -89,14 +73,14 @@ class AprService {
     }
   }
 
-  Future<bool> aprJaPreenchida(int atividadeId) async {
+  Future<bool> aprJaPreenchida(String atividadeId) async {
     try {
       AppLogger.d(
           '🔍 [AprService] Verificando se atividade $atividadeId já tem APR preenchida',
           tag: 'AprService');
 
       final aprPreenchida =
-          await aprPreenchidaRepository.buscarAprPreenchida(atividadeId);
+          await aprRepository.buscarAprPreenchida(atividadeId);
 
       if (aprPreenchida == null) {
         AppLogger.d(
@@ -105,8 +89,7 @@ class AprService {
         return false;
       }
 
-      final respostas =
-          await aprRespostasRepository.buscarRespostas(aprPreenchida.id);
+      final respostas = await aprRepository.buscarRespostas(aprPreenchida.id!);
 
       final preenchida = respostas.isNotEmpty;
       AppLogger.d(
@@ -122,10 +105,10 @@ class AprService {
     }
   }
 
-  Future<List<TecnicosTableData>> buscarTecnicos() async {
+  Future<List<TecnicoTableDto>> buscarTecnicos() async {
     try {
       AppLogger.d('🔍 [AprService] Buscando técnicos', tag: 'AprService');
-      final tecnicos = await tecnicosRepository.buscarTodos();
+      final tecnicos = await tecnicoRepository.buscarTodosTecnicos();
       AppLogger.d('✅ [AprService] \${tecnicos.length} técnicos encontrados',
           tag: 'AprService');
       return tecnicos;
@@ -137,14 +120,14 @@ class AprService {
     }
   }
 
-  Future<int> criarAprPreenchida(int atividadeId, int aprId) async {
+  Future<int> criarAprPreenchida(String atividadeId, String aprId) async {
     try {
       final id = await aprRepository.criarAprPreenchida(
-        AprPreenchidaTableCompanion(
-          atividadeId: Value(atividadeId),
-          aprId: Value(aprId),
-          dataPreenchimento: Value(DateTime.now()),
-          usuarioId: Value(g.Get.find<SessionManager>().usuario!.id),
+        AprPreenchidaTableDto(
+          atividadeId: atividadeId,
+          aprId: aprId,
+          dataPreenchimento: DateTime.now(),
+          usuarioId: g.Get.find<SessionManager>().usuario!.uuid,
         ),
       );
       AppLogger.d('✅ [AprService] APR Preenchida criada - ID: \$id',
@@ -197,7 +180,7 @@ class AprService {
           tag: 'AprService');
 
       // Deletar respostas
-      await aprRespostasRepository.deletarRespostasDaApr(aprPreenchidaId);
+      await aprRepository.deletarAprPreenchida(aprPreenchidaId);
 
       // Deletar assinaturas
       await deletarAssinaturasDaApr(aprPreenchidaId);
@@ -218,10 +201,10 @@ class AprService {
     }
   }
 
-  Future<void> salvarAssinatura(AprAssinaturaTableCompanion assinatura) async {
+  Future<void> salvarAssinatura(AprAssinaturaTableDto assinatura) async {
     try {
       AppLogger.d('🖋️ Salvando assinatura APR', tag: 'AprAssinaturaService');
-      await aprAssinaturaRepository.salvarAssinatura(assinatura);
+      await aprRepository.salvarAssinatura(assinatura);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprAssinaturaService - salvarAssinatura] ${erro.mensagem}',
@@ -234,8 +217,7 @@ class AprService {
     try {
       AppLogger.d('🔍 Contando assinaturas da APR preenchida: $aprPreenchidaId',
           tag: 'AprAssinaturaService');
-      return await aprAssinaturaRepository
-          .contarAssinaturasPorAprPreenchida(aprPreenchidaId);
+      return await aprRepository.contarAssinaturas(aprPreenchidaId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprAssinaturaService - contarAssinaturas] ${erro.mensagem}',
@@ -244,14 +226,13 @@ class AprService {
     }
   }
 
-  Future<List<AprAssinaturaTableData>> buscarAssinaturas(
+  Future<List<AprAssinaturaTableDto>> buscarAssinaturas(
       int aprPreenchidaId) async {
     try {
       AppLogger.d(
           '🔍 Buscando assinaturas para aprPreenchidaId: $aprPreenchidaId',
           tag: 'AprAssinaturaService');
-      return await aprAssinaturaRepository
-          .buscarAssinaturasPorAprPreenchida(aprPreenchidaId);
+      return await aprRepository.buscarAssinaturas(aprPreenchidaId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprAssinaturaService - buscarAssinaturas] ${erro.mensagem}',
@@ -262,8 +243,7 @@ class AprService {
 
   Future<void> deletarAssinaturasDaApr(int aprPreenchidaId) async {
     try {
-      await aprAssinaturaRepository
-          .deletarAssinaturasPorAprPreenchida(aprPreenchidaId);
+      await aprRepository.deletarAssinaturas(aprPreenchidaId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

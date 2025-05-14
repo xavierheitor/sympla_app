@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
 import 'package:sympla_app/modules/checklist/widgets/adicionar_anomalia_page.dart';
 
 class PerguntaChecklistWidget extends StatelessWidget {
-  final ChecklistPerguntaTableData pergunta;
+  final ChecklistPerguntaTableDto pergunta;
   final RespostaChecklist? resposta;
   final ValueChanged<RespostaChecklist> onSelecionar;
 
@@ -21,8 +20,8 @@ class PerguntaChecklistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final isNok = resposta == RespostaChecklist.nok;
     final observacaoController = TextEditingController();
-    final anomaliaController = Get.find<AnomaliaController>();
-    final anomalias = anomaliaController.buscarAnomalias(pergunta.id);
+    // final anomaliaController = Get.find<AnomaliaController>();
+    // final anomalias = anomaliaController.buscarAnomalias(pergunta.uuid);
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -68,31 +67,31 @@ class PerguntaChecklistWidget extends StatelessWidget {
               ElevatedButton.icon(
                 onPressed: () async {
                   await Get.to(() => AdicionarAnomaliaPage(
-                        perguntaId: pergunta.id,
+                        perguntaId: pergunta.uuid,
                       ));
                 },
                 icon: const Icon(Icons.add),
                 label: const Text('Adicionar Anomalia'),
               ),
               const SizedBox(height: 12),
-              if (anomalias.isEmpty)
-                const Text(
-                  '📌 Nenhuma anomalia adicionada',
-                  style: TextStyle(color: Colors.red),
-                )
-              else
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: anomalias.map((a) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
-                        '📌 ${a.defeitoId.value} - ${a.observacao.value?.trim().isEmpty == true ? "Sem observação" : a.observacao.value}',
-                        style: const TextStyle(color: Colors.black87),
-                      ),
-                    );
-                  }).toList(),
-                ),
+              // if (anomalias.isEmpty)
+              //   const Text(
+              //     '📌 Nenhuma anomalia adicionada',
+              //     style: TextStyle(color: Colors.red),
+              //   )
+              // else
+              //   Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: anomalias.map((a) {
+              //   return Padding(
+              //     padding: const EdgeInsets.symmetric(vertical: 4),
+              //     child: Text(
+              //       '📌 ${a.defeitoId.value} - ${a.observacao.value?.trim().isEmpty == true ? "Sem observação" : a.observacao.value}',
+              //       style: const TextStyle(color: Colors.black87),
+              //     ),
+              //   );
+              // }).toList(),
+              // ),
             ],
           ],
         ),

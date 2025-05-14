@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sympla_app/core/data/models/medicao_temp.dart';
+import 'package:sympla_app/core/domain/models/medicao_temp.dart';
 
 class MedicoesEditor extends StatefulWidget {
   final List<MedicaoTemp> medicoes;

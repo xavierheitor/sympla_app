@@ -1,6 +1,6 @@
 // resumo_anomalias_controller.dart
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalia_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';

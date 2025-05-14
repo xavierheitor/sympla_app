@@ -1,11 +1,11 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/checklist/checklist_service.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
-import 'package:drift/drift.dart' as d;
 
 class ChecklistController extends GetxController {
   final ChecklistService checklistService;
@@ -17,49 +17,22 @@ class ChecklistController extends GetxController {
   });
 
   //lista de perguntas
-  final _perguntas = <ChecklistPerguntaTableData>[].obs;
-
-  //lista de relacionamentos
-  final _relacionamentos = <ChecklistPerguntaRelacionamentoTableData>[].obs;
+  final _perguntas = <ChecklistPerguntaTableDto>[].obs;
 
   //respostas
-  final _respostas = <int, RespostaChecklist>{}.obs;
+  final _respostas = <String, RespostaChecklist>{}.obs;
 
   //carregando
   final _carregando = false.obs;
 
   //pega as perguntas
-  List<ChecklistPerguntaTableData> get perguntas => _perguntas;
+  List<ChecklistPerguntaTableDto> get perguntas => _perguntas;
 
   //pega as respostas
-  Map<int, RespostaChecklist> get respostas => _respostas;
+  Map<String, RespostaChecklist> get respostas => _respostas;
 
   //pega se esta carregando
   bool get carregando => _carregando.value;
-
-  //pega as perguntas por grupo/subgrupo
-  Map<GrupoSubgrupoKey, List<ChecklistPerguntaTableData>>
-      get perguntasPorGrupoSubgrupo {
-    final Map<GrupoSubgrupoKey, List<ChecklistPerguntaTableData>> mapa = {};
-
-    for (final rel in _relacionamentos) {
-      final pergunta =
-          _perguntas.firstWhereOrNull((p) => p.id == rel.perguntaId);
-      if (pergunta == null) {
-        AppLogger.w(
-            '[ChecklistController] Pergunta com id ${rel.perguntaId} não encontrada entre perguntas carregadas');
-        continue;
-      }
-
-      final key =
-          GrupoSubgrupoKey(grupoId: rel.grupoId, subgrupoId: rel.subgrupoId);
-      mapa.putIfAbsent(key, () => []).add(pergunta);
-    }
-
-    AppLogger.d(
-        '[ChecklistController] Total de grupos/subgrupos únicos: ${mapa.length}');
-    return mapa;
-  }
 
   @override
   Future<void> onInit() async {
@@ -75,7 +48,7 @@ class ChecklistController extends GetxController {
 
     //verifica se o checklist ja foi respondido
     final jaRespondido =
-        await checklistService.checklistJaRespondido(atividade.id);
+        await checklistService.checklistJaRespondido(atividade.uuid);
     if (jaRespondido) {
       AppLogger.d(
           '[ChecklistController] Checklist já respondido. Redirecionando para próxima etapa...');
@@ -98,7 +71,7 @@ class ChecklistController extends GetxController {
     }
 
     final jaRespondido =
-        await checklistService.checklistJaRespondido(atividade.value!.id);
+        await checklistService.checklistJaRespondido(atividade.value!.uuid);
 
     if (jaRespondido) {
       AppLogger.e(
@@ -121,35 +94,19 @@ class ChecklistController extends GetxController {
         throw Exception('Nenhuma atividade em andamento.');
       }
 
-      AppLogger.d(
-          '[ChecklistController] Atividade ID: ${atividade.value!.id}, Tipo: ${atividade.value!.tipoAtividadeId}');
-
       final checklist = await checklistService
-          .buscarChecklistDaAtividade(atividade.value!.id);
-
-      AppLogger.d(
-          '[ChecklistController] Checklist carregado: id=${checklist.id}, nome=${checklist.nome}');
+          .buscarChecklistDaAtividade(atividade.value!.uuid);
 
       final perguntasRelacionadas =
-          await checklistService.buscarPerguntasRelacionadas(checklist.id);
+          await checklistService.buscarPerguntasRelacionadas(checklist.uuid);
       AppLogger.d(
           '[ChecklistController] Total de perguntas relacionadas: ${perguntasRelacionadas.length}');
       if (perguntasRelacionadas.isEmpty) {
         AppLogger.w(
-            '[ChecklistController] Nenhuma pergunta encontrada para o checklist ${checklist.id}');
-      }
-
-      final relacionamentos =
-          await checklistService.buscarRelacionamentos(checklist.id);
-      AppLogger.d(
-          '[ChecklistController] Total de relacionamentos carregados: ${relacionamentos.length}');
-      if (relacionamentos.isEmpty) {
-        AppLogger.w(
-            '[ChecklistController] Nenhum relacionamento grupo/subgrupo encontrado para o checklist ${checklist.id}');
+            '[ChecklistController] Nenhuma pergunta encontrada para o checklist ${checklist.uuid}');
       }
 
       _perguntas.assignAll(perguntasRelacionadas);
-      _relacionamentos.assignAll(relacionamentos);
     } catch (e, s) {
       AppLogger.e('[ChecklistController] Erro ao carregar checklist',
           error: e, stackTrace: s);
@@ -161,7 +118,7 @@ class ChecklistController extends GetxController {
   }
 
   //registra a resposta de uma pergunta
-  void registrarResposta(int perguntaId, RespostaChecklist resposta) {
+  void registrarResposta(String perguntaId, RespostaChecklist resposta) {
     AppLogger.d(
         '[ChecklistController] Registrando resposta: pergunta $perguntaId → ${resposta.name}');
     _respostas[perguntaId] = resposta;
@@ -179,10 +136,10 @@ class ChecklistController extends GetxController {
     final lista = _respostas.entries.map((entry) {
       AppLogger.d(
           '[ChecklistController] Preparando resposta para pergunta ${entry.key}: ${entry.value}');
-      return ChecklistRespostaTableCompanion(
-        perguntaId: d.Value(entry.key),
-        atividadeId: d.Value(atividade.value!.id),
-        resposta: d.Value(entry.value),
+      return ChecklistRespostaTableDto(
+        checklistPreenchidoId: 0,
+        perguntaId: entry.key.toString(),
+        resposta: entry.value,
       );
     }).toList();
 

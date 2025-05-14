@@ -60,7 +60,7 @@ class AprPage extends StatelessWidget {
             ...controller.perguntas.map((pergunta) {
               final respostaSelecionada =
                   controller.respostasFormulario.firstWhereOrNull(
-                (r) => r.perguntaId == pergunta.id,
+                (r) => r.perguntaId == pergunta.uuid,
               );
 
               return AprPerguntaCard(
@@ -68,9 +68,9 @@ class AprPage extends StatelessWidget {
                 respostaSelecionada: respostaSelecionada?.resposta,
                 onRespostaSelecionada: (resposta) {
                   AppLogger.d(
-                      '✅ Resposta selecionada para pergunta ${pergunta.id}: $resposta',
+                      '✅ Resposta selecionada para pergunta ${pergunta.uuid}: $resposta',
                       tag: 'AprPage');
-                  controller.atualizarResposta(pergunta.id, resposta);
+                  controller.atualizarResposta(pergunta.uuid, resposta);
                 },
               );
             }),
@@ -93,7 +93,7 @@ class AprPage extends StatelessWidget {
               ),
             ...controller.assinaturas.map((assinatura) {
               final tecnico = controller.tecnicos.firstWhereOrNull(
-                (t) => t.id == assinatura.tecnicoId,
+                (t) => t.uuid == assinatura.tecnicoId,
               );
               final nomeTecnico = tecnico?.nome ?? 'Técnico desconhecido';
 

@@ -1,6 +1,6 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/storage/tables/usuario_table.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/tables/schema.dart';
 
 part 'usuario_dao.g.dart';
 
@@ -10,31 +10,33 @@ class UsuarioDao extends DatabaseAccessor<AppDatabase> with _$UsuarioDaoMixin {
 
   UsuarioDao(this.db) : super(db);
 
-  Future<List<UsuarioTableData>> getAllUsuarios() => select(usuarioTable).get();
+  /// Busca todos os usuários armazenados localmente.
+  Future<List<UsuarioTableData>> buscarTodos() => select(usuarioTable).get();
 
-  Stream<List<UsuarioTableData>> watchAllUsuarios() =>
+  /// Observa todos os usuários em tempo real.
+  Stream<List<UsuarioTableData>> observarTodos() =>
       select(usuarioTable).watch();
-  Future insertUsuario(UsuarioTableCompanion usuario) =>
-      into(usuarioTable).insert(usuario);
-  Future deleteUsuario(int id) =>
-      (delete(usuarioTable)..where((tbl) => tbl.id.equals(id))).go();
 
-  // ✅ Novo método
-  Future<bool> limparUsuarios() async {
-    try {
-      await delete(usuarioTable).go();
-      return true;
-    } catch (e) {
-      return false;
-    }
+  /// Insere um novo usuário. Pode lançar exceção se já existir.
+  Future<int> inserir(UsuarioTableCompanion usuario) =>
+      into(usuarioTable).insert(usuario);
+
+  /// Insere ou atualiza um usuário com base na chave primária ou `unique`.
+  Future<int> salvar(UsuarioTableCompanion usuario) =>
+      into(usuarioTable).insertOnConflictUpdate(usuario);
+
+  /// Deleta um usuário com base no ID.
+  Future<int> deletarPorId(int id) =>
+      (delete(usuarioTable)..where((u) => u.id.equals(id))).go();
+
+  /// Limpa todos os registros da tabela de usuários.
+  Future<void> limparTodos() async {
+    await delete(usuarioTable).go();
   }
 
+  /// Busca um usuário pela matrícula.
   Future<UsuarioTableData?> buscarPorMatricula(String matricula) {
     return (select(usuarioTable)..where((u) => u.matricula.equals(matricula)))
         .getSingleOrNull();
-  }
-
-  Future<int> salvarUsuario(UsuarioTableCompanion usuario) {
-    return into(usuarioTable).insertOnConflictUpdate(usuario);
   }
 }

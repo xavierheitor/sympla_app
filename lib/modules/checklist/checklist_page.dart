@@ -30,47 +30,21 @@ class ChecklistPage extends StatelessWidget {
         if (controller.carregando) {
           return const Center(child: CircularProgressIndicator());
         }
-
-        if (controller.perguntasPorGrupoSubgrupo.isEmpty) {
-          return const Center(child: Text('Nenhuma pergunta disponível.'));
-        }
-
         return Column(
           children: [
             Expanded(
-              child: ListView(
-                children:
-                    controller.perguntasPorGrupoSubgrupo.entries.map((entry) {
-                  final grupoId = entry.key.grupoId;
-                  final subgrupoId = entry.key.subgrupoId;
-                  final perguntas = entry.value;
-
-                  final respondidas = perguntas
-                      .where((p) => controller.respostas.containsKey(p.id))
-                      .length;
-
-                  final corTile = respondidas == perguntas.length
-                      ? Colors.green.shade100
-                      : respondidas == 0
-                          ? Colors.white
-                          : Colors.red.shade100;
-
-                  return Container(
-                    color: corTile,
-                    child: ExpansionTile(
-                      title: Text('Grupo $grupoId > Subgrupo $subgrupoId'),
-                      children: perguntas.map((pergunta) {
-                        final resposta = controller.respostas[pergunta.id];
-                        return PerguntaChecklistWidget(
-                          pergunta: pergunta,
-                          resposta: resposta,
-                          onSelecionar: (r) =>
-                              controller.registrarResposta(pergunta.id, r),
-                        );
-                      }).toList(),
-                    ),
+              child: ListView.builder(
+                itemCount: controller.perguntas.length,
+                itemBuilder: (context, index) {
+                  final pergunta = controller.perguntas[index];
+                  final resposta = controller.respostas[pergunta.uuid];
+                  return PerguntaChecklistWidget(
+                    pergunta: pergunta,
+                    resposta: resposta,
+                    onSelecionar: (r) =>
+                        controller.registrarResposta(pergunta.uuid, r),
                   );
-                }).toList(),
+                },
               ),
             ),
           ],

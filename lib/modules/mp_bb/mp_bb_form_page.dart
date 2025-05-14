@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/data/models/medicao_temp.dart';
+import 'package:sympla_app/core/domain/models/medicao_temp.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_controller.dart';

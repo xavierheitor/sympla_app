@@ -38,7 +38,8 @@ class HomePage extends StatelessWidget {
         final atividadeEmAndamento = atividadeCtrl.atividadeEmAndamento.value;
         final outrasAtividades = atividadeCtrl.atividades
             .where((a) =>
-                atividadeEmAndamento == null || a.id != atividadeEmAndamento.id)
+                atividadeEmAndamento == null ||
+                a.uuid != atividadeEmAndamento.uuid)
             .toList();
 
         return Column(

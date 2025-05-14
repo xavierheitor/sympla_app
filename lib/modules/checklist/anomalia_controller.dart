@@ -1,7 +1,9 @@
 // anomalia_controller.dart
 
 import 'package:get/get.dart';
-import 'package:sympla_app/core/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/checklist/checklist_service.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -15,9 +17,9 @@ class AnomaliaController extends GetxController {
     required this.atividadeController,
   });
 
-  final equipamentos = <EquipamentoTableData>[].obs;
-  final defeitos = <DefeitoTableData>[].obs;
-  final equipamentoSelecionado = Rxn<EquipamentoTableData>();
+  final equipamentos = <EquipamentoTableDto>[].obs;
+  final defeitos = <DefeitoTableDto>[].obs;
+  final equipamentoSelecionado = Rxn<EquipamentoTableDto>();
 
   final _anomalias = <int, List<AnomaliaTableCompanion>>{}.obs;
 
@@ -46,19 +48,19 @@ class AnomaliaController extends GetxController {
     }
   }
 
-  Future<void> carregarDefeitos(EquipamentoTableData equipamento) async {
+  Future<void> carregarDefeitos(EquipamentoTableDto equipamento) async {
     try {
       AppLogger.d(
-          '[AnomaliaController] Buscando defeitos para equipamento ID: ${equipamento.id} (${equipamento.nome})');
+          '[AnomaliaController] Buscando defeitos para equipamento ID: ${equipamento.uuid} (${equipamento.nome})');
       final lista = await checklistService.buscarDefeitos(equipamento);
       defeitos.assignAll(lista);
 
       if (lista.isEmpty) {
         AppLogger.w(
-            '[AnomaliaController] Nenhum defeito encontrado no banco para equipamento ID ${equipamento.id}');
+            '[AnomaliaController] Nenhum defeito encontrado no banco para equipamento ID ${equipamento.uuid}');
       } else {
         AppLogger.d(
-            '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ID ${equipamento.id}');
+            '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ID ${equipamento.uuid}');
       }
     } catch (e, s) {
       AppLogger.e('[AnomaliaController] Erro ao carregar defeitos',

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:signature/signature.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/tecnico_table_dto.dart';
 
 class AssinaturaDialog extends StatefulWidget {
-  final void Function(Uint8List assinaturaBytes, int tecnicoId) onSalvar;
-  final List<TecnicosTableData> tecnicos;
+  final void Function(Uint8List assinaturaBytes, String tecnicoId) onSalvar;
+  final List<TecnicoTableDto> tecnicos;
 
   const AssinaturaDialog({
     super.key,
@@ -27,7 +27,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
   );
 
   final TextEditingController _tecnicoController = TextEditingController();
-  TecnicosTableData? _tecnicoSelecionado;
+  TecnicoTableDto? _tecnicoSelecionado;
 
   @override
   void dispose() {
@@ -40,7 +40,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
     if (_controller.isNotEmpty && _tecnicoSelecionado != null) {
       final bytes = await _controller.toPngBytes();
       if (bytes != null) {
-        widget.onSalvar(bytes, _tecnicoSelecionado!.id);
+        widget.onSalvar(bytes, _tecnicoSelecionado!.uuid);
         Get.back();
       }
     } else {
@@ -72,7 +72,7 @@ class _AssinaturaDialogState extends State<AssinaturaDialog> {
               ),
             ),
             const SizedBox(height: 12),
-            TypeAheadField<TecnicosTableData>(
+            TypeAheadField<TecnicoTableDto>(
               suggestionsCallback: (pattern) {
                 return widget.tecnicos
                     .where((tecnico) => tecnico.nome
