@@ -1,8 +1,19 @@
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_relacionamento_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/syncable_repository.dart';
+import 'package:sympla_app/core/network/dio_client.dart';
+import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/daos/checklist_dao.dart';
 
 class ChecklistPerguntaRelacionamentoTableSyncImpl
     implements SyncableRepository<ChecklistPerguntaRelacionamentoTableDto> {
+  final AppDatabase db;
+  final DioClient dio;
+  final ChecklistDao checklistDao;
+
+  ChecklistPerguntaRelacionamentoTableSyncImpl(
+    this.db,
+    this.dio,
+  ) : checklistDao = db.checklistDao;
   @override
   Future<List<ChecklistPerguntaRelacionamentoTableDto>> buscarDaApi() {
     // TODO: implement buscarDaApi
@@ -21,4 +32,7 @@ class ChecklistPerguntaRelacionamentoTableSyncImpl
     // TODO: implement sincronizarComBanco
     throw UnimplementedError();
   }
+
+  @override
+  String get nomeEntidade => 'checklist_pergunta_relacionamento';
 }
