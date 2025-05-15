@@ -3,6 +3,8 @@ import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/checklist_repository.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/checklist_dao.dart';
@@ -16,16 +18,40 @@ class ChecklistRepositoryImpl implements ChecklistRepository {
 
   @override
   Future<void> atualizarDataPreenchimento(
-      int checklistPreenchidoId, DateTime data) {
-    // TODO: implement atualizarDataPreenchimento
-    throw UnimplementedError();
+      int checklistPreenchidoId, DateTime data) async {
+    try {
+      await checklistDao.atualizarDataPreenchimento(
+          checklistPreenchidoId, data);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+        '[checklist_repository_impl - atualizarDataPreenchimento] ${erro.mensagem}',
+        tag: 'ChecklistRepositoryImpl',
+        error: e,
+        stackTrace: s,
+      );
+    }
   }
 
   @override
   Future<ChecklistPreenchidoTableDto?> buscarChecklistPreenchido(
-      String atividadeId) {
-    // TODO: implement buscarChecklistPreenchido
-    throw UnimplementedError();
+      String atividadeId) async {
+    try {
+      final checklistPreenchido =
+          await checklistDao.buscarPorAtividade(atividadeId);
+      return checklistPreenchido != null
+          ? ChecklistPreenchidoTableDto.fromData(checklistPreenchido)
+          : null;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+        '[checklist_repository_impl - buscarChecklistPreenchido] ${erro.mensagem}',
+        tag: 'ChecklistRepositoryImpl',
+        error: e,
+        stackTrace: s,
+      );
+      return null;
+    }
   }
 
   @override

@@ -24,7 +24,7 @@ class AtividadeService {
       AtividadeTableDto atividade) async {
     final tipo = await atividadeRepository
         .buscarTipoAtividadePorAtividadeId(atividade.uuid);
-    return tipo.tipoAtividadeMobile;
+    return tipo?.tipoAtividadeMobile ?? TipoAtividadeMobile.ivItIu;
   }
 
   Future<EtapaAtividade?> proximaEtapa(
@@ -74,17 +74,47 @@ class AtividadeService {
     return false;
   }
 
-  buscarComEquipamento() {}
+  buscarComEquipamento() {
+    return atividadeRepository.buscarAtividadesComEquipamento();
+  }
 
   sincronizar() {}
 
-  iniciarAtividade(AtividadeTableDto atividade) {}
+  buscarAtividadeEmAndamento() {
+    return atividadeRepository.buscarAtividadeEmAndamento();
+  }
 
-  finalizarAtividade(AtividadeTableDto atividade) {}
+Future<EtapaAtividade> etapaInicial(AtividadeTableDto atividade) async {
+    final tipo = await tipoAtividadeMobileDo(atividade);
+    final fluxo = fluxoPorTipoAtividade[tipo];
+    if (fluxo == null || fluxo.isEmpty) {
+      throw Exception('Nenhum fluxo definido para o tipo de atividade $tipo');
+    }
+    return fluxo.first;
+  }
 
-  etapaInicial(AtividadeTableDto atividade) {}
+Future<void> navegarParaEtapa(EtapaAtividade etapa) async {
+    AppLogger.d('🔀 Navegando para etapa: $etapa', tag: 'AtividadeService');
 
-  navegarParaEtapa(EtapaAtividade etapaAtividade) {}
-
-  buscarAtividadeEmAndamento() {}
+    switch (etapa) {
+      case EtapaAtividade.apr:
+        Get.toNamed(Routes.apr);
+        break;
+      case EtapaAtividade.checklist:
+        Get.toNamed(Routes.checklist);
+        break;
+      case EtapaAtividade.resumoAnomalias:
+        Get.toNamed(Routes.resumoAnomalias);
+        break;
+      case EtapaAtividade.mpBbForm:
+        Get.toNamed(Routes.mpBbForm);
+        break;
+      case EtapaAtividade.mpDjForm:
+        Get.toNamed(Routes.mpDjForm);
+        break;
+      case EtapaAtividade.finalizada:
+        // ⚠️ Deve ser tratado no controller.
+        break;
+    }
+  }
 }

@@ -18,11 +18,20 @@ class AprRepositoryImpl implements AprRepository {
   AprRepositoryImpl(this.db, this.dio) : aprDao = db.aprDao;
 
   @override
-  Future<void> atualizarDataPreenchimento(int aprPreenchidaId, DateTime data) {
-    // TODO: implement atualizarDataPreenchimento
-    throw UnimplementedError();
+  Future<void> atualizarDataPreenchimento(
+      int aprPreenchidaId, DateTime data) async {
+    try {
+      return await aprDao.atualizarDataPreenchimento(aprPreenchidaId, data);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[apr_repository_impl - atualizarDataPreenchimento] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
-
   @override
   Future<AprPreenchidaTableDto?> buscarAprPreenchida(String atividadeId) async {
     try {
@@ -91,9 +100,16 @@ class AprRepositoryImpl implements AprRepository {
   }
 
   @override
-  Future<List<AprRespostaTableDto>> buscarRespostas(int aprPreenchidaId) {
-    // TODO: implement buscarRespostas
-    throw UnimplementedError();
+  Future<List<AprRespostaTableDto>> buscarRespostas(int aprPreenchidaId) async {
+    try {
+      return await aprDao.buscarRespostas(aprPreenchidaId).then((value) =>
+          value.map((e) => AprRespostaTableDto.fromData(e)).toList());
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[apr_repository_impl - buscarRespostas] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      return [];
+    }
   }
 
   @override
@@ -147,9 +163,14 @@ class AprRepositoryImpl implements AprRepository {
   }
 
   @override
-  Future<void> deletarRespostas(int aprPreenchidaId) {
-    // TODO: implement deletarRespostas
-    throw UnimplementedError();
+  Future<void> deletarRespostas(int aprPreenchidaId) async {
+    try {
+      await aprDao.deletarAprPreenchida(aprPreenchidaId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[apr_repository_impl - deletarRespostas] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+    }
   }
 
   @override
@@ -170,9 +191,17 @@ class AprRepositoryImpl implements AprRepository {
   }
 
   @override
-  Future<bool> existeRespostas(int aprPreenchidaId) {
-    // TODO: implement existeRespostas
-    throw UnimplementedError();
+  Future<bool> existeRespostas(int aprPreenchidaId) async {
+    try {
+      return await aprDao
+          .buscarRespostas(aprPreenchidaId)
+          .then((value) => value.isNotEmpty);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[apr_repository_impl - existeRespostas] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      return false;
+    }
   }
 
   @override
@@ -187,8 +216,16 @@ class AprRepositoryImpl implements AprRepository {
   }
 
   @override
-  Future<bool> salvarRespostas(List<AprRespostaTableDto> respostas) {
-    // TODO: implement salvarRespostas
-    throw UnimplementedError();
+  Future<bool> salvarRespostas(List<AprRespostaTableDto> respostas) async {
+    try {
+      await aprDao
+          .salvarRespostas(respostas.map((e) => e.toCompanion()).toList());
+      return true;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[apr_repository_impl - salvarRespostas] ${erro.mensagem}',
+          tag: 'AprRepositoryImpl', error: e, stackTrace: s);
+      return false;
+    }
   }
 }

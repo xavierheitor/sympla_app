@@ -33,7 +33,7 @@ class EquipamentoDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Verifica se a tabela está vazia
-  Future<bool> estaVazio() async {
+  Future<bool> estaVazioEquipamento() async {
     final result = await select(equipamentoTable).get();
     return result.isEmpty;
   }
@@ -73,7 +73,7 @@ class EquipamentoDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.sincronizado.equals(false)))
         .go();
 
-    AppLogger.d('🧹 Removidos \$apagados equipamentos obsoletos',
+    AppLogger.d('🧹 Removidos $apagados equipamentos obsoletos',
         tag: 'EquipamentoDao');
   }
 

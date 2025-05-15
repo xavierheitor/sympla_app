@@ -147,4 +147,38 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
         .get();
     return count.isNotEmpty;
   }
+
+  Future<bool> estaVazioChecklistPerguntaRelacionamento() async {
+    final count = await select(checklistPerguntaRelacionamentoTable).get();
+    return count.isEmpty;
+  }
+
+  Future<bool> estaVazioChecklistPergunta() async {
+    final count = await select(checklistPerguntaTable).get();
+    return count.isEmpty;
+  }
+
+  Future<bool> estaVazioChecklist() async {
+    final count = await select(checklistTable).get();
+    return count.isEmpty;
+  }
+
+  Future<void> atualizarDataPreenchimento(
+      int checklistPreenchidoId, DateTime data) async {
+    await (update(checklistPreenchidoTable)
+          ..where((tbl) => tbl.id.equals(checklistPreenchidoId)))
+        .write(
+      ChecklistPreenchidoTableCompanion(dataPreenchimento: Value(data)),
+    );
+  }
+
+  Future<ChecklistPreenchidoTableData?> buscarPorAtividade(
+      String atividadeId) async {
+    final query = select(checklistPreenchidoTable).join([
+      innerJoin(atividadeTable,
+          atividadeTable.uuid.equalsExp(checklistPreenchidoTable.atividadeId)),
+    ]);
+    final result = await query.getSingleOrNull();
+    return result?.readTable(checklistPreenchidoTable);
+  }
 }

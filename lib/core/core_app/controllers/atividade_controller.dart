@@ -70,11 +70,16 @@ class AtividadeController extends GetxController {
 
   Future<void> executarAtividade(AtividadeTableDto atividade) async {
     etapaAtual.value ??= await atividadeService.etapaInicial(atividade);
-    if (await atividadeService.desejaPularEtapa(etapaAtual.value!)) {
-      await avancar();
+
+    final etapa = etapaAtual.value!;
+    final devePular = await atividadeService.desejaPularEtapa(etapa);
+
+    if (devePular) {
+      await avancar(); // já chama executarAtividade de novo
       return;
     }
-    await atividadeService.navegarParaEtapa(etapaAtual.value!);
+
+    await atividadeService.navegarParaEtapa(etapa);
   }
 
   Future<void> _carregarEmAndamento() async {

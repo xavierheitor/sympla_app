@@ -1,5 +1,4 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
@@ -85,7 +84,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Retorna a atividade que estiver em andamento, com o equipamento e tipo relacionados.
-  Future<AtividadeTableDto?> buscarEmAndamento() async {
+  Future<AtividadeTableData?> buscarEmAndamento() async {
     final query = select(atividadeTable).join([
       innerJoin(
         equipamentoTable,
@@ -101,15 +100,11 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     final row = await query.getSingleOrNull();
     if (row == null) return null;
 
-    return AtividadeTableDto.fromJoin(
-      row.readTable(atividadeTable),
-      row.readTable(equipamentoTable),
-      row.readTable(tipoAtividadeTable),
-    );
+    return row.readTable(atividadeTable);
   }
 
   /// Busca todas as atividades com os dados do equipamento e tipo associados.
-  Future<List<AtividadeTableDto>> buscarComEquipamento() async {
+  Future<List<AtividadeTableData>> buscarComEquipamento() async {
     final query = select(atividadeTable).join([
       innerJoin(
         equipamentoTable,
@@ -121,18 +116,11 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
       ),
     ]);
     final rows = await query.get();
-
-    return rows
-        .map((row) => AtividadeTableDto.fromJoin(
-              row.readTable(atividadeTable),
-              row.readTable(equipamentoTable),
-              row.readTable(tipoAtividadeTable),
-            ))
-        .toList();
+    return rows.map((row) => row.readTable(atividadeTable)).toList();
   }
 
   /// Busca uma atividade específica pelo ID com os dados do equipamento e tipo.
-  Future<AtividadeTableDto?> buscarAtividadePorId(int id) async {
+  Future<AtividadeTableData?> buscarAtividadePorId(String id) async {
     final query = select(atividadeTable).join([
       innerJoin(
         equipamentoTable,
@@ -143,22 +131,18 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         tipoAtividadeTable.uuid.equalsExp(atividadeTable.tipoAtividadeId),
       ),
     ])
-      ..where(atividadeTable.id.equals(id));
+      ..where(atividadeTable.uuid.equals(id));
 
     final row = await query.getSingleOrNull();
     if (row == null) return null;
 
-    return AtividadeTableDto.fromJoin(
-      row.readTable(atividadeTable),
-      row.readTable(equipamentoTable),
-      row.readTable(tipoAtividadeTable),
-    );
+    return row.readTable(atividadeTable);
   }
 
   /// Marca uma atividade como "em andamento" e registra a data de início.
-  Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
+  Future<void> iniciarAtividade(AtividadeTableCompanion atividade) async {
     await (update(atividadeTable)
-          ..where((tbl) => tbl.uuid.equals(atividade.uuid)))
+          ..where((tbl) => tbl.uuid.equals(atividade.uuid.value)))
         .write(
       AtividadeTableCompanion(
         status: const Value(StatusAtividade.emAndamento),
@@ -168,9 +152,9 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Marca uma atividade como "concluída" e registra a data de fim.
-  Future<void> finalizarAtividade(AtividadeTableDto atividade) async {
+  Future<void> finalizarAtividade(AtividadeTableCompanion atividade) async {
     await (update(atividadeTable)
-          ..where((tbl) => tbl.uuid.equals(atividade.uuid)))
+          ..where((tbl) => tbl.uuid.equals(atividade.uuid.value)))
         .write(
       AtividadeTableCompanion(
         status: const Value(StatusAtividade.concluido),
@@ -238,16 +222,23 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     return (count ?? 0) == 0;
   }
 
-  /// Busca um tipo de atividade pelo ID.
-  Future<TipoAtividadeTableData> buscarTipoAtividadePorId(int id) async {
-    final result = await (select(tipoAtividadeTable)
-          ..where((t) => t.id.equals(id)))
-        .getSingleOrNull();
+  /// Busca um tipo de atividade pelo ID da atividasde
+  Future<TipoAtividadeTableData> buscarTipoAtividadePorId(
+      String atividadeId) async {
+    final query = (select(atividadeTable)
+          ..where((a) => a.uuid.equals(atividadeId)))
+        .join([
+      innerJoin(tipoAtividadeTable,
+          tipoAtividadeTable.uuid.equalsExp(atividadeTable.tipoAtividadeId)),
+    ]);
+
+    final result = await query.getSingleOrNull();
 
     if (result == null) {
-      throw Exception('TipoAtividade com ID $id não encontrado.');
+      throw Exception(
+          'Tipo de atividade para atividade $atividadeId não encontrado.');
     }
 
-    return result;
+    return result.readTable(tipoAtividadeTable);
   }
 }

@@ -41,7 +41,8 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
   }
 
   /// Sincroniza os dados recebidos da API com o banco local
-  Future<void> sincronizarComApi(List<DefeitoTableCompanion> items) async {
+  Future<void> sincronizarDefeitosComApi(
+      List<DefeitoTableCompanion> items) async {
     await transaction(() async {
       await delete(defeitoTable).go();
       final op = batch((b) {
@@ -52,6 +53,46 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
       await op;
     });
   }
+
+  Future<void> sincronizaGruposDefeitoEquipamentoComApi(
+      List<GrupoDefeitoEquipamentoTableCompanion> items) async {
+    await transaction(() async {
+      await delete(grupoDefeitoEquipamentoTable).go();
+      final op = batch((b) {
+        for (final item in items) {
+          b.insert(grupoDefeitoEquipamentoTable, item);
+        }
+      });
+      await op;
+    });
+  }
+
+  Future<void> sincronizarGruposDefeitoCodigoComApi(
+      List<GrupoDefeitoCodigoTableCompanion> items) async {
+    await transaction(() async {
+      await delete(grupoDefeitoCodigoTable).go();
+      final op = batch((b) {
+        for (final item in items) {
+          b.insert(grupoDefeitoCodigoTable, item);
+        }
+      });
+      await op;
+    });
+  }
+
+  Future<void> sincronizarSubgruposDefeitoEquipamentoComApi(
+      List<SubgrupoDefeitoEquipamentoTableCompanion> items) async {
+    await transaction(() async {
+      await delete(subgrupoDefeitoEquipamentoTable).go();
+      final op = batch((b) {
+        for (final item in items) {
+          b.insert(subgrupoDefeitoEquipamentoTable, item);
+        }
+      });
+      await op;
+    });
+  }
+
 
   /// Busca defeitos por grupo
   Future<List<DefeitoTableData>> getByGrupoId(String grupoId) {
@@ -75,4 +116,25 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
           ..where((tbl) => tbl.grupoId.equals(equipamento.grupoDefeitoCodigo)))
         .get();
   }
+
+  Future<bool> estaVazioDefeito() async {
+    final count = await select(defeitoTable).get();
+    return count.isEmpty;
+  }
+
+  Future<bool> estaVazioGrupoDefeitoEquipamento() async {
+    final count = await select(grupoDefeitoEquipamentoTable).get();
+    return count.isEmpty;
+  }
+
+  Future<bool> estaVazioGrupoDefeitoCodigo() async {
+    final count = await select(grupoDefeitoCodigoTable).get();
+    return count.isEmpty;
+  }
+
+  Future<bool> estaVazioSubgrupoDefeitoEquipamento() async {
+    final count = await select(subgrupoDefeitoEquipamentoTable).get();
+    return count.isEmpty;
+  }
+  
 }

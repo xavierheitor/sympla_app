@@ -252,5 +252,33 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
     });
   }
 
-  deletarAprPreenchida(int aprPreenchidaId) {}
+  Future<void> deletarAprPreenchida(int aprPreenchidaId) async {
+    await batch((batch) {
+      delete(aprPreenchidaTable).where((t) => t.id.equals(aprPreenchidaId));
+      delete(aprRespostaTable)
+          .where((t) => t.aprPreenchidaId.equals(aprPreenchidaId));
+      delete(aprAssinaturaTable)
+          .where((t) => t.aprPreenchidaId.equals(aprPreenchidaId));
+    });
+  }
+
+  Future<int> countAprs() async {
+    final query = selectOnly(aprTable)..addColumns([aprTable.id.count()]);
+    final row = await query.getSingle();
+    return row.read(aprTable.id.count()) ?? 0;
+  }
+
+  Future<int> countQuestoes() async {
+    final query = selectOnly(aprQuestionTable)
+      ..addColumns([aprQuestionTable.id.count()]);
+    final row = await query.getSingle();
+    return row.read(aprQuestionTable.id.count()) ?? 0;
+  }
+
+  Future<int> countRelacionamentos() async {
+    final query = selectOnly(aprPerguntaRelacionamentoTable)
+      ..addColumns([aprPerguntaRelacionamentoTable.id.count()]);
+    final row = await query.getSingle();
+    return row.read(aprPerguntaRelacionamentoTable.id.count()) ?? 0;
+  }
 }
