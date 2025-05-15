@@ -1,14 +1,14 @@
+// login_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'login_controller.dart';
 
 class LoginPage extends StatelessWidget {
-  final controller = Get.find<LoginController>();
-
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<LoginController>();
     final senhaVisivel = false.obs;
 
     return Scaffold(

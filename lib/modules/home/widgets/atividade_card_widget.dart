@@ -4,158 +4,142 @@ import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_descricao_widget.dart';
-
 class AtividadeCard extends StatelessWidget {
   final AtividadeTableDto atividade;
 
-  const AtividadeCard({
-    super.key,
-    required this.atividade,
-  });
+  const AtividadeCard({super.key, required this.atividade});
 
   @override
   Widget build(BuildContext context) {
     final controller = Get.find<AtividadeController>();
 
-    final status = atividade.status;
-    final isConcluida = status == StatusAtividade.concluido;
-    final isEmExecucao = status == StatusAtividade.emAndamento;
+    return Obx(() {
+      final atualizada = controller.atividades
+              .firstWhereOrNull((a) => a.uuid == atividade.uuid) ??
+          atividade;
 
-    final Color cardColor = switch (status) {
-      StatusAtividade.pendente => Colors.blue[50]!,
-      StatusAtividade.emAndamento => Colors.orange[50]!,
-      StatusAtividade.concluido => Colors.green[50]!,
-      StatusAtividade.cancelado => Colors.red[50]!,
-      StatusAtividade.sincronizado => Colors.grey[200]!,
-    };
+      final status = atualizada.status;
+      final isConcluida = status == StatusAtividade.concluido;
+      final isEmExecucao = status == StatusAtividade.emAndamento;
 
-    final Color chipColor = switch (status) {
-      StatusAtividade.pendente => Colors.blue[100]!,
-      StatusAtividade.emAndamento => Colors.orange[100]!,
-      StatusAtividade.concluido => Colors.green[100]!,
-      StatusAtividade.cancelado => Colors.red[100]!,
-      StatusAtividade.sincronizado => Colors.grey[300]!,
-    };
 
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      color: cardColor,
-      child: Opacity(
-        opacity: isConcluida ? 0.6 : 1.0,
-        child: InkWell(
-          onTap: isConcluida
-              ? null
-              : () async {
-                  final atividadeAtual = controller.atividadeEmAndamento.value;
+      final cardColor = switch (status) {
+        StatusAtividade.pendente => Colors.blue[50]!,
+        StatusAtividade.emAndamento => Colors.orange[50]!,
+        StatusAtividade.concluido => Colors.green[50]!,
+        StatusAtividade.cancelado => Colors.red[50]!,
+        StatusAtividade.sincronizado => Colors.grey[200]!,
+      };
 
-                  // Caso seja a própria atividade em execução → executa a etapa atual
-                  if (isEmExecucao) {
-                    await controller.executarAtividade(atividade);
-                    return;
-                  }
+      final chipColor = switch (status) {
+        StatusAtividade.pendente => Colors.blue[100]!,
+        StatusAtividade.emAndamento => Colors.orange[100]!,
+        StatusAtividade.concluido => Colors.green[100]!,
+        StatusAtividade.cancelado => Colors.red[100]!,
+        StatusAtividade.sincronizado => Colors.grey[300]!,
+      };
 
-                  // Se houver outra atividade em andamento → exibe aviso
-                  if (atividadeAtual != null) {
-                    Get.snackbar(
-                      'Aviso',
-                      'Já existe uma atividade em andamento. Finalize-a antes de iniciar outra.',
-                      snackPosition: SnackPosition.BOTTOM,
-                      backgroundColor: Colors.orange,
-                      colorText: Colors.white,
-                    );
-                    return;
-                  }
-
-                  // Nenhuma atividade em andamento → mostrar confirmação
-                  _mostrarDialogoConfirmacao(context, atividade, controller);
-                },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Título e ícone
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        atividade.titulo,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
+      return Card(
+        margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+        color: cardColor,
+        child: Opacity(
+          opacity: isConcluida ? 0.6 : 1.0,
+          child: InkWell(
+            onTap: isConcluida
+                ? null
+                : () async {
+                    final atual = controller.atividadeEmAndamento.value;
+                    if (isEmExecucao) {
+                      await controller.executarAtividade(atividade);
+                      return;
+                    }
+                    if (atual != null) {
+                      Get.snackbar(
+                        'Aviso',
+                        'Já existe uma atividade em andamento.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.orange,
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+                    _mostrarDialogoConfirmacao(context, atividade, controller);
+                  },
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildCabecalho(atividade, isConcluida),
+                  const SizedBox(height: 12),
+                  Text(atividade.descricao,
+                      style: const TextStyle(fontSize: 14)),
+                  const SizedBox(height: 12),
+                  _buildDescricao(atividade),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Chip(
+                      label: Text(
+                        atividade.status.name,
+                        style: const TextStyle(fontSize: 12),
                       ),
+                      backgroundColor: chipColor,
                     ),
-                    if (isConcluida)
-                      const Icon(Icons.check_circle, color: Colors.green),
-                  ],
-                ),
-                const SizedBox(height: 12),
-
-                // Descrição
-                Text(
-                  atividade.descricao,
-                  style: const TextStyle(fontSize: 14),
-                ),
-                const SizedBox(height: 12),
-
-                // Informações adicionais
-                Column(
-                  children: [
-                    AtividadeDescricaoItem(
-                      icon: Icons.calendar_today,
-                      label: 'Data Limite',
-                      value: _formatarData(atividade.dataLimite),
-                      valueStyle: TextStyle(
-                        color: _getCorDiasRestantes(atividade.dataLimite),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    AtividadeDescricaoItem(
-                      icon: Icons.location_on,
-                      label: 'Subestação',
-                      value: atividade.subestacao,
-                    ),
-                    AtividadeDescricaoItem(
-                      icon: Icons.build,
-                      label: 'Equipamento',
-                      value: atividade.equipamento?.nome ?? 'N/A',
-                    ),
-                    if (atividade.ordemServico.isNotEmpty)
-                      AtividadeDescricaoItem(
-                        icon: Icons.description,
-                        label: 'OS',
-                        value: atividade.ordemServico,
-                      ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-
-                // Status
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: Chip(
-                    label: Text(
-                      atividade.status.name,
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    backgroundColor: chipColor,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                    visualDensity:
-                        const VisualDensity(horizontal: -2, vertical: -2),
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
-      ),
+      );
+    });
+  }
+
+  Widget _buildCabecalho(AtividadeTableDto atividade, bool isConcluida) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(atividade.titulo,
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+        ),
+        if (isConcluida)
+          const Icon(Icons.check_circle, color: Colors.green, size: 20),
+      ],
+    );
+  }
+
+  Widget _buildDescricao(AtividadeTableDto atividade) {
+    return Column(
+      children: [
+        AtividadeDescricaoItem(
+          icon: Icons.calendar_today,
+          label: 'Data Limite',
+          value: _formatarData(atividade.dataLimite),
+          valueStyle: TextStyle(
+            color: _getCorDiasRestantes(atividade.dataLimite),
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        AtividadeDescricaoItem(
+          icon: Icons.location_on,
+          label: 'Subestação',
+          value: atividade.subestacao,
+        ),
+        AtividadeDescricaoItem(
+          icon: Icons.build,
+          label: 'Equipamento',
+          value: atividade.equipamento?.nome ?? 'N/A',
+        ),
+        if (atividade.ordemServico.isNotEmpty)
+          AtividadeDescricaoItem(
+            icon: Icons.description,
+            label: 'OS',
+            value: atividade.ordemServico,
+          ),
+      ],
     );
   }
 
@@ -166,14 +150,9 @@ class AtividadeCard extends StatelessWidget {
   Color _getCorDiasRestantes(DateTime dataLimite) {
     final hoje = DateTime.now();
     final diferenca = dataLimite.difference(hoje).inDays;
-
-    if (diferenca < 0) {
-      return Colors.red;
-    } else if (diferenca <= 2) {
-      return Colors.orange;
-    } else {
-      return Colors.green;
-    }
+    if (diferenca < 0) return Colors.red;
+    if (diferenca <= 2) return Colors.orange;
+    return Colors.green;
   }
 
   void _mostrarDialogoConfirmacao(BuildContext context,
@@ -193,7 +172,6 @@ class AtividadeCard extends StatelessWidget {
             onPressed: () async {
               Navigator.pop(context);
               await controller.iniciarAtividade(atividade);
-              // Nada mais aqui — o controller decide a navegação
             },
             child: const Text('Confirmar'),
           ),

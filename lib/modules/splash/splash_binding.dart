@@ -97,7 +97,9 @@ class SplashBinding extends Bindings {
     // syncManager.registrar(OutroSyncImpl());
 
     // Registra o SyncManager e o SplashController
-    Get.put<SyncManager>(syncManager);
-    Get.put(SplashController(syncManager: syncManager));
+    Get.put<SyncManager>(syncManager, permanent: true);
+    Get.put(SplashController(
+      syncManager: syncManager,
+    ));
   }
 }

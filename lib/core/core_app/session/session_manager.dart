@@ -1,127 +1,102 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/services/auth_service.dart';
+import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
-import 'package:sympla_app/core/core_app/services/auth_service.dart';
 
 class SessionManager extends GetxService {
   final AuthService authService;
 
   SessionManager({required this.authService});
 
-  UsuarioTableData? _usuario;
-  UsuarioTableData? get usuario => _usuario;
+  UsuarioTableDto? _usuario;
   bool _inicializado = false;
   bool _refreshing = false;
 
+  UsuarioTableDto? get usuario => _usuario;
+  bool get estaLogado {
+    if (!_inicializado) return false;
+    if (_usuario == null) return false;
+    final login = _usuario!.ultimoLogin;
+    if (login == null) return false;
+    return DateTime.now().difference(login).inHours < 24;
+  }
+
+  String? get tokenSync => _usuario?.token;
+  Future<String?> get token async => _usuario?.token;
+
   Future<void> init() async {
-    AppLogger.d('[session_manager - init] Buscando usuários locais...');
+    AppLogger.d('[SessionManager] Inicializando sessão...');
     try {
       final usuarios = await authService.getUsuarios();
-      AppLogger.d(
-          '[session_manager - init] Encontrado ${usuarios.length} usuário(s)');
+      if (usuarios.isEmpty) return;
 
-      if (usuarios.isNotEmpty) {
-        final local = usuarios.first;
-        AppLogger.d('📋 Usuário carregado: ${local.nome}');
-        _usuario = local;
+      _usuario = usuarios.first;
+      AppLogger.i('Usuário local encontrado: ${_usuario!.nome}', tag: 'Sessão');
 
-        final now = DateTime.now();
-        final diff = now.difference(local.ultimoLogin ?? now).inHours;
+      final diff = DateTime.now().difference(_usuario!.ultimoLogin!).inHours;
+      AppLogger.d('Último login há $diff horas', tag: 'Sessão');
 
-        AppLogger.i('Último login há $diff horas', tag: 'Sessão');
+      if (diff >= 24) {
+        await logout();
+        return;
+      }
 
-        if (local.refreshToken != null && diff < 24) {
-          try {
-            await renovarToken();
-          } catch (e) {
-            AppLogger.w('Falha ao renovar token, mantendo login offline',
-                tag: 'Sessão');
-          }
-        }
-
-        if (diff >= 24) {
-          await logout();
+      if (_usuario!.refreshToken?.isNotEmpty == true) {
+        try {
+          await renovarToken();
+        } catch (_) {
+          AppLogger.w('Falha ao renovar token. Sessão offline permitida.',
+              tag: 'Sessão');
         }
       }
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[session_manager - init] ${erro.mensagem}',
-          tag: 'SessionManager', error: e, stackTrace: s);
+      AppLogger.e('Erro ao inicializar sessão',
+          tag: 'SessionManager', error: erro.mensagem, stackTrace: s);
       rethrow;
-    }
-    _inicializado = true;
-  }
-
-  bool get estaLogado {
-    if (!_inicializado) {
-      AppLogger.d('⚠️ estaLogado acessado antes de init!');
-      return false;
-    }
-
-    if (_usuario == null) {
-      AppLogger.d('🔐 Nenhum usuário encontrado');
-      return false;
-    }
-
-    final ultimoLogin = _usuario!.ultimoLogin;
-    if (ultimoLogin == null) {
-      AppLogger.d('🔐 Nenhum login encontrado');
-      return false;
-    }
-
-    final diff = DateTime.now().difference(ultimoLogin).inHours;
-    AppLogger.d('🔐 Diferença de tempo: $diff horas');
-    return diff < 24;
-  }
-
-  Future<bool> logout() async {
-    try {
-      final result = await authService.logout();
-      AppLogger.i('Usuário deslogado', tag: 'Sessão');
-      if (result) {
-        _usuario = null;
-        return true;
-      }
-      return false;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[session_manager - logout] ${erro.mensagem}',
-          tag: 'SessionManager', error: e, stackTrace: s);
-      return false;
+    } finally {
+      _inicializado = true;
     }
   }
 
   Future<void> renovarToken() async {
-    if (_refreshing) {
-      AppLogger.d('🔄 Renovação de token já em andamento');
-      return;
+    if (_refreshing) return;
+
+    final token = _usuario?.refreshToken;
+    if (token == null || token.isEmpty) {
+      throw Exception('Refresh token ausente');
     }
 
     _refreshing = true;
     try {
-      final refreshToken = _usuario?.refreshToken;
-      if (refreshToken == null || refreshToken.isEmpty) {
-        throw Exception('Refresh token ausente');
-      }
-
-      await authService.refresh(refreshToken);
-      final atualizado = await authService.getUsuarios();
-      _usuario = atualizado.first;
-      AppLogger.i('🔐 Token renovado com sucesso', tag: 'Sessão');
+      await authService.refresh(token);
+      _usuario = (await authService.getUsuarios()).first;
+      AppLogger.i('Token renovado com sucesso', tag: 'Sessão');
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[session_manager - renovarToken] ${erro.mensagem}',
-          tag: 'SessionManager', error: e, stackTrace: s);
+      AppLogger.e('Erro ao renovar token',
+          tag: 'SessionManager', error: erro.mensagem, stackTrace: s);
       rethrow;
     } finally {
       _refreshing = false;
     }
   }
 
-  Future<String?> get token async {
-    return _usuario?.token ?? '';
+  Future<bool> logout() async {
+    try {
+      final result = await authService.logout();
+      if (result) {
+        _usuario = null;
+        AppLogger.i('Sessão encerrada com sucesso', tag: 'Sessão');
+        return true;
+      }
+      return false;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('Erro ao encerrar sessão',
+          tag: 'SessionManager', error: erro.mensagem, stackTrace: s);
+      return false;
+    }
   }
-
-  String? get tokenSync => _usuario?.token;
 }

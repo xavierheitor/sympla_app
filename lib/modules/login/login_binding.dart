@@ -1,18 +1,14 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/services/auth_service.dart';
-import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
-import 'package:sympla_app/core/domain/repositories/implementations/usuario_repository_impl.dart';
-
+import 'package:sympla_app/modules/login/login_service.dart';
+import 'login_controller.dart';
 
 class LoginBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<UsuarioRepository>(() => UsuarioRepositoryImpl(
-          Get.find(),
-          Get.find(),
-        ));
-    Get.lazyPut<AuthService>(() => AuthService(
-          Get.find(),
-        ));
+    // Apenas o que é exclusivo da tela de login
+    Get.lazyPut<LoginService>(() => LoginService(Get.find<AuthService>()));
+    Get.lazyPut<LoginController>(
+        () => LoginController(Get.find<LoginService>()));
   }
 }

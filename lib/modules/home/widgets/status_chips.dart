@@ -1,36 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 
 class StatusChips extends StatelessWidget {
-  final RxInt pendentes;
-  final RxInt emAndamento;
-  final RxInt concluidas;
-  final RxInt canceladas;
-
-  const StatusChips({
-    super.key,
-    required this.pendentes,
-    required this.emAndamento,
-    required this.concluidas,
-    required this.canceladas,
-  });
+  const StatusChips({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<AtividadeController>();
+
     return Obx(() {
+      final atividades = controller.atividades;
+
+      int contar(StatusAtividade status) =>
+          atividades.where((a) => a.status == status).length;
+
       return SizedBox(
         height: 64,
         child: ListView(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 16),
           children: [
-            _statusBox('Pend', pendentes.value, Colors.blue),
+            _statusBox('Pend', contar(StatusAtividade.pendente), Colors.blue),
             const SizedBox(width: 8),
-            _statusBox('Andam', emAndamento.value, Colors.orange),
+            _statusBox(
+                'Andam', contar(StatusAtividade.emAndamento), Colors.orange),
             const SizedBox(width: 8),
-            _statusBox('Concl', concluidas.value, Colors.green),
+            _statusBox(
+                'Concl', contar(StatusAtividade.concluido), Colors.green),
             const SizedBox(width: 8),
-            _statusBox('Canc', canceladas.value, Colors.redAccent),
+            _statusBox(
+                'Canc', contar(StatusAtividade.cancelado), Colors.redAccent),
           ],
         ),
       );
@@ -59,18 +60,12 @@ class StatusChips extends StatelessWidget {
           Text(
             '$count',
             style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: textColor,
-            ),
+                fontSize: 16, fontWeight: FontWeight.bold, color: textColor),
           ),
           Text(
             label,
             style: TextStyle(
-              fontSize: 12,
-              color: textColor,
-              fontWeight: FontWeight.w500,
-            ),
+                fontSize: 12, color: textColor, fontWeight: FontWeight.w500),
           ),
         ],
       ),

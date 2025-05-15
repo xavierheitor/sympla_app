@@ -5,7 +5,6 @@ import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
 
 class SplashController extends GetxController {
-  final status = ''.obs;
   final carregando = true.obs;
 
   final SyncManager syncManager;
@@ -29,7 +28,6 @@ class SplashController extends GetxController {
     }
 
     AppLogger.i('🔐 Sessão válida encontrada. Iniciando sincronização...');
-    status.value = 'Sincronizando dados...';
 
     try {
       final resultado = await syncManager.sincronizarTudo();

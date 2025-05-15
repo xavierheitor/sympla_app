@@ -10,13 +10,12 @@ class SplashPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Obx(() => Center(
+      body: Obx(() => const Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CircularProgressIndicator(),
-                const SizedBox(height: 20),
-                Text(controller.status.value),
+                CircularProgressIndicator(),
+                SizedBox(height: 20),
               ],
             ),
           )),

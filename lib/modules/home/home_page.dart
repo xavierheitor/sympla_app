@@ -44,14 +44,9 @@ class HomePage extends StatelessWidget {
 
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: StatusChips(
-                pendentes: atividadeCtrl.atividadesPendentes,
-                emAndamento: atividadeCtrl.atividadesEmAndamento,
-                concluidas: atividadeCtrl.atividadesConcluidas,
-                canceladas: atividadeCtrl.atividadesCanceladas,
-              ),
+            const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: StatusChips(),
             ),
             const SizedBox(height: 8),
             if (atividadeEmAndamento != null)

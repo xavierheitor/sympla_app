@@ -1,6 +1,4 @@
-import 'package:sympla_app/core/domain/repositories/checklist/anomalia_repository.dart';
-import 'package:sympla_app/core/domain/repositories/checklist/defeito_repository.dart';
-import 'package:sympla_app/core/domain/repositories/equipamento_repository.dart';
+
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
