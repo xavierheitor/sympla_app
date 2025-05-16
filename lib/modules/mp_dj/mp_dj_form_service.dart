@@ -1,33 +1,25 @@
-import 'package:sympla_app/core/domain/repositories/mp_dj/prev_disj_form_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_pressao_sf6_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_resistencia_contato_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_resistencia_isolamento_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_dj/medicao_tempo_operacao_repository.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_pressao_sf6_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_contato_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_tempo_operacao_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/prev_disj_form_table_dto.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/mpdj_repository.dart';
 
 class MpDjFormService {
-  final PrevDisjFormRepository formRepository;
-  final MedicaoPressaoSf6Repository pressaoSf6Repository;
-  final MedicaoResistenciaContatoRepository resistenciaContatoRepository;
-  final MedicaoResistenciaIsolamentoRepository resistenciaIsolamentoRepository;
-  final MedicaoTempoOperacaoRepository tempoOperacaoRepository;
+  final MpDjRepository repository;
 
   MpDjFormService({
-    required this.formRepository,
-    required this.pressaoSf6Repository,
-    required this.resistenciaContatoRepository,
-    required this.resistenciaIsolamentoRepository,
-    required this.tempoOperacaoRepository,
+    required this.repository,
   });
 
   // ================== FORMULÁRIO PRINCIPAL ==================
-  Future<PrevDisjFormData?> buscarFormulario(int atividadeId) async {
+  Future<PrevDisjFormTableDto?> buscarFormulario(String atividadeId) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Buscando formulário da atividade $atividadeId');
-      return await formRepository.getByAtividadeId(atividadeId);
+      return await repository.getByAtividadeId(atividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -38,10 +30,10 @@ class MpDjFormService {
     }
   }
 
-  Future<int> salvarFormulario(PrevDisjFormCompanion dados) async {
+  Future<int> salvarFormulario(PrevDisjFormTableDto dados) async {
     try {
       AppLogger.d('[MpDjFormService] Salvando formulário base');
-      return await formRepository.insert(dados);
+      return await repository.insert(dados);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -53,12 +45,12 @@ class MpDjFormService {
   }
 
   // ================== PRESSÃO SF6 ==================
-  Future<List<MedicaoPressaoSf6TableData>> buscarPressaoSf6(
+  Future<List<MedicaoPressaoSf6TableDto>> buscarPressaoSf6(
       int formularioId) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Buscando medições de pressão SF6 (formId: $formularioId)');
-      return await pressaoSf6Repository.getByFormularioId(formularioId);
+      return await repository.getPressaoSf6ByFormularioId(formularioId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -70,12 +62,12 @@ class MpDjFormService {
   }
 
   Future<void> salvarPressaoSf6(
-      int formularioId, List<MedicaoPressaoSf6TableCompanion> entradas) async {
+      int formularioId, List<MedicaoPressaoSf6TableDto> entradas) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Salvando ${entradas.length} medições de pressão SF6');
-      await pressaoSf6Repository.deleteByFormularioId(formularioId);
-      await pressaoSf6Repository.insertAll(entradas);
+      await repository.deletePressaoSf6ByFormularioId(formularioId);
+      await repository.insertPressaoSf6(entradas);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -87,12 +79,12 @@ class MpDjFormService {
   }
 
   // ================== RESISTÊNCIA DE CONTATO ==================
-  Future<List<MedicaoResistenciaContatoTableData>> buscarResistenciaContato(
+  Future<List<MedicaoResistenciaContatoTableDto>> buscarResistenciaContato(
       int formularioId) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Buscando medições de resistência de contato');
-      return await resistenciaContatoRepository.getByFormularioId(formularioId);
+      return await repository.getResistenciaContatoByFormularioId(formularioId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -104,12 +96,12 @@ class MpDjFormService {
   }
 
   Future<void> salvarResistenciaContato(int formularioId,
-      List<MedicaoResistenciaContatoTableCompanion> entradas) async {
+      List<MedicaoResistenciaContatoTableDto> entradas) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Salvando ${entradas.length} medições de resistência de contato');
-      await resistenciaContatoRepository.deleteByFormularioId(formularioId);
-      await resistenciaContatoRepository.insertAll(entradas);
+      await repository.deleteResistenciaContatoByFormularioId(formularioId);
+      await repository.insertResistenciaContato(entradas);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -121,13 +113,13 @@ class MpDjFormService {
   }
 
   // ================== RESISTÊNCIA DE ISOLAMENTO ==================
-  Future<List<MedicaoResistenciaIsolamentoTableData>>
+  Future<List<MedicaoResistenciaIsolamentoTableDto>>
       buscarResistenciaIsolamento(int formularioId) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Buscando medições de resistência de isolamento');
-      return await resistenciaIsolamentoRepository
-          .getByFormularioId(formularioId);
+      return await repository
+          .getResistenciaIsolamentoByFormularioId(formularioId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -139,12 +131,12 @@ class MpDjFormService {
   }
 
   Future<void> salvarResistenciaIsolamento(int formularioId,
-      List<MedicaoResistenciaIsolamentoTableCompanion> entradas) async {
+      List<MedicaoResistenciaIsolamentoTableDto> entradas) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Salvando ${entradas.length} medições de resistência de isolamento');
-      await resistenciaIsolamentoRepository.deleteByFormularioId(formularioId);
-      await resistenciaIsolamentoRepository.insertAll(entradas);
+      await repository.deleteResistenciaIsolamentoByFormularioId(formularioId);
+      await repository.insertResistenciaIsolamento(entradas);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -156,11 +148,11 @@ class MpDjFormService {
   }
 
   // ================== TEMPO DE OPERAÇÃO ==================
-  Future<List<MedicaoTempoOperacaoTableData>> buscarTempoOperacao(
+  Future<List<MedicaoTempoOperacaoTableDto>> buscarTempoOperacao(
       int formularioId) async {
     try {
       AppLogger.d('[MpDjFormService] Buscando medições de tempo de operação');
-      return await tempoOperacaoRepository.getByFormularioId(formularioId);
+      return await repository.getTempoOperacaoByFormularioId(formularioId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -172,12 +164,12 @@ class MpDjFormService {
   }
 
   Future<void> salvarTempoOperacao(int formularioId,
-      List<MedicaoTempoOperacaoTableCompanion> entradas) async {
+      List<MedicaoTempoOperacaoTableDto> entradas) async {
     try {
       AppLogger.d(
           '[MpDjFormService] Salvando ${entradas.length} medições de tempo de operação');
-      await tempoOperacaoRepository.deleteByFormularioId(formularioId);
-      await tempoOperacaoRepository.insertAll(entradas);
+      await repository.deleteTempoOperacaoByFormularioId(formularioId);
+      await repository.insertTempoOperacao(entradas);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

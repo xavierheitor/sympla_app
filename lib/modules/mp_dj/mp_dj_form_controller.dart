@@ -1,12 +1,15 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_pressao_sf6_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_contato_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_tempo_operacao_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/prev_disj_form_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/caracterizacao_ensaio_converter.dart';
 import 'package:sympla_app/core/storage/converters/tipo_extinsao_disjutnor_converter.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_service.dart';
-import 'package:drift/drift.dart' as d;
 
 class MpDjFormController extends GetxController {
   final MpDjFormService service;
@@ -20,20 +23,20 @@ class MpDjFormController extends GetxController {
   var carregando = false.obs;
   var etapaAtual = 0.obs;
 
-  Rxn<PrevDisjFormData> formulario = Rxn();
-  var resistenciasContato = <MedicaoResistenciaContatoTableData>[].obs;
-  var isolamentos = <MedicaoResistenciaIsolamentoTableData>[].obs;
-  var tempos = <MedicaoTempoOperacaoTableData>[].obs;
-  var pressoes = <MedicaoPressaoSf6TableData>[].obs;
+  Rxn<PrevDisjFormTableDto> formulario = Rxn();
+  var resistenciasContato = <MedicaoResistenciaContatoTableDto>[].obs;
+  var isolamentos = <MedicaoResistenciaIsolamentoTableDto>[].obs;
+  var tempos = <MedicaoTempoOperacaoTableDto>[].obs;
+  var pressoes = <MedicaoPressaoSf6TableDto>[].obs;
 
-  int get atividadeId {
+  String get atividadeId {
     final atividade = atividadeController.atividadeEmAndamento.value;
     if (atividade == null) {
       AppLogger.e('[MpDjFormController] ERRO: atividadeEmAndamento está nula!');
       throw Exception(
           '[MpDjFormController] Nenhuma atividade em andamento encontrada');
     }
-    return atividade.id;
+    return atividade.uuid;
   }
 
   @override
@@ -120,36 +123,23 @@ class MpDjFormController extends GetxController {
       carregando.value = true;
       AppLogger.d('[MpDjFormController] Salvando formulário...');
 
-      final dados = PrevDisjFormCompanion(
-        atividadeId: d.Value(atividadeId),
-        termohigrometroFabricante: d.Value(termohigrometroFabricante.trim()),
-        termohigrometroTipo: d.Value(termohigrometroTipo.trim()),
-        termohigrometroUltimaCalibracao:
-            d.Value(_tryParseDate(termohigrometroData)),
-        micromimetroFabricante: d.Value(micromimetroFabricante.trim()),
-        micromimetroTipo: d.Value(micromimetroTipo.trim()),
-        micromimetroUltimaCalibracao: d.Value(_tryParseDate(micromimetroData)),
-        megometroFabricante: d.Value(megometroFabricante.trim()),
-        megometroTipo: d.Value(megometroTipo.trim()),
-        megometroUltimaCalibracao: d.Value(_tryParseDate(megometroData)),
-        oscilografoFabricante: d.Value(oscilografoFabricante.trim()),
-        oscilografoTipo: d.Value(oscilografoTipo.trim()),
-        oscilografoUltimaCalibracao: d.Value(_tryParseDate(oscilografoData)),
-        caracterizacaoEnsaio: d.Value(caracterizacaoEnsaio),
-        disjuntorFabricante: d.Value(disjuntorFabricante.trim()),
-        disjuntorAnoFabricacao: d.Value(disjuntorAnoFabricacao.trim()),
-        disjuntorTensaoNominal:
-            d.Value(_tryParseDouble(disjuntorTensaoNominal)),
-        disjuntorCorrenteNominal:
-            d.Value(_tryParseDouble(disjuntorCorrenteNominal)?.toInt()),
+      final dados = PrevDisjFormTableDto(
+        id: 0,
+        atividadeId: atividadeId.toString(),
+        dataEnsaio: DateTime.now(),
+        caracterizacaoEnsaio: caracterizacaoEnsaio?.name,
+        disjuntorFabricante: disjuntorFabricante,
+        disjuntorAnoFabricacao: disjuntorAnoFabricacao,
+        disjuntorTensaoNominal: double.tryParse(disjuntorTensaoNominal) ?? 0.0,
+        disjuntorCorrenteNominal: int.tryParse(disjuntorCorrenteNominal) ?? 0,
         disjuntorCapInterrupcaoNominal:
-            d.Value(_tryParseDouble(disjuntorCapInterrupcaoNominal)?.toInt()),
-        disjuntorTipoExtinsao: d.Value(disjuntorTipoExtinsao),
-        disjuntorTipoAcionamento: d.Value(disjuntorTipoAcionamento.trim()),
+            int.tryParse(disjuntorCapInterrupcaoNominal) ?? 0,
+        disjuntorTipoExtinsao: disjuntorTipoExtinsao?.name,
+        disjuntorTipoAcionamento: disjuntorTipoAcionamento,
         disjuntorPressaoSf6Nominal:
-            d.Value(_tryParseDouble(disjuntorPressaoSf6Nominal)),
+            double.tryParse(disjuntorPressaoSf6Nominal) ?? 0.0,
         disjuntorPressaoSf6NominalTemperatura:
-            d.Value(_tryParseDouble(disjuntorPressaoSf6NominalTemperatura)),
+            double.tryParse(disjuntorPressaoSf6NominalTemperatura) ?? 0.0,
       );
 
       AppLogger.d('[MpDjFormController] Dados montados, salvando no banco...');
@@ -171,7 +161,7 @@ class MpDjFormController extends GetxController {
   }
 
   Future<void> salvarResistenciasContato(
-      List<MedicaoResistenciaContatoTableCompanion> dados) async {
+      List<MedicaoResistenciaContatoTableDto> dados) async {
     try {
       final id = formulario.value?.id;
       AppLogger.d(
@@ -189,7 +179,7 @@ class MpDjFormController extends GetxController {
   }
 
   Future<void> salvarIsolamentos(
-      List<MedicaoResistenciaIsolamentoTableCompanion> dados) async {
+      List<MedicaoResistenciaIsolamentoTableDto> dados) async {
     try {
       final id = formulario.value?.id;
       AppLogger.d('[MpDjFormController] Salvando isolamentos (formId: $id)...');
@@ -206,7 +196,7 @@ class MpDjFormController extends GetxController {
   }
 
   Future<void> salvarTempos(
-      List<MedicaoTempoOperacaoTableCompanion> dados) async {
+      List<MedicaoTempoOperacaoTableDto> dados) async {
     try {
       final id = formulario.value?.id;
       AppLogger.d(
@@ -224,7 +214,7 @@ class MpDjFormController extends GetxController {
   }
 
   Future<void> salvarPressaoSf6(
-      List<MedicaoPressaoSf6TableCompanion> dados) async {
+      List<MedicaoPressaoSf6TableDto> dados) async {
     try {
       final id = formulario.value?.id;
       AppLogger.d('[MpDjFormController] Salvando pressão SF6 (formId: $id)...');

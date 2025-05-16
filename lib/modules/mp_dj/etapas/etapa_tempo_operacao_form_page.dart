@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_tempo_operacao_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
-import 'package:drift/drift.dart' as d;
 
 class EtapaTempoOperacaoPage extends StatefulWidget {
   const EtapaTempoOperacaoPage({super.key});
@@ -56,27 +55,16 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
     final dados = FaseAnomalia.values.map((fase) {
       final c = _controllers[fase]!;
 
-      return MedicaoTempoOperacaoTableCompanion(
-        formularioDisjuntorId: d.Value(id),
-        fase: d.Value(fase),
-        fechamento:
-            d.Value(double.tryParse(c['fechamento']!.text.trim()) ?? 0.0),
+      return MedicaoTempoOperacaoTableDto(
+        id: 0,
+        formularioDisjuntorId: id,
+        fase: fase.name,
+        fechamentoBobina1: double.tryParse(c['fechamento']!.text.trim()) ?? 0.0,
         aberturaBobina1:
-            d.Value(double.tryParse(c['aberturaBobina1']!.text.trim()) ?? 0.0),
+            double.tryParse(c['aberturaBobina1']!.text.trim()) ?? 0.0,
         aberturaBobina2:
-            d.Value(double.tryParse(c['aberturaBobina2']!.text.trim()) ?? 0.0),
-        fechamentoTripFree: d.Value(
-            double.tryParse(c['fechamentoTripFree']!.text.trim()) ?? 0.0),
-        aberturaTripFreeBob1: d.Value(
-            double.tryParse(c['aberturaTripFreeBob1']!.text.trim()) ?? 0.0),
-        aberturaTripFreeBob2: d.Value(
-            double.tryParse(c['aberturaTripFreeBob2']!.text.trim()) ?? 0.0),
-        curtoBob1: d.Value(double.tryParse(c['curtoBob1']!.text.trim()) ?? 0.0),
-        curtoBob2: d.Value(double.tryParse(c['curtoBob2']!.text.trim()) ?? 0.0),
-        dadoPlacaFechamento: d.Value(
-            double.tryParse(c['dadoPlacaFechamento']!.text.trim()) ?? 0.0),
-        dadoPlacaAbertura: d.Value(
-            double.tryParse(c['dadoPlacaAbertura']!.text.trim()) ?? 0.0),
+            double.tryParse(c['aberturaBobina2']!.text.trim()) ?? 0.0,
+        fechamentoBobina2: double.tryParse(c['fechamento']!.text.trim()) ?? 0.0,
       );
     }).toList();
 

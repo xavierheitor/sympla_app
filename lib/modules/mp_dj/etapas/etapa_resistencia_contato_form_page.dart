@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_contato_table_dto.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
-import 'package:drift/drift.dart' as d;
 
 class EtapaResistenciaContatoPage extends StatefulWidget {
   const EtapaResistenciaContatoPage({super.key});
@@ -48,16 +47,15 @@ class _EtapaResistenciaContatoPageState
     }
 
     final dados = camaras.map((c) {
-      return MedicaoResistenciaContatoTableCompanion(
-        formularioDisjuntorId: d.Value(id),
-        numeroCamara: d.Value(c.numero),
-        resistenciaFaseA: d.Value(double.tryParse(c.faseA.text.trim()) ?? 0.0),
-        resistenciaFaseB: d.Value(double.tryParse(c.faseB.text.trim()) ?? 0.0),
-        resistenciaFaseC: d.Value(double.tryParse(c.faseC.text.trim()) ?? 0.0),
-        temperaturaDisjuntor:
-            d.Value(double.tryParse(c.temp.text.trim()) ?? 0.0),
-        umidadeRelativaAr:
-            d.Value(double.tryParse(c.umidade.text.trim()) ?? 0.0),
+      return MedicaoResistenciaContatoTableDto(
+        id: 0,
+        formularioDisjuntorId: id,
+        numeroCamara: c.numero,
+        resistenciaFaseA: double.tryParse(c.faseA.text.trim()) ?? 0.0,
+        resistenciaFaseB: double.tryParse(c.faseB.text.trim()) ?? 0.0,
+        resistenciaFaseC: double.tryParse(c.faseC.text.trim()) ?? 0.0,
+        temperaturaDisjuntor: double.tryParse(c.temp.text.trim()) ?? 0.0,
+        umidadeRelativaAr: double.tryParse(c.umidade.text.trim()) ?? 0.0,
       );
     }).toList();
 

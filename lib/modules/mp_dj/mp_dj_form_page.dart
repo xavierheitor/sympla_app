@@ -54,27 +54,8 @@ class _MpDjFormPageState extends State<MpDjFormPage> {
 
     final form = controller.formulario.value;
     if (form != null) {
-      termohigrometroFabricante.text = form.termohigrometroFabricante ?? '';
-      termohigrometroTipo.text = form.termohigrometroTipo ?? '';
-      termohigrometroData.text =
-          form.termohigrometroUltimaCalibracao?.toIso8601String() ?? '';
-
-      micromimetroFabricante.text = form.micromimetroFabricante ?? '';
-      micromimetroTipo.text = form.micromimetroTipo ?? '';
-      micromimetroData.text =
-          form.micromimetroUltimaCalibracao?.toIso8601String() ?? '';
-
-      megometroFabricante.text = form.megometroFabricante ?? '';
-      megometroTipo.text = form.megometroTipo ?? '';
-      megometroData.text =
-          form.megometroUltimaCalibracao?.toIso8601String() ?? '';
-
-      oscilografoFabricante.text = form.oscilografoFabricante ?? '';
-      oscilografoTipo.text = form.oscilografoTipo ?? '';
-      oscilografoData.text =
-          form.oscilografoUltimaCalibracao?.toIso8601String() ?? '';
-
-      caracterizacaoSelecionada = form.caracterizacaoEnsaio;
+      caracterizacaoSelecionada =
+          CaracterizacaoEnsaio.values.byName(form.caracterizacaoEnsaio ?? '');
 
       disjuntorFabricante.text = form.disjuntorFabricante ?? '';
       disjuntorAnoFabricacao.text = form.disjuntorAnoFabricacao ?? '';
@@ -84,7 +65,8 @@ class _MpDjFormPageState extends State<MpDjFormPage> {
           form.disjuntorCorrenteNominal?.toString() ?? '';
       disjuntorCapInterrupcaoNominal.text =
           form.disjuntorCapInterrupcaoNominal?.toString() ?? '';
-      tipoExtinsaoSelecionado = form.disjuntorTipoExtinsao;
+      tipoExtinsaoSelecionado =
+          TipoExtinsaoDisjuntor.values.byName(form.disjuntorTipoExtinsao ?? '');
       disjuntorTipoAcionamento.text = form.disjuntorTipoAcionamento ?? '';
       disjuntorPressaoSf6Nominal.text =
           form.disjuntorPressaoSf6Nominal?.toString() ?? '';

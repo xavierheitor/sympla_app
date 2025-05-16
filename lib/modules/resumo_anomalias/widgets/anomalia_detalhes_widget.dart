@@ -1,13 +1,13 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
 
 class AnomaliaDetalhesWidget extends StatelessWidget {
-  final AnomaliaTableData anomalia;
+  final AnomaliaTableDto anomalia;
 
   const AnomaliaDetalhesWidget({super.key, required this.anomalia});
 
@@ -16,10 +16,10 @@ class AnomaliaDetalhesWidget extends StatelessWidget {
     final hasFoto = anomalia.foto != null && anomalia.foto!.isNotEmpty;
 
     final controller = Get.find<ResumoAnomaliasController>();
-    final defeito =
-        controller.defeitos.firstWhereOrNull((d) => d.id == anomalia.defeitoId);
+    final defeito = controller.defeitos
+        .firstWhereOrNull((d) => d.uuid == anomalia.defeitoId);
     final equipamento = controller.equipamentos
-        .firstWhereOrNull((e) => e.id == anomalia.equipamentoId);
+        .firstWhereOrNull((e) => e.uuid == anomalia.equipamentoId);
 
     return Padding(
       padding: const EdgeInsets.all(16),

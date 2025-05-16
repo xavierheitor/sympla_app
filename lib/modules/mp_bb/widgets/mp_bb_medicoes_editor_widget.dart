@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:sympla_app/core/domain/models/medicao_temp.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
 class MedicoesEditor extends StatefulWidget {
-  final List<MedicaoTemp> medicoes;
-  final void Function(List<MedicaoTemp>) onChanged;
+  final List<MedicaoElementoBateriaDto> medicoes;
+  final void Function(List<MedicaoElementoBateriaDto>) onChanged;
 
   const MedicoesEditor({
     super.key,
@@ -16,7 +16,7 @@ class MedicoesEditor extends StatefulWidget {
 }
 
 class _MedicoesEditorState extends State<MedicoesEditor> {
-  late List<MedicaoTemp> _lista;
+  late List<MedicaoElementoBateriaDto> _lista;
 
   @override
   void initState() {
@@ -26,24 +26,33 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
 
   void _adicionarMedicao() {
     final novoNumero = _lista.isNotEmpty
-        ? _lista.map((e) => e.numero).reduce((a, b) => a > b ? a : b) + 1
+        ? _lista
+                .map((e) => e.elementoBateriaNumero)
+                .reduce((a, b) => a > b ? a : b) +
+            1
         : 1;
 
     setState(() {
-      _lista.add(MedicaoTemp(novoNumero));
+      _lista.add(MedicaoElementoBateriaDto(
+        id: 0,
+        formularioBateriaId: 0,
+        elementoBateriaNumero: novoNumero,
+        tensao: null,
+        resistenciaInterna: null,
+      ));
     });
     widget.onChanged(List.from(_lista));
   }
 
   void _atualizarTensao(int index, String valor) {
     final parsed = double.tryParse(valor);
-    _lista[index].tensao.value = parsed;
+    // _lista[index].tensao.value = parsed;
     widget.onChanged(List.from(_lista));
   }
 
   void _atualizarResistencia(int index, String valor) {
     final parsed = double.tryParse(valor);
-    _lista[index].resistencia.value = parsed;
+    // _lista[index].resistenciaInterna = parsed;
     widget.onChanged(List.from(_lista));
   }
 
@@ -56,11 +65,11 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
               children: [
-                Text('Elemento ${_lista[i].numero}'),
+                Text('Elemento ${_lista[i].elementoBateriaNumero}'),
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextFormField(
-                    initialValue: _lista[i].tensao.value?.toString() ?? '',
+                    initialValue: _lista[i].tensao?.toString() ?? '',
                     decoration: const InputDecoration(labelText: 'Tensão (V)'),
                     keyboardType:
                         const TextInputType.numberWithOptions(decimal: true),
@@ -70,7 +79,8 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: TextFormField(
-                    initialValue: _lista[i].resistencia.value?.toString() ?? '',
+                    initialValue:
+                        _lista[i].resistenciaInterna?.toString() ?? '',
                     decoration:
                         const InputDecoration(labelText: 'Resistência (mΩ)'),
                     keyboardType:

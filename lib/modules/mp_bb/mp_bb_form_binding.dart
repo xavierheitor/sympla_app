@@ -1,37 +1,25 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/domain/repositories/mp_bb/formulario_bateria_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_bb/medicao_elemento_bateria_repository.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/mpbb_repository.dart';
+import 'package:sympla_app/core/domain/repositories/implementations/mpbb_repository_impl.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_controller.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_service.dart';
-import 'package:sympla_app/core/data_old/repositories/mp_bb/formulario_bateria_repository_impl.dart';
-import 'package:sympla_app/core/data_old/repositories/mp_bb/medicao_elemento_bateria_repository_impl.dart';
+
 
 class MpBbFormBinding extends Bindings {
   @override
   void dependencies() {
-    final db = Get.find<AppDatabase>();
 
-    final atividade =
-        Get.find<AtividadeController>().atividadeEmAndamento.value;
-    assert(atividade != null,
-        'Nenhuma atividade em andamento encontrada no binding de MPBB');
-    final atividadeId = atividade!.id;
-
-    Get.lazyPut<FormularioBateriaRepository>(
-        () => FormularioBateriaRepositoryImpl(db: db));
-    Get.lazyPut<MedicaoElementoBateriaRepository>(
-        () => MedicaoElementoBateriaRepositoryImpl(db: db));
+    Get.lazyPut<MpbbRepository>(() => MpbbRepositoryImpl(
+          Get.find(),
+          Get.find(),
+        ));
 
     Get.lazyPut(() => MpBbFormService(
-          formularioRepository: Get.find<FormularioBateriaRepository>(),
-          medicaoRepository: Get.find<MedicaoElementoBateriaRepository>(),
+          mpbbRepository: Get.find(),
         ));
 
     Get.lazyPut(() => MpBbFormController(
-          service: Get.find<MpBbFormService>(),
-          atividadeId: atividadeId,
+          service: Get.find(),
         ));
   }
 }

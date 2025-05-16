@@ -6,7 +6,7 @@ import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 
 class MpBbFormController extends GetxController {
   final MpBbFormService service;
-  final int atividadeId;
+  final AtividadeController atividadeController;
 
   var carregando = false.obs;
   var formulario = Rxn<FormularioBateriaTableData>();
@@ -14,22 +14,23 @@ class MpBbFormController extends GetxController {
 
   MpBbFormController({
     required this.service,
-    required this.atividadeId,
-  });
+  }) : atividadeController = Get.find();
 
   @override
   void onInit() {
     super.onInit();
     carregarFormulario();
+
   }
 
   Future<void> carregarFormulario() async {
     try {
       carregando.value = true;
       AppLogger.d(
-          '[MpBbFormController] Carregando formulário da atividade $atividadeId');
+          '[MpBbFormController] Carregando formulário da atividade ${atividadeController.atividadeEmAndamento.value!.uuid}');
 
-      final form = await service.buscarPorAtividade(atividadeId);
+      final form = await service.buscarPorAtividade(
+          atividadeController.atividadeEmAndamento.value!.uuid);
       final lista = form != null
           ? await service.buscarMedicoes(form.id)
           : <MedicaoElementoBateriaTableData>[];

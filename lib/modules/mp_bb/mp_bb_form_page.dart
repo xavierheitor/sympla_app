@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/domain/models/medicao_temp.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_controller.dart';
@@ -24,8 +24,7 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
   final _tensaoBancoController = TextEditingController();
   final _rippleController = TextEditingController();
 
-  List<MedicaoTemp> _medicoesTemp = [];
-
+  final _medicoesTemp = <MedicaoElementoBateriaTableData>[].obs;
   @override
   void dispose() {
     _fabricanteController.dispose();
@@ -56,7 +55,8 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
                 final dados = FormularioBateriaTableCompanion(
-                  atividadeId: drift.Value(controller.atividadeId),
+                  atividadeId: drift.Value(controller
+                      .atividadeController.atividadeEmAndamento.value!.uuid),
                   fabricante: drift.Value(_fabricanteController.text),
                   modelo: drift.Value(_modeloController.text),
                   capacidadeAh: drift.Value(
@@ -76,9 +76,10 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
 
                 final medicoesList = _medicoesTemp
                     .map((m) => MedicaoElementoBateriaTableCompanion(
-                          elementoBateriaNumero: drift.Value(m.numero),
-                          tensao: drift.Value(m.tensao.value),
-                          resistenciaInterna: drift.Value(m.resistencia.value),
+                          elementoBateriaNumero:
+                              drift.Value(m.elementoBateriaNumero),
+                          tensao: drift.Value(m.tensao),
+                          resistenciaInterna: drift.Value(m.resistenciaInterna),
                         ))
                     .toList();
 
@@ -156,9 +157,16 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
                 ),
                 const SizedBox(height: 8),
                 MedicoesEditor(
-                  medicoes: _medicoesTemp,
+                  medicoes: _medicoesTemp
+                      .map((e) => MedicaoElementoBateriaDto(
+                            id: e.id,
+                            formularioBateriaId: e.formularioBateriaId,
+                            elementoBateriaNumero: e.elementoBateriaNumero,
+                          ))
+                      .toList(),
                   onChanged: (novas) {
-                    _medicoesTemp = novas;
+                    _medicoesTemp.assignAll(
+                        novas as List<MedicaoElementoBateriaTableData>);
                   },
                 ),
               ],

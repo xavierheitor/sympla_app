@@ -1,4 +1,10 @@
 
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
@@ -14,12 +20,13 @@ class ResumoAnomaliasService {
     required this.defeitoRepository,
   });
 
-  Future<List<AnomaliaTableData>> buscarAnomaliasPorAtividade(
-      int atividadeId) async {
+  Future<List<AnomaliaTableDto>> buscarAnomaliasPorAtividade(
+      String atividadeId) async {
     try {
       AppLogger.d(
           '[ResumoAnomaliasService] Buscando anomalias da atividade $atividadeId');
-      final lista = await anomaliaRepository.getByAtividadeId(atividadeId);
+      final lista =
+          await anomaliaRepository.buscarAnomaliasPorAtividade(atividadeId);
       AppLogger.d(
           '[ResumoAnomaliasService] ${lista.length} anomalias encontradas');
       return lista;
@@ -45,12 +52,13 @@ class ResumoAnomaliasService {
     }
   }
 
-  Future<List<EquipamentoTableData>> buscarEquipamentos(
+  Future<List<EquipamentoTableDto>> buscarEquipamentos(
       String subestacao) async {
     try {
       AppLogger.d(
           '[ResumoAnomaliasService] Buscando equipamentos da subestação: $subestacao');
-      final lista = await equipamentoRepository.buscarPorSubestacao(subestacao);
+      final lista = await equipamentoRepository
+          .buscarEquipamentosPorSubestacao(subestacao);
       AppLogger.d(
           '[ResumoAnomaliasService] ${lista.length} equipamentos encontrados');
       return lista;
@@ -64,12 +72,13 @@ class ResumoAnomaliasService {
     }
   }
 
-  Future<List<DefeitoTableData>> buscarDefeitos(
-      EquipamentoTableData equipamento) async {
+  Future<List<DefeitoTableDto>> buscarDefeitos(
+      EquipamentoTableDto equipamento) async {
     try {
       AppLogger.d(
-          '[ResumoAnomaliasService] Buscando defeitos para equipamento ID: ${equipamento.id}, nome: ${equipamento.nome}');
-      final lista = await defeitoRepository.buscarPorEquipamento(equipamento);
+          '[ResumoAnomaliasService] Buscando defeitos para equipamento ID: ${equipamento.uuid}, nome: ${equipamento.nome}');
+      final lista = await defeitoRepository
+          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoDefeitoCodigo);
       AppLogger.d(
           '[ResumoAnomaliasService] ${lista.length} defeitos encontrados');
       return lista;
@@ -81,10 +90,10 @@ class ResumoAnomaliasService {
     }
   }
 
-  Future<void> salvarAnomalia(AnomaliaTableCompanion anomalia) async {
+  Future<void> salvarAnomalia(AnomaliaTableDto anomalia) async {
     try {
       AppLogger.d('[ResumoAnomaliasService] Salvando nova anomalia: $anomalia');
-      await anomaliaRepository.insert(anomalia);
+      await anomaliaRepository.inserir(anomalia.toCompanion());
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ResumoAnomaliasService - salvarAnomalia] ${erro.mensagem}',
@@ -93,24 +102,11 @@ class ResumoAnomaliasService {
     }
   }
 
-  Future<void> atualizarAnomalia(AnomaliaTableCompanion anomalia) async {
+  Future<void> atualizarAnomalia(AnomaliaTableDto anomalia) async {
     try {
       AppLogger.d(
-          '[ResumoAnomaliasService] Atualizando anomalia ID: ${anomalia.id.value}');
-      final dados = AnomaliaTableData(
-        id: anomalia.id.value,
-        perguntaId: anomalia.perguntaId.value,
-        atividadeId: anomalia.atividadeId.value,
-        equipamentoId: anomalia.equipamentoId.value,
-        defeitoId: anomalia.defeitoId.value,
-        fase: anomalia.fase.value,
-        lado: anomalia.lado.value,
-        delta: anomalia.delta.value,
-        observacao: anomalia.observacao.value,
-        foto: anomalia.foto.present ? anomalia.foto.value : null,
-        corrigida: false,
-      );
-      await anomaliaRepository.update(dados);
+          '[ResumoAnomaliasService] Atualizando anomalia ID: ${anomalia.id}');
+      await anomaliaRepository.atualizar(anomalia.toCompanion());
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

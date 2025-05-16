@@ -1,23 +1,20 @@
 import 'package:drift/drift.dart';
-import 'package:sympla_app/core/domain/repositories/mp_bb/formulario_bateria_repository.dart';
-import 'package:sympla_app/core/domain/repositories/mp_bb/medicao_elemento_bateria_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/mpbb_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
 class MpBbFormService {
-  final FormularioBateriaRepository formularioRepository;
-  final MedicaoElementoBateriaRepository medicaoRepository;
+  final MpbbRepository mpbbRepository;
 
   MpBbFormService({
-    required this.formularioRepository,
-    required this.medicaoRepository,
+    required this.mpbbRepository,
   });
 
   Future<FormularioBateriaTableData?> buscarPorAtividade(
-      int atividadeId) async {
+      String atividadeId) async {
     try {
-      final lista = await formularioRepository.getByAtividadeId(atividadeId);
+      final lista = await mpbbRepository.getByAtividadeId(atividadeId);
       return lista.isNotEmpty ? lista.first : null;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
@@ -30,7 +27,7 @@ class MpBbFormService {
   Future<List<MedicaoElementoBateriaTableData>> buscarMedicoes(
       int formularioId) async {
     try {
-      return await medicaoRepository.getByFormularioId(formularioId);
+      return await mpbbRepository.getByFormularioId(formularioId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[MpBbFormService - buscarMedicoes] ${erro.mensagem}',
@@ -48,11 +45,11 @@ class MpBbFormService {
           '[MpBbFormService] Salvando formulário e ${medicoes.length} medições');
 
       // Remove possíveis dados antigos antes de salvar novos
-      await formularioRepository
-          .deleteByAtividadeId(formulario.atividadeId.value);
+      // await mpbbRepository
+      //     .deleteByAtividadeId(formulario.atividadeId.value);
 
       // Insere novo formulário
-      final id = await formularioRepository.insert(formulario);
+      final id = await mpbbRepository.insert(formulario);
 
       // Insere as medições com o ID recém-criado
       final medicoesComId = medicoes
@@ -64,7 +61,7 @@ class MpBbFormService {
               ))
           .toList();
 
-      await medicaoRepository.insertAll(medicoesComId);
+      await mpbbRepository.insertAll(medicoesComId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[MpBbFormService - salvarFormulario] ${erro.mensagem}',
@@ -77,7 +74,7 @@ class MpBbFormService {
     try {
       AppLogger.d(
           '[MpBbFormService] Removendo formulário da atividade $atividadeId');
-      await formularioRepository.deleteByAtividadeId(atividadeId);
+      await mpbbRepository.deleteByAtividadeId(atividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[MpBbFormService - deletarFormulario] ${erro.mensagem}',

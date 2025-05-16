@@ -43,4 +43,11 @@ class EquipamentoRepositoryImpl implements EquipamentoRepository {
     // TODO: implement deletarEquipamento
     throw UnimplementedError();
   }
+  
+  @override
+  Future<List<EquipamentoTableDto>> buscarEquipamentosPorSubestacao(
+      String subestacao) {
+    // TODO: implement buscarEquipamentosPorSubestacao
+    throw UnimplementedError();
+  }
 }

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
@@ -10,8 +13,8 @@ import 'package:sympla_app/modules/resumo_anomalias/widgets/imagem_anomalia_fiel
 import 'package:drift/drift.dart' as d;
 
 class AnomaliaFormWidget extends StatefulWidget {
-  final int perguntaId;
-  final AnomaliaTableData? anomaliaExistente;
+  final String perguntaId;
+  final AnomaliaTableDto? anomaliaExistente;
 
   const AnomaliaFormWidget({
     super.key,
@@ -25,8 +28,8 @@ class AnomaliaFormWidget extends StatefulWidget {
 
 class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
   final _formKey = GlobalKey<FormState>();
-  final Rxn<EquipamentoTableData> equipamentoSelecionado = Rxn();
-  final Rxn<DefeitoTableData> defeitoSelecionado = Rxn();
+  final Rxn<EquipamentoTableDto> equipamentoSelecionado = Rxn();
+  final Rxn<DefeitoTableDto> defeitoSelecionado = Rxn();
   final Rxn<FaseAnomalia> faseSelecionada = Rxn();
   final Rxn<LadoAnomalia> ladoSelecionado = Rxn();
 
@@ -45,9 +48,9 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
       if (widget.anomaliaExistente != null) {
         final a = widget.anomaliaExistente!;
         equipamentoSelecionado.value = controller.equipamentos
-            .firstWhereOrNull((e) => e.id == a.equipamentoId);
+            .firstWhereOrNull((e) => e.uuid == a.equipamentoId);
         defeitoSelecionado.value =
-            controller.defeitos.firstWhereOrNull((d) => d.id == a.defeitoId);
+            controller.defeitos.firstWhereOrNull((d) => d.uuid == a.defeitoId);
         faseSelecionada.value = a.fase;
         ladoSelecionado.value = a.lado;
         deltaController.text = a.delta?.toString() ?? '';
@@ -89,7 +92,7 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  Obx(() => DropdownButtonFormField<EquipamentoTableData>(
+                  Obx(() => DropdownButtonFormField<EquipamentoTableDto>(
                         value: equipamentoSelecionado.value,
                         decoration:
                             const InputDecoration(labelText: 'Equipamento'),
@@ -109,7 +112,7 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
                             value == null ? 'Selecione o equipamento' : null,
                       )),
                   const SizedBox(height: 16),
-                  Obx(() => DropdownButtonFormField<DefeitoTableData>(
+                  Obx(() => DropdownButtonFormField<DefeitoTableDto>(
                         value: defeitoSelecionado.value,
                         decoration: const InputDecoration(labelText: 'Defeito'),
                         items: controller.defeitos.map((d) {
@@ -188,7 +191,8 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
   Future<void> _salvarAnomalia() async {
     if (!_formKey.currentState!.validate()) return;
 
-    final atividade = controller.atividadeController.atividadeEmAndamento.value;
+    final atividade =
+        Get.find<AtividadeController>().atividadeEmAndamento.value;
     final equipamento = equipamentoSelecionado.value;
     final defeito = defeitoSelecionado.value;
     final fase = faseSelecionada.value;
@@ -203,21 +207,14 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
       return;
     }
 
-    final novaAnomalia = AnomaliaTableCompanion(
-      id: widget.anomaliaExistente != null
-          ? d.Value(widget.anomaliaExistente!.id)
-          : const d.Value.absent(),
-      perguntaId: d.Value(widget.perguntaId),
-      atividadeId: d.Value(atividade.id),
-      equipamentoId: d.Value(equipamento.id),
-      defeitoId: d.Value(defeito.id),
-      fase: d.Value(fase),
-      lado: d.Value(lado),
-      delta: d.Value(double.tryParse(deltaController.text) ?? 0),
-      observacao: d.Value(observacaoController.text),
-      foto: imagemBytesNotifier.value != null
-          ? d.Value(imagemBytesNotifier.value!)
-          : const d.Value.absent(),
+    final novaAnomalia = AnomaliaTableDto(
+      perguntaId: widget.perguntaId,
+      atividadeId: atividade.uuid,
+      equipamentoId: equipamento.uuid,
+      defeitoId: defeito.uuid,
+      fase: fase,
+      lado: lado,
+      delta: double.tryParse(deltaController.text) ?? 0,
     );
 
     await controller.salvarOuAtualizarAnomalia(novaAnomalia);

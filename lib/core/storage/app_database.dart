@@ -20,6 +20,7 @@ import 'package:sympla_app/core/storage/converters/tipo_atividade_mobile_convert
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 
 import 'package:sympla_app/core/logger/app_logger.dart';
+import 'package:sympla_app/core/storage/daos/anomalia_dao.dart';
 import 'package:sympla_app/core/storage/daos/apr_dao.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist_dao.dart';
@@ -93,6 +94,7 @@ LazyDatabase _openConnection() {
     MpbbDao,
     MpdjDao,
     TecnicoDao,
+    AnomaliaDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {

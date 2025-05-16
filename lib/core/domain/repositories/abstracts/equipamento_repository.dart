@@ -3,6 +3,8 @@ import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento
 abstract class EquipamentoRepository {
   Future<EquipamentoTableDto> buscarEquipamento(String equipamentoId);
   Future<EquipamentoTableDto> buscarEquipamentoPorSubestacao(String subestacao);
+  Future<List<EquipamentoTableDto>> buscarEquipamentosPorSubestacao(
+      String subestacao);
   Future<EquipamentoTableDto> buscarEquipamentoPorSubestacaoId(
       String subestacaoId);
 

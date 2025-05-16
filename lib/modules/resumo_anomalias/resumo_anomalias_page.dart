@@ -41,9 +41,9 @@ class ResumoAnomaliasPage extends StatelessWidget {
           itemBuilder: (context, index) {
             final anomalia = controller.anomalias[index];
             final equipamento = controller.equipamentos
-                .firstWhereOrNull((e) => e.id == anomalia.equipamentoId);
+                .firstWhereOrNull((e) => e.uuid == anomalia.equipamentoId);
             final defeito = controller.defeitos
-                .firstWhereOrNull((d) => d.id == anomalia.defeitoId);
+                .firstWhereOrNull((d) => d.uuid == anomalia.defeitoId);
 
             if (equipamento == null) {
               AppLogger.w(
@@ -96,7 +96,7 @@ class ResumoAnomaliasPage extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (_) => AnomaliaFormWidget(
-                                  perguntaId: anomalia.perguntaId ?? 0,
+                                  perguntaId: anomalia.perguntaId!,
                                   anomaliaExistente: anomalia,
                                 )),
                       );
@@ -108,7 +108,7 @@ class ResumoAnomaliasPage extends StatelessWidget {
                     onPressed: () async {
                       AppLogger.d(
                           '[ResumoAnomaliasPage] Removendo anomalia ID ${anomalia.id}');
-                      await controller.removerAnomalia(anomalia.id);
+                      await controller.removerAnomalia(anomalia.id!);
                       Get.snackbar('Removido', 'Anomalia removida com sucesso');
                     },
                   ),
@@ -126,7 +126,7 @@ class ResumoAnomaliasPage extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (_) => const AnomaliaFormWidget(
-                      perguntaId: 0,
+                      perguntaId: '',
                     )),
           );
         },

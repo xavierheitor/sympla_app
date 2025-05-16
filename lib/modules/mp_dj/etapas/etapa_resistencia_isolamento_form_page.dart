@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/posicao_disjuntor_ensaio_converter.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
-import 'package:drift/drift.dart' as d;
 
 class EtapaResistenciaIsolamentoPage extends StatefulWidget {
   const EtapaResistenciaIsolamentoPage({super.key});
@@ -40,19 +39,18 @@ class _EtapaResistenciaIsolamentoPageState
     }
 
     final dados = _medicoes.map((m) {
-      return MedicaoResistenciaIsolamentoTableCompanion(
-        formularioDisjuntorId: d.Value(id),
-        linha: d.Value(m.linha),
-        terra: d.Value(m.terra),
-        guarda: d.Value(m.guarda),
-        tensaoKv: d.Value(double.tryParse(m.tensao.text.trim()) ?? 0.0),
-        resistenciaFaseA: d.Value(double.tryParse(m.resA.text.trim()) ?? 0.0),
-        resistenciaFaseB: d.Value(double.tryParse(m.resB.text.trim()) ?? 0.0),
-        resistenciaFaseC: d.Value(double.tryParse(m.resC.text.trim()) ?? 0.0),
-        temperaturaDisjuntor:
-            d.Value(double.tryParse(m.temp.text.trim()) ?? 0.0),
-        umidadeRelativaAr:
-            d.Value(double.tryParse(m.umidade.text.trim()) ?? 0.0),
+      return MedicaoResistenciaIsolamentoTableDto(
+        id: 0,
+        formularioDisjuntorId: id,
+        linha: m.linha.name,
+        terra: m.terra.name,
+        guarda: m.guarda.name,
+        tensaoKv: double.tryParse(m.tensao.text.trim()) ?? 0.0,
+        resistenciaFaseA: double.tryParse(m.resA.text.trim()) ?? 0.0,
+        resistenciaFaseB: double.tryParse(m.resB.text.trim()) ?? 0.0,
+        resistenciaFaseC: double.tryParse(m.resC.text.trim()) ?? 0.0,
+        temperaturaDisjuntor: double.tryParse(m.temp.text.trim()) ?? 0.0,
+        umidadeRelativaAr: double.tryParse(m.umidade.text.trim()) ?? 0.0,
       );
     }).toList();
 

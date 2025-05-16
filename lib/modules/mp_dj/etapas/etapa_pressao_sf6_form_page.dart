@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_pressao_sf6_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
-import 'package:drift/drift.dart' as d;
 
 class EtapaPressaoSf6Page extends StatefulWidget {
   const EtapaPressaoSf6Page({super.key});
@@ -46,13 +45,14 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
     }
 
     final dados = FaseAnomalia.values.map((fase) {
-      return MedicaoPressaoSf6TableCompanion(
-        formularioDisjuntorId: d.Value(id),
-        fase: d.Value(fase),
-        valorPressao: d.Value(
-            double.tryParse(_pressaoControllers[fase]!.text.trim()) ?? 0.0),
-        temperatura: d.Value(
-            double.tryParse(_temperaturaControllers[fase]!.text.trim()) ?? 0.0),
+      return MedicaoPressaoSf6TableDto(
+        id: 0,
+        formularioDisjuntorId: id,
+        fase: fase.name,
+        valorPressao:
+            double.tryParse(_pressaoControllers[fase]!.text.trim()) ?? 0.0,
+        temperatura:
+            double.tryParse(_temperaturaControllers[fase]!.text.trim()) ?? 0.0,
       );
     }).toList();
 
