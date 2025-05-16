@@ -34,6 +34,6 @@ class GlobalBinding extends Bindings {
     Get.put(SessionManager(authService: Get.find()), permanent: true);
 
     // === Atividade Controller ===
-    Get.put(() => AtividadeController(Get.find()), permanent: true);
+    Get.put(AtividadeController(Get.find()), permanent: true);
   }
 }
