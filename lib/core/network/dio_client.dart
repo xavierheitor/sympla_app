@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart' as g;
 import 'package:sympla_app/core/constants/api_constants.dart';
-import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
@@ -50,27 +49,45 @@ class DioClient {
         onError: (error, handler) async {
           final status = error.response?.statusCode ?? 0;
           final uri = error.requestOptions.uri;
+          final tipo = error.type;
 
-          if (status != 401) {
-            final tratado = ErrorHandler.tratar(error, error.stackTrace);
-            AppLogger.e('❌ [API ERROR]');
-            AppLogger.e('🔻 Status: $status');
-            AppLogger.e('🔻 URL: $uri');
-            AppLogger.e('🔻 Mensagem tratada: ${tratado.mensagem}');
-            if (error.response != null) {
-              AppLogger.v('🔻 Body: ${error.response?.data}');
+          if (status == 401) {
+            final session = g.Get.find<SessionManager>();
+
+            if (_isRefreshing) {
+              AppLogger.d('🔄 Renovação de token já em andamento');
+              try {
+                await _refreshCompleter?.future
+                    .timeout(const Duration(seconds: 5));
+                final newToken = session.tokenSync;
+                if (newToken != null && newToken.isNotEmpty) {
+                  error.requestOptions.headers['Authorization'] =
+                      'Bearer $newToken';
+                  final retryResponse = await _dio.fetch(error.requestOptions);
+                  return handler.resolve(retryResponse);
+                }
+              } catch (_) {
+                return handler.next(error);
+              }
             }
-            return handler.next(error);
-          }
 
-          // 401 - tentativa de renovar token
-          final session = g.Get.find<SessionManager>();
+            AppLogger.w('🔁 Tentando renovar token...');
+            _isRefreshing = true;
+            _refreshCompleter = Completer();
 
-          if (_isRefreshing) {
-            AppLogger.d('🔄 Renovação de token já em andamento');
             try {
-              await _refreshCompleter?.future
+              final refreshToken = session.usuario?.refreshToken;
+              if (refreshToken == null || refreshToken.isEmpty) {
+                throw Exception('Refresh token ausente');
+              }
+
+              await session.authService
+                  .refresh(refreshToken)
                   .timeout(const Duration(seconds: 5));
+
+              _refreshCompleter?.complete();
+              _isRefreshing = false;
+
               final newToken = session.tokenSync;
               if (newToken != null && newToken.isNotEmpty) {
                 error.requestOptions.headers['Authorization'] =
@@ -78,85 +95,84 @@ class DioClient {
                 final retryResponse = await _dio.fetch(error.requestOptions);
                 return handler.resolve(retryResponse);
               }
-            } catch (_) {
-              return handler.next(error);
+            } catch (e, s) {
+              _refreshCompleter?.completeError(e, s);
+              _isRefreshing = false;
+
+              AppLogger.e('🚫 Falha ao renovar token. Forçando logout.',
+                  error: e, stackTrace: s);
+
+              await session.logout();
+              g.Get.offAllNamed('/login');
             }
+
+            return handler.next(error);
           }
 
-          AppLogger.w('🔁 Tentando renovar token...');
-          _isRefreshing = true;
-          _refreshCompleter = Completer();
-
-          try {
-            final refreshToken = session.usuario?.refreshToken;
-            if (refreshToken == null || refreshToken.isEmpty) {
-              throw Exception('Refresh token ausente');
-            }
-
-            await session.authService
-                .refresh(refreshToken)
-                .timeout(const Duration(seconds: 5));
-
-            _refreshCompleter?.complete();
-            _isRefreshing = false;
-
-            final newToken = session.tokenSync;
-            if (newToken != null && newToken.isNotEmpty) {
-              error.requestOptions.headers['Authorization'] =
-                  'Bearer $newToken';
-              final retryResponse = await _dio.fetch(error.requestOptions);
-              return handler.resolve(retryResponse);
-            }
-          } catch (e, s) {
-            _refreshCompleter?.completeError(e, s);
-            _isRefreshing = false;
-
-            AppLogger.e('🚫 Falha ao renovar token. Forçando logout.',
-                error: e, stackTrace: s);
-
-            await session.logout();
-            g.Get.offAllNamed('/login');
+          // Tratamento genérico de erro
+          String mensagem;
+          switch (tipo) {
+            case dio.DioExceptionType.connectionTimeout:
+            case dio.DioExceptionType.sendTimeout:
+            case dio.DioExceptionType.receiveTimeout:
+              mensagem = 'Tempo de conexão esgotado';
+              break;
+            case dio.DioExceptionType.connectionError:
+              mensagem = 'Falha de conexão: verifique sua internet';
+              break;
+            case dio.DioExceptionType.badResponse:
+              if (status == 500) {
+                mensagem = 'Erro interno no servidor (500)';
+              } else {
+                mensagem = 'Erro do servidor: status $status';
+              }
+              break;
+            case dio.DioExceptionType.cancel:
+              mensagem = 'Requisição cancelada';
+              break;
+            case dio.DioExceptionType.unknown:
+              mensagem = 'Erro desconhecido de rede';
+              break;
+            case dio.DioExceptionType.badCertificate:
+              mensagem = 'Certificado SSL inválido';
+              break;
           }
 
-          return handler.next(error);
+          AppLogger.e('❌ [API ERROR]');
+          AppLogger.e('🔻 Status: $status');
+          AppLogger.e('🔻 URL: $uri');
+          AppLogger.e('🔻 Tipo: $tipo');
+          AppLogger.e('🔻 Mensagem tratada: $mensagem');
+          AppLogger.v('🔻 Body: ${error.response?.data}');
+
+          return handler.reject(
+            dio.DioException(
+              requestOptions: error.requestOptions,
+              error: mensagem,
+              type: tipo,
+              response: error.response,
+            ),
+          );
         },
       ),
     );
   }
 
-  // Métodos HTTP com tratamento de erro
   Future<dio.Response> get(String path,
-      {Map<String, dynamic>? queryParameters}) async {
-    try {
-      return await _dio.get(path, queryParameters: queryParameters);
-    } catch (e, s) {
-      throw ErrorHandler.tratar(e, s);
-    }
+      {Map<String, dynamic>? queryParameters}) {
+    return _dio.get(path, queryParameters: queryParameters);
   }
 
-  Future<dio.Response> post(String path, {dynamic data}) async {
-    try {
-      AppLogger.d('➡️ [API CALL] POST: $path');
-      return await _dio.post(path, data: data);
-    } catch (e, s) {
-      throw ErrorHandler.tratar(e, s);
-    }
+  Future<dio.Response> post(String path, {dynamic data}) {
+    return _dio.post(path, data: data);
   }
 
-  Future<dio.Response> put(String path, {dynamic data}) async {
-    try {
-      return await _dio.put(path, data: data);
-    } catch (e, s) {
-      throw ErrorHandler.tratar(e, s);
-    }
+  Future<dio.Response> put(String path, {dynamic data}) {
+    return _dio.put(path, data: data);
   }
 
-  Future<dio.Response> delete(String path) async {
-    try {
-      return await _dio.delete(path);
-    } catch (e, s) {
-      throw ErrorHandler.tratar(e, s);
-    }
+  Future<dio.Response> delete(String path) {
+    return _dio.delete(path);
   }
 
   dio.Dio get client => _dio;

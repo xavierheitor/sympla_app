@@ -260,21 +260,21 @@ class MpDjFormController extends GetxController {
     }
   }
 
-  DateTime? _tryParseDate(String input) {
-    try {
-      return input.trim().isEmpty ? null : DateTime.tryParse(input.trim());
-    } catch (_) {
-      AppLogger.w('[MpDjFormController] Falha ao converter data: "$input"');
-      return null;
-    }
-  }
+  // DateTime? _tryParseDate(String input) {
+  //   try {
+  //     return input.trim().isEmpty ? null : DateTime.tryParse(input.trim());
+  //   } catch (_) {
+  //     AppLogger.w('[MpDjFormController] Falha ao converter data: "$input"');
+  //     return null;
+  //   }
+  // }
 
-  double? _tryParseDouble(String input) {
-    try {
-      return input.trim().isEmpty ? null : double.tryParse(input.trim());
-    } catch (_) {
-      AppLogger.w('[MpDjFormController] Falha ao converter double: "$input"');
-      return null;
-    }
-  }
+  // double? _tryParseDouble(String input) {
+  //   try {
+  //     return input.trim().isEmpty ? null : double.tryParse(input.trim());
+  //   } catch (_) {
+  //     AppLogger.w('[MpDjFormController] Falha ao converter double: "$input"');
+  //     return null;
+  //   }
+  // }
 }

@@ -96,11 +96,11 @@ class AnomaliaTableDto {
       equipamentoId: data.equipamentoId,
       defeitoId: data.defeitoId,
       fase: FaseAnomalia.values.firstWhere(
-        (e) => e.name == data.fase,
+        (e) => e.name == data.fase.name,
         orElse: () => FaseAnomalia.a,
       ),
       lado: LadoAnomalia.values.firstWhere(
-        (e) => e.name == data.lado,
+        (e) => e.name == data.lado.name,
         orElse: () => LadoAnomalia.carga,
       ),
       delta: data.delta,

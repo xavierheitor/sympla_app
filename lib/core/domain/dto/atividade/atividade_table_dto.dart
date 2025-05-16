@@ -106,7 +106,7 @@ class AtividadeTableDto {
       descricao: data.descricao,
       subestacao: data.subestacao,
       status: StatusAtividade.values.firstWhere(
-        (e) => e.name == data.status,
+        (e) => e.name == data.status.name,
         orElse: () => StatusAtividade.pendente,
       ),
       dataLimite: data.dataLimite,

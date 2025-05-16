@@ -1,3 +1,4 @@
+import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/auth/login_response_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
@@ -81,7 +82,7 @@ class UsuarioRepositoryImpl implements UsuarioRepository {
   @override
   Future<LoginResponseDto> login(String matricula, String senha) async {
     try {
-      final response = await dio.post('/login', data: {
+      final response = await dio.post(ApiConstants.login, data: {
         'matricula': matricula,
         'senha': senha,
       });
@@ -101,7 +102,7 @@ class UsuarioRepositoryImpl implements UsuarioRepository {
   @override
   Future<LoginResponseDto> refreshToken(String refreshToken) async {
     try {
-      final response = await dio.post('/refresh-token', data: {
+      final response = await dio.post(ApiConstants.refreshToken, data: {
         'refreshToken': refreshToken,
       });
       return LoginResponseDto.fromJson(response.data);

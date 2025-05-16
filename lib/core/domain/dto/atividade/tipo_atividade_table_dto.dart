@@ -52,7 +52,7 @@ class TipoAtividadeTableDto {
       uuid: data.uuid,
       nome: data.nome,
       tipoAtividadeMobile: TipoAtividadeMobile.values.firstWhere(
-        (e) => e.name == data.tipoAtividadeMobile,
+        (e) => e.name == data.tipoAtividadeMobile.name,
         orElse: () => TipoAtividadeMobile.ivItIu,
       ),
     );

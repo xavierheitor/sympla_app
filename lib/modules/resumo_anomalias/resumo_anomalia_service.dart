@@ -7,7 +7,6 @@ import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
 class ResumoAnomaliasService {
   final AnomaliaRepository anomaliaRepository;

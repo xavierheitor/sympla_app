@@ -44,8 +44,10 @@ class HomePage extends StatelessWidget {
 
         return Column(
           children: [
-            const Padding(
-              padding: EdgeInsets.all(16.0),
+            // ignore: prefer_const_constructors
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              // ignore: prefer_const_constructors
               child: StatusChips(),
             ),
             const SizedBox(height: 8),

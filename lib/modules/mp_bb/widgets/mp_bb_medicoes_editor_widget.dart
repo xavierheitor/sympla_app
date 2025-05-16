@@ -45,13 +45,13 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
   }
 
   void _atualizarTensao(int index, String valor) {
-    final parsed = double.tryParse(valor);
+    // final parsed = double.tryParse(valor);
     // _lista[index].tensao.value = parsed;
     widget.onChanged(List.from(_lista));
   }
 
   void _atualizarResistencia(int index, String valor) {
-    final parsed = double.tryParse(valor);
+    // final parsed = double.tryParse(valor);
     // _lista[index].resistenciaInterna = parsed;
     widget.onChanged(List.from(_lista));
   }

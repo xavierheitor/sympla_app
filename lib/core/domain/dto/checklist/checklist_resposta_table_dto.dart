@@ -54,7 +54,7 @@ class ChecklistRespostaTableDto {
       checklistPreenchidoId: data.checklistPreenchidoId,
       perguntaId: data.perguntaId,
       resposta: RespostaChecklist.values.firstWhere(
-        (e) => e.name == data.resposta,
+        (e) => e.name == data.resposta.name,
         orElse: () => RespostaChecklist.nok,
       ),
     );

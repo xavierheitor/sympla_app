@@ -12,7 +12,9 @@ class AtividadeController extends GetxController {
   final Rx<EtapaAtividade?> etapaAtual = Rx<EtapaAtividade?>(null);
   final RxBool isLoading = false.obs;
 
-  AtividadeController({required this.atividadeService});
+  AtividadeController(
+    this.atividadeService,
+  );
 
   @override
   Future<void> onInit() async {

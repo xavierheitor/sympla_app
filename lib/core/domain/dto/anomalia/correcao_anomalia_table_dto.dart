@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 

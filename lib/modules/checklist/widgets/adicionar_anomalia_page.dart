@@ -8,11 +8,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
-import 'package:drift/drift.dart' as d;
 
 class AdicionarAnomaliaPage extends StatefulWidget {
   final String perguntaId;

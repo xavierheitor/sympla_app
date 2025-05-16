@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/data/models/new/apr_question_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_question_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_assinatura_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_table_dto.dart';

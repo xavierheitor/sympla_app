@@ -1,5 +1,5 @@
 import 'package:sympla_app/core/constants/api_constants.dart';
-import 'package:sympla_app/core/data/models/new/apr_question_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/apr/apr_question_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/syncable_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';

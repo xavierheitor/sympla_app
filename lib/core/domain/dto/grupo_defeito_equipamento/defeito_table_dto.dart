@@ -76,7 +76,7 @@ class DefeitoTableDto {
       codigoSap: data.codigoSap,
       descricao: data.descricao,
       prioridade: PrioridadeDefeito.values.firstWhere(
-        (e) => e.name == data.prioridade,
+        (e) => e.name == data.prioridade.name,
         orElse: () => PrioridadeDefeito.p1,
       ),
     );

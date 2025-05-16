@@ -10,7 +10,6 @@ import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
 import 'package:sympla_app/modules/resumo_anomalias/widgets/imagem_anomalia_field.dart';
-import 'package:drift/drift.dart' as d;
 
 class AnomaliaFormWidget extends StatefulWidget {
   final String perguntaId;

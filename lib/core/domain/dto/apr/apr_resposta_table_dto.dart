@@ -60,7 +60,7 @@ class AprRespostaTableDto {
       aprPreenchidaId: data.aprPreenchidaId,
       perguntaId: data.perguntaId,
       resposta: RespostaApr.values.firstWhere(
-        (e) => e.name == data.resposta,
+        (e) => e.name == data.resposta.name,
         orElse: () => RespostaApr.nao,
       ),
       observacao: data.observacao,

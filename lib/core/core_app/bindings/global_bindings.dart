@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/core_app/services/atividade_service.dart';
 import 'package:sympla_app/core/core_app/services/auth_service.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
@@ -31,5 +32,8 @@ class GlobalBinding extends Bindings {
 
     // === Sessão ===
     Get.put(SessionManager(authService: Get.find()), permanent: true);
+
+    // === Atividade Controller ===
+    Get.put(() => AtividadeController(Get.find()), permanent: true);
   }
 }
