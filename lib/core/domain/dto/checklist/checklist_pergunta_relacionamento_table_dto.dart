@@ -18,8 +18,8 @@ class ChecklistPerguntaRelacionamentoTableDto {
   factory ChecklistPerguntaRelacionamentoTableDto.fromJson(
       Map<String, dynamic> json) {
     return ChecklistPerguntaRelacionamentoTableDto(
-      uuid: json['uuid'],
-      checklistId: json['checklistId'],
+      uuid: json['id'],
+      checklistId: json['modeloId'],
       perguntaId: json['perguntaId'],
       ordem: json['ordem'] ?? 0,
     );
@@ -28,8 +28,8 @@ class ChecklistPerguntaRelacionamentoTableDto {
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
-      'checklistId': checklistId,
+      'id': uuid,
+      'modeloId': checklistId,
       'perguntaId': perguntaId,
       'ordem': ordem,
     };

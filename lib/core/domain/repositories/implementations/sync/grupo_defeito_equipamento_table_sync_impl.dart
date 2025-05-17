@@ -22,7 +22,7 @@ class GrupoDefeitoEquipamentoTableSyncImpl
   Future<List<GrupoDefeitoEquipamentoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.gruposDefeito);
-      return response.data
+      return (response.data as List)
           .map((e) => GrupoDefeitoEquipamentoTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

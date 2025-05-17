@@ -21,7 +21,9 @@ class DefeitoTableSyncImpl implements SyncableRepository<DefeitoTableDto> {
   Future<List<DefeitoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.defeitos);
-      return response.data.map((e) => DefeitoTableDto.fromJson(e)).toList();
+      return (response.data as List)
+          .map((e) => DefeitoTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

@@ -17,7 +17,7 @@ class ChecklistTableDto {
   // 🔄 De JSON para DTO
   factory ChecklistTableDto.fromJson(Map<String, dynamic> json) {
     return ChecklistTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
       descricao: json['descricao'],
       tipoAtividadeId: json['tipoAtividadeId'],

@@ -21,7 +21,9 @@ class TecnicoTableSyncImpl implements SyncableRepository<TecnicoTableDto> {
   Future<List<TecnicoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.tecnicos);
-      return response.data.map((e) => TecnicoTableDto.fromJson(e)).toList();
+      return (response.data as List)
+          .map((e) => TecnicoTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

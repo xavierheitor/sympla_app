@@ -22,7 +22,7 @@ class SubgrupoDefeitoEquipamentoTableSyncImpl
   Future<List<SubgrupoDefeitoEquipamentoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.subgruposDefeito);
-      return response.data
+      return (response.data as List)
           .map((e) => SubgrupoDefeitoEquipamentoTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

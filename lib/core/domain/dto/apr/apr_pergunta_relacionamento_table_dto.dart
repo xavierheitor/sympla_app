@@ -18,8 +18,8 @@ class AprPerguntaRelacionamentoTableDto {
   factory AprPerguntaRelacionamentoTableDto.fromJson(
       Map<String, dynamic> json) {
     return AprPerguntaRelacionamentoTableDto(
-      uuid: json['uuid'],
-      aprId: json['aprId'],
+      uuid: json['id'],
+      aprId: json['modeloId'],
       perguntaId: json['perguntaId'],
       ordem: json['ordem'],
     );
@@ -28,8 +28,8 @@ class AprPerguntaRelacionamentoTableDto {
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
-      'aprId': aprId,
+      'id': uuid,
+      'modeloId': aprId,
       'perguntaId': perguntaId,
       'ordem': ordem,
     };

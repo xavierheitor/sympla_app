@@ -13,7 +13,7 @@ class GrupoDefeitoEquipamentoTableDto {
   // 🔄 De JSON para DTO
   factory GrupoDefeitoEquipamentoTableDto.fromJson(Map<String, dynamic> json) {
     return GrupoDefeitoEquipamentoTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
     );
   }
@@ -21,7 +21,7 @@ class GrupoDefeitoEquipamentoTableDto {
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'nome': nome,
     };
   }

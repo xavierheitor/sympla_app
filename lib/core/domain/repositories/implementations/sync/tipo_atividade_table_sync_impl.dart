@@ -22,7 +22,7 @@ class TipoAtividadeTableSyncImpl
   Future<List<TipoAtividadeTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.tipoAtividade);
-      return response.data
+      return (response.data as List)
           .map((e) => TipoAtividadeTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

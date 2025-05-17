@@ -15,7 +15,7 @@ class TecnicoTableDto {
   // 🔄 De JSON para Modelo
   factory TecnicoTableDto.fromJson(Map<String, dynamic> json) {
     return TecnicoTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
       matricula: json['matricula'],
     );
@@ -24,7 +24,7 @@ class TecnicoTableDto {
   // 🔄 De Modelo para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'nome': nome,
       'matricula': matricula,
     };

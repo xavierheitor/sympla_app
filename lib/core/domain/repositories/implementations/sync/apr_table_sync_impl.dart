@@ -20,8 +20,10 @@ class AprTableSyncImpl implements SyncableRepository<AprTableDto> {
   @override
   Future<List<AprTableDto>> buscarDaApi() async {
     try {
-      final response = await dio.get(ApiConstants.aprPerguntasRelacionamentos);
-      return response.data.map((e) => AprTableDto.fromJson(e)).toList();
+      final response = await dio.get(ApiConstants.aprs);
+      return (response.data as List)
+          .map((e) => AprTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

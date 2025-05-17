@@ -22,7 +22,7 @@ class ChecklistPerguntaRelacionamentoTableSyncImpl
     try {
       final response =
           await dio.get(ApiConstants.checklistPerguntasRelacionamentos);
-      return response.data
+      return (response.data as List)
           .map((e) => ChecklistPerguntaRelacionamentoTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

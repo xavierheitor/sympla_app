@@ -40,11 +40,6 @@ class SplashBinding extends Bindings {
       Get.find(),
     ));
 
-    syncManager.registrar(AtividadeTableSyncImpl(
-      Get.find(),
-      Get.find(),
-    ));
-
     syncManager.registrar(TipoAtividadeTableSyncImpl(
       Get.find(),
       Get.find(),
@@ -70,11 +65,6 @@ class SplashBinding extends Bindings {
       Get.find(),
     ));
 
-    syncManager.registrar(EquipamentoTableSyncImpl(
-      Get.find(),
-      Get.find(),
-    ));
-
     syncManager.registrar(GrupoDefeitoCodigoTableSyncImpl(
       Get.find(),
       Get.find(),
@@ -90,7 +80,17 @@ class SplashBinding extends Bindings {
       Get.find(),
     ));
 
+    syncManager.registrar(EquipamentoTableSyncImpl(
+      Get.find(),
+      Get.find(),
+    ));
+
     syncManager.registrar(TecnicoTableSyncImpl(
+      Get.find(),
+      Get.find(),
+    ));
+
+    syncManager.registrar(AtividadeTableSyncImpl(
       Get.find(),
       Get.find(),
     ));

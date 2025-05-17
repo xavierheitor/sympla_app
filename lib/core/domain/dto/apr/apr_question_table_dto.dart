@@ -13,8 +13,8 @@ class AprQuestionTableDto {
   // 🔄 De JSON para DTO
   factory AprQuestionTableDto.fromJson(Map<String, dynamic> json) {
     return AprQuestionTableDto(
-      uuid: json['uuid'],
-      texto: json['texto'],
+      uuid: json['id'],
+      texto: json['pergunta'],
     );
   }
 
@@ -22,7 +22,7 @@ class AprQuestionTableDto {
   Map<String, dynamic> toJson() {
     return {
       'uuid': uuid,
-      'texto': texto,
+      'pergunta': texto,
     };
   }
 

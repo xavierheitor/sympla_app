@@ -16,18 +16,18 @@ class SubgrupoDefeitoEquipamentoTableDto {
   factory SubgrupoDefeitoEquipamentoTableDto.fromJson(
       Map<String, dynamic> json) {
     return SubgrupoDefeitoEquipamentoTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
-      grupoDefeitoId: json['grupoDefeitoId'],
+      grupoDefeitoId: json['grupoId'],
     );
   }
 
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'nome': nome,
-      'grupoDefeitoId': grupoDefeitoId,
+      'grupoId': grupoDefeitoId,
     };
   }
 

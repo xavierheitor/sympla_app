@@ -17,20 +17,20 @@ class GrupoDefeitoCodigoTableDto {
   // 🔄 De JSON para DTO
   factory GrupoDefeitoCodigoTableDto.fromJson(Map<String, dynamic> json) {
     return GrupoDefeitoCodigoTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       sigla: json['sigla'],
       codigo: json['codigo'],
-      grupoDefeitoId: json['grupoDefeitoId'],
+      grupoDefeitoId: json['grupoId'],
     );
   }
 
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'sigla': sigla,
       'codigo': codigo,
-      'grupoDefeitoId': grupoDefeitoId,
+      'grupoId': grupoDefeitoId,
     };
   }
 

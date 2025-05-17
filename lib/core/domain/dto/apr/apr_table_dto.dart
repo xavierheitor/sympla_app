@@ -5,26 +5,30 @@ class AprTableDto {
   final String uuid;
   final String nome;
   final String? descricao;
+  final String tipoAtividadeId;
 
   AprTableDto({
     required this.uuid,
     required this.nome,
     this.descricao,
+    required this.tipoAtividadeId,
   });
 
   factory AprTableDto.fromJson(Map<String, dynamic> json) {
     return AprTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
       descricao: json['descricao'],
+      tipoAtividadeId: json['tipoAtividadeId'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'nome': nome,
       'descricao': descricao,
+      'tipoAtividadeId': tipoAtividadeId,
     };
   }
 
@@ -33,6 +37,7 @@ class AprTableDto {
     return AprTableCompanion(
       uuid: Value(uuid),
       nome: Value(nome),
+      tipoAtividadeId: Value(tipoAtividadeId),
       descricao: Value(descricao),
       createdAt: Value(DateTime.now()),
       updatedAt: Value(DateTime.now()),
@@ -45,6 +50,7 @@ class AprTableDto {
       uuid: data.uuid,
       nome: data.nome,
       descricao: data.descricao,
+      tipoAtividadeId: data.tipoAtividadeId,
     );
   }
 }

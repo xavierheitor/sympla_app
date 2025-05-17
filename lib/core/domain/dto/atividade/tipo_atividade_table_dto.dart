@@ -16,7 +16,7 @@ class TipoAtividadeTableDto {
   // 🔄 De JSON para DTO
   factory TipoAtividadeTableDto.fromJson(Map<String, dynamic> json) {
     return TipoAtividadeTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
       tipoAtividadeMobile: TipoAtividadeMobile.values.firstWhere(
         (e) => e.name == json['tipoAtividadeMobile'],

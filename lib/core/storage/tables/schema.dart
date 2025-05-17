@@ -268,6 +268,95 @@ class MedicaoElementoBateriaTable extends Table {
 }
 
 //**------------------ MPDJ --------------- */
+
+class MpDjFormTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  TextColumn get atividadeId => text().references(AtividadeTable, #uuid)();
+  TextColumn get caracterizacaoEnsaio =>
+      text().map(const CaracterizacaoEnsaioConverter()).nullable()();
+
+  TextColumn get disjuntorFabricante => text().nullable()();
+  TextColumn get disjuntorAnoFabricacao => text().nullable()();
+  RealColumn get disjuntorTensaoNominal => real().nullable()();
+  IntColumn get disjuntorCorrenteNominal => integer().nullable()();
+  IntColumn get disjuntorCapInterrupcaoNominal => integer().nullable()();
+  TextColumn get disjuntorTipoExtinsao =>
+      text().map(const TipoExtinsaoDisjuntorConverter()).nullable()();
+  TextColumn get disjuntorTipoAcionamento => text().nullable()();
+  RealColumn get disjuntorPressaoSf6Nominal => real().nullable()();
+  RealColumn get disjuntorPressaoSf6NominalTemperatura => real().nullable()();
+
+  RealColumn get dadoPlacaFechamento => real().nullable()();
+  RealColumn get dadoPlacaAbertura => real().nullable()();
+
+  DateTimeColumn get dataEnsaio => dateTime().withDefault(currentDateAndTime)();
+}
+
+class MpDjResistenciaContatoTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
+  IntColumn get numeroCamara => integer()();
+
+  RealColumn get resistenciaFaseA => real().nullable()();
+  RealColumn get resistenciaFaseB => real().nullable()();
+  RealColumn get resistenciaFaseC => real().nullable()();
+
+  RealColumn get temperaturaDisjuntor => real().nullable()();
+  RealColumn get umidadeRelativaAr => real().nullable()();
+}
+
+class MpDjResistenciaIsolamentoTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
+  IntColumn get numeroCamara => integer()();
+
+  TextColumn get linha => text().map(const PosicaoDisjuntorEnsaioConverter())();
+  TextColumn get terra => text().map(const PosicaoDisjuntorEnsaioConverter())();
+  TextColumn get guarda =>
+      text().map(const PosicaoDisjuntorEnsaioConverter())();
+
+  RealColumn get tensaoKv => real()();
+
+  RealColumn get resistenciaFaseA => real().nullable()();
+  RealColumn get resistenciaFaseB => real().nullable()();
+  RealColumn get resistenciaFaseC => real().nullable()();
+
+  RealColumn get temperaturaDisjuntor => real().nullable()();
+  RealColumn get umidadeRelativaAr => real().nullable()();
+}
+
+class MpDjTempoOperacaoTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
+  IntColumn get formularioDisjuntorId =>
+      integer().references(PrevDisjForm, #id)(); // FK futura
+
+  TextColumn get fase =>
+      text().map(const FaseAnomaliaConverter())(); // A, B ou C
+
+  // Tempos normais
+  RealColumn get fechamentoBobina1 => real().nullable()();
+  RealColumn get fechamentoBobina2 => real().nullable()();
+
+  RealColumn get aberturaBobina1 => real().nullable()();
+  RealColumn get aberturaBobina2 => real().nullable()();
+}
+
+class MpDjPressaoSf6Table extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
+  TextColumn get fase =>
+      text().map(const FaseAnomaliaConverter())(); // A, B ou C
+
+  RealColumn get valorPressao => real()(); // Ex: 6.30 BAR
+  RealColumn get temperatura => real()(); // Em ºC
+}
+
 class PrevDisjForm extends Table {
   IntColumn get id => integer().autoIncrement()();
 

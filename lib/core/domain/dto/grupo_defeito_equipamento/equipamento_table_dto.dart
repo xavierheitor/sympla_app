@@ -19,22 +19,22 @@ class EquipamentoTableDto {
   // 🔄 De JSON para DTO
   factory EquipamentoTableDto.fromJson(Map<String, dynamic> json) {
     return EquipamentoTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       nome: json['nome'],
       descricao: json['descricao'],
       subestacao: json['subestacao'],
-      grupoDefeitoCodigo: json['grupoDefeitoCodigo'],
+      grupoDefeitoCodigo: json['grupoId'],
     );
   }
 
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'nome': nome,
       'descricao': descricao,
       'subestacao': subestacao,
-      'grupoDefeitoCodigo': grupoDefeitoCodigo,
+      'grupoId': grupoDefeitoCodigo,
     };
   }
 

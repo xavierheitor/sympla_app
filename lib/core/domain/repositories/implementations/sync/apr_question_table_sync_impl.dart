@@ -21,8 +21,10 @@ class AprQuestionTableSyncImpl
   @override
   Future<List<AprQuestionTableDto>> buscarDaApi() async {
     try {
-      final response = await dio.get(ApiConstants.aprPerguntasRelacionamentos);
-      return response.data.map((e) => AprQuestionTableDto.fromJson(e)).toList();
+      final response = await dio.get(ApiConstants.aprPerguntas);
+      return (response.data as List)
+          .map((e) => AprQuestionTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

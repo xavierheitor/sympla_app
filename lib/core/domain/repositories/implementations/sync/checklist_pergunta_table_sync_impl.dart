@@ -22,7 +22,7 @@ class ChecklistPerguntaTableSyncImpl
   Future<List<ChecklistPerguntaTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.checklistPerguntas);
-      return response.data
+      return (response.data as List)
           .map((e) => ChecklistPerguntaTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

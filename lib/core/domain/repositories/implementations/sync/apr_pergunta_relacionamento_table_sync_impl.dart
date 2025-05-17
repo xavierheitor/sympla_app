@@ -22,7 +22,7 @@ class AprPerguntaRelacionamentoTableSyncImpl
   Future<List<AprPerguntaRelacionamentoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.aprPerguntasRelacionamentos);
-      return response.data
+      return (response.data as List)
           .map((e) => AprPerguntaRelacionamentoTableDto.fromJson(e))
           .toList();
     } catch (e, s) {

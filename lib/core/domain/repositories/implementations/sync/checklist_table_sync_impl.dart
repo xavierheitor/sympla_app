@@ -22,7 +22,9 @@ class ChecklistTableSyncImpl implements SyncableRepository<ChecklistTableDto> {
   Future<List<ChecklistTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.checklist);
-      return response.data.map((e) => ChecklistTableDto.fromJson(e)).toList();
+      return (response.data as List)
+          .map((e) => ChecklistTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

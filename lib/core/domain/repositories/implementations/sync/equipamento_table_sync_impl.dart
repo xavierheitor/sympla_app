@@ -22,7 +22,9 @@ class EquipamentoTableSyncImpl
   Future<List<EquipamentoTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.equipamentos);
-      return response.data.map((e) => EquipamentoTableDto.fromJson(e)).toList();
+      return (response.data as List)
+          .map((e) => EquipamentoTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

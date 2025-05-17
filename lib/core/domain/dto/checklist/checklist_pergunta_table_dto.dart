@@ -13,7 +13,7 @@ class ChecklistPerguntaTableDto {
   // 🔄 De JSON para DTO
   factory ChecklistPerguntaTableDto.fromJson(Map<String, dynamic> json) {
     return ChecklistPerguntaTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       pergunta: json['pergunta'],
     );
   }

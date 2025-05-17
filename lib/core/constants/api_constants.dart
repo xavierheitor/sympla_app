@@ -4,24 +4,25 @@ abstract class ApiConstants {
   static const login = '/auth/login';
   static const refreshToken = '/auth/refresh';
 
-  static const tipoAtividade = '/tipo-atividade';
+  static const tipoAtividade = '/atividade/tipo-atividades';
   static const atividades = '/atividades';
 
-  static const equipamentos = '/equipamentos';
-  static const gruposDefeito = '/grupos-defeito';
-  static const subgruposDefeito = '/subgrupos-defeito';
-  static const gruposDefeitoCodigo = '/grupos-defeito-codigo';
-  static const defeitos = '/v2/defeitos';
+  static const gruposDefeito = '/defeito/grupo-defeito';
+  static const subgruposDefeito = '/defeito/subgrupo-defeito';
+  static const gruposDefeitoCodigo = '/defeito/grupo-defeito-codigo';
+  static const defeitos = '/defeito';
 
-  static const aprs = '/aprs';
-  static const perguntas = '/apr-perguntas';
-  static const aprPerguntasRelacionamentos = '/apr-perguntas-relacionamentos';
+  static const equipamentos = '/equipamento';
 
-  static const checklist = '/checklists';
-  static const checklistPerguntas = '/checklist-perguntas';
+  static const aprs = '/apr/modelos';
+  static const aprPerguntas = '/apr/perguntas';
+  static const aprPerguntasRelacionamentos = '/apr/perguntas-relacionamento';
+
+  static const checklist = '/checklist/modelos';
+  static const checklistPerguntas = '/checklist/perguntas';
   static const checklistPerguntasRelacionamentos =
-      '/v2/checklist-perguntas-relacionamentos';
+      '/checklist/perguntas-relacionamento';
 
-  static const tecnicos = '/tecnicos';
+  static const tecnicos = '/tecnico';
   // ... adicione mais endpoints conforme necessário
 }
