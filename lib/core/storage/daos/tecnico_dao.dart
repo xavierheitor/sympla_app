@@ -69,4 +69,11 @@ class TecnicoDao extends DatabaseAccessor<AppDatabase> with _$TecnicoDaoMixin {
 
     AppLogger.d('🧹 Removidos $apagados Técnicos obsoletos', tag: 'TecnicoDao');
   }
+
+  Future<TecnicoTableData?> buscarPorId(String tecnicoId) async {
+    final result = await (select(tecnicoTable)
+          ..where((tbl) => tbl.uuid.equals(tecnicoId)))
+        .getSingleOrNull();
+    return result;
+  }
 }
