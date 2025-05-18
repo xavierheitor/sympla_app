@@ -60,7 +60,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     for (final nova in pendentesDaApi) {
       final uuid = nova.uuid.value;
 
-      if (uuid == null || uuid.isEmpty) {
+      if (uuid.isEmpty) {
         AppLogger.e('❌ Atividade sem UUID válido, ignorando.',
             tag: 'AtividadeDAO');
         continue;
@@ -116,7 +116,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Busca todas as atividades com os dados do equipamento e tipo associados.
-  Future<List<AtividadeTableData>> buscarComEquipamento() async {
+Future<List<TypedResult>> buscarComEquipamento() async {
     final query = select(atividadeTable).join([
       innerJoin(
         equipamentoTable,
@@ -127,8 +127,7 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         tipoAtividadeTable.uuid.equalsExp(atividadeTable.tipoAtividadeId),
       ),
     ]);
-    final rows = await query.get();
-    return rows.map((row) => row.readTable(atividadeTable)).toList();
+    return query.get(); // ← Retorna TypedResult com as 3 tabelas
   }
 
   /// Busca uma atividade específica pelo ID com os dados do equipamento e tipo.

@@ -117,6 +117,7 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       );
     }
   }
+  
   @override
   Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
     try {
@@ -132,10 +133,18 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
     }
   }
   @override
-  Future<List<AtividadeTableDto>> buscarAtividadesComEquipamento() async {
+Future<List<AtividadeTableDto>> buscarAtividadesComEquipamento() async {
     try {
-      final atividades = await atividadeDao.buscarComEquipamento();
-      return atividades.map((e) => AtividadeTableDto.fromData(e)).toList();
+      final rows = await atividadeDao.buscarComEquipamento();
+
+      return rows.map((row) {
+        final atividade = row.readTable(db.atividadeTable);
+        final equipamento = row.readTable(db.equipamentoTable);
+        final tipoAtividade = row.readTable(db.tipoAtividadeTable);
+
+        return AtividadeTableDto.fromJoin(
+            atividade, equipamento, tipoAtividade);
+      }).toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
