@@ -143,6 +143,19 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   /// Insere um registro de APR preenchida
   Future<int> inserirAprPreenchida(AprPreenchidaTableCompanion entry) async {
     AppLogger.d('💾 Salvando AprPreenchida: $entry', tag: 'AprDao');
+    
+    // Verifica se já existe APR preenchida para esta atividade
+    final existente = await (select(aprPreenchidaTable)
+          ..where((t) => t.atividadeId.equals(entry.atividadeId.value)))
+        .getSingleOrNull();
+
+    if (existente != null) {
+      AppLogger.d(
+          '⚠️ Já existe APR preenchida para esta atividade. Retornando ID existente.',
+          tag: 'AprDao');
+      return existente.id;
+    }
+
     return into(aprPreenchidaTable).insert(entry);
   }
 

@@ -68,10 +68,7 @@ class AprService {
           '[AprService] Verificando APR preenchida para atividade: $atividadeId');
       final aprPreenchida =
           await aprRepository.buscarAprPreenchida(atividadeId);
-      if (aprPreenchida == null) return false;
-
-      final respostas = await aprRepository.buscarRespostas(aprPreenchida.id!);
-      return respostas.isNotEmpty;
+      return aprPreenchida != null;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[AprService - aprJaPreenchida] ${erro.mensagem}',
