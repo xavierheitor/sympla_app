@@ -21,7 +21,18 @@ class AtividadeTableSyncImpl implements SyncableRepository<AtividadeTableDto> {
   Future<List<AtividadeTableDto>> buscarDaApi() async {
     try {
       final response = await dio.get(ApiConstants.atividades);
-      return response.data.map((e) => AtividadeTableDto.fromJson(e)).toList();
+      for (var json in response.data) {
+        try {
+          final dto = AtividadeTableDto.fromJson(json);
+          AppLogger.d('✅ Atividade convertida: ${dto.uuid}');
+        } catch (e, s) {
+          AppLogger.e('❌ Erro ao converter atividade: $json',
+              error: e, stackTrace: s);
+        }
+      }
+      return (response.data as List)
+          .map((e) => AtividadeTableDto.fromJson(e))
+          .toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -50,15 +61,24 @@ class AtividadeTableSyncImpl implements SyncableRepository<AtividadeTableDto> {
     }
   }
   @override
-  Future<void> sincronizarComBanco(List<AtividadeTableDto> itens) async {
+Future<void> sincronizarComBanco(List<AtividadeTableDto> itens) async {
     try {
+      AppLogger.d('🌀 Buscando atividades da API...');
       final data = await buscarDaApi();
-      final itens = data.map((e) => e.toCompanion()).toList();
-      await atividadeDao.sincronizarAtividadesComApi(itens);
+
+      AppLogger.d('🔄 Convertendo para companions...');
+      final companions = data.map((e) => e.toCompanion()).toList();
+
+      AppLogger.d('📥 Inserindo no banco (${companions.length} registros)...');
+      await atividadeDao.sincronizarAtividadesComApi(companions);
+
+      AppLogger.d('✅ Sincronização de atividades concluída com sucesso.');
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
         '[atividade_table_sync_impl - sincronizarComBanco] ${erro.mensagem}',
+        error: e,
+        stackTrace: s,
       );
     }
   }

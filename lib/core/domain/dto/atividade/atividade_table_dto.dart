@@ -87,8 +87,9 @@ class AtividadeTableDto {
       subestacao: Value(subestacao),
       status: Value(status),
       dataLimite: Value(dataLimite),
-      dataInicio: Value(dataInicio),
-      dataFim: Value(dataFim),
+      dataInicio:
+          dataInicio != null ? Value(dataInicio!) : const Value.absent(),
+      dataFim: dataFim != null ? Value(dataFim!) : const Value.absent(),
       equipamentoId: Value(equipamentoId),
       tipoAtividadeId: Value(tipoAtividadeId),
       createdAt: Value(DateTime.now()),

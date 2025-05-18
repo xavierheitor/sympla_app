@@ -47,9 +47,9 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     AppLogger.d('🔄 Sincronizando ${atividadesApi.length} atividades',
         tag: 'AtividadeDAO');
 
-    // Marcar como não sincronizado apenas as pendentes
+    // Marcar como não sincronizado todas as pendentes locais
     await (update(atividadeTable)
-          ..where((tbl) => tbl.status.equals('pendente')))
+          ..where((tbl) => tbl.status.equals(StatusAtividade.pendente.name)))
         .write(const AtividadeTableCompanion(sincronizado: Value(false)));
 
     final pendentesDaApi = atividadesApi
@@ -57,32 +57,44 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         .map((e) => e.copyWith(sincronizado: const Value(true)))
         .toList();
 
-    // Atualiza ou insere somente se status local for pendente ou não existir
     for (final nova in pendentesDaApi) {
+      final uuid = nova.uuid.value;
+
+      if (uuid == null || uuid.isEmpty) {
+        AppLogger.e('❌ Atividade sem UUID válido, ignorando.',
+            tag: 'AtividadeDAO');
+        continue;
+      }
+
       final existente = await (select(atividadeTable)
-            ..where((tbl) => tbl.id.equals(nova.id.value)))
+            ..where((tbl) => tbl.uuid.equals(uuid)))
           .getSingleOrNull();
 
-      if (existente == null || existente.status == StatusAtividade.pendente) {
+      if (existente == null) {
+        AppLogger.d('➕ Inserindo nova atividade $uuid', tag: 'AtividadeDAO');
+        await into(atividadeTable).insert(nova);
+      } else if (existente.status == StatusAtividade.pendente) {
+        AppLogger.d('♻️ Atualizando atividade $uuid (ainda pendente)',
+            tag: 'AtividadeDAO');
         await into(atividadeTable).insertOnConflictUpdate(nova);
-        AppLogger.d('✅ Atividade ${nova.id.value} salva', tag: 'AtividadeDAO');
       } else {
         AppLogger.w(
-            '⛔ Ignorando ${nova.id.value} (status atual: ${existente.status})',
-            tag: 'AtividadeDAO');
+          '⛔ Ignorando $uuid (status local: ${existente.status.name})',
+          tag: 'AtividadeDAO',
+        );
       }
     }
 
-    // Remove pendentes que não foram sincronizadas novamente
+    // Remove pendentes locais que não vieram mais da API
     final removidas = await (delete(atividadeTable)
           ..where((tbl) =>
-              tbl.sincronizado.equals(false) & tbl.status.equals('pendente')))
+              tbl.sincronizado.equals(false) &
+              tbl.status.equals(StatusAtividade.pendente.name)))
         .go();
 
     AppLogger.d('🧹 Removidas $removidas atividades pendentes obsoletas',
         tag: 'AtividadeDAO');
   }
-
   /// Retorna a atividade que estiver em andamento, com o equipamento e tipo relacionados.
   Future<AtividadeTableData?> buscarEmAndamento() async {
     final query = select(atividadeTable).join([
