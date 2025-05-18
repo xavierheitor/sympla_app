@@ -21,7 +21,7 @@ class AnomaliaController extends GetxController {
   final defeitos = <DefeitoTableDto>[].obs;
   final equipamentoSelecionado = Rxn<EquipamentoTableDto>();
 
-  final _anomalias = <int, List<AnomaliaTableCompanion>>{}.obs;
+  final _anomalias = <String, List<AnomaliaTableCompanion>>{}.obs;
 
   @override
   void onInit() {
@@ -69,7 +69,7 @@ class AnomaliaController extends GetxController {
   }
 
   Future<void> salvarAnomalia(
-      int perguntaId, AnomaliaTableCompanion anomalia) async {
+      String perguntaId, AnomaliaTableCompanion anomalia) async {
     final lista = _anomalias[perguntaId] ?? [];
     lista.add(anomalia);
     _anomalias[perguntaId] = lista;
@@ -83,7 +83,7 @@ class AnomaliaController extends GetxController {
         '[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
   }
 
-  List<AnomaliaTableCompanion> buscarAnomalias(int perguntaId) {
+  List<AnomaliaTableCompanion> buscarAnomalias(String perguntaId) {
     return _anomalias[perguntaId] ?? [];
   }
 }

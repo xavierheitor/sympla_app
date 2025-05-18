@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
@@ -8,11 +7,11 @@ import 'package:sympla_app/modules/checklist/checklist_service.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
 
 class ChecklistController extends GetxController {
-  final ChecklistService checklistService;
+  final ChecklistService service;
   final AtividadeController atividadeController;
 
   ChecklistController({
-    required this.checklistService,
+    required this.service,
     required this.atividadeController,
   });
 
@@ -35,70 +34,45 @@ class ChecklistController extends GetxController {
   bool get carregando => _carregando.value;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     super.onInit();
-    AppLogger.d('[ChecklistController] Inicializando controller...');
-
-    //pega a atividade em andamento
-    final atividade = atividadeController.atividadeEmAndamento.value;
-    if (atividade == null) {
-      AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
-      return;
-    }
-
-    //verifica se o checklist ja foi respondido
-    final jaRespondido =
-        await checklistService.checklistJaRespondido(atividade.uuid);
-    if (jaRespondido) {
-      AppLogger.d(
-          '[ChecklistController] Checklist já respondido. Redirecionando para próxima etapa...');
-      await atividadeController
-          .avancar(); // Deixa o controller global cuidar disso
-      return;
-    }
-
-    //carrega o checklist
-    await carregarChecklist();
+    verificarChecklistJaRespondido();
   }
 
-  //verifica se o checklist ja foi respondido
-  Future<void> checklistJaRespondido() async {
-    final atividade = atividadeController.atividadeEmAndamento;
-
-    if (atividade.value == null) {
-      AppLogger.e('[ChecklistController] Nenhuma atividade em andamento');
-      throw Exception('Nenhuma atividade em andamento.');
+  Future<void> verificarChecklistJaRespondido() async {
+    final atividade = atividadeController.atividadeEmAndamento.value;
+    if (atividade == null) {
+      return;
     }
 
-    final jaRespondido =
-        await checklistService.checklistJaRespondido(atividade.value!.uuid);
-
+    final jaRespondido = await service.checklistJaRespondido(atividade.uuid);
     if (jaRespondido) {
-      AppLogger.e(
-          '[ChecklistController] Checklist já foi respondido anteriormente');
-      Get.offAllNamed(Routes.resumoAnomalias);
+      await atividadeController.avancar();
+      return;
     }
+
+    await carregarPerguntas();
   }
 
   //carrega o checklist
-  Future<void> carregarChecklist() async {
+  Future<void> carregarPerguntas() async {
+    _carregando.value = true;
     try {
-      _carregando.value = true;
       AppLogger.d(
           '[ChecklistController] Iniciando carregamento do checklist...');
 
-      final atividade = atividadeController.atividadeEmAndamento;
-      if (atividade.value == null) {
+      final atividade = atividadeController.atividadeEmAndamento.value;
+      if (atividade == null) {
         AppLogger.e(
             '[ChecklistController] Nenhuma atividade em andamento disponível');
         throw Exception('Nenhuma atividade em andamento.');
       }
 
-      final checklist = await checklistService
-          .buscarChecklistDaAtividade(atividade.value!.tipoAtividadeId);
+      final checklist =
+          await service.buscarChecklistDaAtividade(atividade.tipoAtividadeId);
 
       final perguntasRelacionadas =
-          await checklistService.buscarPerguntasRelacionadas(checklist.uuid);
+          await service.buscarPerguntasRelacionadas(checklist.uuid);
       AppLogger.d(
           '[ChecklistController] Total de perguntas relacionadas: ${perguntasRelacionadas.length}');
       if (perguntasRelacionadas.isEmpty) {
@@ -106,7 +80,7 @@ class ChecklistController extends GetxController {
             '[ChecklistController] Nenhuma pergunta encontrada para o checklist ${checklist.uuid}');
       }
 
-      _perguntas.assignAll(perguntasRelacionadas);
+      _perguntas.value = perguntasRelacionadas;
     } catch (e, s) {
       AppLogger.e('[ChecklistController] Erro ao carregar checklist',
           error: e, stackTrace: s);
@@ -122,12 +96,13 @@ class ChecklistController extends GetxController {
     AppLogger.d(
         '[ChecklistController] Registrando resposta: pergunta $perguntaId → ${resposta.name}');
     _respostas[perguntaId] = resposta;
+    _respostas.refresh();
   }
 
   //salva as respostas no banco de dados
   Future<void> salvarRespostas() async {
-    final atividade = atividadeController.atividadeEmAndamento;
-    if (atividade.value == null) {
+    final atividade = atividadeController.atividadeEmAndamento.value;
+    if (atividade == null) {
       AppLogger.w(
           '[ChecklistController] Tentativa de salvar respostas sem uma atividade ativa');
       return;
@@ -138,17 +113,21 @@ class ChecklistController extends GetxController {
           '[ChecklistController] Preparando resposta para pergunta ${entry.key}: ${entry.value}');
       return ChecklistRespostaTableDto(
         checklistPreenchidoId: 0,
-        perguntaId: entry.key.toString(),
+        perguntaId: entry.key,
         resposta: entry.value,
       );
     }).toList();
 
     AppLogger.d(
         '[ChecklistController] Total de respostas para salvar: ${lista.length}');
-    await checklistService.salvarRespostas(lista);
+    await service.salvarRespostas(lista);
 
     //avanca para a proxima etapa
     await atividadeController.avancar();
+  }
+
+  Future<bool> checklistJaRespondido(String atividadeId) async {
+    return await service.checklistJaRespondido(atividadeId);
   }
 }
 

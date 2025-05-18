@@ -37,10 +37,8 @@ class ChecklistPage extends StatelessWidget {
                 itemCount: controller.perguntas.length,
                 itemBuilder: (context, index) {
                   final pergunta = controller.perguntas[index];
-                  final resposta = controller.respostas[pergunta.uuid];
                   return PerguntaChecklistWidget(
                     pergunta: pergunta,
-                    resposta: resposta,
                     onSelecionar: (r) =>
                         controller.registrarResposta(pergunta.uuid, r),
                   );

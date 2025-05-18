@@ -40,7 +40,7 @@ class ChecklistBinding extends Bindings {
           Get.find(),
         ));
     Get.lazyPut(() => ChecklistController(
-          checklistService: Get.find(),
+          service: Get.find(),
           atividadeController: Get.find(),
         ));
 

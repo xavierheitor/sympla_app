@@ -175,14 +175,19 @@ class ChecklistService {
 
   Future<bool> checklistJaRespondido(String atividadeId) async {
     try {
-      // TODO: Implementar a lógica para verificar se o checklist foi respondido
-      // final respostas = await checklistRepository.buscarRespostas(atividadeId);
-      return false;
+      final checklistPreenchido =
+          await checklistRepository.buscarChecklistPreenchido(atividadeId);
+      if (checklistPreenchido == null) {
+        return false;
+      }
+      final respostas =
+          await checklistRepository.buscarRespostas(checklistPreenchido.id);
+      return respostas.isNotEmpty;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - checklistJaRespondido] ${erro.mensagem}',
           error: e, stackTrace: s);
-      rethrow;
+      return false;
     }
   }
 
