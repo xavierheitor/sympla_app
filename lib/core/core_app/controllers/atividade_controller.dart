@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/etapas_atividade.dart';
 import 'package:sympla_app/core/core_app/services/atividade_service.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 
 class AtividadeController extends GetxController {
   final AtividadeService atividadeService;
@@ -44,9 +45,34 @@ class AtividadeController extends GetxController {
   }
 
   Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
-    atividadeEmAndamento.value = atividade;
     await atividadeService.iniciar(atividade);
-    await executarAtividade(atividade);
+
+    // Atualiza o status da atividade para refletir em tela imediatamente
+    final atualizada = AtividadeTableDto(
+      uuid: atividade.uuid,
+      titulo: atividade.titulo,
+      ordemServico: atividade.ordemServico,
+      descricao: atividade.descricao,
+      subestacao: atividade.subestacao,
+      status: StatusAtividade.emAndamento,
+      dataLimite: atividade.dataLimite,
+      dataInicio: atividade.dataInicio,
+      dataFim: atividade.dataFim,
+      equipamentoId: atividade.equipamentoId,
+      tipoAtividadeId: atividade.tipoAtividadeId,
+      equipamento: atividade.equipamento,
+      tipoAtividade: atividade.tipoAtividade,
+    );
+    atividadeEmAndamento.value = atualizada;
+
+    // Substitui a atividade na lista principal
+    final index = atividades.indexWhere((a) => a.uuid == atualizada.uuid);
+    if (index != -1) {
+      atividades[index] = atualizada;
+      atividades.refresh(); // força atualização da lista
+    }
+
+    await executarAtividade(atualizada);
   }
 
   Future<void> finalizarAtividade(AtividadeTableDto atividade) async {
