@@ -50,20 +50,31 @@ class DioClient {
           final status = error.response?.statusCode ?? 0;
           final uri = error.requestOptions.uri;
           final tipo = error.type;
+          final options = error.requestOptions;
+          final session = g.Get.find<SessionManager>();
+
+          // número de tentativas de refresh para esta request
+          int retryCount = (options.extra['refreshAttempts'] ?? 0) as int;
 
           if (status == 401) {
-            final session = g.Get.find<SessionManager>();
+            if (retryCount >= ApiConstants.maxRefreshAttempts) {
+              AppLogger.e(
+                  '❌ Máximo de tentativas de refresh atingido para $uri');
+              await session.logout();
+              g.Get.offAllNamed('/login');
+              return handler.next(error);
+            }
 
             if (_isRefreshing) {
-              AppLogger.d('🔄 Renovação de token já em andamento');
+              AppLogger.d('🔄 Aguardando outra renovação de token');
               try {
                 await _refreshCompleter?.future
                     .timeout(const Duration(seconds: 5));
                 final newToken = session.tokenSync;
                 if (newToken != null && newToken.isNotEmpty) {
-                  error.requestOptions.headers['Authorization'] =
-                      'Bearer $newToken';
-                  final retryResponse = await _dio.fetch(error.requestOptions);
+                  options.headers['Authorization'] = 'Bearer $newToken';
+                  options.extra['refreshAttempts'] = retryCount + 1;
+                  final retryResponse = await _dio.fetch(options);
                   return handler.resolve(retryResponse);
                 }
               } catch (_) {
@@ -71,7 +82,8 @@ class DioClient {
               }
             }
 
-            AppLogger.w('🔁 Tentando renovar token...');
+            AppLogger.w(
+                '🔁 Tentando renovar token... (tentativa ${retryCount + 1})');
             _isRefreshing = true;
             _refreshCompleter = Completer();
 
@@ -90,18 +102,20 @@ class DioClient {
 
               final newToken = session.tokenSync;
               if (newToken != null && newToken.isNotEmpty) {
-                error.requestOptions.headers['Authorization'] =
-                    'Bearer $newToken';
-                final retryResponse = await _dio.fetch(error.requestOptions);
+                options.headers['Authorization'] = 'Bearer $newToken';
+                options.extra['refreshAttempts'] = retryCount + 1;
+                AppLogger.d('🔁 Retentando requisição após refresh');
+                final retryResponse = await _dio.fetch(options);
                 return handler.resolve(retryResponse);
               }
             } catch (e, s) {
-              _refreshCompleter?.completeError(e, s);
+              if (!(_refreshCompleter?.isCompleted ?? true)) {
+                _refreshCompleter?.completeError(e, s);
+              }
               _isRefreshing = false;
 
               AppLogger.e('🚫 Falha ao renovar token. Forçando logout.',
                   error: e, stackTrace: s);
-
               await session.logout();
               g.Get.offAllNamed('/login');
             }
@@ -109,7 +123,7 @@ class DioClient {
             return handler.next(error);
           }
 
-          // Tratamento genérico de erro
+          // Tratamento genérico
           String mensagem;
           switch (tipo) {
             case dio.DioExceptionType.connectionTimeout:
@@ -121,11 +135,9 @@ class DioClient {
               mensagem = 'Falha de conexão: verifique sua internet';
               break;
             case dio.DioExceptionType.badResponse:
-              if (status == 500) {
-                mensagem = 'Erro interno no servidor (500)';
-              } else {
-                mensagem = 'Erro do servidor: status $status';
-              }
+              mensagem = status == 500
+                  ? 'Erro interno no servidor (500)'
+                  : 'Erro do servidor: status $status';
               break;
             case dio.DioExceptionType.cancel:
               mensagem = 'Requisição cancelada';
@@ -147,7 +159,7 @@ class DioClient {
 
           return handler.reject(
             dio.DioException(
-              requestOptions: error.requestOptions,
+              requestOptions: options,
               error: mensagem,
               type: tipo,
               response: error.response,

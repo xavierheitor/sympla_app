@@ -41,7 +41,7 @@ class AtividadeTableDto {
   // 🔄 De JSON para DTO
   factory AtividadeTableDto.fromJson(Map<String, dynamic> json) {
     return AtividadeTableDto(
-      uuid: json['uuid'],
+      uuid: json['id'],
       titulo: json['titulo'],
       ordemServico: json['ordemServico'],
       descricao: json['descricao'],
@@ -63,7 +63,7 @@ class AtividadeTableDto {
   // 🔄 De DTO para JSON
   Map<String, dynamic> toJson() {
     return {
-      'uuid': uuid,
+      'id': uuid,
       'titulo': titulo,
       'ordemServico': ordemServico,
       'descricao': descricao,
