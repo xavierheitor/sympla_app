@@ -5,7 +5,7 @@ import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
 
 abstract class ChecklistRepository {
   // --------------------- Modelo ---------------------
-  Future<ChecklistTableDto> buscarModeloPorTipoAtividade(
+  Future<ChecklistTableDto?> buscarModeloPorTipoAtividade(
       String idTipoAtividade);
   Future<bool> checklistEstaVazio(); // <-- Corrigido
 

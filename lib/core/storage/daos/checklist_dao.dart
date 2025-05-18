@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
@@ -85,14 +86,14 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
 
   /// Busca checklist associado a um tipo de atividade
   Future<ChecklistTableData?> buscarPorTipoAtividade(
-      int tipoAtividadeId) async {
+      String tipoAtividadeId) async {
     final query = select(checklistTable).join([
       innerJoin(
         tipoAtividadeTable,
         tipoAtividadeTable.uuid.equalsExp(checklistTable.tipoAtividadeId),
       )
     ])
-      ..where(tipoAtividadeTable.id.equals(tipoAtividadeId));
+      ..where(tipoAtividadeTable.uuid.equals(tipoAtividadeId));
 
     final result = await query.getSingleOrNull();
     return result?.readTable(checklistTable);
@@ -180,5 +181,22 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
     ]);
     final result = await query.getSingleOrNull();
     return result?.readTable(checklistPreenchidoTable);
+  }
+
+  Future<int> criarChecklistPreenchido(
+      ChecklistPreenchidoTableDto checklist) async {
+    final id =
+        await into(checklistPreenchidoTable).insert(checklist.toCompanion());
+    AppLogger.d('Checklist preenchido criado com ID: $id', tag: 'ChecklistDao');
+    return id;
+  }
+
+  Future<void> deletarChecklistPreenchido(int checklistPreenchidoId) async {
+    final deletados = await (delete(checklistPreenchidoTable)
+          ..where((tbl) => tbl.id.equals(checklistPreenchidoId)))
+        .go();
+    AppLogger.d(
+        'Checklist preenchido deletado (ID: $checklistPreenchidoId, registros: $deletados)',
+        tag: 'ChecklistDao');
   }
 }

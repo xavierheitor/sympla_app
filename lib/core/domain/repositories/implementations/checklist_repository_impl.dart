@@ -55,65 +55,142 @@ class ChecklistRepositoryImpl implements ChecklistRepository {
   }
 
   @override
-  Future<ChecklistTableDto> buscarModeloPorTipoAtividade(
-      String idTipoAtividade) {
-    // TODO: implement buscarModeloPorTipoAtividade
-    throw UnimplementedError();
+  Future<ChecklistTableDto?> buscarModeloPorTipoAtividade(
+      String idTipoAtividade) async {
+    try {
+      final checklist =
+          await checklistDao.buscarPorTipoAtividade(idTipoAtividade);
+      return checklist != null ? ChecklistTableDto.fromData(checklist) : null;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+        '[checklist_repository_impl - buscarModeloPorTipoAtividade] ${erro.mensagem}',
+        tag: 'ChecklistRepositoryImpl',
+        error: e,
+        stackTrace: s,
+      );
+      return null;
+    }
   }
 
   @override
   Future<List<ChecklistPerguntaTableDto>> buscarPerguntasRelacionadas(
-      String checklistId) {
-    // TODO: implement buscarPerguntasRelacionadas
-    throw UnimplementedError();
+      String checklistId) async {
+    try {
+      final perguntas =
+          await checklistDao.buscarPerguntasPorChecklist(checklistId);
+      return perguntas
+          .map((e) => ChecklistPerguntaTableDto.fromData(e))
+          .toList();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+        '[checklist_repository_impl - buscarPerguntasRelacionadas] ${erro.mensagem}',
+        tag: 'ChecklistRepositoryImpl',
+        error: e,
+        stackTrace: s,
+      );
+      return [];
+    }
   }
 
   @override
   Future<List<ChecklistRespostaTableDto>> buscarRespostas(
-      int checklistPreenchidoId) {
-    // TODO: implement buscarRespostas
-    throw UnimplementedError();
+      int checklistPreenchidoId) async {
+    try {
+      final respostas = await checklistDao
+          .buscarRespostasPorPreenchido(checklistPreenchidoId);
+      return respostas
+          .map((e) => ChecklistRespostaTableDto.fromData(e))
+          .toList();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return [];
+    }
   }
 
   @override
-  Future<bool> checklistEstaVazio() {
-    // TODO: implement checklistEstaVazio
-    throw UnimplementedError();
+  Future<bool> checklistEstaVazio() async {
+    try {
+      final checklist = await checklistDao.estaVazioChecklist();
+      return checklist;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return false;
+    }
   }
 
   @override
-  Future<int> criarChecklistPreenchido(ChecklistPreenchidoTableDto checklist) {
-    // TODO: implement criarChecklistPreenchido
-    throw UnimplementedError();
+  Future<int> criarChecklistPreenchido(
+      ChecklistPreenchidoTableDto checklist) async {
+    try {
+      final id = await checklistDao.criarChecklistPreenchido(checklist);
+      return id;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return 0;
+    }
   }
 
   @override
-  Future<void> deletarChecklistPreenchido(int checklistPreenchidoId) {
-    // TODO: implement deletarChecklistPreenchido
-    throw UnimplementedError();
+  Future<void> deletarChecklistPreenchido(int checklistPreenchidoId) async {
+    try {
+      await checklistDao.deletarChecklistPreenchido(checklistPreenchidoId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+    }
   }
 
   @override
-  Future<void> deletarRespostas(int checklistPreenchidoId) {
-    // TODO: implement deletarRespostas
-    throw UnimplementedError();
+  Future<void> deletarRespostas(int checklistPreenchidoId) async {
+    try {
+      await checklistDao.deletarRespostasPorPreenchido(checklistPreenchidoId);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+    }
   }
 
   @override
-  Future<bool> existeChecklistPreenchido(String atividadeId) {
-    // TODO: implement existeChecklistPreenchido
-    throw UnimplementedError();
+  Future<bool> existeChecklistPreenchido(String atividadeId) async {
+    try {
+      final checklist = await checklistDao.buscarPorAtividade(atividadeId);
+      return checklist != null;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return false;
+    }
   }
 
   @override
-  Future<bool> existeRespostas(int checklistPreenchidoId) {
-    // TODO: implement existeRespostas
-    throw UnimplementedError();
+  Future<bool> existeRespostas(int checklistPreenchidoId) async {
+    try {
+      final respostas = await checklistDao
+          .buscarRespostasPorPreenchido(checklistPreenchidoId);
+      return respostas.isNotEmpty;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return false;
+    }
   }
 
   @override
-  Future<bool> salvarRespostas(List<ChecklistRespostaTableDto> respostas) {
-    // TODO: implement salvarRespostas
-    throw UnimplementedError();
+  Future<bool> salvarRespostas(
+      List<ChecklistRespostaTableDto> respostas) async {
+    try {
+      await checklistDao
+          .salvarRespostas(respostas.map((e) => e.toCompanion()).toList());
+      return true;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(erro.mensagem, error: e, stackTrace: s);
+      return false;
+    }
   }
 }

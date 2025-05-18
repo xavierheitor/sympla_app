@@ -95,7 +95,7 @@ class ChecklistController extends GetxController {
       }
 
       final checklist = await checklistService
-          .buscarChecklistDaAtividade(atividade.value!.uuid);
+          .buscarChecklistDaAtividade(atividade.value!.tipoAtividadeId);
 
       final perguntasRelacionadas =
           await checklistService.buscarPerguntasRelacionadas(checklist.uuid);

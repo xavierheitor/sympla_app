@@ -29,8 +29,13 @@ class ChecklistService {
     try {
       AppLogger.d(
           '🔍 Buscando checklist por tipoAtividadeId: $tipoAtividadeId');
-      return await checklistRepository
+      final checklist = await checklistRepository
           .buscarModeloPorTipoAtividade(tipoAtividadeId);
+      if (checklist == null) {
+        throw Exception(
+            'Checklist não encontrado para tipoAtividadeId: $tipoAtividadeId');
+      }
+      return checklist;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
@@ -104,7 +109,12 @@ class ChecklistService {
       AppLogger.d('🔍 Buscando checklist da atividade $id (atividade: $id)',
           tag: 'ChecklistService');
 
-      return await checklistRepository.buscarModeloPorTipoAtividade(id);
+      final checklist =
+          await checklistRepository.buscarModeloPorTipoAtividade(id);
+      if (checklist == null) {
+        throw Exception('Checklist não encontrado para a atividade $id');
+      }
+      return checklist;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
