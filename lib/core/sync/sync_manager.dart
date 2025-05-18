@@ -12,18 +12,27 @@ class SyncManager {
   List<String> get modulosDisponiveis => _repos.keys.toList();
 
   /// Sincroniza tudo
-  Future<SyncResult> sincronizarTudo() async {
+  Future<SyncResult> sincronizarTudo({bool force = false}) async {
     bool falhou = false;
     bool temDadosLocais = false;
 
     for (var entry in _repos.entries) {
+      final repo = entry.value;
+
       try {
-        final repo = entry.value;
+        if (!force) {
+          final vazio = await repo.estaVazio(entry.key);
+          if (!vazio) {
+            temDadosLocais = true;
+            continue; // pula sincronização se já tem dados locais e não for forçado
+          }
+        }
+
         final dados = await repo.buscarDaApi();
         await repo.sincronizarComBanco(dados);
       } catch (_) {
         falhou = true;
-        final vazio = await entry.value.estaVazio(entry.key);
+        final vazio = await repo.estaVazio(entry.key);
         if (!vazio) temDadosLocais = true;
       }
     }
@@ -35,11 +44,18 @@ class SyncManager {
   }
 
   /// Sincroniza um módulo específico
-  Future<void> sincronizarModulo(String nomeEntidade) async {
+  Future<void> sincronizarModulo(String nomeEntidade,
+      {bool force = false}) async {
     final repo = _repos[nomeEntidade];
     if (repo == null) {
       throw Exception('Nenhum repositório registrado para $nomeEntidade');
     }
+
+    if (!force) {
+      final vazio = await repo.estaVazio(nomeEntidade);
+      if (!vazio) return;
+    }
+
     await _executar(repo);
   }
 
