@@ -40,6 +40,8 @@ class AnomaliaController extends GetxController {
     try {
       final sub = atividadeController.atividadeEmAndamento.value?.subestacao;
       if (sub == null) throw Exception('Subestação não encontrada.');
+      AppLogger.d(
+          '[AnomaliaController] Buscando equipamentos para subestação: $sub');
       final lista = await checklistService.buscarEquipamentos(sub);
       equipamentos.assignAll(lista);
     } catch (e, s) {

@@ -23,7 +23,7 @@ class EquipamentoTableDto {
       nome: json['nome'],
       descricao: json['descricao'],
       subestacao: json['subestacao'],
-      grupoDefeitoCodigo: json['grupoId'],
+      grupoDefeitoCodigo: json['grupoDefeitoCodigo'],
     );
   }
 
@@ -34,7 +34,7 @@ class EquipamentoTableDto {
       'nome': nome,
       'descricao': descricao,
       'subestacao': subestacao,
-      'grupoId': grupoDefeitoCodigo,
+      'grupoDefeitoCodigo': grupoDefeitoCodigo,
     };
   }
 

@@ -93,6 +93,12 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
     });
   }
 
+  Future<GrupoDefeitoCodigoTableData?> buscarGrupoDefeitoCodigo(
+      String grupoDefeitoCodigo) {
+    return (select(grupoDefeitoCodigoTable)
+          ..where((tbl) => tbl.codigo.equals(grupoDefeitoCodigo)))
+        .getSingleOrNull();
+  }
 
   /// Busca defeitos por grupo
   Future<List<DefeitoTableData>> getByGrupoId(String grupoId) {
@@ -136,5 +142,21 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
     final count = await select(subgrupoDefeitoEquipamentoTable).get();
     return count.isEmpty;
   }
-  
+
+  Future<List<DefeitoTableData>> buscarDefeitosPorEquipamentoCodigo(
+      String equipamentoCodigo) async {
+    final grupo = await buscarGrupoDefeitoCodigo(equipamentoCodigo);
+
+    if (grupo == null) {
+      AppLogger.w(
+          '[DefeitoDao] Grupo de defeito código não encontrado para código: $equipamentoCodigo');
+      return [];
+    }
+
+    final lista = await (select(defeitoTable)
+          ..where((tbl) => tbl.grupoDefeitoCodigoId.equals(grupo.uuid)))
+        .get();
+
+    return lista;
+  }
 }

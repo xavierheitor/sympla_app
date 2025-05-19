@@ -1,5 +1,7 @@
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/equipamento_dao.dart';
@@ -46,8 +48,18 @@ class EquipamentoRepositoryImpl implements EquipamentoRepository {
   
   @override
   Future<List<EquipamentoTableDto>> buscarEquipamentosPorSubestacao(
-      String subestacao) {
-    // TODO: implement buscarEquipamentosPorSubestacao
-    throw UnimplementedError();
+      String subestacao) async {
+    try {
+      final equipamentos = await equipamentoDao.buscarPorSubestacao(subestacao);
+      return equipamentos.map((e) => EquipamentoTableDto.fromData(e)).toList();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[equipamento_repository_impl - buscarEquipamentosPorSubestacao] ${erro.mensagem}',
+          tag: 'EquipamentoRepositoryImpl',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 }

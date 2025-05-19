@@ -141,6 +141,8 @@ class ChecklistService {
   Future<List<DefeitoTableDto>> buscarDefeitos(
       EquipamentoTableDto equipamento) async {
     try {
+      AppLogger.d(
+          '[ChecklistService] Buscando defeitos para equipamento: ${equipamento.uuid} com o grupoDefeitoCodigo:  (${equipamento.grupoDefeitoCodigo})');
       return await defeitoRepository
           .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoDefeitoCodigo);
     } catch (e, s) {
@@ -191,5 +193,14 @@ class ChecklistService {
     }
   }
 
-  buscarEquipamentos(String sub) {}
+  Future<List<EquipamentoTableDto>> buscarEquipamentos(String sub) {
+    try {
+      return equipamentoRepository.buscarEquipamentosPorSubestacao(sub);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[ChecklistService - buscarEquipamentos] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      return Future.value(<EquipamentoTableDto>[]);
+    }
+  }
 }
