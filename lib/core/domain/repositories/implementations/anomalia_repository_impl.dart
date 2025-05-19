@@ -1,5 +1,7 @@
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
+import 'package:sympla_app/core/errors/error_handler.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/daos/anomalia_dao.dart';
 
@@ -11,15 +13,31 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
 
   @override
   Future<List<AnomaliaTableDto>> buscarAnomaliasPorAtividade(
-      String atividadeId) {
-    // TODO: implement buscarAnomaliasPorAtividade
-    throw UnimplementedError();
+      String atividadeId) async {
+    try {
+      final lista = await anomaliaDao.buscarPorAtividade(atividadeId);
+      return lista.map((e) => AnomaliaTableDto.fromData(e)).toList();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AnomaliaRepositoryImpl - buscarAnomaliasPorAtividade] ${erro.mensagem}',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
-  Future<void> salvarAnomalias(List<AnomaliaTableDto> anomalias) {
-    // TODO: implement salvarAnomalias
-    throw UnimplementedError();
+  Future<void> salvarAnomalias(List<AnomaliaTableDto> anomalias) async {
+    try {
+      final lista = anomalias.map((e) => e.toCompanion()).toList();
+      await anomaliaDao.inserirAnomaliasEmLote(lista);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AnomaliaRepositoryImpl - salvarAnomalias] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
@@ -29,14 +47,21 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
   }
 
   @override
-  atualizar(AnomaliaTableCompanion companion) {
-    // TODO: implement atualizar
-    throw UnimplementedError();
+  Future<void> salvarAnomalia(AnomaliaTableDto anomalia) async {
+    try {
+      await anomaliaDao.inserirOuAtualizar(anomalia.toCompanion());
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e('[AnomaliaRepositoryImpl - salvarAnomalia] ${erro.mensagem}',
+          error: e, stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
-  inserir(AnomaliaTableCompanion anomalia) {
-    // TODO: implement inserir
+  Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias) {
+    // TODO: implement deletarAnomalias
     throw UnimplementedError();
   }
+  
 }

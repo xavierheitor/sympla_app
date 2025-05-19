@@ -76,7 +76,7 @@ class AnomaliaController extends GetxController {
     lista.add(anomalia);
     _anomalias[perguntaId] = lista;
     try {
-      await checklistService.salvarAnomalia(anomalia.toCompanion());
+      await checklistService.salvarAnomalia(anomalia);
     } catch (e, s) {
       AppLogger.e('[AnomaliaController] Erro ao salvar anomalia',
           error: e, stackTrace: s);

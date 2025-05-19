@@ -1,9 +1,11 @@
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/checklist_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository.dart';
@@ -19,12 +21,14 @@ class ChecklistService {
   final AtividadeRepository atividadeRepository;
   final EquipamentoRepository equipamentoRepository;
   final DefeitoRepository defeitoRepository;
+  final AnomaliaRepository anomaliaRepository;
 
   ChecklistService(
     this.checklistRepository,
     this.atividadeRepository,
     this.equipamentoRepository,
     this.defeitoRepository,
+    this.anomaliaRepository,
   );
 
   Future<ChecklistTableDto> buscarChecklistPorTipoAtividade(
@@ -167,9 +171,9 @@ class ChecklistService {
     }
   }
 
-  Future<void> salvarAnomalia(AnomaliaTableCompanion anomalia) async {
+  Future<void> salvarAnomalia(AnomaliaTableDto anomalia) async {
     try {
-      // await anomaliaRepository.insert(anomalia);
+      await anomaliaRepository.salvarAnomalia(anomalia);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - salvarAnomalia] ${erro.mensagem}',

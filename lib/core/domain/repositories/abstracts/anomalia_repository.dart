@@ -1,5 +1,4 @@
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
 abstract class AnomaliaRepository {
   Future<List<AnomaliaTableDto>> buscarAnomaliasPorAtividade(
@@ -8,7 +7,7 @@ abstract class AnomaliaRepository {
 
   deleteById(int id) {}
 
-  inserir(AnomaliaTableCompanion anomalia) {}
+  Future<void> salvarAnomalia(AnomaliaTableDto anomalia);
 
-  atualizar(AnomaliaTableCompanion companion) {}
+  Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias);
 }

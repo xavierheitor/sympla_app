@@ -1,9 +1,11 @@
 // checklist_binding.dart
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/checklist_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
+import 'package:sympla_app/core/domain/repositories/implementations/anomalia_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/atividade_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/checklist_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/defeito_repository_impl.dart';
@@ -33,7 +35,13 @@ class ChecklistBinding extends Bindings {
           Get.find(),
           Get.find(),
         ));
+
+    Get.lazyPut<AnomaliaRepository>(() => AnomaliaRepositoryImpl(
+          Get.find(),
+        ));
+
     Get.lazyPut(() => ChecklistService(
+          Get.find(),
           Get.find(),
           Get.find(),
           Get.find(),

@@ -13,6 +13,12 @@ class AnomaliaDao extends DatabaseAccessor<AppDatabase>
     await into(anomaliaTable).insertOnConflictUpdate(data);
   }
 
+  Future<void> inserirAnomaliasEmLote(List<AnomaliaTableCompanion> data) async {
+    await batch((b) {
+      b.insertAll(anomaliaTable, data);
+    });
+  }
+
   Future<List<AnomaliaTableData>> buscarPorAtividade(String atividadeId) async {
     final query = select(anomaliaTable)
       ..where((t) => t.atividadeId.equals(atividadeId));

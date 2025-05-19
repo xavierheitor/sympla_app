@@ -92,7 +92,7 @@ class ResumoAnomaliasService {
   Future<void> salvarAnomalia(AnomaliaTableDto anomalia) async {
     try {
       AppLogger.d('[ResumoAnomaliasService] Salvando nova anomalia: $anomalia');
-      await anomaliaRepository.inserir(anomalia.toCompanion());
+      await anomaliaRepository.salvarAnomalia(anomalia);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ResumoAnomaliasService - salvarAnomalia] ${erro.mensagem}',
@@ -105,7 +105,7 @@ class ResumoAnomaliasService {
     try {
       AppLogger.d(
           '[ResumoAnomaliasService] Atualizando anomalia ID: ${anomalia.id}');
-      await anomaliaRepository.atualizar(anomalia.toCompanion());
+      await anomaliaRepository.salvarAnomalia(anomalia);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
