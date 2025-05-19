@@ -90,7 +90,7 @@ class PerguntaChecklistWidget extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 4),
                         child: Text(
-                          '📌 ${a.defeitoId.value} - ${a.observacao.value?.trim().isEmpty == true ? "Sem observação" : a.observacao.value}',
+                          '📌 ${a.defeitoId} - ${a.observacao?.trim().isEmpty == true ? "Sem observação" : a.observacao}',
                           style: const TextStyle(color: Colors.black87),
                         ),
                       );

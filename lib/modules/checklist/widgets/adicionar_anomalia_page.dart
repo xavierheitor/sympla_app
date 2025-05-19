@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -65,23 +66,25 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                   return;
                 }
 
-                //   final anomalia = AnomaliaTableCompanion(
-                //     perguntaId: d.Value(widget.perguntaId),
-                //     atividadeId: d.Value(atividade.id),
-                //     equipamentoId: d.Value(equipamento.id),
-                //     defeitoId: d.Value(defeito.id),
-                //     fase: d.Value(fase),
-                //     lado: d.Value(lado),
-                //     delta: d.Value(double.tryParse(deltaController.text) ?? 0),
-                //     observacao: d.Value(observacaoController.text),
-                //     foto: _imagemSelecionada != null
-                //         ? d.Value(await _imagemSelecionada!.readAsBytes())
-                //         : const d.Value.absent(),
-                //   );
+                final anomalia = AnomaliaTableDto(
+                  perguntaId: widget.perguntaId,
+                  atividadeId: atividade.uuid,
+                  equipamentoId: equipamento.uuid,
+                  defeitoId: defeito.uuid,
+                  fase: fase,
+                  lado: lado,
+                  delta: double.tryParse(deltaController.text),
+                  observacao: observacaoController.text.isEmpty
+                      ? null
+                      : observacaoController.text,
+                  foto: _imagemSelecionada != null
+                      ? await _imagemSelecionada!.readAsBytes()
+                      : null,
+                  corrigida: false,
+                );
+                await controller.salvarAnomalia(widget.perguntaId, anomalia);
 
-                //   controller.salvarAnomalia(widget.perguntaId, anomalia);
-                //   Get.back();
-                // }
+                Get.back();
               }
             },
           )

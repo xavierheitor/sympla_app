@@ -2,11 +2,11 @@
 
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/checklist/checklist_service.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
 class AnomaliaController extends GetxController {
   final ChecklistService checklistService;
@@ -21,7 +21,7 @@ class AnomaliaController extends GetxController {
   final defeitos = <DefeitoTableDto>[].obs;
   final equipamentoSelecionado = Rxn<EquipamentoTableDto>();
 
-  final _anomalias = <String, List<AnomaliaTableCompanion>>{}.obs;
+  final _anomalias = <String, List<AnomaliaTableDto>>{}.obs;
 
   @override
   void onInit() {
@@ -71,12 +71,12 @@ class AnomaliaController extends GetxController {
   }
 
   Future<void> salvarAnomalia(
-      String perguntaId, AnomaliaTableCompanion anomalia) async {
+      String perguntaId, AnomaliaTableDto anomalia) async {
     final lista = _anomalias[perguntaId] ?? [];
     lista.add(anomalia);
     _anomalias[perguntaId] = lista;
     try {
-      await checklistService.salvarAnomalia(anomalia);
+      await checklistService.salvarAnomalia(anomalia.toCompanion());
     } catch (e, s) {
       AppLogger.e('[AnomaliaController] Erro ao salvar anomalia',
           error: e, stackTrace: s);
@@ -85,7 +85,7 @@ class AnomaliaController extends GetxController {
         '[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
   }
 
-  List<AnomaliaTableCompanion> buscarAnomalias(String perguntaId) {
+  List<AnomaliaTableDto> buscarAnomalias(String perguntaId) {
     return _anomalias[perguntaId] ?? [];
   }
 }
