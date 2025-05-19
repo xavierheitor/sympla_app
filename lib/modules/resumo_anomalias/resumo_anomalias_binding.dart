@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
+import 'package:sympla_app/core/domain/repositories/implementations/anomalia_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/defeito_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/equipamento_repository_impl.dart';
 import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
@@ -17,6 +19,10 @@ class ResumoAnomaliasBinding extends Bindings {
 
     Get.lazyPut<DefeitoRepository>(() => DefeitoRepositoryImpl(
           Get.find(),
+          Get.find(),
+        ));
+
+    Get.lazyPut<AnomaliaRepository>(() => AnomaliaRepositoryImpl(
           Get.find(),
         ));
 

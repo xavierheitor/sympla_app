@@ -24,6 +24,10 @@ class ChecklistController extends GetxController {
   //carregando
   final _carregando = false.obs;
 
+  //checklist preenchido
+  int? _checklistPreenchidoId;
+  bool _salvouFormulario = false;
+
   //pega as perguntas
   List<ChecklistPerguntaTableDto> get perguntas => _perguntas;
 
@@ -81,6 +85,10 @@ class ChecklistController extends GetxController {
       }
 
       _perguntas.value = perguntasRelacionadas;
+
+      // Criar checklist preenchido vazio
+      _checklistPreenchidoId = await service.criarChecklistPreenchido(
+          atividade.uuid, checklist.uuid);
     } catch (e, s) {
       AppLogger.e('[ChecklistController] Erro ao carregar checklist',
           error: e, stackTrace: s);
@@ -108,11 +116,17 @@ class ChecklistController extends GetxController {
       return;
     }
 
+    if (_checklistPreenchidoId == null) {
+      AppLogger.w(
+          '[ChecklistController] Tentativa de salvar respostas sem um checklist preenchido');
+      return;
+    }
+
     final lista = _respostas.entries.map((entry) {
       AppLogger.d(
           '[ChecklistController] Preparando resposta para pergunta ${entry.key}: ${entry.value}');
       return ChecklistRespostaTableDto(
-        checklistPreenchidoId: 0,
+        checklistPreenchidoId: _checklistPreenchidoId!,
         perguntaId: entry.key,
         resposta: entry.value,
       );
@@ -122,12 +136,27 @@ class ChecklistController extends GetxController {
         '[ChecklistController] Total de respostas para salvar: ${lista.length}');
     await service.salvarRespostas(lista);
 
+    // Atualizar data de preenchimento
+    await service.atualizarDataPreenchimentoChecklistPreenchido(
+        _checklistPreenchidoId!, DateTime.now());
+
+    _salvouFormulario = true;
+
     //avanca para a proxima etapa
     await atividadeController.avancar();
   }
 
   Future<bool> checklistJaRespondido(String atividadeId) async {
     return await service.checklistJaRespondido(atividadeId);
+  }
+
+  @override
+  void onClose() {
+    // Se não salvou o formulário, deleta o checklist preenchido
+    if (_checklistPreenchidoId != null && !_salvouFormulario) {
+      service.deletarChecklistPreenchido(_checklistPreenchidoId!);
+    }
+    super.onClose();
   }
 }
 

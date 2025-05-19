@@ -1,6 +1,7 @@
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
@@ -10,6 +11,8 @@ import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_reposi
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
 class ChecklistService {
   final ChecklistRepository checklistRepository;
@@ -183,7 +186,7 @@ class ChecklistService {
         return false;
       }
       final respostas =
-          await checklistRepository.buscarRespostas(checklistPreenchido.id);
+          await checklistRepository.buscarRespostas(checklistPreenchido.id!);
       return respostas.isNotEmpty;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
@@ -201,6 +204,64 @@ class ChecklistService {
       AppLogger.e('[ChecklistService - buscarEquipamentos] ${erro.mensagem}',
           error: e, stackTrace: s);
       return Future.value(<EquipamentoTableDto>[]);
+    }
+  }
+
+  Future<int> criarChecklistPreenchido(
+      String atividadeId, String checklistId) async {
+    try {
+      final dto = ChecklistPreenchidoTableDto(
+        atividadeId: atividadeId,
+        checklistId: checklistId,
+        dataPreenchimento: DateTime.now(),
+        usuarioId: Get.find<SessionManager>().usuario!.uuid,
+      );
+      final id = await checklistRepository.criarChecklistPreenchido(dto);
+      AppLogger.d('[ChecklistService] Checklist preenchido criado: $id');
+      return id;
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistService - criarChecklistPreenchido] ${erro.mensagem}',
+          tag: 'ChecklistService',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> atualizarDataPreenchimentoChecklistPreenchido(
+      int checklistPreenchidoId, DateTime dataFinal) async {
+    try {
+      await checklistRepository.atualizarDataPreenchimento(
+          checklistPreenchidoId, dataFinal);
+      AppLogger.d(
+          '[ChecklistService] Data de preenchimento atualizada para checklist $checklistPreenchidoId');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistService - atualizarDataPreenchimento] ${erro.mensagem}',
+          tag: 'ChecklistService',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
+  }
+
+  Future<void> deletarChecklistPreenchido(int checklistPreenchidoId) async {
+    try {
+      await checklistRepository
+          .deletarChecklistPreenchido(checklistPreenchidoId);
+      AppLogger.d(
+          '[ChecklistService] Checklist preenchido $checklistPreenchidoId deletado');
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[ChecklistService - deletarChecklistPreenchido] ${erro.mensagem}',
+          tag: 'ChecklistService',
+          error: e,
+          stackTrace: s);
+      rethrow;
     }
   }
 }

@@ -2,14 +2,14 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
 class ChecklistPreenchidoTableDto {
-  final int id;
+  final int? id;
   final String atividadeId;
   final String checklistId;
   final String usuarioId;
   final DateTime dataPreenchimento;
 
   ChecklistPreenchidoTableDto({
-    required this.id,
+    this.id,
     required this.atividadeId,
     required this.checklistId,
     required this.usuarioId,
@@ -41,7 +41,7 @@ class ChecklistPreenchidoTableDto {
   // 🔄 De DTO para Companion
   ChecklistPreenchidoTableCompanion toCompanion() {
     return ChecklistPreenchidoTableCompanion(
-      id: Value(id),
+      id: id != null ? Value(id!) : const Value.absent(),
       atividadeId: Value(atividadeId),
       checklistId: Value(checklistId),
       usuarioId: Value(usuarioId),
