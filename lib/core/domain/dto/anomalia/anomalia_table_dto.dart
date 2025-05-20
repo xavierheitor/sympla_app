@@ -15,6 +15,8 @@ class AnomaliaTableDto {
   final String? observacao;
   final Uint8List? foto;
   final bool corrigida;
+  final String? nomeEquipamento;
+  final String? codigoSapDefeito;
 
   AnomaliaTableDto({
     this.id,
@@ -28,6 +30,8 @@ class AnomaliaTableDto {
     this.observacao,
     this.foto,
     this.corrigida = false,
+    this.nomeEquipamento,
+    this.codigoSapDefeito,
   });
 
   // 🔄 De JSON para DTO
@@ -107,6 +111,34 @@ class AnomaliaTableDto {
       observacao: data.observacao,
       foto: data.foto,
       corrigida: data.corrigida,
+    );
+  }
+
+  factory AnomaliaTableDto.fromJoinedData({
+    required AnomaliaTableData anomalia,
+    String? nomeEquipamento,
+    String? codigoSapDefeito,
+  }) {
+    return AnomaliaTableDto(
+      id: anomalia.id,
+      perguntaId: anomalia.perguntaId,
+      atividadeId: anomalia.atividadeId,
+      equipamentoId: anomalia.equipamentoId,
+      defeitoId: anomalia.defeitoId,
+      fase: FaseAnomalia.values.firstWhere(
+        (e) => e.name == anomalia.fase.name,
+        orElse: () => FaseAnomalia.a,
+      ),
+      lado: LadoAnomalia.values.firstWhere(
+        (e) => e.name == anomalia.lado.name,
+        orElse: () => LadoAnomalia.carga,
+      ),
+      delta: anomalia.delta,
+      observacao: anomalia.observacao,
+      foto: anomalia.foto,
+      corrigida: anomalia.corrigida,
+      nomeEquipamento: nomeEquipamento,
+      codigoSapDefeito: codigoSapDefeito,
     );
   }
 }

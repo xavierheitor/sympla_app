@@ -4,7 +4,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
 
-part 'atividade_dao.g.dart';
+part 'generated/atividade_dao.g.dart';
 
 @DriftAccessor(tables: [AtividadeTable, TipoAtividadeTable, EquipamentoTable])
 class AtividadeDao extends DatabaseAccessor<AppDatabase>

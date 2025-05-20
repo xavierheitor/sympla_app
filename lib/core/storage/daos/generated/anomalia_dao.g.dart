@@ -1,9 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'mpbb_ddao.dart';
+part of '../anomalia_dao.dart';
 
 // ignore_for_file: type=lint
-mixin _$MpbbDaoMixin on DatabaseAccessor<AppDatabase> {
+mixin _$AnomaliaDaoMixin on DatabaseAccessor<AppDatabase> {
+  $ChecklistPerguntaTableTable get checklistPerguntaTable =>
+      attachedDatabase.checklistPerguntaTable;
   $GrupoDefeitoEquipamentoTableTable get grupoDefeitoEquipamentoTable =>
       attachedDatabase.grupoDefeitoEquipamentoTable;
   $GrupoDefeitoCodigoTableTable get grupoDefeitoCodigoTable =>
@@ -13,8 +15,8 @@ mixin _$MpbbDaoMixin on DatabaseAccessor<AppDatabase> {
   $TipoAtividadeTableTable get tipoAtividadeTable =>
       attachedDatabase.tipoAtividadeTable;
   $AtividadeTableTable get atividadeTable => attachedDatabase.atividadeTable;
-  $FormularioBateriaTableTable get formularioBateriaTable =>
-      attachedDatabase.formularioBateriaTable;
-  $MedicaoElementoBateriaTableTable get medicaoElementoBateriaTable =>
-      attachedDatabase.medicaoElementoBateriaTable;
+  $SubgrupoDefeitoEquipamentoTableTable get subgrupoDefeitoEquipamentoTable =>
+      attachedDatabase.subgrupoDefeitoEquipamentoTable;
+  $DefeitoTableTable get defeitoTable => attachedDatabase.defeitoTable;
+  $AnomaliaTableTable get anomaliaTable => attachedDatabase.anomaliaTable;
 }

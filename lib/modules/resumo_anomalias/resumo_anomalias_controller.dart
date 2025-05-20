@@ -136,7 +136,7 @@ class ResumoAnomaliasController extends GetxController {
   }
 
   //conclui a etapa atual da atividade
-  Future<void> concluirAtividade() async {
+  Future<void> concluirEtapa() async {
     final atividade =
         Get.find<AtividadeController>().atividadeEmAndamento.value;
     if (atividade == null) {

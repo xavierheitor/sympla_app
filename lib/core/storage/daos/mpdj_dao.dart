@@ -3,7 +3,7 @@ import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
-part 'mpdj_dao.g.dart';
+part 'generated/mpdj_dao.g.dart';
 
 @DriftAccessor(tables: [
   PrevDisjForm,

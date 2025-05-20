@@ -10,6 +10,7 @@ class ResumoAnomaliasPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //controller do resumo de anomalias
     final controller = Get.find<ResumoAnomaliasController>();
     AppLogger.d('[ResumoAnomaliasPage] Página construída');
 
@@ -17,12 +18,13 @@ class ResumoAnomaliasPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Resumo de Anomalias'),
         actions: [
+          //botao de concluir etapa
           IconButton(
             icon: const Icon(Icons.check),
             onPressed: () async {
               AppLogger.d(
                   '[ResumoAnomaliasPage] Botão concluir atividade pressionado');
-              await controller.concluirAtividade();
+              await controller.concluirEtapa();
             },
           ),
         ],
@@ -39,9 +41,12 @@ class ResumoAnomaliasPage extends StatelessWidget {
         return ListView.builder(
           itemCount: controller.anomalias.length,
           itemBuilder: (context, index) {
+            //pega a anomalia
             final anomalia = controller.anomalias[index];
+            //pega o equipamento
             final equipamento = controller.equipamentos
                 .firstWhereOrNull((e) => e.uuid == anomalia.equipamentoId);
+            //pega o defeito
             final defeito = controller.defeitos
                 .firstWhereOrNull((d) => d.uuid == anomalia.defeitoId);
 

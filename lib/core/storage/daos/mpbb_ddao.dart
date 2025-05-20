@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
 
-part 'mpbb_ddao.g.dart';
+part 'generated/mpbb_ddao.g.dart';
 
 /// DAO responsável pelas operações do módulo de banco de baterias (MPBB).
 @DriftAccessor(tables: [FormularioBateriaTable, MedicaoElementoBateriaTable])

@@ -3,7 +3,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
 
-part 'defeito_dao.g.dart';
+part 'generated/defeito_dao.g.dart';
 
 @DriftAccessor(tables: [
   DefeitoTable,
