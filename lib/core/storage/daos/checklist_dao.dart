@@ -176,9 +176,13 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
   Future<ChecklistPreenchidoTableData?> buscarPorAtividade(
       String atividadeId) async {
     final query = select(checklistPreenchidoTable).join([
-      innerJoin(atividadeTable,
-          atividadeTable.uuid.equalsExp(checklistPreenchidoTable.atividadeId)),
-    ]);
+      innerJoin(
+        atividadeTable,
+        atividadeTable.uuid.equalsExp(checklistPreenchidoTable.atividadeId),
+      ),
+    ])
+      ..where(checklistPreenchidoTable.atividadeId.equals(atividadeId));
+
     final result = await query.getSingleOrNull();
     return result?.readTable(checklistPreenchidoTable);
   }

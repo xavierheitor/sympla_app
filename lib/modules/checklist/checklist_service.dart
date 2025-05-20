@@ -184,14 +184,18 @@ class ChecklistService {
 
   Future<bool> checklistJaRespondido(String atividadeId) async {
     try {
+      AppLogger.d(
+          '[ChecklistService - checklistJaRespondido] Buscando checklist preenchido para atividade $atividadeId');
       final checklistPreenchido =
           await checklistRepository.buscarChecklistPreenchido(atividadeId);
       if (checklistPreenchido == null) {
+        AppLogger.d(
+            '[ChecklistService - checklistJaRespondido] Não encontrei checklist preenchido para atividade $atividadeId');
         return false;
       }
-      final respostas =
-          await checklistRepository.buscarRespostas(checklistPreenchido.id!);
-      return respostas.isNotEmpty;
+      AppLogger.d(
+          '[ChecklistService - checklistJaRespondido] Encontrei checklist preenchido para atividade $atividadeId');
+      return true;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - checklistJaRespondido] ${erro.mensagem}',
