@@ -15,7 +15,6 @@ class DefeitoRepositoryImpl implements DefeitoRepository {
 
   @override
   Future<DefeitoTableDto> buscarDefeito(String defeitoId) {
-    // TODO: implement buscarDefeito
     throw UnimplementedError();
   }
 

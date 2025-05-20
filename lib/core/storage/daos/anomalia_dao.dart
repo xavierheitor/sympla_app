@@ -24,4 +24,15 @@ class AnomaliaDao extends DatabaseAccessor<AppDatabase>
       ..where((t) => t.atividadeId.equals(atividadeId));
     return await query.get();
   }
+
+  Future<void> deleteById(int id) async {
+    await (delete(anomaliaTable)..where((t) => t.id.equals(id))).go();
+  }
+
+  Future<void> deleteByAtividadeId(String atividadeId) async {
+    await (delete(anomaliaTable)
+          ..where((t) => t.atividadeId.equals(atividadeId)))
+        .go();
+  }
+
 }
