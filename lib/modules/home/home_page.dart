@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/sync/sync_manager.dart';
 import 'package:sympla_app/modules/home/home_controller.dart';
 import 'package:sympla_app/modules/home/widgets/app_drawer.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_card_widget.dart';
 import 'package:sympla_app/modules/home/widgets/status_chips.dart';
 
 class HomePage extends StatelessWidget {
+  /// Controller da página home
   final controller = Get.find<HomeController>();
 
   HomePage({super.key});
@@ -16,10 +18,30 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Sympla Home'),
         actions: [
-          IconButton(
+          //botao de sincronizar
+          Obx(() {
+            return controller.sincronizacao.value
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    child: SizedBox(
+                      width: 24,
+                      height: 24,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    ),
+                  )
+                : IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: controller.sincronizarAtividades,
-          )
+                    onPressed: () async {
+                      controller.sincronizacao.value = true;
+                      try {
+                        await Get.find<SyncManager>()
+                            .sincronizarModulo('atividade', force: true);
+                      } finally {
+                        controller.sincronizacao.value = false;
+                      }
+                    },
+                  );
+          }),
         ],
       ),
       drawer: const AppDrawer(),

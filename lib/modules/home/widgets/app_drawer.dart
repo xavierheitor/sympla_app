@@ -7,7 +7,10 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Controller da página home
     final controller = Get.find<HomeController>();
+
+    /// Usuario logado
     final usuario = controller.session.usuario;
 
     return Drawer(
@@ -44,6 +47,15 @@ class AppDrawer extends StatelessWidget {
             },
           ),
           const Spacer(),
+          //botao de sincronizar
+          ListTile(
+            leading: const Icon(Icons.sync),
+            title: const Text('Forçar Sincronização'),
+            onTap: () {
+              Navigator.pop(context);
+              controller.sincronizarTudo();
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.delete_forever, color: Colors.red),
             title:
