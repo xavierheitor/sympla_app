@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/etapas_atividade.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/core_app/services/atividade_service.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
@@ -80,14 +81,17 @@ class AtividadeController extends GetxController {
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();
+    Get.offAllNamed(Routes.home); // ✅ redireciona para a home após finalizar
   }
 
-  Future<void> avancar() async {
+Future<void> avancar() async {
     final atividade = atividadeEmAndamento.value;
     final atual = etapaAtual.value;
     if (atividade == null || atual == null) return;
     final proxima = await atividadeService.proximaEtapa(atividade, atual);
-    if (proxima == null) {
+
+    // ✅ Corrigido: se a próxima for "finalizada", já finaliza de vez
+    if (proxima == null || proxima == EtapaAtividade.finalizada) {
       etapaAtual.value = EtapaAtividade.finalizada;
       await finalizarAtividade(atividade);
     } else {
