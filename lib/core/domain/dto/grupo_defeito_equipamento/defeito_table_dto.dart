@@ -81,4 +81,13 @@ class DefeitoTableDto {
       ),
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is DefeitoTableDto && other.uuid == uuid;
+  }
+
+  @override
+  int get hashCode => uuid.hashCode;
 }

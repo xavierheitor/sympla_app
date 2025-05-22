@@ -10,4 +10,6 @@ abstract class AnomaliaRepository {
   Future<void> salvarAnomalia(AnomaliaTableDto anomalia);
 
   Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias);
+
+
 }

@@ -44,27 +44,15 @@ class ResumoAnomaliasPage extends StatelessWidget {
             //pega a anomalia
             final anomalia = controller.anomalias[index];
             //pega o equipamento
-            final equipamento = controller.equipamentos
-                .firstWhereOrNull((e) => e.uuid == anomalia.equipamentoId);
-            //pega o defeito
-            final defeito = controller.defeitos
-                .firstWhereOrNull((d) => d.uuid == anomalia.defeitoId);
-
-            if (equipamento == null) {
-              AppLogger.w(
-                  '[ResumoAnomaliasPage] Equipamento não encontrado para ID ${anomalia.equipamentoId}');
-            }
-            if (defeito == null) {
-              AppLogger.w(
-                  '[ResumoAnomaliasPage] Defeito não encontrado para ID ${anomalia.defeitoId}');
-            }
 
             return ListTile(
-              title: Text(defeito?.codigoSap ?? 'Defeito desconhecido'),
+// E use diretamente os campos opcionais vindos do DTO:
+              title: Text(anomalia.codigoSapDefeito ?? 'Defeito desconhecido'),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Equipamento: ${equipamento?.nome ?? 'Desconhecido'}'),
+                  Text(
+                      'Equipamento: ${anomalia.nomeEquipamento ?? 'Desconhecido'}'),
                   Text('Fase: ${anomalia.fase.name.toUpperCase()}'),
                   Text('Lado: ${anomalia.lado.name.toUpperCase()}'),
                 ],

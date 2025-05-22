@@ -117,7 +117,7 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       );
     }
   }
-  
+
   @override
   Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
     try {
@@ -132,8 +132,9 @@ class AtividadeRepositoryImpl implements AtividadeRepository {
       );
     }
   }
+
   @override
-Future<List<AtividadeTableDto>> buscarAtividadesComEquipamento() async {
+  Future<List<AtividadeTableDto>> buscarAtividadesComEquipamento() async {
     try {
       final rows = await atividadeDao.buscarComEquipamento();
 

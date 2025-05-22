@@ -35,4 +35,19 @@ class AnomaliaDao extends DatabaseAccessor<AppDatabase>
         .go();
   }
 
+  Future<List<TypedResult>> buscarComIncludesPorAtividade(String atividadeId) {
+    final query = select(anomaliaTable).join([
+      innerJoin(
+        equipamentoTable,
+        equipamentoTable.uuid.equalsExp(anomaliaTable.equipamentoId),
+      ),
+      innerJoin(
+        defeitoTable,
+        defeitoTable.uuid.equalsExp(anomaliaTable.defeitoId),
+      ),
+    ])
+      ..where(anomaliaTable.atividadeId.equals(atividadeId));
+
+    return query.get(); // retorna List<TypedResult>
+  }
 }

@@ -12,22 +12,6 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
   AnomaliaRepositoryImpl(this.db) : anomaliaDao = db.anomaliaDao;
 
   @override
-  Future<List<AnomaliaTableDto>> buscarAnomaliasPorAtividade(
-      String atividadeId) async {
-    try {
-      final lista = await anomaliaDao.buscarPorAtividade(atividadeId);
-      return lista.map((e) => AnomaliaTableDto.fromData(e)).toList();
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[AnomaliaRepositoryImpl - buscarAnomaliasPorAtividade] ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
-  }
-
-  @override
   Future<void> salvarAnomalias(List<AnomaliaTableDto> anomalias) async {
     try {
       final lista = anomalias.map((e) => e.toCompanion()).toList();
@@ -67,5 +51,30 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
   @override
   Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias) {
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<AnomaliaTableDto>> buscarAnomaliasPorAtividade(
+      String atividadeId) async {
+    try {
+      final rows = await anomaliaDao.buscarComIncludesPorAtividade(atividadeId);
+      return rows.map((row) {
+        final anomalia = row.readTable(db.anomaliaTable);
+        final equipamento = row.readTable(db.equipamentoTable);
+        final defeito = row.readTable(db.defeitoTable);
+        return AnomaliaTableDto.fromJoin(
+          anomalia: anomalia,
+          equipamento: equipamento,
+          defeito: defeito,
+        );
+      }).toList();
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AnomaliaRepositoryImpl - buscarAnomaliasPorAtividade] ${erro.mensagem}',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 }

@@ -28,24 +28,21 @@ class ResumoAnomaliasController extends GetxController {
     carregarEquipamentos();
   }
 
-//carrega as anomalias ja salvar no banco de dados
-  Future<void> carregarAnomalias() async {
+Future<void> carregarAnomalias() async {
     final atividade =
         Get.find<AtividadeController>().atividadeEmAndamento.value;
-    AppLogger.d('[ResumoAnomaliasController] Carregando anomalias...');
     if (atividade == null) {
       AppLogger.w('[ResumoAnomaliasController] Nenhuma atividade em andamento');
       return;
     }
 
     try {
-      //carrega as anomalias da atividade
       final lista = await service.buscarAnomaliasPorAtividade(atividade.uuid);
       AppLogger.d(
           '[ResumoAnomaliasController] ${lista.length} anomalias encontradas para atividade ${atividade.uuid}');
       for (final a in lista) {
         AppLogger.d(
-            '↳ Anomalia id=${a.id}, defeitoId=${a.defeitoId}, equipamentoId=${a.equipamentoId}');
+            '↳ Anomalia id=${a.id}, defeito=${a.codigoSapDefeito}, equipamento=${a.nomeEquipamento}');
       }
       anomalias.assignAll(lista);
     } catch (e, s) {

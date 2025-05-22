@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -39,21 +40,37 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
 
   late final ResumoAnomaliasController controller;
 
-  @override
+@override
   void initState() {
     super.initState();
     controller = Get.find();
-    controller.carregarEquipamentos().then((_) {
+
+    controller.carregarEquipamentos().then((_) async {
       if (widget.anomaliaExistente != null) {
         final a = widget.anomaliaExistente!;
-        equipamentoSelecionado.value = controller.equipamentos
-            .firstWhereOrNull((e) => e.uuid == a.equipamentoId);
-        defeitoSelecionado.value =
+
+        // 👉 Seleciona o equipamento
+        equipamentoSelecionado.value = a.equipamento ??
+            controller.equipamentos
+                .firstWhereOrNull((e) => e.uuid == a.equipamentoId);
+
+        // 👉 Carrega defeitos do equipamento
+        if (equipamentoSelecionado.value != null) {
+          controller.equipamentoSelecionado.value =
+              equipamentoSelecionado.value;
+          await controller.carregarDefeitos(equipamentoSelecionado.value!);
+        }
+
+        // 👉 Só agora seleciona o defeito
+        defeitoSelecionado.value = a.defeito ??
             controller.defeitos.firstWhereOrNull((d) => d.uuid == a.defeitoId);
+
+        // 👉 Demais campos
         faseSelecionada.value = a.fase;
         ladoSelecionado.value = a.lado;
         deltaController.text = a.delta?.toString() ?? '';
         observacaoController.text = a.observacao ?? '';
+
         if (a.foto != null && a.foto!.isNotEmpty) {
           imagemBytesNotifier.value = a.foto!;
         }
@@ -116,7 +133,8 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
                         decoration: const InputDecoration(labelText: 'Defeito'),
                         items: controller.defeitos.map((d) {
                           return DropdownMenuItem(
-                              value: d, child: Text(d.descricao));
+                              value: d,
+                              child: Text('${d.codigoSap} - ${d.descricao}'));
                         }).toList(),
                         onChanged: (value) => defeitoSelecionado.value = value,
                         validator: (value) =>
@@ -207,13 +225,23 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
     }
 
     final novaAnomalia = AnomaliaTableDto(
+      id: widget.anomaliaExistente?.id,
       perguntaId: widget.perguntaId,
       atividadeId: atividade.uuid,
       equipamentoId: equipamento.uuid,
       defeitoId: defeito.uuid,
       fase: fase,
       lado: lado,
-      delta: double.tryParse(deltaController.text) ?? 0,
+      delta: double.tryParse(deltaController.text),
+      observacao: observacaoController.text.trim().isEmpty
+          ? null
+          : observacaoController.text.trim(),
+      foto: imagemBytesNotifier.value,
+      corrigida: widget.anomaliaExistente?.corrigida ?? false,
+      nomeEquipamento: equipamento.nome,
+      codigoSapDefeito: defeito.codigoSap,
+      equipamento: equipamento,
+      defeito: defeito,
     );
 
     await controller.salvarOuAtualizarAnomalia(novaAnomalia);

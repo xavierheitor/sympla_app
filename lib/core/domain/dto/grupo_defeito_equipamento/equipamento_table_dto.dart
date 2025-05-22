@@ -62,4 +62,13 @@ class EquipamentoTableDto {
       grupoDefeitoCodigo: data.grupoDefeitoCodigo,
     );
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is EquipamentoTableDto && other.uuid == uuid;
+  }
+
+  @override
+  int get hashCode => uuid.hashCode;
 }

@@ -1,4 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
@@ -17,6 +19,8 @@ class AnomaliaTableDto {
   final bool corrigida;
   final String? nomeEquipamento;
   final String? codigoSapDefeito;
+  final EquipamentoTableDto? equipamento;
+  final DefeitoTableDto? defeito;
 
   AnomaliaTableDto({
     this.id,
@@ -32,6 +36,8 @@ class AnomaliaTableDto {
     this.corrigida = false,
     this.nomeEquipamento,
     this.codigoSapDefeito,
+    this.equipamento,
+    this.defeito,
   });
 
   // 🔄 De JSON para DTO
@@ -114,10 +120,11 @@ class AnomaliaTableDto {
     );
   }
 
-  factory AnomaliaTableDto.fromJoinedData({
+// 🔄 De TableData + Joins para DTO
+  factory AnomaliaTableDto.fromJoin({
     required AnomaliaTableData anomalia,
-    String? nomeEquipamento,
-    String? codigoSapDefeito,
+    required EquipamentoTableData equipamento,
+    required DefeitoTableData defeito,
   }) {
     return AnomaliaTableDto(
       id: anomalia.id,
@@ -137,8 +144,10 @@ class AnomaliaTableDto {
       observacao: anomalia.observacao,
       foto: anomalia.foto,
       corrigida: anomalia.corrigida,
-      nomeEquipamento: nomeEquipamento,
-      codigoSapDefeito: codigoSapDefeito,
+      nomeEquipamento: equipamento.nome,
+      codigoSapDefeito: defeito.codigoSap,
+      equipamento: EquipamentoTableDto.fromData(equipamento),
+      defeito: DefeitoTableDto.fromData(defeito),
     );
   }
 }
