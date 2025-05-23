@@ -1,44 +1,44 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 
-class MedicaoElementoBateriaDto {
-  final int id;
+class MedicaoElementoMpbbTableDto {
+  final int? id;
   final int formularioBateriaId;
   final int elementoBateriaNumero;
   final double? tensao;
   final double? resistenciaInterna;
 
-  MedicaoElementoBateriaDto({
-    required this.id,
+  MedicaoElementoMpbbTableDto({
+    this.id,
     required this.formularioBateriaId,
     required this.elementoBateriaNumero,
     this.tensao,
     this.resistenciaInterna,
   });
 
-  factory MedicaoElementoBateriaDto.fromData(
-      MedicaoElementoBateriaTableData data) {
-    return MedicaoElementoBateriaDto(
+  factory MedicaoElementoMpbbTableDto.fromData(
+      MedicaoElementoMpbbTableData data) {
+    return MedicaoElementoMpbbTableDto(
       id: data.id,
-      formularioBateriaId: data.formularioBateriaId,
+      formularioBateriaId: data.formularioMpbbId,
       elementoBateriaNumero: data.elementoBateriaNumero,
       tensao: data.tensao,
       resistenciaInterna: data.resistenciaInterna,
     );
   }
 
-  MedicaoElementoBateriaTableCompanion toCompanion() {
-    return MedicaoElementoBateriaTableCompanion(
-      id: Value(id),
-      formularioBateriaId: Value(formularioBateriaId),
+  MedicaoElementoMpbbTableCompanion toCompanion() {
+    return MedicaoElementoMpbbTableCompanion(
+      id: Value(id ?? 0),
+      formularioMpbbId: Value(formularioBateriaId),
       elementoBateriaNumero: Value(elementoBateriaNumero),
       tensao: Value(tensao),
       resistenciaInterna: Value(resistenciaInterna),
     );
   }
 
-  factory MedicaoElementoBateriaDto.fromJson(Map<String, dynamic> json) {
-    return MedicaoElementoBateriaDto(
+  factory MedicaoElementoMpbbTableDto.fromJson(Map<String, dynamic> json) {
+    return MedicaoElementoMpbbTableDto(
       id: json['id'],
       formularioBateriaId: json['formularioBateriaId'],
       elementoBateriaNumero: json['elementoBateriaNumero'],
@@ -55,5 +55,22 @@ class MedicaoElementoBateriaDto {
       'tensao': tensao,
       'resistenciaInterna': resistenciaInterna,
     };
+  }
+
+  MedicaoElementoMpbbTableDto copyWith({
+    int? id,
+    int? formularioBateriaId,
+    int? elementoBateriaNumero,
+    double? tensao,
+    double? resistenciaInterna,
+  }) {
+    return MedicaoElementoMpbbTableDto(
+      id: id ?? this.id,
+      formularioBateriaId: formularioBateriaId ?? this.formularioBateriaId,
+      elementoBateriaNumero:
+          elementoBateriaNumero ?? this.elementoBateriaNumero,
+      tensao: tensao ?? this.tensao,
+      resistenciaInterna: resistenciaInterna ?? this.resistenciaInterna,
+    );
   }
 }

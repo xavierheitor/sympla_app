@@ -26,7 +26,7 @@ import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
 import 'package:sympla_app/core/storage/daos/checklist_dao.dart';
 import 'package:sympla_app/core/storage/daos/defeito_dao.dart';
 import 'package:sympla_app/core/storage/daos/equipamento_dao.dart';
-import 'package:sympla_app/core/storage/daos/mpbb_ddao.dart';
+import 'package:sympla_app/core/storage/daos/mpbb_dao.dart';
 import 'package:sympla_app/core/storage/daos/mpdj_dao.dart';
 import 'package:sympla_app/core/storage/daos/tecnico_dao.dart';
 import 'package:sympla_app/core/storage/daos/usuario_dao.dart';
@@ -42,7 +42,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla4.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla5.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -69,8 +69,8 @@ LazyDatabase _openConnection() {
     ChecklistPreenchidoTable,
     ChecklistRespostaTable,
     GrupoDefeitoCodigoTable,
-    FormularioBateriaTable,
-    MedicaoElementoBateriaTable,
+    FormularioMpbbTable,
+    MedicaoElementoMpbbTable,
     PrevDisjForm,
     MedicaoPressaoSf6Table,
     MedicaoResistenciaContatoTable,

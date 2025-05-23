@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:drift/drift.dart' as drift;
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_controller.dart';
 import 'package:sympla_app/modules/mp_bb/widgets/mp_bb_medicoes_editor_widget.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
 class MpBbFormPage extends StatefulWidget {
   const MpBbFormPage({super.key});
@@ -24,7 +23,9 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
   final _tensaoBancoController = TextEditingController();
   final _rippleController = TextEditingController();
 
-  final _medicoesTemp = <MedicaoElementoBateriaTableData>[].obs;
+  /// 🔋 Lista de medições temporárias (controlada via GetX)
+  final _medicoesTemp = <MedicaoElementoMpbbTableDto>[].obs;
+
   @override
   void dispose() {
     _fabricanteController.dispose();
@@ -54,38 +55,33 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
             icon: const Icon(Icons.save),
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                final dados = FormularioBateriaTableCompanion(
-                  atividadeId: drift.Value(controller
-                      .atividadeController.atividadeEmAndamento.value!.uuid),
-                  fabricante: drift.Value(_fabricanteController.text),
-                  modelo: drift.Value(_modeloController.text),
-                  capacidadeAh: drift.Value(
-                      int.tryParse(_capacidadeController.text) ?? 0),
-                  tensaoFlutuacaoCelula: drift.Value(
-                      double.tryParse(_tensaoCelulaController.text.trim()) ??
-                          0.0),
-                  tensaoFlutuacaoBanco: drift.Value(
-                      double.tryParse(_tensaoBancoController.text.trim()) ??
-                          0.0),
-                  rippleMedido: drift.Value(
-                      double.tryParse(_rippleController.text.trim()) ?? 0.0),
-                  tipoBateria: drift.Value(
+                // 🔗 Monta DTO do formulário
+                final dados = FormularioBateriaTableDto(
+                  id: controller.formulario.value?.id ?? 0,
+                  atividadeId: controller
+                      .atividadeController.atividadeEmAndamento.value!.uuid,
+                  fabricante: _fabricanteController.text,
+                  modelo: _modeloController.text,
+                  capacidadeAh: int.tryParse(_capacidadeController.text.trim()),
+                  tensaoFlutuacaoCelula:
+                      double.tryParse(_tensaoCelulaController.text.trim()),
+                  tensaoFlutuacaoBanco:
+                      double.tryParse(_tensaoBancoController.text.trim()),
+                  rippleMedido: double.tryParse(_rippleController.text.trim()),
+                  tipoBateria:
                       controller.formulario.value?.tipoBateria ??
-                          TipoBateria.ventilada),
+                      TipoBateria.ventilada.name,
+                  createdAt: DateTime.now(),
+                  updatedAt: DateTime.now(),
+                  densidadeCritica: null,
+                  densidadeNominal: null,
+                  resistenciaNominal: null,
                 );
 
-                final medicoesList = _medicoesTemp
-                    .map((m) => MedicaoElementoBateriaTableCompanion(
-                          elementoBateriaNumero:
-                              drift.Value(m.elementoBateriaNumero),
-                          tensao: drift.Value(m.tensao),
-                          resistenciaInterna: drift.Value(m.resistenciaInterna),
-                        ))
-                    .toList();
-
+                // 🔗 Usa lista de medições temporárias
                 controller.salvarFormulario(
                   dados: dados,
-                  medicoesList: medicoesList,
+                  medicoesList: _medicoesTemp.toList(),
                 );
               }
             },
@@ -157,16 +153,9 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
                 ),
                 const SizedBox(height: 8),
                 MedicoesEditor(
-                  medicoes: _medicoesTemp
-                      .map((e) => MedicaoElementoBateriaDto(
-                            id: e.id,
-                            formularioBateriaId: e.formularioBateriaId,
-                            elementoBateriaNumero: e.elementoBateriaNumero,
-                          ))
-                      .toList(),
+                  medicoes: _medicoesTemp,
                   onChanged: (novas) {
-                    _medicoesTemp.assignAll(
-                        novas as List<MedicaoElementoBateriaTableData>);
+                    _medicoesTemp.assignAll(novas);
                   },
                 ),
               ],

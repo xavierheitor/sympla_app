@@ -6538,12 +6538,12 @@ class ChecklistRespostaTableCompanion
   }
 }
 
-class $FormularioBateriaTableTable extends FormularioBateriaTable
-    with TableInfo<$FormularioBateriaTableTable, FormularioBateriaTableData> {
+class $FormularioMpbbTableTable extends FormularioMpbbTable
+    with TableInfo<$FormularioMpbbTableTable, FormularioMpbbTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $FormularioBateriaTableTable(this.attachedDatabase, [this._alias]);
+  $FormularioMpbbTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -6599,7 +6599,7 @@ class $FormularioBateriaTableTable extends FormularioBateriaTable
       GeneratedColumn<String>('tipo_bateria', aliasedName, false,
               type: DriftSqlType.string, requiredDuringInsert: true)
           .withConverter<TipoBateria>(
-              $FormularioBateriaTableTable.$convertertipoBateria);
+              $FormularioMpbbTableTable.$convertertipoBateria);
   static const VerificationMeta _modeloMeta = const VerificationMeta('modelo');
   @override
   late final GeneratedColumn<String> modelo = GeneratedColumn<String>(
@@ -6665,10 +6665,10 @@ class $FormularioBateriaTableTable extends FormularioBateriaTable
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'formulario_bateria_table';
+  static const String $name = 'formulario_mpbb_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<FormularioBateriaTableData> instance,
+      Insertable<FormularioMpbbTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -6756,10 +6756,10 @@ class $FormularioBateriaTableTable extends FormularioBateriaTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  FormularioBateriaTableData map(Map<String, dynamic> data,
+  FormularioMpbbTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return FormularioBateriaTableData(
+    return FormularioMpbbTableData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       atividadeId: attachedDatabase.typeMapping
@@ -6775,7 +6775,7 @@ class $FormularioBateriaTableTable extends FormularioBateriaTable
           data['${effectivePrefix}tensao_flutuacao_celula']),
       densidadeCritica: attachedDatabase.typeMapping.read(
           DriftSqlType.double, data['${effectivePrefix}densidade_critica']),
-      tipoBateria: $FormularioBateriaTableTable.$convertertipoBateria.fromSql(
+      tipoBateria: $FormularioMpbbTableTable.$convertertipoBateria.fromSql(
           attachedDatabase.typeMapping.read(
               DriftSqlType.string, data['${effectivePrefix}tipo_bateria'])!),
       modelo: attachedDatabase.typeMapping
@@ -6797,16 +6797,16 @@ class $FormularioBateriaTableTable extends FormularioBateriaTable
   }
 
   @override
-  $FormularioBateriaTableTable createAlias(String alias) {
-    return $FormularioBateriaTableTable(attachedDatabase, alias);
+  $FormularioMpbbTableTable createAlias(String alias) {
+    return $FormularioMpbbTableTable(attachedDatabase, alias);
   }
 
   static TypeConverter<TipoBateria, String> $convertertipoBateria =
       const TipoBateriaConverter();
 }
 
-class FormularioBateriaTableData extends DataClass
-    implements Insertable<FormularioBateriaTableData> {
+class FormularioMpbbTableData extends DataClass
+    implements Insertable<FormularioMpbbTableData> {
   final int id;
   final String atividadeId;
   final String? fabricante;
@@ -6822,7 +6822,7 @@ class FormularioBateriaTableData extends DataClass
   final double? rippleMedido;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  const FormularioBateriaTableData(
+  const FormularioMpbbTableData(
       {required this.id,
       required this.atividadeId,
       this.fabricante,
@@ -6859,9 +6859,8 @@ class FormularioBateriaTableData extends DataClass
       map['densidade_critica'] = Variable<double>(densidadeCritica);
     }
     {
-      map['tipo_bateria'] = Variable<String>($FormularioBateriaTableTable
-          .$convertertipoBateria
-          .toSql(tipoBateria));
+      map['tipo_bateria'] = Variable<String>(
+          $FormularioMpbbTableTable.$convertertipoBateria.toSql(tipoBateria));
     }
     if (!nullToAbsent || modelo != null) {
       map['modelo'] = Variable<String>(modelo);
@@ -6885,8 +6884,8 @@ class FormularioBateriaTableData extends DataClass
     return map;
   }
 
-  FormularioBateriaTableCompanion toCompanion(bool nullToAbsent) {
-    return FormularioBateriaTableCompanion(
+  FormularioMpbbTableCompanion toCompanion(bool nullToAbsent) {
+    return FormularioMpbbTableCompanion(
       id: Value(id),
       atividadeId: Value(atividadeId),
       fabricante: fabricante == null && nullToAbsent
@@ -6926,10 +6925,10 @@ class FormularioBateriaTableData extends DataClass
     );
   }
 
-  factory FormularioBateriaTableData.fromJson(Map<String, dynamic> json,
+  factory FormularioMpbbTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return FormularioBateriaTableData(
+    return FormularioMpbbTableData(
       id: serializer.fromJson<int>(json['id']),
       atividadeId: serializer.fromJson<String>(json['atividadeId']),
       fabricante: serializer.fromJson<String?>(json['fabricante']),
@@ -6973,7 +6972,7 @@ class FormularioBateriaTableData extends DataClass
     };
   }
 
-  FormularioBateriaTableData copyWith(
+  FormularioMpbbTableData copyWith(
           {int? id,
           String? atividadeId,
           Value<String?> fabricante = const Value.absent(),
@@ -6989,7 +6988,7 @@ class FormularioBateriaTableData extends DataClass
           Value<double?> rippleMedido = const Value.absent(),
           DateTime? createdAt,
           Value<DateTime?> updatedAt = const Value.absent()}) =>
-      FormularioBateriaTableData(
+      FormularioMpbbTableData(
         id: id ?? this.id,
         atividadeId: atividadeId ?? this.atividadeId,
         fabricante: fabricante.present ? fabricante.value : this.fabricante,
@@ -7020,9 +7019,8 @@ class FormularioBateriaTableData extends DataClass
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
       );
-  FormularioBateriaTableData copyWithCompanion(
-      FormularioBateriaTableCompanion data) {
-    return FormularioBateriaTableData(
+  FormularioMpbbTableData copyWithCompanion(FormularioMpbbTableCompanion data) {
+    return FormularioMpbbTableData(
       id: data.id.present ? data.id.value : this.id,
       atividadeId:
           data.atividadeId.present ? data.atividadeId.value : this.atividadeId,
@@ -7062,7 +7060,7 @@ class FormularioBateriaTableData extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('FormularioBateriaTableData(')
+    return (StringBuffer('FormularioMpbbTableData(')
           ..write('id: $id, ')
           ..write('atividadeId: $atividadeId, ')
           ..write('fabricante: $fabricante, ')
@@ -7102,7 +7100,7 @@ class FormularioBateriaTableData extends DataClass
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is FormularioBateriaTableData &&
+      (other is FormularioMpbbTableData &&
           other.id == this.id &&
           other.atividadeId == this.atividadeId &&
           other.fabricante == this.fabricante &&
@@ -7120,8 +7118,8 @@ class FormularioBateriaTableData extends DataClass
           other.updatedAt == this.updatedAt);
 }
 
-class FormularioBateriaTableCompanion
-    extends UpdateCompanion<FormularioBateriaTableData> {
+class FormularioMpbbTableCompanion
+    extends UpdateCompanion<FormularioMpbbTableData> {
   final Value<int> id;
   final Value<String> atividadeId;
   final Value<String?> fabricante;
@@ -7137,7 +7135,7 @@ class FormularioBateriaTableCompanion
   final Value<double?> rippleMedido;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
-  const FormularioBateriaTableCompanion({
+  const FormularioMpbbTableCompanion({
     this.id = const Value.absent(),
     this.atividadeId = const Value.absent(),
     this.fabricante = const Value.absent(),
@@ -7154,7 +7152,7 @@ class FormularioBateriaTableCompanion
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  FormularioBateriaTableCompanion.insert({
+  FormularioMpbbTableCompanion.insert({
     this.id = const Value.absent(),
     required String atividadeId,
     this.fabricante = const Value.absent(),
@@ -7172,7 +7170,7 @@ class FormularioBateriaTableCompanion
     this.updatedAt = const Value.absent(),
   })  : atividadeId = Value(atividadeId),
         tipoBateria = Value(tipoBateria);
-  static Insertable<FormularioBateriaTableData> custom({
+  static Insertable<FormularioMpbbTableData> custom({
     Expression<int>? id,
     Expression<String>? atividadeId,
     Expression<String>? fabricante,
@@ -7210,7 +7208,7 @@ class FormularioBateriaTableCompanion
     });
   }
 
-  FormularioBateriaTableCompanion copyWith(
+  FormularioMpbbTableCompanion copyWith(
       {Value<int>? id,
       Value<String>? atividadeId,
       Value<String?>? fabricante,
@@ -7226,7 +7224,7 @@ class FormularioBateriaTableCompanion
       Value<double?>? rippleMedido,
       Value<DateTime>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return FormularioBateriaTableCompanion(
+    return FormularioMpbbTableCompanion(
       id: id ?? this.id,
       atividadeId: atividadeId ?? this.atividadeId,
       fabricante: fabricante ?? this.fabricante,
@@ -7272,7 +7270,7 @@ class FormularioBateriaTableCompanion
       map['densidade_critica'] = Variable<double>(densidadeCritica.value);
     }
     if (tipoBateria.present) {
-      map['tipo_bateria'] = Variable<String>($FormularioBateriaTableTable
+      map['tipo_bateria'] = Variable<String>($FormularioMpbbTableTable
           .$convertertipoBateria
           .toSql(tipoBateria.value));
     }
@@ -7303,7 +7301,7 @@ class FormularioBateriaTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('FormularioBateriaTableCompanion(')
+    return (StringBuffer('FormularioMpbbTableCompanion(')
           ..write('id: $id, ')
           ..write('atividadeId: $atividadeId, ')
           ..write('fabricante: $fabricante, ')
@@ -7324,14 +7322,14 @@ class FormularioBateriaTableCompanion
   }
 }
 
-class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
+class $MedicaoElementoMpbbTableTable extends MedicaoElementoMpbbTable
     with
-        TableInfo<$MedicaoElementoBateriaTableTable,
-            MedicaoElementoBateriaTableData> {
+        TableInfo<$MedicaoElementoMpbbTableTable,
+            MedicaoElementoMpbbTableData> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $MedicaoElementoBateriaTableTable(this.attachedDatabase, [this._alias]);
+  $MedicaoElementoMpbbTableTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -7341,15 +7339,15 @@ class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _formularioBateriaIdMeta =
-      const VerificationMeta('formularioBateriaId');
+  static const VerificationMeta _formularioMpbbIdMeta =
+      const VerificationMeta('formularioMpbbId');
   @override
-  late final GeneratedColumn<int> formularioBateriaId = GeneratedColumn<int>(
-      'formulario_bateria_id', aliasedName, false,
+  late final GeneratedColumn<int> formularioMpbbId = GeneratedColumn<int>(
+      'formulario_mpbb_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES formulario_bateria_table (id) ON DELETE CASCADE'));
+          'REFERENCES formulario_mpbb_table (id) ON DELETE CASCADE'));
   static const VerificationMeta _elementoBateriaNumeroMeta =
       const VerificationMeta('elementoBateriaNumero');
   @override
@@ -7368,34 +7366,29 @@ class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
       GeneratedColumn<double>('resistencia_interna', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        formularioBateriaId,
-        elementoBateriaNumero,
-        tensao,
-        resistenciaInterna
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, formularioMpbbId, elementoBateriaNumero, tensao, resistenciaInterna];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'medicao_elemento_bateria_table';
+  static const String $name = 'medicao_elemento_mpbb_table';
   @override
   VerificationContext validateIntegrity(
-      Insertable<MedicaoElementoBateriaTableData> instance,
+      Insertable<MedicaoElementoMpbbTableData> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('formulario_bateria_id')) {
+    if (data.containsKey('formulario_mpbb_id')) {
       context.handle(
-          _formularioBateriaIdMeta,
-          formularioBateriaId.isAcceptableOrUnknown(
-              data['formulario_bateria_id']!, _formularioBateriaIdMeta));
+          _formularioMpbbIdMeta,
+          formularioMpbbId.isAcceptableOrUnknown(
+              data['formulario_mpbb_id']!, _formularioMpbbIdMeta));
     } else if (isInserting) {
-      context.missing(_formularioBateriaIdMeta);
+      context.missing(_formularioMpbbIdMeta);
     }
     if (data.containsKey('elemento_bateria_numero')) {
       context.handle(
@@ -7421,14 +7414,14 @@ class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  MedicaoElementoBateriaTableData map(Map<String, dynamic> data,
+  MedicaoElementoMpbbTableData map(Map<String, dynamic> data,
       {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return MedicaoElementoBateriaTableData(
+    return MedicaoElementoMpbbTableData(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      formularioBateriaId: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}formulario_bateria_id'])!,
+      formularioMpbbId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}formulario_mpbb_id'])!,
       elementoBateriaNumero: attachedDatabase.typeMapping.read(
           DriftSqlType.int, data['${effectivePrefix}elemento_bateria_numero'])!,
       tensao: attachedDatabase.typeMapping
@@ -7439,21 +7432,21 @@ class $MedicaoElementoBateriaTableTable extends MedicaoElementoBateriaTable
   }
 
   @override
-  $MedicaoElementoBateriaTableTable createAlias(String alias) {
-    return $MedicaoElementoBateriaTableTable(attachedDatabase, alias);
+  $MedicaoElementoMpbbTableTable createAlias(String alias) {
+    return $MedicaoElementoMpbbTableTable(attachedDatabase, alias);
   }
 }
 
-class MedicaoElementoBateriaTableData extends DataClass
-    implements Insertable<MedicaoElementoBateriaTableData> {
+class MedicaoElementoMpbbTableData extends DataClass
+    implements Insertable<MedicaoElementoMpbbTableData> {
   final int id;
-  final int formularioBateriaId;
+  final int formularioMpbbId;
   final int elementoBateriaNumero;
   final double? tensao;
   final double? resistenciaInterna;
-  const MedicaoElementoBateriaTableData(
+  const MedicaoElementoMpbbTableData(
       {required this.id,
-      required this.formularioBateriaId,
+      required this.formularioMpbbId,
       required this.elementoBateriaNumero,
       this.tensao,
       this.resistenciaInterna});
@@ -7461,7 +7454,7 @@ class MedicaoElementoBateriaTableData extends DataClass
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['formulario_bateria_id'] = Variable<int>(formularioBateriaId);
+    map['formulario_mpbb_id'] = Variable<int>(formularioMpbbId);
     map['elemento_bateria_numero'] = Variable<int>(elementoBateriaNumero);
     if (!nullToAbsent || tensao != null) {
       map['tensao'] = Variable<double>(tensao);
@@ -7472,10 +7465,10 @@ class MedicaoElementoBateriaTableData extends DataClass
     return map;
   }
 
-  MedicaoElementoBateriaTableCompanion toCompanion(bool nullToAbsent) {
-    return MedicaoElementoBateriaTableCompanion(
+  MedicaoElementoMpbbTableCompanion toCompanion(bool nullToAbsent) {
+    return MedicaoElementoMpbbTableCompanion(
       id: Value(id),
-      formularioBateriaId: Value(formularioBateriaId),
+      formularioMpbbId: Value(formularioMpbbId),
       elementoBateriaNumero: Value(elementoBateriaNumero),
       tensao:
           tensao == null && nullToAbsent ? const Value.absent() : Value(tensao),
@@ -7485,13 +7478,12 @@ class MedicaoElementoBateriaTableData extends DataClass
     );
   }
 
-  factory MedicaoElementoBateriaTableData.fromJson(Map<String, dynamic> json,
+  factory MedicaoElementoMpbbTableData.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return MedicaoElementoBateriaTableData(
+    return MedicaoElementoMpbbTableData(
       id: serializer.fromJson<int>(json['id']),
-      formularioBateriaId:
-          serializer.fromJson<int>(json['formularioBateriaId']),
+      formularioMpbbId: serializer.fromJson<int>(json['formularioMpbbId']),
       elementoBateriaNumero:
           serializer.fromJson<int>(json['elementoBateriaNumero']),
       tensao: serializer.fromJson<double?>(json['tensao']),
@@ -7504,22 +7496,22 @@ class MedicaoElementoBateriaTableData extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'formularioBateriaId': serializer.toJson<int>(formularioBateriaId),
+      'formularioMpbbId': serializer.toJson<int>(formularioMpbbId),
       'elementoBateriaNumero': serializer.toJson<int>(elementoBateriaNumero),
       'tensao': serializer.toJson<double?>(tensao),
       'resistenciaInterna': serializer.toJson<double?>(resistenciaInterna),
     };
   }
 
-  MedicaoElementoBateriaTableData copyWith(
+  MedicaoElementoMpbbTableData copyWith(
           {int? id,
-          int? formularioBateriaId,
+          int? formularioMpbbId,
           int? elementoBateriaNumero,
           Value<double?> tensao = const Value.absent(),
           Value<double?> resistenciaInterna = const Value.absent()}) =>
-      MedicaoElementoBateriaTableData(
+      MedicaoElementoMpbbTableData(
         id: id ?? this.id,
-        formularioBateriaId: formularioBateriaId ?? this.formularioBateriaId,
+        formularioMpbbId: formularioMpbbId ?? this.formularioMpbbId,
         elementoBateriaNumero:
             elementoBateriaNumero ?? this.elementoBateriaNumero,
         tensao: tensao.present ? tensao.value : this.tensao,
@@ -7527,13 +7519,13 @@ class MedicaoElementoBateriaTableData extends DataClass
             ? resistenciaInterna.value
             : this.resistenciaInterna,
       );
-  MedicaoElementoBateriaTableData copyWithCompanion(
-      MedicaoElementoBateriaTableCompanion data) {
-    return MedicaoElementoBateriaTableData(
+  MedicaoElementoMpbbTableData copyWithCompanion(
+      MedicaoElementoMpbbTableCompanion data) {
+    return MedicaoElementoMpbbTableData(
       id: data.id.present ? data.id.value : this.id,
-      formularioBateriaId: data.formularioBateriaId.present
-          ? data.formularioBateriaId.value
-          : this.formularioBateriaId,
+      formularioMpbbId: data.formularioMpbbId.present
+          ? data.formularioMpbbId.value
+          : this.formularioMpbbId,
       elementoBateriaNumero: data.elementoBateriaNumero.present
           ? data.elementoBateriaNumero.value
           : this.elementoBateriaNumero,
@@ -7546,9 +7538,9 @@ class MedicaoElementoBateriaTableData extends DataClass
 
   @override
   String toString() {
-    return (StringBuffer('MedicaoElementoBateriaTableData(')
+    return (StringBuffer('MedicaoElementoMpbbTableData(')
           ..write('id: $id, ')
-          ..write('formularioBateriaId: $formularioBateriaId, ')
+          ..write('formularioMpbbId: $formularioMpbbId, ')
           ..write('elementoBateriaNumero: $elementoBateriaNumero, ')
           ..write('tensao: $tensao, ')
           ..write('resistenciaInterna: $resistenciaInterna')
@@ -7557,52 +7549,51 @@ class MedicaoElementoBateriaTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, formularioBateriaId,
-      elementoBateriaNumero, tensao, resistenciaInterna);
+  int get hashCode => Object.hash(
+      id, formularioMpbbId, elementoBateriaNumero, tensao, resistenciaInterna);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is MedicaoElementoBateriaTableData &&
+      (other is MedicaoElementoMpbbTableData &&
           other.id == this.id &&
-          other.formularioBateriaId == this.formularioBateriaId &&
+          other.formularioMpbbId == this.formularioMpbbId &&
           other.elementoBateriaNumero == this.elementoBateriaNumero &&
           other.tensao == this.tensao &&
           other.resistenciaInterna == this.resistenciaInterna);
 }
 
-class MedicaoElementoBateriaTableCompanion
-    extends UpdateCompanion<MedicaoElementoBateriaTableData> {
+class MedicaoElementoMpbbTableCompanion
+    extends UpdateCompanion<MedicaoElementoMpbbTableData> {
   final Value<int> id;
-  final Value<int> formularioBateriaId;
+  final Value<int> formularioMpbbId;
   final Value<int> elementoBateriaNumero;
   final Value<double?> tensao;
   final Value<double?> resistenciaInterna;
-  const MedicaoElementoBateriaTableCompanion({
+  const MedicaoElementoMpbbTableCompanion({
     this.id = const Value.absent(),
-    this.formularioBateriaId = const Value.absent(),
+    this.formularioMpbbId = const Value.absent(),
     this.elementoBateriaNumero = const Value.absent(),
     this.tensao = const Value.absent(),
     this.resistenciaInterna = const Value.absent(),
   });
-  MedicaoElementoBateriaTableCompanion.insert({
+  MedicaoElementoMpbbTableCompanion.insert({
     this.id = const Value.absent(),
-    required int formularioBateriaId,
+    required int formularioMpbbId,
     required int elementoBateriaNumero,
     this.tensao = const Value.absent(),
     this.resistenciaInterna = const Value.absent(),
-  })  : formularioBateriaId = Value(formularioBateriaId),
+  })  : formularioMpbbId = Value(formularioMpbbId),
         elementoBateriaNumero = Value(elementoBateriaNumero);
-  static Insertable<MedicaoElementoBateriaTableData> custom({
+  static Insertable<MedicaoElementoMpbbTableData> custom({
     Expression<int>? id,
-    Expression<int>? formularioBateriaId,
+    Expression<int>? formularioMpbbId,
     Expression<int>? elementoBateriaNumero,
     Expression<double>? tensao,
     Expression<double>? resistenciaInterna,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (formularioBateriaId != null)
-        'formulario_bateria_id': formularioBateriaId,
+      if (formularioMpbbId != null) 'formulario_mpbb_id': formularioMpbbId,
       if (elementoBateriaNumero != null)
         'elemento_bateria_numero': elementoBateriaNumero,
       if (tensao != null) 'tensao': tensao,
@@ -7610,15 +7601,15 @@ class MedicaoElementoBateriaTableCompanion
     });
   }
 
-  MedicaoElementoBateriaTableCompanion copyWith(
+  MedicaoElementoMpbbTableCompanion copyWith(
       {Value<int>? id,
-      Value<int>? formularioBateriaId,
+      Value<int>? formularioMpbbId,
       Value<int>? elementoBateriaNumero,
       Value<double?>? tensao,
       Value<double?>? resistenciaInterna}) {
-    return MedicaoElementoBateriaTableCompanion(
+    return MedicaoElementoMpbbTableCompanion(
       id: id ?? this.id,
-      formularioBateriaId: formularioBateriaId ?? this.formularioBateriaId,
+      formularioMpbbId: formularioMpbbId ?? this.formularioMpbbId,
       elementoBateriaNumero:
           elementoBateriaNumero ?? this.elementoBateriaNumero,
       tensao: tensao ?? this.tensao,
@@ -7632,8 +7623,8 @@ class MedicaoElementoBateriaTableCompanion
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (formularioBateriaId.present) {
-      map['formulario_bateria_id'] = Variable<int>(formularioBateriaId.value);
+    if (formularioMpbbId.present) {
+      map['formulario_mpbb_id'] = Variable<int>(formularioMpbbId.value);
     }
     if (elementoBateriaNumero.present) {
       map['elemento_bateria_numero'] =
@@ -7650,9 +7641,9 @@ class MedicaoElementoBateriaTableCompanion
 
   @override
   String toString() {
-    return (StringBuffer('MedicaoElementoBateriaTableCompanion(')
+    return (StringBuffer('MedicaoElementoMpbbTableCompanion(')
           ..write('id: $id, ')
-          ..write('formularioBateriaId: $formularioBateriaId, ')
+          ..write('formularioMpbbId: $formularioMpbbId, ')
           ..write('elementoBateriaNumero: $elementoBateriaNumero, ')
           ..write('tensao: $tensao, ')
           ..write('resistenciaInterna: $resistenciaInterna')
@@ -13114,10 +13105,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ChecklistPreenchidoTableTable(this);
   late final $ChecklistRespostaTableTable checklistRespostaTable =
       $ChecklistRespostaTableTable(this);
-  late final $FormularioBateriaTableTable formularioBateriaTable =
-      $FormularioBateriaTableTable(this);
-  late final $MedicaoElementoBateriaTableTable medicaoElementoBateriaTable =
-      $MedicaoElementoBateriaTableTable(this);
+  late final $FormularioMpbbTableTable formularioMpbbTable =
+      $FormularioMpbbTableTable(this);
+  late final $MedicaoElementoMpbbTableTable medicaoElementoMpbbTable =
+      $MedicaoElementoMpbbTableTable(this);
   late final $PrevDisjFormTable prevDisjForm = $PrevDisjFormTable(this);
   late final $MedicaoPressaoSf6TableTable medicaoPressaoSf6Table =
       $MedicaoPressaoSf6TableTable(this);
@@ -13173,8 +13164,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         checklistPerguntaRelacionamentoTable,
         checklistPreenchidoTable,
         checklistRespostaTable,
-        formularioBateriaTable,
-        medicaoElementoBateriaTable,
+        formularioMpbbTable,
+        medicaoElementoMpbbTable,
         prevDisjForm,
         medicaoPressaoSf6Table,
         medicaoResistenciaContatoTable,
@@ -13192,10 +13183,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
           WritePropagation(
-            on: TableUpdateQuery.onTableName('formulario_bateria_table',
+            on: TableUpdateQuery.onTableName('formulario_mpbb_table',
                 limitUpdateKind: UpdateKind.delete),
             result: [
-              TableUpdate('medicao_elemento_bateria_table',
+              TableUpdate('medicao_elemento_mpbb_table',
                   kind: UpdateKind.delete),
             ],
           ),
@@ -15650,21 +15641,20 @@ final class $$AtividadeTableTableReferences extends BaseReferences<
         manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$FormularioBateriaTableTable,
-      List<FormularioBateriaTableData>> _formularioBateriaTableRefsTable(
+  static MultiTypedResultKey<$FormularioMpbbTableTable,
+      List<FormularioMpbbTableData>> _formularioMpbbTableRefsTable(
           _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.formularioBateriaTable,
+      MultiTypedResultKey.fromTable(db.formularioMpbbTable,
           aliasName: $_aliasNameGenerator(
-              db.atividadeTable.uuid, db.formularioBateriaTable.atividadeId));
+              db.atividadeTable.uuid, db.formularioMpbbTable.atividadeId));
 
-  $$FormularioBateriaTableTableProcessedTableManager
-      get formularioBateriaTableRefs {
-    final manager = $$FormularioBateriaTableTableTableManager(
-            $_db, $_db.formularioBateriaTable)
-        .filter((f) => f.atividadeId.uuid($_item.uuid));
+  $$FormularioMpbbTableTableProcessedTableManager get formularioMpbbTableRefs {
+    final manager =
+        $$FormularioMpbbTableTableTableManager($_db, $_db.formularioMpbbTable)
+            .filter((f) => f.atividadeId.uuid($_item.uuid));
 
     final cache =
-        $_typedResult.readTableOrNull(_formularioBateriaTableRefsTable($_db));
+        $_typedResult.readTableOrNull(_formularioMpbbTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -15860,26 +15850,24 @@ class $$AtividadeTableTableFilterComposer
     return f(composer);
   }
 
-  Expression<bool> formularioBateriaTableRefs(
-      Expression<bool> Function($$FormularioBateriaTableTableFilterComposer f)
-          f) {
-    final $$FormularioBateriaTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.uuid,
-            referencedTable: $db.formularioBateriaTable,
-            getReferencedColumn: (t) => t.atividadeId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$FormularioBateriaTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.formularioBateriaTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+  Expression<bool> formularioMpbbTableRefs(
+      Expression<bool> Function($$FormularioMpbbTableTableFilterComposer f) f) {
+    final $$FormularioMpbbTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.uuid,
+        referencedTable: $db.formularioMpbbTable,
+        getReferencedColumn: (t) => t.atividadeId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$FormularioMpbbTableTableFilterComposer(
+              $db: $db,
+              $table: $db.formularioMpbbTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
@@ -16174,21 +16162,21 @@ class $$AtividadeTableTableAnnotationComposer
     return f(composer);
   }
 
-  Expression<T> formularioBateriaTableRefs<T extends Object>(
-      Expression<T> Function($$FormularioBateriaTableTableAnnotationComposer a)
+  Expression<T> formularioMpbbTableRefs<T extends Object>(
+      Expression<T> Function($$FormularioMpbbTableTableAnnotationComposer a)
           f) {
-    final $$FormularioBateriaTableTableAnnotationComposer composer =
+    final $$FormularioMpbbTableTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.uuid,
-            referencedTable: $db.formularioBateriaTable,
+            referencedTable: $db.formularioMpbbTable,
             getReferencedColumn: (t) => t.atividadeId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$FormularioBateriaTableTableAnnotationComposer(
+                $$FormularioMpbbTableTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.formularioBateriaTable,
+                  $table: $db.formularioMpbbTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -16258,7 +16246,7 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
         bool anomaliaTableRefs,
         bool correcaoAnomaliaTableRefs,
         bool checklistPreenchidoTableRefs,
-        bool formularioBateriaTableRefs,
+        bool formularioMpbbTableRefs,
         bool prevDisjFormRefs,
         bool aprPreenchidaTableRefs})> {
   $$AtividadeTableTableTableManager(
@@ -16352,7 +16340,7 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
               anomaliaTableRefs = false,
               correcaoAnomaliaTableRefs = false,
               checklistPreenchidoTableRefs = false,
-              formularioBateriaTableRefs = false,
+              formularioMpbbTableRefs = false,
               prevDisjFormRefs = false,
               aprPreenchidaTableRefs = false}) {
             return PrefetchHooks(
@@ -16361,7 +16349,7 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                 if (anomaliaTableRefs) db.anomaliaTable,
                 if (correcaoAnomaliaTableRefs) db.correcaoAnomaliaTable,
                 if (checklistPreenchidoTableRefs) db.checklistPreenchidoTable,
-                if (formularioBateriaTableRefs) db.formularioBateriaTable,
+                if (formularioMpbbTableRefs) db.formularioMpbbTable,
                 if (prevDisjFormRefs) db.prevDisjForm,
                 if (aprPreenchidaTableRefs) db.aprPreenchidaTable
               ],
@@ -16441,14 +16429,14 @@ class $$AtividadeTableTableTableManager extends RootTableManager<
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.atividadeId == item.uuid),
                         typedResults: items),
-                  if (formularioBateriaTableRefs)
+                  if (formularioMpbbTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$AtividadeTableTableReferences
-                            ._formularioBateriaTableRefsTable(db),
+                            ._formularioMpbbTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$AtividadeTableTableReferences(db, table, p0)
-                                .formularioBateriaTableRefs,
+                                .formularioMpbbTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.atividadeId == item.uuid),
@@ -16501,7 +16489,7 @@ typedef $$AtividadeTableTableProcessedTableManager = ProcessedTableManager<
         bool anomaliaTableRefs,
         bool correcaoAnomaliaTableRefs,
         bool checklistPreenchidoTableRefs,
-        bool formularioBateriaTableRefs,
+        bool formularioMpbbTableRefs,
         bool prevDisjFormRefs,
         bool aprPreenchidaTableRefs})>;
 typedef $$SubgrupoDefeitoEquipamentoTableTableCreateCompanionBuilder
@@ -20758,8 +20746,8 @@ typedef $$ChecklistRespostaTableTableProcessedTableManager
         (ChecklistRespostaTableData, $$ChecklistRespostaTableTableReferences),
         ChecklistRespostaTableData,
         PrefetchHooks Function({bool checklistPreenchidoId, bool perguntaId})>;
-typedef $$FormularioBateriaTableTableCreateCompanionBuilder
-    = FormularioBateriaTableCompanion Function({
+typedef $$FormularioMpbbTableTableCreateCompanionBuilder
+    = FormularioMpbbTableCompanion Function({
   Value<int> id,
   required String atividadeId,
   Value<String?> fabricante,
@@ -20776,8 +20764,8 @@ typedef $$FormularioBateriaTableTableCreateCompanionBuilder
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
 });
-typedef $$FormularioBateriaTableTableUpdateCompanionBuilder
-    = FormularioBateriaTableCompanion Function({
+typedef $$FormularioMpbbTableTableUpdateCompanionBuilder
+    = FormularioMpbbTableCompanion Function({
   Value<int> id,
   Value<String> atividadeId,
   Value<String?> fabricante,
@@ -20795,14 +20783,14 @@ typedef $$FormularioBateriaTableTableUpdateCompanionBuilder
   Value<DateTime?> updatedAt,
 });
 
-final class $$FormularioBateriaTableTableReferences extends BaseReferences<
-    _$AppDatabase, $FormularioBateriaTableTable, FormularioBateriaTableData> {
-  $$FormularioBateriaTableTableReferences(
+final class $$FormularioMpbbTableTableReferences extends BaseReferences<
+    _$AppDatabase, $FormularioMpbbTableTable, FormularioMpbbTableData> {
+  $$FormularioMpbbTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
   static $AtividadeTableTable _atividadeIdTable(_$AppDatabase db) =>
       db.atividadeTable.createAlias($_aliasNameGenerator(
-          db.formularioBateriaTable.atividadeId, db.atividadeTable.uuid));
+          db.formularioMpbbTable.atividadeId, db.atividadeTable.uuid));
 
   $$AtividadeTableTableProcessedTableManager get atividadeId {
     final manager = $$AtividadeTableTableTableManager($_db, $_db.atividadeTable)
@@ -20813,29 +20801,29 @@ final class $$FormularioBateriaTableTableReferences extends BaseReferences<
         manager.$state.copyWith(prefetchedData: [item]));
   }
 
-  static MultiTypedResultKey<$MedicaoElementoBateriaTableTable,
-          List<MedicaoElementoBateriaTableData>>
-      _medicaoElementoBateriaTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.medicaoElementoBateriaTable,
-              aliasName: $_aliasNameGenerator(db.formularioBateriaTable.id,
-                  db.medicaoElementoBateriaTable.formularioBateriaId));
+  static MultiTypedResultKey<$MedicaoElementoMpbbTableTable,
+      List<MedicaoElementoMpbbTableData>> _medicaoElementoMpbbTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.medicaoElementoMpbbTable,
+          aliasName: $_aliasNameGenerator(db.formularioMpbbTable.id,
+              db.medicaoElementoMpbbTable.formularioMpbbId));
 
-  $$MedicaoElementoBateriaTableTableProcessedTableManager
-      get medicaoElementoBateriaTableRefs {
-    final manager = $$MedicaoElementoBateriaTableTableTableManager(
-            $_db, $_db.medicaoElementoBateriaTable)
-        .filter((f) => f.formularioBateriaId.id($_item.id));
+  $$MedicaoElementoMpbbTableTableProcessedTableManager
+      get medicaoElementoMpbbTableRefs {
+    final manager = $$MedicaoElementoMpbbTableTableTableManager(
+            $_db, $_db.medicaoElementoMpbbTable)
+        .filter((f) => f.formularioMpbbId.id($_item.id));
 
-    final cache = $_typedResult
-        .readTableOrNull(_medicaoElementoBateriaTableRefsTable($_db));
+    final cache =
+        $_typedResult.readTableOrNull(_medicaoElementoMpbbTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
 }
 
-class $$FormularioBateriaTableTableFilterComposer
-    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
-  $$FormularioBateriaTableTableFilterComposer({
+class $$FormularioMpbbTableTableFilterComposer
+    extends Composer<_$AppDatabase, $FormularioMpbbTableTable> {
+  $$FormularioMpbbTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -20912,22 +20900,21 @@ class $$FormularioBateriaTableTableFilterComposer
     return composer;
   }
 
-  Expression<bool> medicaoElementoBateriaTableRefs(
-      Expression<bool> Function(
-              $$MedicaoElementoBateriaTableTableFilterComposer f)
+  Expression<bool> medicaoElementoMpbbTableRefs(
+      Expression<bool> Function($$MedicaoElementoMpbbTableTableFilterComposer f)
           f) {
-    final $$MedicaoElementoBateriaTableTableFilterComposer composer =
+    final $$MedicaoElementoMpbbTableTableFilterComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.medicaoElementoBateriaTable,
-            getReferencedColumn: (t) => t.formularioBateriaId,
+            referencedTable: $db.medicaoElementoMpbbTable,
+            getReferencedColumn: (t) => t.formularioMpbbId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$MedicaoElementoBateriaTableTableFilterComposer(
+                $$MedicaoElementoMpbbTableTableFilterComposer(
                   $db: $db,
-                  $table: $db.medicaoElementoBateriaTable,
+                  $table: $db.medicaoElementoMpbbTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -20937,9 +20924,9 @@ class $$FormularioBateriaTableTableFilterComposer
   }
 }
 
-class $$FormularioBateriaTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
-  $$FormularioBateriaTableTableOrderingComposer({
+class $$FormularioMpbbTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $FormularioMpbbTableTable> {
+  $$FormularioMpbbTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -21017,9 +21004,9 @@ class $$FormularioBateriaTableTableOrderingComposer
   }
 }
 
-class $$FormularioBateriaTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $FormularioBateriaTableTable> {
-  $$FormularioBateriaTableTableAnnotationComposer({
+class $$FormularioMpbbTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FormularioMpbbTableTable> {
+  $$FormularioMpbbTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -21089,22 +21076,22 @@ class $$FormularioBateriaTableTableAnnotationComposer
     return composer;
   }
 
-  Expression<T> medicaoElementoBateriaTableRefs<T extends Object>(
+  Expression<T> medicaoElementoMpbbTableRefs<T extends Object>(
       Expression<T> Function(
-              $$MedicaoElementoBateriaTableTableAnnotationComposer a)
+              $$MedicaoElementoMpbbTableTableAnnotationComposer a)
           f) {
-    final $$MedicaoElementoBateriaTableTableAnnotationComposer composer =
+    final $$MedicaoElementoMpbbTableTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
             getCurrentColumn: (t) => t.id,
-            referencedTable: $db.medicaoElementoBateriaTable,
-            getReferencedColumn: (t) => t.formularioBateriaId,
+            referencedTable: $db.medicaoElementoMpbbTable,
+            getReferencedColumn: (t) => t.formularioMpbbId,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$MedicaoElementoBateriaTableTableAnnotationComposer(
+                $$MedicaoElementoMpbbTableTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.medicaoElementoBateriaTable,
+                  $table: $db.medicaoElementoMpbbTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -21114,32 +21101,31 @@ class $$FormularioBateriaTableTableAnnotationComposer
   }
 }
 
-class $$FormularioBateriaTableTableTableManager extends RootTableManager<
+class $$FormularioMpbbTableTableTableManager extends RootTableManager<
     _$AppDatabase,
-    $FormularioBateriaTableTable,
-    FormularioBateriaTableData,
-    $$FormularioBateriaTableTableFilterComposer,
-    $$FormularioBateriaTableTableOrderingComposer,
-    $$FormularioBateriaTableTableAnnotationComposer,
-    $$FormularioBateriaTableTableCreateCompanionBuilder,
-    $$FormularioBateriaTableTableUpdateCompanionBuilder,
-    (FormularioBateriaTableData, $$FormularioBateriaTableTableReferences),
-    FormularioBateriaTableData,
+    $FormularioMpbbTableTable,
+    FormularioMpbbTableData,
+    $$FormularioMpbbTableTableFilterComposer,
+    $$FormularioMpbbTableTableOrderingComposer,
+    $$FormularioMpbbTableTableAnnotationComposer,
+    $$FormularioMpbbTableTableCreateCompanionBuilder,
+    $$FormularioMpbbTableTableUpdateCompanionBuilder,
+    (FormularioMpbbTableData, $$FormularioMpbbTableTableReferences),
+    FormularioMpbbTableData,
     PrefetchHooks Function(
-        {bool atividadeId, bool medicaoElementoBateriaTableRefs})> {
-  $$FormularioBateriaTableTableTableManager(
-      _$AppDatabase db, $FormularioBateriaTableTable table)
+        {bool atividadeId, bool medicaoElementoMpbbTableRefs})> {
+  $$FormularioMpbbTableTableTableManager(
+      _$AppDatabase db, $FormularioMpbbTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$FormularioBateriaTableTableFilterComposer(
-                  $db: db, $table: table),
+              $$FormularioMpbbTableTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$FormularioBateriaTableTableOrderingComposer(
+              $$FormularioMpbbTableTableOrderingComposer(
                   $db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$FormularioBateriaTableTableAnnotationComposer(
+              $$FormularioMpbbTableTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -21158,7 +21144,7 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
-              FormularioBateriaTableCompanion(
+              FormularioMpbbTableCompanion(
             id: id,
             atividadeId: atividadeId,
             fabricante: fabricante,
@@ -21192,7 +21178,7 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
-              FormularioBateriaTableCompanion.insert(
+              FormularioMpbbTableCompanion.insert(
             id: id,
             atividadeId: atividadeId,
             fabricante: fabricante,
@@ -21212,16 +21198,15 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
           withReferenceMapper: (p0) => p0
               .map((e) => (
                     e.readTable(table),
-                    $$FormularioBateriaTableTableReferences(db, table, e)
+                    $$FormularioMpbbTableTableReferences(db, table, e)
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {atividadeId = false, medicaoElementoBateriaTableRefs = false}) {
+              {atividadeId = false, medicaoElementoMpbbTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (medicaoElementoBateriaTableRefs)
-                  db.medicaoElementoBateriaTable
+                if (medicaoElementoMpbbTableRefs) db.medicaoElementoMpbbTable
               ],
               addJoins: <
                   T extends TableManagerState<
@@ -21240,9 +21225,9 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.atividadeId,
-                    referencedTable: $$FormularioBateriaTableTableReferences
+                    referencedTable: $$FormularioMpbbTableTableReferences
                         ._atividadeIdTable(db),
-                    referencedColumn: $$FormularioBateriaTableTableReferences
+                    referencedColumn: $$FormularioMpbbTableTableReferences
                         ._atividadeIdTable(db)
                         .uuid,
                   ) as T;
@@ -21252,18 +21237,17 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
               },
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (medicaoElementoBateriaTableRefs)
+                  if (medicaoElementoMpbbTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
-                        referencedTable: $$FormularioBateriaTableTableReferences
-                            ._medicaoElementoBateriaTableRefsTable(db),
+                        referencedTable: $$FormularioMpbbTableTableReferences
+                            ._medicaoElementoMpbbTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$FormularioBateriaTableTableReferences(
-                                    db, table, p0)
-                                .medicaoElementoBateriaTableRefs,
+                            $$FormularioMpbbTableTableReferences(db, table, p0)
+                                .medicaoElementoMpbbTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
-                                .where((e) => e.formularioBateriaId == item.id),
+                                .where((e) => e.formularioMpbbId == item.id),
                         typedResults: items)
                 ];
               },
@@ -21272,64 +21256,62 @@ class $$FormularioBateriaTableTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$FormularioBateriaTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $FormularioBateriaTableTable,
-        FormularioBateriaTableData,
-        $$FormularioBateriaTableTableFilterComposer,
-        $$FormularioBateriaTableTableOrderingComposer,
-        $$FormularioBateriaTableTableAnnotationComposer,
-        $$FormularioBateriaTableTableCreateCompanionBuilder,
-        $$FormularioBateriaTableTableUpdateCompanionBuilder,
-        (FormularioBateriaTableData, $$FormularioBateriaTableTableReferences),
-        FormularioBateriaTableData,
-        PrefetchHooks Function(
-            {bool atividadeId, bool medicaoElementoBateriaTableRefs})>;
-typedef $$MedicaoElementoBateriaTableTableCreateCompanionBuilder
-    = MedicaoElementoBateriaTableCompanion Function({
+typedef $$FormularioMpbbTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $FormularioMpbbTableTable,
+    FormularioMpbbTableData,
+    $$FormularioMpbbTableTableFilterComposer,
+    $$FormularioMpbbTableTableOrderingComposer,
+    $$FormularioMpbbTableTableAnnotationComposer,
+    $$FormularioMpbbTableTableCreateCompanionBuilder,
+    $$FormularioMpbbTableTableUpdateCompanionBuilder,
+    (FormularioMpbbTableData, $$FormularioMpbbTableTableReferences),
+    FormularioMpbbTableData,
+    PrefetchHooks Function(
+        {bool atividadeId, bool medicaoElementoMpbbTableRefs})>;
+typedef $$MedicaoElementoMpbbTableTableCreateCompanionBuilder
+    = MedicaoElementoMpbbTableCompanion Function({
   Value<int> id,
-  required int formularioBateriaId,
+  required int formularioMpbbId,
   required int elementoBateriaNumero,
   Value<double?> tensao,
   Value<double?> resistenciaInterna,
 });
-typedef $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder
-    = MedicaoElementoBateriaTableCompanion Function({
+typedef $$MedicaoElementoMpbbTableTableUpdateCompanionBuilder
+    = MedicaoElementoMpbbTableCompanion Function({
   Value<int> id,
-  Value<int> formularioBateriaId,
+  Value<int> formularioMpbbId,
   Value<int> elementoBateriaNumero,
   Value<double?> tensao,
   Value<double?> resistenciaInterna,
 });
 
-final class $$MedicaoElementoBateriaTableTableReferences extends BaseReferences<
+final class $$MedicaoElementoMpbbTableTableReferences extends BaseReferences<
     _$AppDatabase,
-    $MedicaoElementoBateriaTableTable,
-    MedicaoElementoBateriaTableData> {
-  $$MedicaoElementoBateriaTableTableReferences(
+    $MedicaoElementoMpbbTableTable,
+    MedicaoElementoMpbbTableData> {
+  $$MedicaoElementoMpbbTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $FormularioBateriaTableTable _formularioBateriaIdTable(
-          _$AppDatabase db) =>
-      db.formularioBateriaTable.createAlias($_aliasNameGenerator(
-          db.medicaoElementoBateriaTable.formularioBateriaId,
-          db.formularioBateriaTable.id));
+  static $FormularioMpbbTableTable _formularioMpbbIdTable(_$AppDatabase db) =>
+      db.formularioMpbbTable.createAlias($_aliasNameGenerator(
+          db.medicaoElementoMpbbTable.formularioMpbbId,
+          db.formularioMpbbTable.id));
 
-  $$FormularioBateriaTableTableProcessedTableManager get formularioBateriaId {
-    final manager = $$FormularioBateriaTableTableTableManager(
-            $_db, $_db.formularioBateriaTable)
-        .filter((f) => f.id($_item.formularioBateriaId));
-    final item = $_typedResult.readTableOrNull(_formularioBateriaIdTable($_db));
+  $$FormularioMpbbTableTableProcessedTableManager get formularioMpbbId {
+    final manager =
+        $$FormularioMpbbTableTableTableManager($_db, $_db.formularioMpbbTable)
+            .filter((f) => f.id($_item.formularioMpbbId));
+    final item = $_typedResult.readTableOrNull(_formularioMpbbIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
 }
 
-class $$MedicaoElementoBateriaTableTableFilterComposer
-    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
-  $$MedicaoElementoBateriaTableTableFilterComposer({
+class $$MedicaoElementoMpbbTableTableFilterComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoMpbbTableTable> {
+  $$MedicaoElementoMpbbTableTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -21350,31 +21332,30 @@ class $$MedicaoElementoBateriaTableTableFilterComposer
       column: $table.resistenciaInterna,
       builder: (column) => ColumnFilters(column));
 
-  $$FormularioBateriaTableTableFilterComposer get formularioBateriaId {
-    final $$FormularioBateriaTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.formularioBateriaId,
-            referencedTable: $db.formularioBateriaTable,
-            getReferencedColumn: (t) => t.id,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$FormularioBateriaTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.formularioBateriaTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+  $$FormularioMpbbTableTableFilterComposer get formularioMpbbId {
+    final $$FormularioMpbbTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.formularioMpbbId,
+        referencedTable: $db.formularioMpbbTable,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$FormularioMpbbTableTableFilterComposer(
+              $db: $db,
+              $table: $db.formularioMpbbTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return composer;
   }
 }
 
-class $$MedicaoElementoBateriaTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
-  $$MedicaoElementoBateriaTableTableOrderingComposer({
+class $$MedicaoElementoMpbbTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoMpbbTableTable> {
+  $$MedicaoElementoMpbbTableTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -21395,19 +21376,19 @@ class $$MedicaoElementoBateriaTableTableOrderingComposer
       column: $table.resistenciaInterna,
       builder: (column) => ColumnOrderings(column));
 
-  $$FormularioBateriaTableTableOrderingComposer get formularioBateriaId {
-    final $$FormularioBateriaTableTableOrderingComposer composer =
+  $$FormularioMpbbTableTableOrderingComposer get formularioMpbbId {
+    final $$FormularioMpbbTableTableOrderingComposer composer =
         $composerBuilder(
             composer: this,
-            getCurrentColumn: (t) => t.formularioBateriaId,
-            referencedTable: $db.formularioBateriaTable,
+            getCurrentColumn: (t) => t.formularioMpbbId,
+            referencedTable: $db.formularioMpbbTable,
             getReferencedColumn: (t) => t.id,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$FormularioBateriaTableTableOrderingComposer(
+                $$FormularioMpbbTableTableOrderingComposer(
                   $db: $db,
-                  $table: $db.formularioBateriaTable,
+                  $table: $db.formularioMpbbTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -21417,9 +21398,9 @@ class $$MedicaoElementoBateriaTableTableOrderingComposer
   }
 }
 
-class $$MedicaoElementoBateriaTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $MedicaoElementoBateriaTableTable> {
-  $$MedicaoElementoBateriaTableTableAnnotationComposer({
+class $$MedicaoElementoMpbbTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $MedicaoElementoMpbbTableTable> {
+  $$MedicaoElementoMpbbTableTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -21438,19 +21419,19 @@ class $$MedicaoElementoBateriaTableTableAnnotationComposer
   GeneratedColumn<double> get resistenciaInterna => $composableBuilder(
       column: $table.resistenciaInterna, builder: (column) => column);
 
-  $$FormularioBateriaTableTableAnnotationComposer get formularioBateriaId {
-    final $$FormularioBateriaTableTableAnnotationComposer composer =
+  $$FormularioMpbbTableTableAnnotationComposer get formularioMpbbId {
+    final $$FormularioMpbbTableTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
-            getCurrentColumn: (t) => t.formularioBateriaId,
-            referencedTable: $db.formularioBateriaTable,
+            getCurrentColumn: (t) => t.formularioMpbbId,
+            referencedTable: $db.formularioMpbbTable,
             getReferencedColumn: (t) => t.id,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$FormularioBateriaTableTableAnnotationComposer(
+                $$FormularioMpbbTableTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.formularioBateriaTable,
+                  $table: $db.formularioMpbbTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -21460,59 +21441,56 @@ class $$MedicaoElementoBateriaTableTableAnnotationComposer
   }
 }
 
-class $$MedicaoElementoBateriaTableTableTableManager extends RootTableManager<
+class $$MedicaoElementoMpbbTableTableTableManager extends RootTableManager<
     _$AppDatabase,
-    $MedicaoElementoBateriaTableTable,
-    MedicaoElementoBateriaTableData,
-    $$MedicaoElementoBateriaTableTableFilterComposer,
-    $$MedicaoElementoBateriaTableTableOrderingComposer,
-    $$MedicaoElementoBateriaTableTableAnnotationComposer,
-    $$MedicaoElementoBateriaTableTableCreateCompanionBuilder,
-    $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder,
-    (
-      MedicaoElementoBateriaTableData,
-      $$MedicaoElementoBateriaTableTableReferences
-    ),
-    MedicaoElementoBateriaTableData,
-    PrefetchHooks Function({bool formularioBateriaId})> {
-  $$MedicaoElementoBateriaTableTableTableManager(
-      _$AppDatabase db, $MedicaoElementoBateriaTableTable table)
+    $MedicaoElementoMpbbTableTable,
+    MedicaoElementoMpbbTableData,
+    $$MedicaoElementoMpbbTableTableFilterComposer,
+    $$MedicaoElementoMpbbTableTableOrderingComposer,
+    $$MedicaoElementoMpbbTableTableAnnotationComposer,
+    $$MedicaoElementoMpbbTableTableCreateCompanionBuilder,
+    $$MedicaoElementoMpbbTableTableUpdateCompanionBuilder,
+    (MedicaoElementoMpbbTableData, $$MedicaoElementoMpbbTableTableReferences),
+    MedicaoElementoMpbbTableData,
+    PrefetchHooks Function({bool formularioMpbbId})> {
+  $$MedicaoElementoMpbbTableTableTableManager(
+      _$AppDatabase db, $MedicaoElementoMpbbTableTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$MedicaoElementoBateriaTableTableFilterComposer(
+              $$MedicaoElementoMpbbTableTableFilterComposer(
                   $db: db, $table: table),
           createOrderingComposer: () =>
-              $$MedicaoElementoBateriaTableTableOrderingComposer(
+              $$MedicaoElementoMpbbTableTableOrderingComposer(
                   $db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$MedicaoElementoBateriaTableTableAnnotationComposer(
+              $$MedicaoElementoMpbbTableTableAnnotationComposer(
                   $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            Value<int> formularioBateriaId = const Value.absent(),
+            Value<int> formularioMpbbId = const Value.absent(),
             Value<int> elementoBateriaNumero = const Value.absent(),
             Value<double?> tensao = const Value.absent(),
             Value<double?> resistenciaInterna = const Value.absent(),
           }) =>
-              MedicaoElementoBateriaTableCompanion(
+              MedicaoElementoMpbbTableCompanion(
             id: id,
-            formularioBateriaId: formularioBateriaId,
+            formularioMpbbId: formularioMpbbId,
             elementoBateriaNumero: elementoBateriaNumero,
             tensao: tensao,
             resistenciaInterna: resistenciaInterna,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            required int formularioBateriaId,
+            required int formularioMpbbId,
             required int elementoBateriaNumero,
             Value<double?> tensao = const Value.absent(),
             Value<double?> resistenciaInterna = const Value.absent(),
           }) =>
-              MedicaoElementoBateriaTableCompanion.insert(
+              MedicaoElementoMpbbTableCompanion.insert(
             id: id,
-            formularioBateriaId: formularioBateriaId,
+            formularioMpbbId: formularioMpbbId,
             elementoBateriaNumero: elementoBateriaNumero,
             tensao: tensao,
             resistenciaInterna: resistenciaInterna,
@@ -21520,10 +21498,10 @@ class $$MedicaoElementoBateriaTableTableTableManager extends RootTableManager<
           withReferenceMapper: (p0) => p0
               .map((e) => (
                     e.readTable(table),
-                    $$MedicaoElementoBateriaTableTableReferences(db, table, e)
+                    $$MedicaoElementoMpbbTableTableReferences(db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: ({formularioBateriaId = false}) {
+          prefetchHooksCallback: ({formularioMpbbId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -21540,17 +21518,15 @@ class $$MedicaoElementoBateriaTableTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic>>(state) {
-                if (formularioBateriaId) {
+                if (formularioMpbbId) {
                   state = state.withJoin(
                     currentTable: table,
-                    currentColumn: table.formularioBateriaId,
-                    referencedTable:
-                        $$MedicaoElementoBateriaTableTableReferences
-                            ._formularioBateriaIdTable(db),
-                    referencedColumn:
-                        $$MedicaoElementoBateriaTableTableReferences
-                            ._formularioBateriaIdTable(db)
-                            .id,
+                    currentColumn: table.formularioMpbbId,
+                    referencedTable: $$MedicaoElementoMpbbTableTableReferences
+                        ._formularioMpbbIdTable(db),
+                    referencedColumn: $$MedicaoElementoMpbbTableTableReferences
+                        ._formularioMpbbIdTable(db)
+                        .id,
                   ) as T;
                 }
 
@@ -21564,21 +21540,22 @@ class $$MedicaoElementoBateriaTableTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$MedicaoElementoBateriaTableTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $MedicaoElementoBateriaTableTable,
-    MedicaoElementoBateriaTableData,
-    $$MedicaoElementoBateriaTableTableFilterComposer,
-    $$MedicaoElementoBateriaTableTableOrderingComposer,
-    $$MedicaoElementoBateriaTableTableAnnotationComposer,
-    $$MedicaoElementoBateriaTableTableCreateCompanionBuilder,
-    $$MedicaoElementoBateriaTableTableUpdateCompanionBuilder,
-    (
-      MedicaoElementoBateriaTableData,
-      $$MedicaoElementoBateriaTableTableReferences
-    ),
-    MedicaoElementoBateriaTableData,
-    PrefetchHooks Function({bool formularioBateriaId})>;
+typedef $$MedicaoElementoMpbbTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MedicaoElementoMpbbTableTable,
+        MedicaoElementoMpbbTableData,
+        $$MedicaoElementoMpbbTableTableFilterComposer,
+        $$MedicaoElementoMpbbTableTableOrderingComposer,
+        $$MedicaoElementoMpbbTableTableAnnotationComposer,
+        $$MedicaoElementoMpbbTableTableCreateCompanionBuilder,
+        $$MedicaoElementoMpbbTableTableUpdateCompanionBuilder,
+        (
+          MedicaoElementoMpbbTableData,
+          $$MedicaoElementoMpbbTableTableReferences
+        ),
+        MedicaoElementoMpbbTableData,
+        PrefetchHooks Function({bool formularioMpbbId})>;
 typedef $$PrevDisjFormTableCreateCompanionBuilder = PrevDisjFormCompanion
     Function({
   Value<int> id,
@@ -26686,13 +26663,11 @@ class $AppDatabaseManager {
   $$ChecklistRespostaTableTableTableManager get checklistRespostaTable =>
       $$ChecklistRespostaTableTableTableManager(
           _db, _db.checklistRespostaTable);
-  $$FormularioBateriaTableTableTableManager get formularioBateriaTable =>
-      $$FormularioBateriaTableTableTableManager(
-          _db, _db.formularioBateriaTable);
-  $$MedicaoElementoBateriaTableTableTableManager
-      get medicaoElementoBateriaTable =>
-          $$MedicaoElementoBateriaTableTableTableManager(
-              _db, _db.medicaoElementoBateriaTable);
+  $$FormularioMpbbTableTableTableManager get formularioMpbbTable =>
+      $$FormularioMpbbTableTableTableManager(_db, _db.formularioMpbbTable);
+  $$MedicaoElementoMpbbTableTableTableManager get medicaoElementoMpbbTable =>
+      $$MedicaoElementoMpbbTableTableTableManager(
+          _db, _db.medicaoElementoMpbbTable);
   $$PrevDisjFormTableTableManager get prevDisjForm =>
       $$PrevDisjFormTableTableManager(_db, _db.prevDisjForm);
   $$MedicaoPressaoSf6TableTableTableManager get medicaoPressaoSf6Table =>

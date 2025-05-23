@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../mpbb_ddao.dart';
+part of 'mpbb_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$MpbbDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -13,8 +13,8 @@ mixin _$MpbbDaoMixin on DatabaseAccessor<AppDatabase> {
   $TipoAtividadeTableTable get tipoAtividadeTable =>
       attachedDatabase.tipoAtividadeTable;
   $AtividadeTableTable get atividadeTable => attachedDatabase.atividadeTable;
-  $FormularioBateriaTableTable get formularioBateriaTable =>
-      attachedDatabase.formularioBateriaTable;
-  $MedicaoElementoBateriaTableTable get medicaoElementoBateriaTable =>
-      attachedDatabase.medicaoElementoBateriaTable;
+  $FormularioMpbbTableTable get formularioMpbbTable =>
+      attachedDatabase.formularioMpbbTable;
+  $MedicaoElementoMpbbTableTable get medicaoElementoMpbbTable =>
+      attachedDatabase.medicaoElementoMpbbTable;
 }

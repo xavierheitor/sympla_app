@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_service.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 
@@ -9,8 +10,8 @@ class MpBbFormController extends GetxController {
   final AtividadeController atividadeController;
 
   var carregando = false.obs;
-  var formulario = Rxn<FormularioBateriaTableData>();
-  var medicoes = <MedicaoElementoBateriaTableData>[].obs;
+  var formulario = Rxn<FormularioBateriaTableDto>();
+  var medicoes = <MedicaoElementoMpbbTableDto>[].obs;
 
   MpBbFormController({
     required this.service,
@@ -33,7 +34,7 @@ class MpBbFormController extends GetxController {
           atividadeController.atividadeEmAndamento.value!.uuid);
       final lista = form != null
           ? await service.buscarMedicoes(form.id)
-          : <MedicaoElementoBateriaTableData>[];
+          : <MedicaoElementoMpbbTableDto>[];
 
       formulario.value = form;
       medicoes.value = lista;
@@ -56,8 +57,8 @@ class MpBbFormController extends GetxController {
   }
 
   Future<void> salvarFormulario({
-    required FormularioBateriaTableCompanion dados,
-    required List<MedicaoElementoBateriaTableCompanion> medicoesList,
+    required FormularioBateriaTableDto dados,
+    required List<MedicaoElementoMpbbTableDto> medicoesList,
   }) async {
     try {
       carregando.value = true;

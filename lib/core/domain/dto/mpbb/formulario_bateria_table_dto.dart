@@ -37,7 +37,7 @@ class FormularioBateriaTableDto {
     this.updatedAt,
   });
 
-  factory FormularioBateriaTableDto.fromData(FormularioBateriaTableData data) {
+  factory FormularioBateriaTableDto.fromData(FormularioMpbbTableData data) {
     return FormularioBateriaTableDto(
       id: data.id,
       atividadeId: data.atividadeId,
@@ -57,8 +57,8 @@ class FormularioBateriaTableDto {
     );
   }
 
-  FormularioBateriaTableCompanion toCompanion() {
-    return FormularioBateriaTableCompanion(
+  FormularioMpbbTableCompanion toCompanion() {
+    return FormularioMpbbTableCompanion(
       id: Value(id),
       atividadeId: Value(atividadeId),
       fabricante: Value(fabricante),

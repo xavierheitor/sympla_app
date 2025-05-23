@@ -1,21 +1,24 @@
-import 'package:drift/drift.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/mpbb_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 
+/// 🔥 Service responsável pela orquestração das operações do formulário MPBB
 class MpBbFormService {
   final MpbbRepository mpbbRepository;
 
-  MpBbFormService({
-    required this.mpbbRepository,
-  });
+  MpBbFormService({required this.mpbbRepository});
 
-  Future<FormularioBateriaTableData?> buscarPorAtividade(
+  // ---------------------------------------------------------------------------
+  // 🗂️ FORMULÁRIO
+  // ---------------------------------------------------------------------------
+
+  /// 🔍 Busca o formulário de uma atividade.
+  Future<FormularioBateriaTableDto?> buscarPorAtividade(
       String atividadeId) async {
     try {
-      final lista = await mpbbRepository.getByAtividadeId(atividadeId);
-      return lista.isNotEmpty ? lista.first : null;
+      return await mpbbRepository.buscarFormulario(atividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[MpBbFormService - buscarPorAtividade] ${erro.mensagem}',
@@ -24,7 +27,8 @@ class MpBbFormService {
     }
   }
 
-  Future<List<MedicaoElementoBateriaTableData>> buscarMedicoes(
+  /// 🔍 Busca as medições de um formulário pelo ID.
+  Future<List<MedicaoElementoMpbbTableDto>> buscarMedicoes(
       int formularioId) async {
     try {
       return await mpbbRepository.getByFormularioId(formularioId);
@@ -36,32 +40,28 @@ class MpBbFormService {
     }
   }
 
+  /// 💾 Salva um formulário e suas medições associadas.
+  ///
+  /// ⚠️ Se já houver um formulário para essa atividade, ele será deletado antes.
   Future<void> salvarFormulario(
-    FormularioBateriaTableCompanion formulario,
-    List<MedicaoElementoBateriaTableCompanion> medicoes,
+    FormularioBateriaTableDto formulario,
+    List<MedicaoElementoMpbbTableDto> medicoes,
   ) async {
     try {
       AppLogger.d(
-          '[MpBbFormService] Salvando formulário e ${medicoes.length} medições');
+          '[MpBbFormService] Salvando formulário da atividade ${formulario.atividadeId} e ${medicoes.length} medições.');
 
-      // Remove possíveis dados antigos antes de salvar novos
-      // await mpbbRepository
-      //     .deleteByAtividadeId(formulario.atividadeId.value);
+      // 🔥 Remove dados antigos para garantir consistência.
+      await mpbbRepository.deleteByAtividadeId(formulario.atividadeId);
 
-      // Insere novo formulário
-      final id = await mpbbRepository.insert(formulario);
+      // 💾 Salva o formulário.
+      await mpbbRepository.salvarFormulario(formulario);
 
-      // Insere as medições com o ID recém-criado
-      final medicoesComId = medicoes
-          .map((e) => MedicaoElementoBateriaTableCompanion(
-                formularioBateriaId: Value(id),
-                elementoBateriaNumero: e.elementoBateriaNumero,
-                tensao: e.tensao,
-                resistenciaInterna: e.resistenciaInterna,
-              ))
-          .toList();
+      // 💾 Salva as medições associadas.
+      await mpbbRepository.insertAll(medicoes);
 
-      await mpbbRepository.insertAll(medicoesComId);
+      AppLogger.d(
+          '[MpBbFormService] Formulário e medições salvos com sucesso.');
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[MpBbFormService - salvarFormulario] ${erro.mensagem}',
@@ -70,10 +70,11 @@ class MpBbFormService {
     }
   }
 
-  Future<void> deletarFormulario(int atividadeId) async {
+  /// 🗑️ Deleta o formulário vinculado à atividade.
+  Future<void> deletarFormulario(String atividadeId) async {
     try {
       AppLogger.d(
-          '[MpBbFormService] Removendo formulário da atividade $atividadeId');
+          '[MpBbFormService] Deletando formulário da atividade $atividadeId');
       await mpbbRepository.deleteByAtividadeId(atividadeId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);

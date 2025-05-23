@@ -235,7 +235,7 @@ class CorrecaoAnomaliaTable extends Table {
 }
 
 //**------------------ MPBB --------------- */
-class FormularioBateriaTable extends Table {
+class FormularioMpbbTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   TextColumn get atividadeId => text().references(AtividadeTable, #uuid)();
@@ -256,11 +256,11 @@ class FormularioBateriaTable extends Table {
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }
 
-class MedicaoElementoBateriaTable extends Table {
+class MedicaoElementoMpbbTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  IntColumn get formularioBateriaId => integer()
-      .references(FormularioBateriaTable, #id, onDelete: KeyAction.cascade)();
+  IntColumn get formularioMpbbId => integer()
+      .references(FormularioMpbbTable, #id, onDelete: KeyAction.cascade)();
 
   IntColumn get elementoBateriaNumero => integer()();
   RealColumn get tensao => real().nullable()();

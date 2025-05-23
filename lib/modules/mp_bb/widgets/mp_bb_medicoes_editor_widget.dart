@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
 class MedicoesEditor extends StatefulWidget {
-  final List<MedicaoElementoBateriaDto> medicoes;
-  final void Function(List<MedicaoElementoBateriaDto>) onChanged;
+  final List<MedicaoElementoMpbbTableDto> medicoes;
+  final void Function(List<MedicaoElementoMpbbTableDto>) onChanged;
 
   const MedicoesEditor({
     super.key,
@@ -16,7 +16,7 @@ class MedicoesEditor extends StatefulWidget {
 }
 
 class _MedicoesEditorState extends State<MedicoesEditor> {
-  late List<MedicaoElementoBateriaDto> _lista;
+  late List<MedicaoElementoMpbbTableDto> _lista;
 
   @override
   void initState() {
@@ -24,6 +24,7 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
     _lista = List.from(widget.medicoes);
   }
 
+  /// ➕ Adiciona uma nova medição
   void _adicionarMedicao() {
     final novoNumero = _lista.isNotEmpty
         ? _lista
@@ -33,26 +34,46 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
         : 1;
 
     setState(() {
-      _lista.add(MedicaoElementoBateriaDto(
-        id: 0,
-        formularioBateriaId: 0,
+      _lista.add(MedicaoElementoMpbbTableDto(
+        id: null,
+        formularioBateriaId: 0, // será preenchido no salvamento
         elementoBateriaNumero: novoNumero,
         tensao: null,
         resistenciaInterna: null,
       ));
     });
+
     widget.onChanged(List.from(_lista));
   }
 
+  /// 🔧 Atualiza a tensão no índice informado
   void _atualizarTensao(int index, String valor) {
-    // final parsed = double.tryParse(valor);
-    // _lista[index].tensao.value = parsed;
+    final parsed = double.tryParse(valor);
+
+    setState(() {
+      _lista[index] = _lista[index].copyWith(tensao: parsed);
+    });
+
     widget.onChanged(List.from(_lista));
   }
 
+  /// 🔧 Atualiza a resistência no índice informado
   void _atualizarResistencia(int index, String valor) {
-    // final parsed = double.tryParse(valor);
-    // _lista[index].resistenciaInterna = parsed;
+    final parsed = double.tryParse(valor);
+
+    setState(() {
+      _lista[index] = _lista[index].copyWith(resistenciaInterna: parsed);
+    });
+
+    widget.onChanged(List.from(_lista));
+  }
+
+  /// ❌ Remove uma medição pelo índice
+  void _removerMedicao(int index) {
+    setState(() {
+      _lista.removeAt(index);
+    });
+
     widget.onChanged(List.from(_lista));
   }
 
@@ -64,9 +85,10 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text('Elemento ${_lista[i].elementoBateriaNumero}'),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 Expanded(
                   child: TextFormField(
                     initialValue: _lista[i].tensao?.toString() ?? '',
@@ -76,7 +98,7 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
                     onChanged: (value) => _atualizarTensao(i, value),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 8),
                 Expanded(
                   child: TextFormField(
                     initialValue:
@@ -87,6 +109,10 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
                         const TextInputType.numberWithOptions(decimal: true),
                     onChanged: (value) => _atualizarResistencia(i, value),
                   ),
+                ),
+                IconButton(
+                  onPressed: () => _removerMedicao(i),
+                  icon: const Icon(Icons.delete, color: Colors.red),
                 ),
               ],
             ),
