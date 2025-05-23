@@ -12,7 +12,7 @@ import 'package:sympla_app/core/domain/repositories/implementations/defeito_repo
 import 'package:sympla_app/core/domain/repositories/implementations/equipamento_repository_impl.dart';
 
 import 'package:sympla_app/modules/checklist/checklist_service.dart';
-import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
+import 'package:sympla_app/modules/checklist/anomalias/anomalia_controller.dart';
 import 'package:sympla_app/modules/checklist/checklist_controller.dart';
 
 class ChecklistBinding extends Bindings {

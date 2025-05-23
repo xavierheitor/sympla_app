@@ -12,7 +12,6 @@ import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
@@ -99,8 +98,7 @@ class ChecklistService {
 
   Future<void> deletarRespostas(String atividadeId) async {
     try {
-      // TODO: Implementar a lógica para deletar as respostas do checklist da atividade
-      // await checklistRepository.deletarRespostas(atividadeId);
+      await checklistRepository.deletarRespostas(atividadeId);
       AppLogger.d(
           '🗑️ Respostas do checklist da atividade $atividadeId removidas');
     } catch (e, s) {
@@ -160,9 +158,9 @@ class ChecklistService {
     }
   }
 
-  Future<void> salvarAnomalias(List<AnomaliaTableCompanion> anomalias) async {
+  Future<void> salvarAnomalias(List<AnomaliaTableDto> anomalias) async {
     try {
-      // await anomaliaRepository.insertAll(anomalias);
+      await anomaliaRepository.salvarAnomalias(anomalias);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - salvarAnomalias] ${erro.mensagem}',

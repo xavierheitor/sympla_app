@@ -5,7 +5,7 @@ import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_reposi
 import 'package:sympla_app/core/domain/repositories/implementations/anomalia_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/defeito_repository_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/equipamento_repository_impl.dart';
-import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
+import 'package:sympla_app/modules/checklist/anomalias/anomalia_controller.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalia_service.dart';
 import 'package:sympla_app/modules/resumo_anomalias/resumo_anomalias_controller.dart';
 

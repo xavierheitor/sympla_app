@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
-import 'package:sympla_app/modules/checklist/widgets/adicionar_anomalia_page.dart';
-import 'package:sympla_app/modules/checklist/anomalia_controller.dart';
+import 'package:sympla_app/modules/checklist/anomalias/adicionar_anomalia_page.dart';
+import 'package:sympla_app/modules/checklist/anomalias/anomalia_controller.dart';
 import 'package:sympla_app/modules/checklist/checklist_controller.dart';
 
 class PerguntaChecklistWidget extends StatelessWidget {
