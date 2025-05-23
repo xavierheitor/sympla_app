@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
 
@@ -49,5 +50,17 @@ class AnomaliaDao extends DatabaseAccessor<AppDatabase>
       ..where(anomaliaTable.atividadeId.equals(atividadeId));
 
     return query.get(); // retorna List<TypedResult>
+  }
+
+  /// 🗑️ Deleta uma lista de anomalias pelos seus UUIDs
+  Future<void> deletarAnomalias(List<AnomaliaTableCompanion> anomalias) async {
+    final uuids = anomalias.map((e) => e.id.value).toList();
+
+    AppLogger.d(
+        '[AnomaliaDao] 🗑️ Deletando ${uuids.length} anomalias pelos IDs: $uuids');
+
+    await (delete(anomaliaTable)..where((tbl) => tbl.id.isIn(uuids))).go();
+
+    AppLogger.d('[AnomaliaDao] 🗑️ Total de anomalias deletadas: $uuids');
   }
 }

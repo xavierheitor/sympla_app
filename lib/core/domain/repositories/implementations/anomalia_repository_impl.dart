@@ -49,8 +49,18 @@ class AnomaliaRepositoryImpl implements AnomaliaRepository {
   }
 
   @override
-  Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias) {
-    throw UnimplementedError();
+  Future<void> deletarAnomalias(List<AnomaliaTableDto> anomalias) async {
+    try {
+      final lista = anomalias.map((e) => e.toCompanion()).toList();
+      await anomaliaDao.deletarAnomalias(lista);
+    } catch (e, s) {
+      final erro = ErrorHandler.tratar(e, s);
+      AppLogger.e(
+          '[AnomaliaRepositoryImpl - deletarAnomalias] ${erro.mensagem}',
+          error: e,
+          stackTrace: s);
+      rethrow;
+    }
   }
 
   @override
