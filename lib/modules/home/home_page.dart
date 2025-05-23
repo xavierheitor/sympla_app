@@ -30,7 +30,7 @@ class HomePage extends StatelessWidget {
                     ),
                   )
                 : IconButton(
-            icon: const Icon(Icons.refresh),
+                    icon: const Icon(Icons.refresh),
                     onPressed: () async {
                       controller.sincronizacao.value = true;
                       try {
@@ -66,6 +66,11 @@ class HomePage extends StatelessWidget {
 
         return Column(
           children: [
+            //separa a lista de atividades em 2 listas, uma com as atividades em andamento e outra com as outras atividades
+            //e mostra as atividades em andamento em um chip e as outras atividades em uma lista
+            //o chip deve ser clicavel e deve abrir a tela de atividade em andamento
+            //a lista deve ser clicavel e deve abrir a tela de atividade em andamento
+
             // ignore: prefer_const_constructors
             Padding(
               padding: const EdgeInsets.all(16.0),
@@ -89,6 +94,7 @@ class HomePage extends StatelessWidget {
                   ),
                 ),
               ),
+            //lista de outras atividades
             const SizedBox(height: 12),
             Expanded(
               child: ListView.builder(

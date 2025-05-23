@@ -33,7 +33,7 @@ class AuthService {
     }
   }
 
-  Future<void> refresh(String refreshToken) async {
+  Future<void> refreshToken(String refreshToken) async {
     try {
       final response = await usuarioRepository.refreshToken(refreshToken);
 

@@ -137,4 +137,36 @@ class AtividadeTableDto {
       tipoAtividade: TipoAtividadeTableDto.fromData(tipoAtividade),
     );
   }
+
+  AtividadeTableDto copyWith({
+    String? uuid,
+    String? titulo,
+    String? ordemServico,
+    String? descricao,
+    String? subestacao,
+    StatusAtividade? status,
+    DateTime? dataLimite,
+    DateTime? dataInicio,
+    DateTime? dataFim,
+    String? equipamentoId,
+    String? tipoAtividadeId,
+    EquipamentoTableDto? equipamento,
+    TipoAtividadeTableDto? tipoAtividade,
+  }) {
+    return AtividadeTableDto(
+      uuid: uuid ?? this.uuid,
+      titulo: titulo ?? this.titulo,
+      ordemServico: ordemServico ?? this.ordemServico,
+      descricao: descricao ?? this.descricao,
+      subestacao: subestacao ?? this.subestacao,
+      status: status ?? this.status,
+      dataLimite: dataLimite ?? this.dataLimite,
+      dataInicio: dataInicio ?? this.dataInicio,
+      dataFim: dataFim ?? this.dataFim,
+      equipamentoId: equipamentoId ?? this.equipamentoId,
+      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+      equipamento: equipamento ?? this.equipamento,
+      tipoAtividade: tipoAtividade ?? this.tipoAtividade,
+    );
+  }
 }

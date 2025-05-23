@@ -1,9 +1,12 @@
+// lib/modules/atividade/atividade_controller.dart
+
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/etapas_atividade.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/core_app/services/atividade_service.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
+import 'package:sympla_app/core/sync/sync_manager.dart';
 
 class AtividadeController extends GetxController {
   final AtividadeService atividadeService;
@@ -14,9 +17,7 @@ class AtividadeController extends GetxController {
   final Rx<EtapaAtividade?> etapaAtual = Rx<EtapaAtividade?>(null);
   final RxBool isLoading = false.obs;
 
-  AtividadeController(
-    this.atividadeService,
-  );
+  AtividadeController(this.atividadeService);
 
   @override
   Future<void> onInit() async {
@@ -24,10 +25,11 @@ class AtividadeController extends GetxController {
     await carregarAtividades();
   }
 
+  /// 🚚 Carrega as atividades do banco com JOIN no equipamento
   Future<void> carregarAtividades() async {
     isLoading.value = true;
     try {
-      final lista = await atividadeService.buscarComEquipamento();
+      final lista = await atividadeService.buscarAtividadesComEquipamento();
       atividades.assignAll(lista);
       await _carregarEmAndamento();
     } finally {
@@ -35,62 +37,50 @@ class AtividadeController extends GetxController {
     }
   }
 
+  /// 🔄 Sincroniza atividades e recarrega a lista
   Future<void> sincronizarAtividades() async {
     isLoading.value = true;
     try {
-      await atividadeService.sincronizar();
+      await Get.find<SyncManager>().sincronizarModulo('atividade', force: true);
       await carregarAtividades();
     } finally {
       isLoading.value = false;
     }
   }
 
+  /// ▶️ Inicia uma atividade e executa sua primeira etapa
   Future<void> iniciarAtividade(AtividadeTableDto atividade) async {
     await atividadeService.iniciar(atividade);
 
-    // Atualiza o status da atividade para refletir em tela imediatamente
-    final atualizada = AtividadeTableDto(
-      uuid: atividade.uuid,
-      titulo: atividade.titulo,
-      ordemServico: atividade.ordemServico,
-      descricao: atividade.descricao,
-      subestacao: atividade.subestacao,
-      status: StatusAtividade.emAndamento,
-      dataLimite: atividade.dataLimite,
-      dataInicio: atividade.dataInicio,
-      dataFim: atividade.dataFim,
-      equipamentoId: atividade.equipamentoId,
-      tipoAtividadeId: atividade.tipoAtividadeId,
-      equipamento: atividade.equipamento,
-      tipoAtividade: atividade.tipoAtividade,
-    );
+    final atualizada = atividade.copyWith(status: StatusAtividade.emAndamento);
     atividadeEmAndamento.value = atualizada;
 
-    // Substitui a atividade na lista principal
     final index = atividades.indexWhere((a) => a.uuid == atualizada.uuid);
     if (index != -1) {
       atividades[index] = atualizada;
-      atividades.refresh(); // força atualização da lista
+      atividades.refresh();
     }
 
     await executarAtividade(atualizada);
   }
 
+  /// ⏹️ Finaliza a atividade atual e volta para a Home
   Future<void> finalizarAtividade(AtividadeTableDto atividade) async {
     await atividadeService.finalizar(atividade);
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();
-    Get.offAllNamed(Routes.home); // ✅ redireciona para a home após finalizar
+    Get.offAllNamed(Routes.home);
   }
 
-Future<void> avancar() async {
+  /// ⏭️ Avança para a próxima etapa ou finaliza
+  Future<void> avancar() async {
     final atividade = atividadeEmAndamento.value;
     final atual = etapaAtual.value;
     if (atividade == null || atual == null) return;
+
     final proxima = await atividadeService.proximaEtapa(atividade, atual);
 
-    // ✅ Corrigido: se a próxima for "finalizada", já finaliza de vez
     if (proxima == null || proxima == EtapaAtividade.finalizada) {
       etapaAtual.value = EtapaAtividade.finalizada;
       await finalizarAtividade(atividade);
@@ -100,6 +90,7 @@ Future<void> avancar() async {
     }
   }
 
+  /// 🚀 Executa a etapa atual da atividade
   Future<void> executarAtividade(AtividadeTableDto atividade) async {
     etapaAtual.value ??= await atividadeService.etapaInicial(atividade);
 
@@ -107,21 +98,23 @@ Future<void> avancar() async {
     final devePular = await atividadeService.desejaPularEtapa(etapa);
 
     if (devePular) {
-      await avancar(); // já chama executarAtividade de novo
+      await avancar();
       return;
     }
 
-    await atividadeService.navegarParaEtapa(etapa);
+    await atividadeService.executar(atividade, etapa);
   }
 
+  /// 🔍 Carrega a atividade em andamento, se houver
   Future<void> _carregarEmAndamento() async {
     final atividade = await atividadeService.buscarAtividadeEmAndamento();
     if (atividade != null) {
       atividadeEmAndamento.value = atividade;
-      etapaAtual.value = EtapaAtividade.apr;
+      etapaAtual.value = await atividadeService.etapaInicial(atividade);
     }
   }
 
+  /// 🔗 Outras atividades diferentes da em andamento
   List<AtividadeTableDto> get outrasAtividades => atividades
       .where((a) => a.uuid != atividadeEmAndamento.value?.uuid)
       .toList();

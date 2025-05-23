@@ -94,7 +94,7 @@ class DioClient {
               }
 
               await session.authService
-                  .refresh(refreshToken)
+                  .refreshToken(refreshToken)
                   .timeout(const Duration(seconds: 5));
 
               _refreshCompleter?.complete();

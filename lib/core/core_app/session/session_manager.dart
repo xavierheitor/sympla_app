@@ -70,7 +70,7 @@ class SessionManager extends GetxService {
 
     _refreshing = true;
     try {
-      await authService.refresh(token);
+      await authService.refreshToken(token);
       _usuario = (await authService.getUsuarios()).first;
       AppLogger.i('Token renovado com sucesso', tag: 'Sessão');
     } catch (e, s) {
