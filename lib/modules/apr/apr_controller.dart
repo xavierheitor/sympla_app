@@ -1,4 +1,3 @@
-// === apr_controller.dart ===
 import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
@@ -10,13 +9,14 @@ import 'package:sympla_app/core/domain/dto/apr/apr_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/tecnico_table_dto.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/modules/apr/apr_service.dart';
 import 'package:sympla_app/core/storage/converters/resposta_apr_converter.dart';
+import 'package:sympla_app/modules/apr/apr_service.dart';
 
 class AprController extends GetxController {
   final AprService aprService;
   final AtividadeController atividadeController;
 
+  // 🔄 Estados observáveis
   final RxBool isLoading = false.obs;
   final RxList<AprQuestionTableDto> perguntas = <AprQuestionTableDto>[].obs;
   final RxList<AprRespostaTableDto> respostasFormulario =
@@ -25,6 +25,7 @@ class AprController extends GetxController {
       <AprAssinaturaTableDto>[].obs;
   final RxList<TecnicoTableDto> tecnicos = <TecnicoTableDto>[].obs;
 
+  // 🔑 Controle do estado atual
   AprTableDto? aprSelecionada;
   String? atividadeId;
   int? aprPreenchidaId;
@@ -43,13 +44,16 @@ class AprController extends GetxController {
 
     try {
       isLoading.value = true;
+
+      // 🚫 Se já foi preenchida, avança para a próxima etapa
       if (await aprService.aprJaPreenchida(atividadeId!)) {
         await atividadeController.avancar();
         return;
       }
+
+      // 🔍 Carrega modelo APR e inicializa formulário
       aprSelecionada = await aprService.buscarAprPorTipoAtividade(
-        atividadeController.atividadeEmAndamento.value!.tipoAtividadeId,
-      );
+          atividadeController.atividadeEmAndamento.value!.tipoAtividadeId);
       await _prepararFormulario();
     } catch (e, s) {
       _tratarErro('[onInit]', e, s);
@@ -58,23 +62,22 @@ class AprController extends GetxController {
     }
   }
 
+  /// 🔧 Prepara o formulário inicial de perguntas, respostas e técnicos
   Future<void> _prepararFormulario() async {
     try {
-      final perguntasCarregadas =
-          await aprService.buscarPerguntas(aprSelecionada!.uuid);
-      perguntas.assignAll(perguntasCarregadas);
+      perguntas
+          .assignAll(await aprService.buscarPerguntas(aprSelecionada!.uuid));
 
       aprPreenchidaId = await aprService.criarAprPreenchida(
           atividadeId!, aprSelecionada!.uuid);
 
-      final respostasIniciais = perguntas
-          .map((p) => AprRespostaTableDto(
-                perguntaId: p.uuid,
-                resposta: null,
-                aprPreenchidaId: aprPreenchidaId!,
-              ))
-          .toList();
-      respostasFormulario.assignAll(respostasIniciais);
+      respostasFormulario.assignAll(perguntas.map(
+        (p) => AprRespostaTableDto(
+          perguntaId: p.uuid,
+          aprPreenchidaId: aprPreenchidaId!,
+          resposta: null,
+        ),
+      ));
 
       await carregarTecnicos();
     } catch (e, s) {
@@ -82,21 +85,21 @@ class AprController extends GetxController {
     }
   }
 
+  /// 💾 Salva respostas e avança se tudo estiver preenchido corretamente
   Future<void> salvarRespostas() async {
     try {
       isLoading.value = true;
-      final respostasValidas = respostasFormulario.map((r) {
-        if (r.resposta == null) {
-          AppLogger.e('Pergunta ${r.perguntaId} sem resposta!');
-          _tratarErro(
-              '[salvarRespostas]',
-              Exception('Pergunta ${r.perguntaId} sem resposta!'),
-              StackTrace.current);
-        }
-        return r;
-      }).toList();
 
-      if (await aprService.salvarRespostas(respostasValidas)) {
+      final respostasValidas =
+          respostasFormulario.where((r) => r.resposta != null).toList();
+
+      if (respostasValidas.length != perguntas.length) {
+        throw Exception('Existem perguntas não respondidas');
+      }
+
+      final sucesso = await aprService.salvarRespostas(respostasValidas);
+
+      if (sucesso) {
         await aprService.atualizarDataPreenchimentoAprPreenchida(
             aprPreenchidaId!, DateTime.now());
         salvouFormulario = true;
@@ -109,6 +112,7 @@ class AprController extends GetxController {
     }
   }
 
+  /// ✍️ Adiciona uma assinatura vinculada ao técnico
   Future<void> adicionarAssinatura(
       Uint8List assinaturaBytes, String tecnicoId) async {
     try {
@@ -127,18 +131,19 @@ class AprController extends GetxController {
     }
   }
 
+  /// 🔄 Carrega assinaturas vinculadas à APR preenchida
   Future<void> carregarAssinaturas() async {
     try {
       if (aprPreenchidaId != null) {
-        final assinaturasData =
-            await aprService.buscarAssinaturas(aprPreenchidaId!);
-        assinaturas.assignAll(assinaturasData);
+        assinaturas
+            .assignAll(await aprService.buscarAssinaturas(aprPreenchidaId!));
       }
     } catch (e, s) {
       _tratarErro('[carregarAssinaturas]', e, s);
     }
   }
 
+  /// 🔄 Carrega os técnicos cadastrados no banco
   Future<void> carregarTecnicos() async {
     try {
       tecnicos.assignAll(await aprService.buscarTecnicos());
@@ -147,20 +152,18 @@ class AprController extends GetxController {
     }
   }
 
+  /// ✏️ Atualiza uma resposta específica no formulário
   void atualizarResposta(String perguntaId, RespostaApr? resposta,
       {String? observacao}) {
     final index =
         respostasFormulario.indexWhere((r) => r.perguntaId == perguntaId);
-    if (index != -1) {
-      respostasFormulario[index] = AprRespostaTableDto(
-        perguntaId: perguntaId,
-        resposta: resposta!,
-        aprPreenchidaId: aprPreenchidaId!,
-        observacao: observacao ?? respostasFormulario[index].observacao,
-      );
-    }
+    if (index == -1) return;
+
+    respostasFormulario[index] = respostasFormulario[index]
+        .copyWith(resposta: resposta, observacao: observacao);
   }
 
+  /// 🗑️ Deleta a APR preenchida se o formulário não foi salvo (cancelamento)
   Future<void> apagarAprPreenchidaSeNaoSalvou() async {
     try {
       if (aprPreenchidaId != null && !salvouFormulario) {
@@ -171,18 +174,24 @@ class AprController extends GetxController {
     }
   }
 
+  /// ✔️ Valida se pode salvar (todas as respostas preenchidas + mínimo de 2 assinaturas)
   bool podeSalvar() {
-    final preenchidas =
+    final respostasPreenchidas =
         respostasFormulario.where((r) => r.resposta != null).length;
-    return preenchidas == perguntas.length && assinaturas.length >= 2;
+    return respostasPreenchidas == perguntas.length && assinaturas.length >= 2;
   }
 
+  /// 🚨 Tratamento de erro genérico e exibição de snackbar
   void _tratarErro(String contexto, Object e, StackTrace s) {
     final erro = ErrorHandler.tratar(e, s);
     AppLogger.e('$contexto ${erro.mensagem}',
         tag: 'AprController', error: e, stackTrace: s);
-    Get.snackbar('Erro', erro.mensagem,
-        backgroundColor: Get.theme.colorScheme.error,
-        colorText: Get.theme.colorScheme.onError);
+
+    Get.snackbar(
+      'Erro',
+      erro.mensagem,
+      backgroundColor: Get.theme.colorScheme.error,
+      colorText: Get.theme.colorScheme.onError,
+    );
   }
 }

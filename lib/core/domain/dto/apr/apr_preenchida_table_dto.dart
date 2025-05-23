@@ -59,4 +59,20 @@ class AprPreenchidaTableDto {
       dataPreenchimento: data.dataPreenchimento,
     );
   }
+
+  AprPreenchidaTableDto copyWith({
+    int? id,
+    String? atividadeId,
+    String? aprId,
+    String? usuarioId,
+    DateTime? dataPreenchimento,
+  }) {
+    return AprPreenchidaTableDto(
+      id: id ?? this.id,
+      atividadeId: atividadeId ?? this.atividadeId,
+      aprId: aprId ?? this.aprId,
+      usuarioId: usuarioId ?? this.usuarioId,
+      dataPreenchimento: dataPreenchimento ?? this.dataPreenchimento,
+    );
+  }
 }

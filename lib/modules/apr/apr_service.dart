@@ -1,5 +1,5 @@
-// === apr_service.dart ===
 import 'package:get/get.dart' as g;
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_assinatura_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_preenchida_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_question_table_dto.dart';
@@ -7,12 +7,17 @@ import 'package:sympla_app/core/domain/dto/apr/apr_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/tecnico_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/apr_repository.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/repository_helper.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/tecnico_repository.dart';
-import 'package:sympla_app/core/errors/error_handler.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
-class AprService {
+/// ✅ Service responsável por orquestrar todas as operações de APR (Análise Preliminar de Risco)
+/// Este service centraliza chamadas para o repositório e abstrai a lógica de regras de negócio.
+///
+/// Toda operação é executada usando o mixin `RepositoryHelper`, que já:
+/// 🔸 Faz log de erro
+/// 🔸 Faz tratamento de exceções
+/// 🔸 Permite retorno seguro em caso de erro
+class AprService with RepositoryHelper {
   final AprRepository aprRepository;
   final TecnicoRepository tecnicoRepository;
 
@@ -21,144 +26,119 @@ class AprService {
     required this.tecnicoRepository,
   });
 
-  Future<AprTableDto> buscarAprPorTipoAtividade(String idTipoAtividade) async {
-    try {
-      AppLogger.d(
-          '[AprService] Buscando APR para tipoAtividade: $idTipoAtividade');
-      final apr =
-          await aprRepository.buscarModeloPorTipoAtividade(idTipoAtividade);
-      AppLogger.d(
-          '[AprService] APR encontrada - ID: ${apr.uuid}, Nome: ${apr.nome}');
-      return apr;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - buscarAprPorTipoAtividade] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🔍 Busca o modelo de APR associado ao tipo de atividade.
+  ///
+  /// [tipoAtividadeId] → UUID do tipo de atividade.
+  /// Retorna o modelo de APR (`AprTableDto`).
+  Future<AprTableDto> buscarAprPorTipoAtividade(String tipoAtividadeId) {
+    return executar('buscarAprPorTipoAtividade', () {
+      return aprRepository.buscarModeloPorTipoAtividade(tipoAtividadeId);
+    });
   }
 
-  Future<List<AprQuestionTableDto>> buscarPerguntas(String aprId) async {
-    try {
-      AppLogger.d('[AprService] Buscando perguntas para APR: $aprId');
-      return await aprRepository.buscarPerguntasRelacionadas(aprId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - buscarPerguntas] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🔍 Busca todas as perguntas relacionadas a um modelo de APR.
+  ///
+  /// [aprId] → UUID do modelo de APR.
+  /// Retorna uma lista de perguntas (`AprQuestionTableDto`).
+  Future<List<AprQuestionTableDto>> buscarPerguntas(String aprId) {
+    return executar(
+      'buscarPerguntas',
+      () => aprRepository.buscarPerguntasRelacionadas(aprId),
+      onErrorReturn: [],
+    );
   }
 
-  Future<bool> salvarRespostas(List<AprRespostaTableDto> respostas) async {
-    try {
-      AppLogger.d('[AprService] Salvando ${respostas.length} respostas...');
-      return await aprRepository.salvarRespostas(respostas);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - salvarRespostas] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 💾 Salva uma lista de respostas preenchidas no banco.
+  ///
+  /// [respostas] → Lista de respostas (`AprRespostaTableDto`).
+  /// Retorna true se salvou com sucesso, false se houve erro.
+  Future<bool> salvarRespostas(List<AprRespostaTableDto> respostas) {
+    return executar(
+      'salvarRespostas',
+      () => aprRepository.salvarRespostas(respostas),
+      onErrorReturn: false,
+    );
   }
 
-  Future<bool> aprJaPreenchida(String atividadeId) async {
-    try {
-      AppLogger.d(
-          '[AprService] Verificando APR preenchida para atividade: $atividadeId');
-      final aprPreenchida =
-          await aprRepository.buscarAprPreenchida(atividadeId);
-      return aprPreenchida != null;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - aprJaPreenchida] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🔍 Verifica se já existe uma APR preenchida para a atividade.
+  ///
+  /// [atividadeId] → UUID da atividade.
+  /// Retorna true se já existe, false se não existe.
+  Future<bool> aprJaPreenchida(String atividadeId) {
+    return executar('aprJaPreenchida', () async {
+      final apr = await aprRepository.buscarAprPreenchida(atividadeId);
+      return apr != null;
+    }, onErrorReturn: false);
   }
 
-  Future<int> criarAprPreenchida(String atividadeId, String aprId) async {
-    try {
+  /// 🆕 Cria um registro de APR preenchida para uma atividade.
+  ///
+  /// [atividadeId] → UUID da atividade.
+  /// [aprId] → UUID do modelo de APR.
+  /// Retorna o ID da APR preenchida criada.
+  Future<int> criarAprPreenchida(String atividadeId, String aprId) {
+    return executar('criarAprPreenchida', () {
       final dto = AprPreenchidaTableDto(
         atividadeId: atividadeId,
         aprId: aprId,
         dataPreenchimento: DateTime.now(),
         usuarioId: g.Get.find<SessionManager>().usuario!.uuid,
       );
-      final id = await aprRepository.criarAprPreenchida(dto);
-      AppLogger.d('[AprService] APR preenchida criada: $id');
-      return id;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - criarAprPreenchida] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+      return aprRepository.criarAprPreenchida(dto);
+    });
   }
 
+  /// 🔄 Atualiza a data de preenchimento de uma APR preenchida.
+  ///
+  /// [aprPreenchidaId] → ID da APR preenchida.
+  /// [dataFinal] → Data a ser salva.
   Future<void> atualizarDataPreenchimentoAprPreenchida(
-      int aprPreenchidaId, DateTime dataFinal) async {
-    try {
-      await aprRepository.atualizarDataPreenchimento(
+      int aprPreenchidaId, DateTime dataFinal) {
+    return executar('atualizarDataPreenchimentoAprPreenchida', () {
+      return aprRepository.atualizarDataPreenchimento(
           aprPreenchidaId, dataFinal);
-      AppLogger.d(
-          '[AprService] Data de preenchimento atualizada para APR $aprPreenchidaId');
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - atualizarDataPreenchimento] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+    });
   }
 
-  Future<void> deletarAprPreenchida(int aprPreenchidaId) async {
-    try {
-      await aprRepository.deletarAprPreenchida(aprPreenchidaId);
-      AppLogger.d('[AprService] APR preenchida $aprPreenchidaId deletada');
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - deletarAprPreenchida] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🗑️ Deleta uma APR preenchida.
+  ///
+  /// [aprPreenchidaId] → ID da APR preenchida.
+  Future<void> deletarAprPreenchida(int aprPreenchidaId) {
+    return executar('deletarAprPreenchida', () {
+      return aprRepository.deletarAprPreenchida(aprPreenchidaId);
+    });
   }
 
-  Future<List<AprAssinaturaTableDto>> buscarAssinaturas(
-      int aprPreenchidaId) async {
-    try {
-      AppLogger.d(
-          '[AprService] Buscando assinaturas para APR $aprPreenchidaId');
-      return await aprRepository.buscarAssinaturas(aprPreenchidaId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - buscarAssinaturas] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🔍 Busca todas as assinaturas relacionadas a uma APR preenchida.
+  ///
+  /// [aprPreenchidaId] → ID da APR preenchida.
+  /// Retorna uma lista de assinaturas (`AprAssinaturaTableDto`).
+  Future<List<AprAssinaturaTableDto>> buscarAssinaturas(int aprPreenchidaId) {
+    return executar(
+      'buscarAssinaturas',
+      () => aprRepository.buscarAssinaturas(aprPreenchidaId),
+      onErrorReturn: [],
+    );
   }
 
-  Future<void> salvarAssinatura(AprAssinaturaTableDto assinatura) async {
-    try {
-      await aprRepository.salvarAssinatura(assinatura);
-      AppLogger.d('[AprService] Assinatura salva com sucesso');
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - salvarAssinatura] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// ✍️ Salva uma nova assinatura para uma APR preenchida.
+  ///
+  /// [assinatura] → Objeto `AprAssinaturaTableDto`.
+  Future<void> salvarAssinatura(AprAssinaturaTableDto assinatura) {
+    return executar('salvarAssinatura', () {
+      return aprRepository.salvarAssinatura(assinatura);
+    });
   }
 
-  Future<List<TecnicoTableDto>> buscarTecnicos() async {
-    try {
-      AppLogger.d('[AprService] Buscando técnicos');
-      final tecnicos = await tecnicoRepository.buscarTodosTecnicos();
-      return tecnicos;
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e('[AprService - buscarTecnicos] ${erro.mensagem}',
-          tag: 'AprService', error: e, stackTrace: s);
-      rethrow;
-    }
+  /// 🔍 Busca todos os técnicos do banco local.
+  ///
+  /// Útil para preenchimento do campo de assinatura.
+  /// Retorna uma lista de técnicos (`TecnicoTableDto`).
+  Future<List<TecnicoTableDto>> buscarTecnicos() {
+    return executar(
+      'buscarTecnicos',
+      () => tecnicoRepository.buscarTodosTecnicos(),
+      onErrorReturn: [],
+    );
   }
 }

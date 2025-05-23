@@ -294,4 +294,6 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
     final row = await query.getSingle();
     return row.read(aprPerguntaRelacionamentoTable.id.count()) ?? 0;
   }
+
+  deletarRespostas(int aprPreenchidaId) {}
 }

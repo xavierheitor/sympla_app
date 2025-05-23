@@ -71,4 +71,24 @@ class AprAssinaturaTableDto {
       assinaturaPath: data.assinaturaPath,
     );
   }
+
+  AprAssinaturaTableDto copyWith({
+    int? id,
+    int? aprPreenchidaId,
+    String? usuarioId,
+    DateTime? dataAssinatura,
+    String? tecnicoId,
+    Uint8List? assinatura,
+    String? assinaturaPath,
+  }) {
+    return AprAssinaturaTableDto(
+      id: id ?? this.id,
+      aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+      usuarioId: usuarioId ?? this.usuarioId,
+      dataAssinatura: dataAssinatura ?? this.dataAssinatura,
+      tecnicoId: tecnicoId ?? this.tecnicoId,
+      assinatura: assinatura ?? this.assinatura,
+      assinaturaPath: assinaturaPath ?? this.assinaturaPath,
+    );
+  }
 }

@@ -59,4 +59,18 @@ class AprPerguntaRelacionamentoTableDto {
       ordem: data.ordem,
     );
   }
+
+  AprPerguntaRelacionamentoTableDto copyWith({
+    String? uuid,
+    String? aprId,
+    String? perguntaId,
+    int? ordem,
+  }) {
+    return AprPerguntaRelacionamentoTableDto(
+      uuid: uuid ?? this.uuid,
+      aprId: aprId ?? this.aprId,
+      perguntaId: perguntaId ?? this.perguntaId,
+      ordem: ordem ?? this.ordem,
+    );
+  }
 }

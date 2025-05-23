@@ -53,4 +53,18 @@ class AprTableDto {
       tipoAtividadeId: data.tipoAtividadeId,
     );
   }
+
+  AprTableDto copyWith({
+    String? uuid,
+    String? nome,
+    String? descricao,
+    String? tipoAtividadeId,
+  }) {
+    return AprTableDto(
+      uuid: uuid ?? this.uuid,
+      nome: nome ?? this.nome,
+      descricao: descricao ?? this.descricao,
+      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+    );
+  }
 }

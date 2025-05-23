@@ -44,4 +44,15 @@ class AprQuestionTableDto {
       texto: data.texto,
     );
   }
+
+
+  AprQuestionTableDto copyWith({
+    String? uuid,
+    String? texto,
+  }) {
+    return AprQuestionTableDto(
+      uuid: uuid ?? this.uuid,
+      texto: texto ?? this.texto,
+    );
+  }
 }

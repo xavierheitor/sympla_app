@@ -66,4 +66,21 @@ class AprRespostaTableDto {
       observacao: data.observacao,
     );
   }
+
+  // ✅ Implementação do copyWith
+  AprRespostaTableDto copyWith({
+    int? id,
+    int? aprPreenchidaId,
+    String? perguntaId,
+    RespostaApr? resposta,
+    String? observacao,
+  }) {
+    return AprRespostaTableDto(
+      id: id ?? this.id,
+      aprPreenchidaId: aprPreenchidaId ?? this.aprPreenchidaId,
+      perguntaId: perguntaId ?? this.perguntaId,
+      resposta: resposta ?? this.resposta,
+      observacao: observacao ?? this.observacao,
+    );
+  }
 }
