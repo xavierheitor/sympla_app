@@ -83,4 +83,16 @@ class EquipamentoDao extends DatabaseAccessor<AppDatabase>
           ..where((tbl) => tbl.uuid.equals(uuid)))
         .getSingleOrNull();
   }
+
+/// 🔥 Deleta um equipamento com base no UUID
+  Future<void> deletarPorUuid(String uuid) async {
+    AppLogger.d('[EquipamentoDao] 🗑️ Deletando equipamento com UUID: $uuid');
+
+    final deletados = await (delete(equipamentoTable)
+          ..where((tbl) => tbl.uuid.equals(uuid)))
+        .go();
+
+    AppLogger.d(
+        '[EquipamentoDao] 🗑️ Total de registros deletados: $deletados (UUID: $uuid)');
+  }
 }
