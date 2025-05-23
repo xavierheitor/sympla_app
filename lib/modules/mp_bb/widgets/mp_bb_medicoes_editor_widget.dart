@@ -35,7 +35,6 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
 
     setState(() {
       _lista.add(MedicaoElementoMpbbTableDto(
-        id: null,
         formularioBateriaId: 0, // será preenchido no salvamento
         elementoBateriaNumero: novoNumero,
         tensao: null,

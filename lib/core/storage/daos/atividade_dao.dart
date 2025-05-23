@@ -41,23 +41,21 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
     return (count ?? 0) == 0;
   }
 
-  /// Sincroniza atividades com a API, mantendo atividades não pendentes locais intactas.
+  /// Sincroniza atividades com a API.
+  /// ✅ Mantém atividades locais que não são pendentes intactas.
+  /// ✅ Insere ou atualiza somente pendentes.
+  /// ✅ Remove pendentes locais que não vieram mais da API.
   Future<void> sincronizarAtividadesComApi(
       List<AtividadeTableCompanion> atividadesApi) async {
     AppLogger.d('🔄 Sincronizando ${atividadesApi.length} atividades',
         tag: 'AtividadeDAO');
 
-    // Marcar como não sincronizado todas as pendentes locais
+    await transaction(() async {
     await (update(atividadeTable)
           ..where((tbl) => tbl.status.equals(StatusAtividade.pendente.name)))
         .write(const AtividadeTableCompanion(sincronizado: Value(false)));
 
-    final pendentesDaApi = atividadesApi
-        .where((e) => e.status.value == StatusAtividade.pendente)
-        .map((e) => e.copyWith(sincronizado: const Value(true)))
-        .toList();
-
-    for (final nova in pendentesDaApi) {
+      for (final nova in atividadesApi) {
       final uuid = nova.uuid.value;
 
       if (uuid.isEmpty) {
@@ -66,26 +64,42 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
         continue;
       }
 
-      final existente = await (select(atividadeTable)
+        final existentes = await (select(atividadeTable)
             ..where((tbl) => tbl.uuid.equals(uuid)))
-          .getSingleOrNull();
+            .get();
 
-      if (existente == null) {
-        AppLogger.d('➕ Inserindo nova atividade $uuid', tag: 'AtividadeDAO');
-        await into(atividadeTable).insert(nova);
-      } else if (existente.status == StatusAtividade.pendente) {
-        AppLogger.d('♻️ Atualizando atividade $uuid (ainda pendente)',
-            tag: 'AtividadeDAO');
-        await into(atividadeTable).insertOnConflictUpdate(nova);
-      } else {
-        AppLogger.w(
-          '⛔ Ignorando $uuid (status local: ${existente.status.name})',
-          tag: 'AtividadeDAO',
-        );
+        final statusNova = nova.status.value;
+
+        final isPendente = statusNova == StatusAtividade.pendente;
+
+        if (existentes.isEmpty) {
+          if (isPendente) {
+            AppLogger.d('➕ Inserindo nova atividade pendente $uuid',
+                tag: 'AtividadeDAO');
+            await into(atividadeTable)
+                .insert(nova.copyWith(sincronizado: const Value(true)));
+          } else {
+            AppLogger.w(
+                '⚠️ Atividade $uuid não foi inserida (status API: $statusNova)',
+                tag: 'AtividadeDAO');
+          }
+        } else {
+          final existente = existentes.first;
+
+          if (existente.status == StatusAtividade.pendente) {
+            AppLogger.d('♻️ Atualizando atividade pendente $uuid',
+                tag: 'AtividadeDAO');
+            await into(atividadeTable).insertOnConflictUpdate(
+                nova.copyWith(sincronizado: const Value(true)));
+          } else {
+            AppLogger.w(
+              '⛔ Ignorando $uuid (status local: ${existente.status})',
+              tag: 'AtividadeDAO',
+            );
+          }
       }
     }
 
-    // Remove pendentes locais que não vieram mais da API
     final removidas = await (delete(atividadeTable)
           ..where((tbl) =>
               tbl.sincronizado.equals(false) &
@@ -94,7 +108,8 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase>
 
     AppLogger.d('🧹 Removidas $removidas atividades pendentes obsoletas',
         tag: 'AtividadeDAO');
-  }
+    });
+}
   /// Retorna a atividade que estiver em andamento, com o equipamento e tipo relacionados.
   Future<AtividadeTableData?> buscarEmAndamento() async {
     final query = select(atividadeTable).join([

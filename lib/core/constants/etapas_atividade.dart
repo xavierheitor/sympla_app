@@ -26,7 +26,7 @@ final Map<TipoAtividadeMobile, List<EtapaAtividade>> fluxoPorTipoAtividade = {
     EtapaAtividade.resumoAnomalias,
     EtapaAtividade.finalizada,
   ],
-  TipoAtividadeMobile.prevBcBat: [
+  TipoAtividadeMobile.mpbb: [
     EtapaAtividade.apr,
     EtapaAtividade.checklist,
     EtapaAtividade.resumoAnomalias,

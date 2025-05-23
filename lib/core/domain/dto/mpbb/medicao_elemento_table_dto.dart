@@ -29,7 +29,9 @@ class MedicaoElementoMpbbTableDto {
 
   MedicaoElementoMpbbTableCompanion toCompanion() {
     return MedicaoElementoMpbbTableCompanion(
-      id: Value(id ?? 0),
+      id: id != null
+          ? Value(id!)
+          : const Value.absent(), // 👈 Se não tem id, não passa
       formularioMpbbId: Value(formularioBateriaId),
       elementoBateriaNumero: Value(elementoBateriaNumero),
       tensao: Value(tensao),

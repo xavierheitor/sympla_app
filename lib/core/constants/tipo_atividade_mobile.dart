@@ -1,6 +1,6 @@
 enum TipoAtividadeMobile {
   ivItIu,
-  prevBcBat,
+  mpbb,
   prevDisjuntor,
   medMalha,
   testeCaCc,

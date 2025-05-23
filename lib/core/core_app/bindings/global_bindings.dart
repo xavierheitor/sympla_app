@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
+import 'package:sympla_app/core/core_app/services/atividade_etapa_service.dart';
 import 'package:sympla_app/core/core_app/services/atividade_service.dart';
 import 'package:sympla_app/core/core_app/services/auth_service.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
@@ -29,11 +30,12 @@ class GlobalBinding extends Bindings {
     // === Serviços ===
     Get.lazyPut(() => AuthService(Get.find()), fenix: true);
     Get.lazyPut(() => AtividadeService(Get.find()), fenix: true);
+    Get.lazyPut(() => AtividadeEtapaService(Get.find()), fenix: true);
 
     // === Sessão ===
     Get.put(SessionManager(authService: Get.find()), permanent: true);
 
     // === Atividade Controller ===
-    Get.put(AtividadeController(Get.find()), permanent: true);
+    Get.put(AtividadeController(Get.find(), Get.find()), permanent: true);
   }
 }
