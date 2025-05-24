@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../mpdj_dao.dart';
+part of 'mpdj_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$MpdjDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -13,14 +13,13 @@ mixin _$MpdjDaoMixin on DatabaseAccessor<AppDatabase> {
   $TipoAtividadeTableTable get tipoAtividadeTable =>
       attachedDatabase.tipoAtividadeTable;
   $AtividadeTableTable get atividadeTable => attachedDatabase.atividadeTable;
-  $PrevDisjFormTable get prevDisjForm => attachedDatabase.prevDisjForm;
-  $MedicaoPressaoSf6TableTable get medicaoPressaoSf6Table =>
-      attachedDatabase.medicaoPressaoSf6Table;
-  $MedicaoResistenciaContatoTableTable get medicaoResistenciaContatoTable =>
-      attachedDatabase.medicaoResistenciaContatoTable;
-  $MedicaoResistenciaIsolamentoTableTable
-      get medicaoResistenciaIsolamentoTable =>
-          attachedDatabase.medicaoResistenciaIsolamentoTable;
-  $MedicaoTempoOperacaoTableTable get medicaoTempoOperacaoTable =>
-      attachedDatabase.medicaoTempoOperacaoTable;
+  $MpDjFormTableTable get mpDjFormTable => attachedDatabase.mpDjFormTable;
+  $MpDjPressaoSf6TableTable get mpDjPressaoSf6Table =>
+      attachedDatabase.mpDjPressaoSf6Table;
+  $MpDjResistenciaContatoTableTable get mpDjResistenciaContatoTable =>
+      attachedDatabase.mpDjResistenciaContatoTable;
+  $MpDjResistenciaIsolamentoTableTable get mpDjResistenciaIsolamentoTable =>
+      attachedDatabase.mpDjResistenciaIsolamentoTable;
+  $MpDjTempoOperacaoTableTable get mpDjTempoOperacaoTable =>
+      attachedDatabase.mpDjTempoOperacaoTable;
 }

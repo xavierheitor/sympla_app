@@ -333,7 +333,7 @@ class MpDjTempoOperacaoTable extends Table {
 
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
   IntColumn get formularioDisjuntorId =>
-      integer().references(PrevDisjForm, #id)(); // FK futura
+      integer().references(MpDjFormTable, #id)(); // FK futura
 
   TextColumn get fase =>
       text().map(const FaseAnomaliaConverter())(); // A, B ou C
@@ -350,103 +350,6 @@ class MpDjPressaoSf6Table extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
-  TextColumn get fase =>
-      text().map(const FaseAnomaliaConverter())(); // A, B ou C
-
-  RealColumn get valorPressao => real()(); // Ex: 6.30 BAR
-  RealColumn get temperatura => real()(); // Em ºC
-}
-
-class PrevDisjForm extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  TextColumn get atividadeId => text().references(AtividadeTable, #uuid)();
-
-  TextColumn get caracterizacaoEnsaio =>
-      text().map(const CaracterizacaoEnsaioConverter()).nullable()();
-
-  //dados do disjuntor
-  TextColumn get disjuntorFabricante => text().nullable()();
-  TextColumn get disjuntorAnoFabricacao => text().nullable()();
-  RealColumn get disjuntorTensaoNominal => real().nullable()();
-  IntColumn get disjuntorCorrenteNominal => integer().nullable()();
-  IntColumn get disjuntorCapInterrupcaoNominal => integer().nullable()();
-  TextColumn get disjuntorTipoExtinsao =>
-      text().map(const TipoExtinsaoDisjuntorConverter()).nullable()();
-  TextColumn get disjuntorTipoAcionamento => text().nullable()();
-  RealColumn get disjuntorPressaoSf6Nominal => real().nullable()();
-  RealColumn get disjuntorPressaoSf6NominalTemperatura => real().nullable()();
-
-  //dados da placa - tempo de fechamento e abertura
-  RealColumn get dadoPlacaFechamento => real().nullable()();
-  RealColumn get dadoPlacaAbertura => real().nullable()();
-
-  //dados do ensaio
-  DateTimeColumn get dataEnsaio => dateTime().withDefault(currentDateAndTime)();
-}
-
-class MedicaoResistenciaContatoTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  IntColumn get formularioDisjuntorId =>
-      integer().references(PrevDisjForm, #id)(); // FK futura
-
-  IntColumn get numeroCamara => integer()();
-
-  RealColumn get resistenciaFaseA => real().nullable()();
-  RealColumn get resistenciaFaseB => real().nullable()();
-  RealColumn get resistenciaFaseC => real().nullable()();
-
-  RealColumn get temperaturaDisjuntor => real().nullable()();
-  RealColumn get umidadeRelativaAr => real().nullable()();
-}
-
-class MedicaoResistenciaIsolamentoTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  IntColumn get formularioDisjuntorId =>
-      integer().references(PrevDisjForm, #id)(); // FK futura
-
-  TextColumn get linha => text().map(const PosicaoDisjuntorEnsaioConverter())();
-  TextColumn get terra => text().map(const PosicaoDisjuntorEnsaioConverter())();
-  TextColumn get guarda =>
-      text().map(const PosicaoDisjuntorEnsaioConverter())();
-
-  RealColumn get tensaoKv => real()();
-
-  RealColumn get resistenciaFaseA => real().nullable()(); // em MΩ
-  RealColumn get resistenciaFaseB => real().nullable()();
-  RealColumn get resistenciaFaseC => real().nullable()();
-
-  RealColumn get temperaturaDisjuntor => real().nullable()();
-  RealColumn get umidadeRelativaAr => real().nullable()();
-}
-
-class MedicaoTempoOperacaoTable extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  IntColumn get formularioDisjuntorId =>
-      integer().references(PrevDisjForm, #id)(); // FK futura
-
-  TextColumn get fase =>
-      text().map(const FaseAnomaliaConverter())(); // A, B ou C
-
-  // Tempos normais
-  RealColumn get fechamentoBobina1 => real().nullable()();
-  RealColumn get fechamentoBobina2 => real().nullable()();
-
-  RealColumn get aberturaBobina1 => real().nullable()();
-  RealColumn get aberturaBobina2 => real().nullable()();
-
-  // Dados de placa
-}
-
-class MedicaoPressaoSf6Table extends Table {
-  IntColumn get id => integer().autoIncrement()();
-
-  IntColumn get formularioDisjuntorId =>
-      integer().references(PrevDisjForm, #id)();
-
   TextColumn get fase =>
       text().map(const FaseAnomaliaConverter())(); // A, B ou C
 

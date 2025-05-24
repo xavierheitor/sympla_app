@@ -24,6 +24,23 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
       _pressaoControllers[fase] = TextEditingController();
       _temperaturaControllers[fase] = TextEditingController();
     }
+
+    _preencherCamposSeExistir();
+  }
+
+  void _preencherCamposSeExistir() {
+    final lista = controller.pressoes;
+    if (lista.isNotEmpty) {
+      for (final med in lista) {
+        final fase = FaseAnomalia.values.firstWhereOrNull(
+          (f) => f.name == med.fase,
+        );
+        if (fase != null) {
+          _pressaoControllers[fase]?.text = med.valorPressao.toString();
+          _temperaturaControllers[fase]?.text = med.temperatura.toString();
+        }
+      }
+    }
   }
 
   @override
@@ -50,9 +67,11 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
         formularioDisjuntorId: id,
         fase: fase.name,
         valorPressao:
-            double.tryParse(_pressaoControllers[fase]!.text.trim()) ?? 0.0,
+            double.tryParse(_pressaoControllers[fase]?.text.trim() ?? '') ??
+                0.0,
         temperatura:
-            double.tryParse(_temperaturaControllers[fase]!.text.trim()) ?? 0.0,
+            double.tryParse(_temperaturaControllers[fase]?.text.trim() ?? '') ??
+                0.0,
       );
     }).toList();
 
@@ -64,17 +83,23 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Divider(),
-        Text('Fase ${fase.name.toUpperCase()}',
-            style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text(
+          'Fase ${fase.name.toUpperCase()}',
+          style: const TextStyle(fontWeight: FontWeight.bold),
+        ),
+        const SizedBox(height: 8),
         TextField(
           controller: _pressaoControllers[fase],
           decoration: const InputDecoration(labelText: 'Pressão (bar)'),
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(
+              decimal: true, signed: false),
         ),
+        const SizedBox(height: 8),
         TextField(
           controller: _temperaturaControllers[fase],
           decoration: const InputDecoration(labelText: 'Temperatura (°C)'),
-          keyboardType: TextInputType.number,
+          keyboardType: const TextInputType.numberWithOptions(
+              decimal: true, signed: false),
         ),
       ],
     );
@@ -96,12 +121,18 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: FaseAnomalia.values.map(_buildFaseInput).toList(),
-        ),
-      ),
+      body: Obx(() {
+        if (controller.carregando.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: FaseAnomalia.values.map(_buildFaseInput).toList(),
+          ),
+        );
+      }),
     );
   }
 }

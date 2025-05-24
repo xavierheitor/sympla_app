@@ -7,175 +7,97 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/mpdj_repository.dart';
 
+/// 🚀 Service que abstrai operações sobre o formulário MPDJ e suas medições.
 class MpDjFormService {
   final MpDjRepository repository;
 
-  MpDjFormService({
-    required this.repository,
-  });
+  MpDjFormService({required this.repository});
 
-  // ================== FORMULÁRIO PRINCIPAL ==================
-  Future<PrevDisjFormTableDto?> buscarFormulario(String atividadeId) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Buscando formulário da atividade $atividadeId');
-      return await repository.getByAtividadeId(atividadeId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao buscar formulário: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+  // ================== 🔍 FORMULÁRIO ==================
+  Future<MpdjFormTableDto?> buscarFormulario(String atividadeId) {
+    return _executar(() {
+      return repository.getByAtividadeId(atividadeId);
+    }, '[Form] buscarFormulario');
   }
 
-  Future<int> salvarFormulario(PrevDisjFormTableDto dados) async {
-    try {
-      AppLogger.d('[MpDjFormService] Salvando formulário base');
-      return await repository.insert(dados);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao salvar formulário: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+  Future<int> salvarFormulario(MpdjFormTableDto dados) {
+    return _executar(() {
+      return repository.insert(dados);
+    }, '[Form] salvarFormulario');
   }
 
-  // ================== PRESSÃO SF6 ==================
-  Future<List<MedicaoPressaoSf6TableDto>> buscarPressaoSf6(
-      int formularioId) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Buscando medições de pressão SF6 (formId: $formularioId)');
-      return await repository.getPressaoSf6ByFormularioId(formularioId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao buscar pressão SF6: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+  // ================== 🔍 PRESSÃO SF6 ==================
+  Future<List<MedicaoPressaoSf6TableDto>> buscarPressaoSf6(int formularioId) {
+    return _executar(() {
+      return repository.getPressaoSf6ByFormularioId(formularioId);
+    }, '[SF6] buscar');
   }
 
   Future<void> salvarPressaoSf6(
-      int formularioId, List<MedicaoPressaoSf6TableDto> entradas) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Salvando ${entradas.length} medições de pressão SF6');
+      int formularioId, List<MedicaoPressaoSf6TableDto> entradas) {
+    return _executar(() async {
       await repository.deletePressaoSf6ByFormularioId(formularioId);
       await repository.insertPressaoSf6(entradas);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao salvar pressão SF6: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+    }, '[SF6] salvar');
   }
 
-  // ================== RESISTÊNCIA DE CONTATO ==================
+  // ================== 🔍 RESISTÊNCIA CONTATO ==================
   Future<List<MedicaoResistenciaContatoTableDto>> buscarResistenciaContato(
-      int formularioId) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Buscando medições de resistência de contato');
-      return await repository.getResistenciaContatoByFormularioId(formularioId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao buscar resistência de contato: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+      int formularioId) {
+    return _executar(() {
+      return repository.getResistenciaContatoByFormularioId(formularioId);
+    }, '[ResistenciaContato] buscar');
   }
 
-  Future<void> salvarResistenciaContato(int formularioId,
-      List<MedicaoResistenciaContatoTableDto> entradas) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Salvando ${entradas.length} medições de resistência de contato');
+  Future<void> salvarResistenciaContato(
+      int formularioId, List<MedicaoResistenciaContatoTableDto> entradas) {
+    return _executar(() async {
       await repository.deleteResistenciaContatoByFormularioId(formularioId);
       await repository.insertResistenciaContato(entradas);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao salvar resistência de contato: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+    }, '[ResistenciaContato] salvar');
   }
 
-  // ================== RESISTÊNCIA DE ISOLAMENTO ==================
+  // ================== 🔍 RESISTÊNCIA ISOLAMENTO ==================
   Future<List<MedicaoResistenciaIsolamentoTableDto>>
-      buscarResistenciaIsolamento(int formularioId) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Buscando medições de resistência de isolamento');
-      return await repository
-          .getResistenciaIsolamentoByFormularioId(formularioId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao buscar resistência de isolamento: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+      buscarResistenciaIsolamento(int formularioId) {
+    return _executar(() {
+      return repository.getResistenciaIsolamentoByFormularioId(formularioId);
+    }, '[Isolamento] buscar');
   }
 
-  Future<void> salvarResistenciaIsolamento(int formularioId,
-      List<MedicaoResistenciaIsolamentoTableDto> entradas) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Salvando ${entradas.length} medições de resistência de isolamento');
+  Future<void> salvarResistenciaIsolamento(
+      int formularioId, List<MedicaoResistenciaIsolamentoTableDto> entradas) {
+    return _executar(() async {
       await repository.deleteResistenciaIsolamentoByFormularioId(formularioId);
       await repository.insertResistenciaIsolamento(entradas);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao salvar resistência de isolamento: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+    }, '[Isolamento] salvar');
   }
 
-  // ================== TEMPO DE OPERAÇÃO ==================
+  // ================== 🔍 TEMPO OPERAÇÃO ==================
   Future<List<MedicaoTempoOperacaoTableDto>> buscarTempoOperacao(
-      int formularioId) async {
-    try {
-      AppLogger.d('[MpDjFormService] Buscando medições de tempo de operação');
-      return await repository.getTempoOperacaoByFormularioId(formularioId);
-    } catch (e, s) {
-      final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao buscar tempo de operação: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
-      rethrow;
-    }
+      int formularioId) {
+    return _executar(() {
+      return repository.getTempoOperacaoByFormularioId(formularioId);
+    }, '[Tempo] buscar');
   }
 
-  Future<void> salvarTempoOperacao(int formularioId,
-      List<MedicaoTempoOperacaoTableDto> entradas) async {
-    try {
-      AppLogger.d(
-          '[MpDjFormService] Salvando ${entradas.length} medições de tempo de operação');
+  Future<void> salvarTempoOperacao(
+      int formularioId, List<MedicaoTempoOperacaoTableDto> entradas) {
+    return _executar(() async {
       await repository.deleteTempoOperacaoByFormularioId(formularioId);
       await repository.insertTempoOperacao(entradas);
+    }, '[Tempo] salvar');
+  }
+
+  // ================== 🔧 Handler ==================
+  Future<T> _executar<T>(Future<T> Function() callback, String tag) async {
+    try {
+      AppLogger.d('[MpDjFormService] $tag');
+      return await callback();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
-      AppLogger.e(
-          '[MpDjFormService] Erro ao salvar tempo de operação: ${erro.mensagem}',
-          error: e,
-          stackTrace: s);
+      AppLogger.e('[MpDjFormService] Erro $tag: ${erro.mensagem}',
+          error: e, stackTrace: s);
       rethrow;
     }
   }

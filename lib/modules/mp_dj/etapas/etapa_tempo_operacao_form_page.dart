@@ -19,19 +19,32 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
   @override
   void initState() {
     super.initState();
+    _inicializarCampos();
+  }
+
+  void _inicializarCampos() {
     for (final fase in FaseAnomalia.values) {
       _controllers[fase] = {
-        'fechamento': TextEditingController(),
+        'fechamentoBobina1': TextEditingController(),
+        'fechamentoBobina2': TextEditingController(),
         'aberturaBobina1': TextEditingController(),
         'aberturaBobina2': TextEditingController(),
-        'fechamentoTripFree': TextEditingController(),
-        'aberturaTripFreeBob1': TextEditingController(),
-        'aberturaTripFreeBob2': TextEditingController(),
-        'curtoBob1': TextEditingController(),
-        'curtoBob2': TextEditingController(),
-        'dadoPlacaFechamento': TextEditingController(),
-        'dadoPlacaAbertura': TextEditingController(),
       };
+    }
+
+    // Carregar se houver dados salvos
+    final dados = controller.tempos;
+    if (dados.isNotEmpty) {
+      for (final med in dados) {
+        final fase = FaseAnomalia.values.firstWhere((e) => e.name == med.fase,
+            orElse: () => FaseAnomalia.a);
+        final c = _controllers[fase]!;
+
+        c['fechamentoBobina1']!.text = med.fechamentoBobina1?.toString() ?? '';
+        c['fechamentoBobina2']!.text = med.fechamentoBobina2?.toString() ?? '';
+        c['aberturaBobina1']!.text = med.aberturaBobina1?.toString() ?? '';
+        c['aberturaBobina2']!.text = med.aberturaBobina2?.toString() ?? '';
+      }
     }
   }
 
@@ -59,12 +72,10 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
         id: 0,
         formularioDisjuntorId: id,
         fase: fase.name,
-        fechamentoBobina1: double.tryParse(c['fechamento']!.text.trim()) ?? 0.0,
-        aberturaBobina1:
-            double.tryParse(c['aberturaBobina1']!.text.trim()) ?? 0.0,
-        aberturaBobina2:
-            double.tryParse(c['aberturaBobina2']!.text.trim()) ?? 0.0,
-        fechamentoBobina2: double.tryParse(c['fechamento']!.text.trim()) ?? 0.0,
+        fechamentoBobina1: double.tryParse(c['fechamentoBobina1']!.text.trim()),
+        fechamentoBobina2: double.tryParse(c['fechamentoBobina2']!.text.trim()),
+        aberturaBobina1: double.tryParse(c['aberturaBobina1']!.text.trim()),
+        aberturaBobina2: double.tryParse(c['aberturaBobina2']!.text.trim()),
       );
     }).toList();
 
@@ -80,68 +91,19 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
       children: [
         const Divider(),
         Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
-        TextField(
-          controller: c['fechamento'],
-          decoration: const InputDecoration(labelText: 'Fechamento (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['aberturaBobina1'],
-          decoration:
-              const InputDecoration(labelText: 'Abertura Bobina 1 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['aberturaBobina2'],
-          decoration:
-              const InputDecoration(labelText: 'Abertura Bobina 2 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        const SizedBox(height: 12),
-        const Text('Trip Free'),
-        TextField(
-          controller: c['fechamentoTripFree'],
-          decoration:
-              const InputDecoration(labelText: 'Fechamento Trip Free (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['aberturaTripFreeBob1'],
-          decoration: const InputDecoration(
-              labelText: 'Abertura Trip Free Bobina 1 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['aberturaTripFreeBob2'],
-          decoration: const InputDecoration(
-              labelText: 'Abertura Trip Free Bobina 2 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        const SizedBox(height: 12),
-        const Text('Curto-Circuito'),
-        TextField(
-          controller: c['curtoBob1'],
-          decoration: const InputDecoration(labelText: 'Curto Bobina 1 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['curtoBob2'],
-          decoration: const InputDecoration(labelText: 'Curto Bobina 2 (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        const SizedBox(height: 12),
-        const Text('Dados de Placa'),
-        TextField(
-          controller: c['dadoPlacaFechamento'],
-          decoration: const InputDecoration(labelText: 'Fechamento (ms)'),
-          keyboardType: TextInputType.number,
-        ),
-        TextField(
-          controller: c['dadoPlacaAbertura'],
-          decoration: const InputDecoration(labelText: 'Abertura (ms)'),
-          keyboardType: TextInputType.number,
-        ),
+        _campo(c['fechamentoBobina1']!, 'Fechamento Bobina 1 (ms)'),
+        _campo(c['fechamentoBobina2']!, 'Fechamento Bobina 2 (ms)'),
+        _campo(c['aberturaBobina1']!, 'Abertura Bobina 1 (ms)'),
+        _campo(c['aberturaBobina2']!, 'Abertura Bobina 2 (ms)'),
       ],
+    );
+  }
+
+  Widget _campo(TextEditingController c, String label) {
+    return TextField(
+      controller: c,
+      decoration: InputDecoration(labelText: label),
+      keyboardType: const TextInputType.numberWithOptions(decimal: true),
     );
   }
 
@@ -161,12 +123,18 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: FaseAnomalia.values.map(_buildFaseForm).toList(),
-        ),
-      ),
+      body: Obx(() {
+        if (controller.carregando.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: FaseAnomalia.values.map(_buildFaseForm).toList(),
+          ),
+        );
+      }),
     );
   }
 }

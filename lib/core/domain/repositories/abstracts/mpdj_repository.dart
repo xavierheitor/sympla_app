@@ -5,8 +5,8 @@ import 'package:sympla_app/core/domain/dto/mpdj/medicao_tempo_operacao_table_dto
 import 'package:sympla_app/core/domain/dto/mpdj/prev_disj_form_table_dto.dart';
 
 abstract class MpDjRepository {
-  Future<PrevDisjFormTableDto?> getByAtividadeId(String atividadeId);
-  Future<int> insert(PrevDisjFormTableDto dados);
+  Future<MpdjFormTableDto?> getByAtividadeId(String atividadeId);
+  Future<int> insert(MpdjFormTableDto dados);
 
   Future<List<MedicaoPressaoSf6TableDto>> getPressaoSf6ByFormularioId(
       int formularioId);

@@ -1,133 +1,175 @@
-// mpdj_dao.dart
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
-part 'generated/mpdj_dao.g.dart';
+
+part 'mpdj_dao.g.dart';
 
 @DriftAccessor(tables: [
-  PrevDisjForm,
-  MedicaoPressaoSf6Table,
-  MedicaoResistenciaContatoTable,
-  MedicaoResistenciaIsolamentoTable,
-  MedicaoTempoOperacaoTable,
+  MpDjFormTable,
+  MpDjPressaoSf6Table,
+  MpDjResistenciaContatoTable,
+  MpDjResistenciaIsolamentoTable,
+  MpDjTempoOperacaoTable,
 ])
 class MpdjDao extends DatabaseAccessor<AppDatabase> with _$MpdjDaoMixin {
   MpdjDao(super.db);
 
-  /// Salva o formulario principal (cria ou atualiza)
-  Future<int> salvarFormulario(PrevDisjFormCompanion entry) async {
-    final existente = await (select(prevDisjForm)
-          ..where((t) => t.atividadeId.equals(entry.atividadeId.value)))
+  // =============================================================================
+  // 🗂️ FORMULÁRIO
+  // =============================================================================
+
+  /// 💾 Insere ou atualiza o formulário MPDJ e retorna o ID gerado.
+  Future<int> salvarFormulario(MpDjFormTableCompanion data) async {
+    AppLogger.d('💾 Salvando formulário MPDJ: $data', tag: 'MpdjDao');
+
+    final existente = await (select(mpDjFormTable)
+          ..where((t) => t.atividadeId.equals(data.atividadeId.value)))
         .getSingleOrNull();
 
     if (existente != null) {
-      await (update(prevDisjForm)..where((t) => t.id.equals(existente.id)))
-          .write(entry.copyWith(id: Value(existente.id)));
-      AppLogger.d('🔁 Atualizou formulário MPDJ existente', tag: 'MpdjDao');
+      await (update(mpDjFormTable)..where((t) => t.id.equals(existente.id)))
+          .write(data.copyWith(id: Value(existente.id)));
+
+      AppLogger.d('🔁 Atualizou formulário MPDJ existente ID=${existente.id}',
+          tag: 'MpdjDao');
       return existente.id;
     } else {
-      final id = await into(prevDisjForm).insert(entry);
-      AppLogger.d('🆕 Inseriu novo formulário MPDJ', tag: 'MpdjDao');
+      final id = await into(mpDjFormTable).insert(data);
+      AppLogger.d('🆕 Inseriu novo formulário MPDJ ID=$id', tag: 'MpdjDao');
       return id;
     }
   }
 
-  /// Retorna o formulário pelo ID da atividade
-  Future<PrevDisjFormData?> buscarFormularioPorAtividade(String atividadeUuid) {
-    return (select(prevDisjForm)
+  /// 🔍 Busca formulário pelo UUID da atividade
+  Future<MpDjFormTableData?> buscarFormularioPorAtividade(
+      String atividadeUuid) {
+    return (select(mpDjFormTable)
           ..where((t) => t.atividadeId.equals(atividadeUuid)))
         .getSingleOrNull();
   }
 
-  /// Insere todas as medições de pressão SF6
+  // =============================================================================
+  // 🔍 MÉTODOS PARA BUSCAR MEDIÇÕES
+  // =============================================================================
+
+  Future<List<MpDjPressaoSf6TableData>> buscarSf6(int formularioId) {
+    return (select(mpDjPressaoSf6Table)
+          ..where((t) => t.mpDjFormId.equals(formularioId)))
+        .get();
+  }
+
+  Future<List<MpDjResistenciaContatoTableData>> buscarContato(
+      int formularioId) {
+    return (select(mpDjResistenciaContatoTable)
+          ..where((t) => t.mpDjFormId.equals(formularioId)))
+        .get();
+  }
+
+  Future<List<MpDjResistenciaIsolamentoTableData>> buscarIsolamento(
+      int formularioId) {
+    return (select(mpDjResistenciaIsolamentoTable)
+          ..where((t) => t.mpDjFormId.equals(formularioId)))
+        .get();
+  }
+
+  Future<List<MpDjTempoOperacaoTableData>> buscarTempo(int formularioId) {
+    return (select(mpDjTempoOperacaoTable)
+          ..where((t) => t.mpDjFormId.equals(formularioId)))
+        .get();
+  }
+
+  // =============================================================================
+  // 💾 MÉTODOS PARA SALVAR MEDIÇÕES
+  // =============================================================================
+
   Future<void> salvarMedicoesSf6(
-      List<MedicaoPressaoSf6TableCompanion> lista) async {
-    await batch((b) {
-      b.insertAll(medicaoPressaoSf6Table, lista);
-    });
-  }
-
-  /// Insere todas as medições de resistência de contato
-  Future<void> salvarMedicoesContato(
-      List<MedicaoResistenciaContatoTableCompanion> lista) async {
-    await batch((b) {
-      b.insertAll(medicaoResistenciaContatoTable, lista);
-    });
-  }
-
-  /// Insere todas as medições de resistência de isolamento
-  Future<void> salvarMedicoesIsolamento(
-      List<MedicaoResistenciaIsolamentoTableCompanion> lista) async {
-    await batch((b) {
-      b.insertAll(medicaoResistenciaIsolamentoTable, lista);
-    });
-  }
-
-  /// Insere todas as medições de tempo de operação
-  Future<void> salvarMedicoesTempo(
-      List<MedicaoTempoOperacaoTableCompanion> lista) async {
-    await batch((b) {
-      b.insertAll(medicaoTempoOperacaoTable, lista);
-    });
-  }
-
-  /// Busca medições por formulário
-  Future<List<MedicaoPressaoSf6TableData>> buscarSf6(int formularioId) =>
-      (select(medicaoPressaoSf6Table)
-            ..where((t) => t.formularioDisjuntorId.equals(formularioId)))
-          .get();
-
-  Future<List<MedicaoResistenciaContatoTableData>> buscarContato(
-          int formularioId) =>
-      (select(medicaoResistenciaContatoTable)
-            ..where((t) => t.formularioDisjuntorId.equals(formularioId)))
-          .get();
-
-  Future<List<MedicaoResistenciaIsolamentoTableData>> buscarIsolamento(
-          int formularioId) =>
-      (select(medicaoResistenciaIsolamentoTable)
-            ..where((t) => t.formularioDisjuntorId.equals(formularioId)))
-          .get();
-
-  Future<List<MedicaoTempoOperacaoTableData>> buscarTempo(int formularioId) =>
-      (select(medicaoTempoOperacaoTable)
-            ..where((t) => t.formularioDisjuntorId.equals(formularioId)))
-          .get();
-
-  /// Deleta todas as medições por formulário
-  Future<void> deletarMedicoesPorFormulario(int formularioId) async {
-    await batch((b) {
-      b.deleteWhere(medicaoPressaoSf6Table,
-          (t) => t.formularioDisjuntorId.equals(formularioId));
-      b.deleteWhere(medicaoResistenciaContatoTable,
-          (t) => t.formularioDisjuntorId.equals(formularioId));
-      b.deleteWhere(medicaoResistenciaIsolamentoTable,
-          (t) => t.formularioDisjuntorId.equals(formularioId));
-      b.deleteWhere(medicaoTempoOperacaoTable,
-          (t) => t.formularioDisjuntorId.equals(formularioId));
-    });
-    AppLogger.w('🧹 Apagou todas as medições do formulário $formularioId',
+      List<MpDjPressaoSf6TableCompanion> lista) async {
+    AppLogger.d('💾 Salvando ${lista.length} medições de Pressão SF6',
         tag: 'MpdjDao');
-  }
-
-  /// Remove tudo do banco
-  Future<void> deletarTudo() async {
-    AppLogger.w('🧹 Limpando todas tabelas do MPDJ', tag: 'MpdjDao');
     await batch((b) {
-      b.deleteAll(prevDisjForm);
-      b.deleteAll(medicaoPressaoSf6Table);
-      b.deleteAll(medicaoResistenciaContatoTable);
-      b.deleteAll(medicaoResistenciaIsolamentoTable);
-      b.deleteAll(medicaoTempoOperacaoTable);
+      b.insertAll(mpDjPressaoSf6Table, lista);
     });
   }
 
-  /// Verifica se a tabela do formulário está vazia
+  Future<void> salvarMedicoesContato(
+      List<MpDjResistenciaContatoTableCompanion> lista) async {
+    AppLogger.d('💾 Salvando ${lista.length} medições de Resistência Contato',
+        tag: 'MpdjDao');
+    await batch((b) {
+      b.insertAll(mpDjResistenciaContatoTable, lista);
+    });
+  }
+
+  Future<void> salvarMedicoesIsolamento(
+      List<MpDjResistenciaIsolamentoTableCompanion> lista) async {
+    AppLogger.d('💾 Salvando ${lista.length} medições de Isolamento',
+        tag: 'MpdjDao');
+    await batch((b) {
+      b.insertAll(mpDjResistenciaIsolamentoTable, lista);
+    });
+  }
+
+  Future<void> salvarMedicoesTempo(
+      List<MpDjTempoOperacaoTableCompanion> lista) async {
+    AppLogger.d('💾 Salvando ${lista.length} medições de Tempo de Operação',
+        tag: 'MpdjDao');
+    await batch((b) {
+      b.insertAll(mpDjTempoOperacaoTable, lista);
+    });
+  }
+
+  // =============================================================================
+  // 🗑️ MÉTODOS PARA DELETAR
+  // =============================================================================
+
+  /// 🔥 Deleta todas as medições vinculadas ao formulário
+  Future<void> deletarMedicoesPorFormulario(int formularioId) async {
+    AppLogger.w('🧹 Deletando medições do formulário $formularioId',
+        tag: 'MpdjDao');
+
+    await batch((b) {
+      b.deleteWhere(
+          mpDjPressaoSf6Table, (t) => t.mpDjFormId.equals(formularioId));
+      b.deleteWhere(mpDjResistenciaContatoTable,
+          (t) => t.mpDjFormId.equals(formularioId));
+      b.deleteWhere(mpDjResistenciaIsolamentoTable,
+          (t) => t.mpDjFormId.equals(formularioId));
+      b.deleteWhere(
+          mpDjTempoOperacaoTable, (t) => t.mpDjFormId.equals(formularioId));
+    });
+  }
+
+  /// 🔥 Deleta o formulário e suas medições
+  Future<void> deletarFormulario(int formularioId) async {
+    AppLogger.w('🗑️ Deletando formulário $formularioId', tag: 'MpdjDao');
+    await transaction(() async {
+      await deletarMedicoesPorFormulario(formularioId);
+      await (delete(mpDjFormTable)..where((t) => t.id.equals(formularioId)))
+          .go();
+    });
+  }
+
+  /// 🔥 Remove tudo do banco relacionado a MPDJ
+  Future<void> deletarTudo() async {
+    AppLogger.w('🗑️ Limpando todas tabelas do MPDJ', tag: 'MpdjDao');
+    await batch((b) {
+      b.deleteAll(mpDjFormTable);
+      b.deleteAll(mpDjPressaoSf6Table);
+      b.deleteAll(mpDjResistenciaContatoTable);
+      b.deleteAll(mpDjResistenciaIsolamentoTable);
+      b.deleteAll(mpDjTempoOperacaoTable);
+    });
+  }
+
+  /// 🔍 Verifica se o formulário está vazio
   Future<bool> estaVazio() async {
-    final count = await (selectOnly(prevDisjForm)
-          ..addColumns([prevDisjForm.id.count()]))
+    final count = await (selectOnly(mpDjFormTable)
+          ..addColumns([mpDjFormTable.id.count()]))
         .getSingle();
-    return (count.read(prevDisjForm.id.count()) ?? 0) == 0;
+    final qtd = count.read(mpDjFormTable.id.count()) ?? 0;
+    AppLogger.d('📊 Quantidade de formulários MPDJ no banco: $qtd',
+        tag: 'MpdjDao');
+    return qtd == 0;
   }
 }

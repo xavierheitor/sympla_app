@@ -15,9 +15,30 @@ class _EtapaResistenciaContatoPageState
     extends State<EtapaResistenciaContatoPage> {
   final controller = Get.find<MpDjFormController>();
 
-  final List<_CamaraControllers> camaras = [
-    _CamaraControllers(numero: 1),
-  ];
+  final List<_CamaraControllers> camaras = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _preencherCamposSeExistir();
+  }
+
+  void _preencherCamposSeExistir() {
+    final lista = controller.resistenciasContato;
+    if (lista.isNotEmpty) {
+      for (final med in lista) {
+        final c = _CamaraControllers(numero: med.numeroCamara);
+        c.faseA.text = med.resistenciaFaseA?.toString() ?? '';
+        c.faseB.text = med.resistenciaFaseB?.toString() ?? '';
+        c.faseC.text = med.resistenciaFaseC?.toString() ?? '';
+        c.temp.text = med.temperaturaDisjuntor?.toString() ?? '';
+        c.umidade.text = med.umidadeRelativaAr?.toString() ?? '';
+        camaras.add(c);
+      }
+    } else {
+      camaras.add(_CamaraControllers(numero: 1));
+    }
+  }
 
   @override
   void dispose() {
@@ -29,7 +50,10 @@ class _EtapaResistenciaContatoPageState
 
   void _adicionarCamara() {
     setState(() {
-      camaras.add(_CamaraControllers(numero: camaras.length + 1));
+      final proximoNumero = camaras.isEmpty
+          ? 1
+          : camaras.map((e) => e.numero).reduce((a, b) => a > b ? a : b) + 1;
+      camaras.add(_CamaraControllers(numero: proximoNumero));
     });
   }
 
@@ -51,11 +75,11 @@ class _EtapaResistenciaContatoPageState
         id: 0,
         formularioDisjuntorId: id,
         numeroCamara: c.numero,
-        resistenciaFaseA: double.tryParse(c.faseA.text.trim()) ?? 0.0,
-        resistenciaFaseB: double.tryParse(c.faseB.text.trim()) ?? 0.0,
-        resistenciaFaseC: double.tryParse(c.faseC.text.trim()) ?? 0.0,
-        temperaturaDisjuntor: double.tryParse(c.temp.text.trim()) ?? 0.0,
-        umidadeRelativaAr: double.tryParse(c.umidade.text.trim()) ?? 0.0,
+        resistenciaFaseA: double.tryParse(c.faseA.text.trim()),
+        resistenciaFaseB: double.tryParse(c.faseB.text.trim()),
+        resistenciaFaseC: double.tryParse(c.faseC.text.trim()),
+        temperaturaDisjuntor: double.tryParse(c.temp.text.trim()),
+        umidadeRelativaAr: double.tryParse(c.umidade.text.trim()),
       );
     }).toList();
 
@@ -78,77 +102,88 @@ class _EtapaResistenciaContatoPageState
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            ...camaras.asMap().entries.map((entry) {
-              final index = entry.key;
-              final c = entry.value;
+      body: Obx(() {
+        if (controller.carregando.value) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-              return Card(
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Câmara ${c.numero}',
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16)),
-                      TextField(
-                        controller: c.faseA,
-                        decoration:
-                            const InputDecoration(labelText: 'Fase A (μΩ)'),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextField(
-                        controller: c.faseB,
-                        decoration:
-                            const InputDecoration(labelText: 'Fase B (μΩ)'),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextField(
-                        controller: c.faseC,
-                        decoration:
-                            const InputDecoration(labelText: 'Fase C (μΩ)'),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextField(
-                        controller: c.temp,
-                        decoration: const InputDecoration(
-                            labelText: 'Temperatura Disjuntor (°C)'),
-                        keyboardType: TextInputType.number,
-                      ),
-                      TextField(
-                        controller: c.umidade,
-                        decoration: const InputDecoration(
-                            labelText: 'Umidade Relativa do Ar (%)'),
-                        keyboardType: TextInputType.number,
-                      ),
-                      if (camaras.length > 1)
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: TextButton.icon(
-                            onPressed: () => _removerCamara(index),
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                            label: const Text('Remover',
-                                style: TextStyle(color: Colors.red)),
-                          ),
+        return SingleChildScrollView(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              ...camaras.asMap().entries.map((entry) {
+                final index = entry.key;
+                final c = entry.value;
+
+                return Card(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Câmara ${c.numero}',
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)),
+                        TextField(
+                          controller: c.faseA,
+                          decoration:
+                              const InputDecoration(labelText: 'Fase A (μΩ)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
                         ),
-                    ],
+                        TextField(
+                          controller: c.faseB,
+                          decoration:
+                              const InputDecoration(labelText: 'Fase B (μΩ)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                        ),
+                        TextField(
+                          controller: c.faseC,
+                          decoration:
+                              const InputDecoration(labelText: 'Fase C (μΩ)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                        ),
+                        TextField(
+                          controller: c.temp,
+                          decoration: const InputDecoration(
+                              labelText: 'Temperatura Disjuntor (°C)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                        ),
+                        TextField(
+                          controller: c.umidade,
+                          decoration: const InputDecoration(
+                              labelText: 'Umidade Relativa do Ar (%)'),
+                          keyboardType: const TextInputType.numberWithOptions(
+                              decimal: true),
+                        ),
+                        if (camaras.length > 1)
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: TextButton.icon(
+                              onPressed: () => _removerCamara(index),
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              label: const Text('Remover',
+                                  style: TextStyle(color: Colors.red)),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-              );
-            }),
-            ElevatedButton.icon(
-              onPressed: _adicionarCamara,
-              icon: const Icon(Icons.add),
-              label: const Text('Adicionar Câmara'),
-            ),
-          ],
-        ),
-      ),
+                );
+              }),
+              ElevatedButton.icon(
+                onPressed: _adicionarCamara,
+                icon: const Icon(Icons.add),
+                label: const Text('Adicionar Câmara'),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
