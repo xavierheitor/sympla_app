@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
+double? parseDouble(String input) {
+  return double.tryParse(input.trim().replaceAll(',', '.'));
+}
+
 class MedicoesEditor extends StatefulWidget {
   final List<MedicaoElementoMpbbTableDto> medicoes;
   final void Function(List<MedicaoElementoMpbbTableDto>) onChanged;
@@ -24,7 +28,6 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
     _lista = List.from(widget.medicoes);
   }
 
-  /// ➕ Adiciona uma nova medição
   void _adicionarMedicao() {
     final novoNumero = _lista.isNotEmpty
         ? _lista
@@ -35,7 +38,7 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
 
     setState(() {
       _lista.add(MedicaoElementoMpbbTableDto(
-        formularioBateriaId: 0, // será preenchido no salvamento
+        formularioBateriaId: 0, // Será preenchido no salvamento correto
         elementoBateriaNumero: novoNumero,
         tensao: null,
         resistenciaInterna: null,
@@ -45,34 +48,26 @@ class _MedicoesEditorState extends State<MedicoesEditor> {
     widget.onChanged(List.from(_lista));
   }
 
-  /// 🔧 Atualiza a tensão no índice informado
   void _atualizarTensao(int index, String valor) {
-    final parsed = double.tryParse(valor);
-
+    final parsed = parseDouble(valor);
     setState(() {
       _lista[index] = _lista[index].copyWith(tensao: parsed);
     });
-
     widget.onChanged(List.from(_lista));
   }
 
-  /// 🔧 Atualiza a resistência no índice informado
   void _atualizarResistencia(int index, String valor) {
-    final parsed = double.tryParse(valor);
-
+    final parsed = parseDouble(valor);
     setState(() {
       _lista[index] = _lista[index].copyWith(resistenciaInterna: parsed);
     });
-
     widget.onChanged(List.from(_lista));
   }
 
-  /// ❌ Remove uma medição pelo índice
   void _removerMedicao(int index) {
     setState(() {
       _lista.removeAt(index);
     });
-
     widget.onChanged(List.from(_lista));
   }
 

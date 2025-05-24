@@ -8,6 +8,8 @@ abstract class MpbbRepository {
   Future<void> deleteByAtividadeId(String atividadeId);
   Future<void> insert(FormularioBateriaTableDto formulario);
   Future<List<FormularioBateriaTableDto>> getByAtividadeId(String atividadeId);
+  Future<int> salvarFormularioRetornandoId(
+      FormularioBateriaTableDto formulario);
 
   // 🔢 Medições
   Future<List<MedicaoElementoMpbbTableDto>> getByFormularioId(int formularioId);

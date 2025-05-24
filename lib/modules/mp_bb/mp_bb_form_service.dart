@@ -51,14 +51,20 @@ class MpBbFormService {
       AppLogger.d(
           '[MpBbFormService] Salvando formulário da atividade ${formulario.atividadeId} e ${medicoes.length} medições.');
 
-      // 🔥 Remove dados antigos para garantir consistência.
+      // 🔥 Remove dados antigos
       await mpbbRepository.deleteByAtividadeId(formulario.atividadeId);
 
-      // 💾 Salva o formulário.
-      await mpbbRepository.salvarFormulario(formulario);
+      // 💾 Salva o formulário e pega o ID gerado
+      final idForm =
+          await mpbbRepository.salvarFormularioRetornandoId(formulario);
 
-      // 💾 Salva as medições associadas.
-      await mpbbRepository.insertAll(medicoes);
+      // 🔗 Atualiza as medições com o ID correto do formulário
+      final medicoesComId = medicoes.map((e) {
+        return e.copyWith(formularioBateriaId: idForm);
+      }).toList();
+
+      // 💾 Salva as medições
+      await mpbbRepository.insertAll(medicoesComId);
 
       AppLogger.d(
           '[MpBbFormService] Formulário e medições salvos com sucesso.');

@@ -33,7 +33,7 @@ class MpBbFormController extends GetxController {
       final form = await service.buscarPorAtividade(
           atividadeController.atividadeEmAndamento.value!.uuid);
       final lista = form != null
-          ? await service.buscarMedicoes(form.id)
+          ? await service.buscarMedicoes(form.id!)
           : <MedicaoElementoMpbbTableDto>[];
 
       formulario.value = form;

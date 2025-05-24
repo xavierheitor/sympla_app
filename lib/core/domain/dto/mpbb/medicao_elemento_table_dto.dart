@@ -3,14 +3,14 @@ import 'package:sympla_app/core/storage/app_database.dart';
 
 class MedicaoElementoMpbbTableDto {
   final int? id;
-  final int formularioBateriaId;
+  final int? formularioBateriaId;
   final int elementoBateriaNumero;
   final double? tensao;
   final double? resistenciaInterna;
 
   MedicaoElementoMpbbTableDto({
     this.id,
-    required this.formularioBateriaId,
+    this.formularioBateriaId,
     required this.elementoBateriaNumero,
     this.tensao,
     this.resistenciaInterna,
@@ -32,7 +32,7 @@ class MedicaoElementoMpbbTableDto {
       id: id != null
           ? Value(id!)
           : const Value.absent(), // 👈 Se não tem id, não passa
-      formularioMpbbId: Value(formularioBateriaId),
+      formularioMpbbId: Value(formularioBateriaId!),
       elementoBateriaNumero: Value(elementoBateriaNumero),
       tensao: Value(tensao),
       resistenciaInterna: Value(resistenciaInterna),

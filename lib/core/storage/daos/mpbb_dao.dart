@@ -82,4 +82,11 @@ class MpbbDao extends DatabaseAccessor<AppDatabase> with _$MpbbDaoMixin {
     final result = await countQuery.getSingle();
     return (result.read(formularioMpbbTable.id.count()) ?? 0) == 0;
   }
+
+  Future<int> salvarFormularioRetornandoId(
+      FormularioMpbbTableCompanion data) async {
+    AppLogger.d('💾 Salvando formulário MPBB (retornando ID): $data',
+        tag: 'MpbbDao');
+    return await into(formularioMpbbTable).insert(data);
+  }
 }

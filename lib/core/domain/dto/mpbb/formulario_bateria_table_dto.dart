@@ -3,7 +3,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 
 class FormularioBateriaTableDto {
-  final int id;
+  final int? id;
   final String atividadeId;
   final String? fabricante;
   final double? resistenciaNominal;
@@ -20,7 +20,7 @@ class FormularioBateriaTableDto {
   final DateTime? updatedAt;
 
   FormularioBateriaTableDto({
-    required this.id,
+    this.id,
     required this.atividadeId,
     this.fabricante,
     this.resistenciaNominal,
@@ -59,7 +59,9 @@ class FormularioBateriaTableDto {
 
   FormularioMpbbTableCompanion toCompanion() {
     return FormularioMpbbTableCompanion(
-      id: Value(id),
+      id: id != null
+          ? Value(id!)
+          : const Value.absent(), // 👈 Se não tem id, não passa
       atividadeId: Value(atividadeId),
       fabricante: Value(fabricante),
       resistenciaNominal: Value(resistenciaNominal),

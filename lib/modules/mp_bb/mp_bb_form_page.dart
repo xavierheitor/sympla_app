@@ -7,6 +7,10 @@ import 'package:sympla_app/modules/mp_bb/widgets/mp_bb_medicoes_editor_widget.da
 import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
+double? parseDouble(String input) {
+  return double.tryParse(input.trim().replaceAll(',', '.'));
+}
+
 class MpBbFormPage extends StatefulWidget {
   const MpBbFormPage({super.key});
 
@@ -23,7 +27,6 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
   final _tensaoBancoController = TextEditingController();
   final _rippleController = TextEditingController();
 
-  /// 🔋 Lista de medições temporárias (controlada via GetX)
   final _medicoesTemp = <MedicaoElementoMpbbTableDto>[].obs;
 
   @override
@@ -55,19 +58,18 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
             icon: const Icon(Icons.save),
             onPressed: () {
               if (_formKey.currentState?.validate() ?? false) {
-                // 🔗 Monta DTO do formulário
                 final dados = FormularioBateriaTableDto(
-                  id: controller.formulario.value?.id ?? 0,
+                  id: controller.formulario.value?.id,
                   atividadeId: controller
                       .atividadeController.atividadeEmAndamento.value!.uuid,
                   fabricante: _fabricanteController.text,
                   modelo: _modeloController.text,
                   capacidadeAh: int.tryParse(_capacidadeController.text.trim()),
                   tensaoFlutuacaoCelula:
-                      double.tryParse(_tensaoCelulaController.text.trim()),
+                      parseDouble(_tensaoCelulaController.text),
                   tensaoFlutuacaoBanco:
-                      double.tryParse(_tensaoBancoController.text.trim()),
-                  rippleMedido: double.tryParse(_rippleController.text.trim()),
+                      parseDouble(_tensaoBancoController.text),
+                  rippleMedido: parseDouble(_rippleController.text),
                   tipoBateria:
                       controller.formulario.value?.tipoBateria ??
                       TipoBateria.ventilada.name,
@@ -78,7 +80,6 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
                   resistenciaNominal: null,
                 );
 
-                // 🔗 Usa lista de medições temporárias
                 controller.salvarFormulario(
                   dados: dados,
                   medicoesList: _medicoesTemp.toList(),

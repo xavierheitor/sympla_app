@@ -67,6 +67,14 @@ class MpbbRepositoryImpl with RepositoryHelper implements MpbbRepository {
     });
   }
 
+  Future<int> salvarFormularioRetornandoId(
+      FormularioBateriaTableDto formulario) {
+    return executar('salvarFormularioRetornandoId', () async {
+      return await mpbbDao
+          .salvarFormularioRetornandoId(formulario.toCompanion());
+    });
+  }
+
   // ---------------------------------------------------------------------------
   // 🔢 MEDIÇÕES DOS ELEMENTOS
   // ---------------------------------------------------------------------------
