@@ -1,7 +1,7 @@
 enum TipoAtividadeMobile {
   ivItIu,
   mpbb,
-  prevDisjuntor,
+  mpdj,
   medMalha,
   testeCaCc,
   coletaOleo,

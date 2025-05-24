@@ -33,7 +33,7 @@ final Map<TipoAtividadeMobile, List<EtapaAtividade>> fluxoPorTipoAtividade = {
     EtapaAtividade.mpBbForm,
     EtapaAtividade.finalizada,
   ],
-  TipoAtividadeMobile.prevDisjuntor: [
+  TipoAtividadeMobile.mpdj: [
     EtapaAtividade.apr,
     EtapaAtividade.checklist,
     EtapaAtividade.resumoAnomalias,
