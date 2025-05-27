@@ -8,7 +8,6 @@ import 'package:sympla_app/core/domain/repositories/implementations/sync/checkli
 import 'package:sympla_app/core/domain/repositories/implementations/sync/checklist_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/defeito_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/equipamento_table_sync_impl.dart';
-import 'package:sympla_app/core/domain/repositories/implementations/sync/grupo_defeito_codigo_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/grupo_defeito_equipamento_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/subgrupo_defeito_equipamento_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/tecnico_table_sync_impl.dart';
@@ -61,11 +60,6 @@ class SplashBinding extends Bindings {
     ));
 
     syncManager.registrar(DefeitoTableSyncImpl(
-      Get.find(),
-      Get.find(),
-    ));
-
-    syncManager.registrar(GrupoDefeitoCodigoTableSyncImpl(
       Get.find(),
       Get.find(),
     ));

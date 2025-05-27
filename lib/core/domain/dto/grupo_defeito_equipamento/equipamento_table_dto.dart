@@ -6,24 +6,24 @@ class EquipamentoTableDto {
   final String nome;
   final String descricao;
   final String subestacao;
-  final String grupoDefeitoCodigo;
+  final String grupoId;
 
   EquipamentoTableDto({
     required this.uuid,
     required this.nome,
     required this.descricao,
     required this.subestacao,
-    required this.grupoDefeitoCodigo,
+    required this.grupoId,
   });
 
-  // 🔄 De JSON para DTO
+  // 🔄 De JSON para DTO - com tratamento de null
   factory EquipamentoTableDto.fromJson(Map<String, dynamic> json) {
     return EquipamentoTableDto(
-      uuid: json['id'],
-      nome: json['nome'],
-      descricao: json['descricao'],
-      subestacao: json['subestacao'],
-      grupoDefeitoCodigo: json['grupoDefeitoCodigo'],
+      uuid: (json['id'] ?? '').toString(),
+      nome: (json['nome'] ?? '').toString(),
+      descricao: (json['descricao'] ?? json['nome'] ?? '').toString(),
+      subestacao: (json['subestacao'] ?? '').toString(),
+      grupoId: (json['grupoId'] ?? '').toString(),
     );
   }
 
@@ -34,7 +34,7 @@ class EquipamentoTableDto {
       'nome': nome,
       'descricao': descricao,
       'subestacao': subestacao,
-      'grupoDefeitoCodigo': grupoDefeitoCodigo,
+      'grupoId': grupoId,
     };
   }
 
@@ -43,9 +43,9 @@ class EquipamentoTableDto {
     return EquipamentoTableCompanion(
       uuid: Value(uuid),
       nome: Value(nome),
-      descricao: Value(descricao),
+      descricao: Value(descricao.isNotEmpty ? descricao : nome),
       subestacao: Value(subestacao),
-      grupoDefeitoCodigo: Value(grupoDefeitoCodigo),
+      grupoId: Value(grupoId.isNotEmpty ? grupoId : 'NAO_ENCONTRADO'),
       createdAt: Value(DateTime.now()),
       updatedAt: Value(DateTime.now()),
       sincronizado: const Value(true),
@@ -59,7 +59,7 @@ class EquipamentoTableDto {
       nome: data.nome,
       descricao: data.descricao,
       subestacao: data.subestacao,
-      grupoDefeitoCodigo: data.grupoDefeitoCodigo,
+      grupoId: data.grupoId,
     );
   }
 

@@ -67,6 +67,7 @@ class MpbbRepositoryImpl with RepositoryHelper implements MpbbRepository {
     });
   }
 
+  @override
   Future<int> salvarFormularioRetornandoId(
       FormularioBateriaTableDto formulario) {
     return executar('salvarFormularioRetornandoId', () async {

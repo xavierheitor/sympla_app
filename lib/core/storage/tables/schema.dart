@@ -167,18 +167,11 @@ class ChecklistRespostaTable extends Table {
 
 class GrupoDefeitoEquipamentoTable extends SyncableTable {
   TextColumn get nome => text().withLength(min: 2, max: 100)();
+  TextColumn get codigo => text().withLength(min: 2, max: 200)();
 }
 
 class SubgrupoDefeitoEquipamentoTable extends SyncableTable {
   TextColumn get nome => text().withLength(min: 2, max: 100)();
-  TextColumn get grupoDefeitoId =>
-      text().references(GrupoDefeitoEquipamentoTable, #uuid)();
-}
-
-class GrupoDefeitoCodigoTable extends SyncableTable {
-  TextColumn get sigla => text().withLength(min: 2, max: 100)();
-  TextColumn get codigo => text().withLength(min: 2, max: 200)();
-
   TextColumn get grupoDefeitoId =>
       text().references(GrupoDefeitoEquipamentoTable, #uuid)();
 }
@@ -188,8 +181,7 @@ class DefeitoTable extends SyncableTable {
       text().references(GrupoDefeitoEquipamentoTable, #uuid)();
   TextColumn get subgrupoId =>
       text().references(SubgrupoDefeitoEquipamentoTable, #uuid)();
-  TextColumn get grupoDefeitoCodigoId =>
-      text().references(GrupoDefeitoCodigoTable, #uuid)();
+
   TextColumn get codigoSap => text()();
   TextColumn get descricao => text()();
   TextColumn get prioridade => text().map(const PrioridadeDefeitoConverter())();
@@ -202,8 +194,8 @@ class EquipamentoTable extends SyncableTable {
   TextColumn get descricao => text().withLength(min: 2, max: 200)();
   TextColumn get subestacao => text().withLength(min: 1, max: 3)();
 
-  TextColumn get grupoDefeitoCodigo =>
-      text().references(GrupoDefeitoCodigoTable, #uuid)();
+  TextColumn get grupoId =>
+      text().references(GrupoDefeitoEquipamentoTable, #uuid)();
 }
 
 //**------------------ ANOMALIA --------------- */

@@ -147,9 +147,9 @@ class ChecklistService {
       EquipamentoTableDto equipamento) async {
     try {
       AppLogger.d(
-          '[ChecklistService] Buscando defeitos para equipamento: ${equipamento.uuid} com o grupoDefeitoCodigo:  (${equipamento.grupoDefeitoCodigo})');
+          '[ChecklistService] Buscando defeitos para equipamento: ${equipamento.uuid} com o grupoDefeitoCodigo:  (${equipamento.grupoId})');
       return await defeitoRepository
-          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoDefeitoCodigo);
+          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoId);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - buscarDefeitos] ${erro.mensagem}',

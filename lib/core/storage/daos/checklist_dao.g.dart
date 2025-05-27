@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../checklist_dao.dart';
+part of 'checklist_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$ChecklistDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -14,8 +14,6 @@ mixin _$ChecklistDaoMixin on DatabaseAccessor<AppDatabase> {
           attachedDatabase.checklistPerguntaRelacionamentoTable;
   $GrupoDefeitoEquipamentoTableTable get grupoDefeitoEquipamentoTable =>
       attachedDatabase.grupoDefeitoEquipamentoTable;
-  $GrupoDefeitoCodigoTableTable get grupoDefeitoCodigoTable =>
-      attachedDatabase.grupoDefeitoCodigoTable;
   $EquipamentoTableTable get equipamentoTable =>
       attachedDatabase.equipamentoTable;
   $AtividadeTableTable get atividadeTable => attachedDatabase.atividadeTable;

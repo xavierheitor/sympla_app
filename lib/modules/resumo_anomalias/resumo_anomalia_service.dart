@@ -77,7 +77,7 @@ class ResumoAnomaliasService {
       AppLogger.d(
           '[ResumoAnomaliasService] Buscando defeitos para equipamento ID: ${equipamento.uuid}, nome: ${equipamento.nome}');
       final lista = await defeitoRepository
-          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoDefeitoCodigo);
+          .buscarDefeitosPorEquipamentoCodigo(equipamento.grupoId);
       AppLogger.d(
           '[ResumoAnomaliasService] ${lista.length} defeitos encontrados');
       return lista;

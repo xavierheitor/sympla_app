@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of '../apr_dao.dart';
+part of 'apr_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$AprDaoMixin on DatabaseAccessor<AppDatabase> {
@@ -13,8 +13,6 @@ mixin _$AprDaoMixin on DatabaseAccessor<AppDatabase> {
       attachedDatabase.aprPerguntaRelacionamentoTable;
   $GrupoDefeitoEquipamentoTableTable get grupoDefeitoEquipamentoTable =>
       attachedDatabase.grupoDefeitoEquipamentoTable;
-  $GrupoDefeitoCodigoTableTable get grupoDefeitoCodigoTable =>
-      attachedDatabase.grupoDefeitoCodigoTable;
   $EquipamentoTableTable get equipamentoTable =>
       attachedDatabase.equipamentoTable;
   $AtividadeTableTable get atividadeTable => attachedDatabase.atividadeTable;

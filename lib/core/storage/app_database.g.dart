@@ -885,9 +885,17 @@ class $GrupoDefeitoEquipamentoTableTable extends GrupoDefeitoEquipamentoTable
           GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 100),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
+  static const VerificationMeta _codigoMeta = const VerificationMeta('codigo');
+  @override
+  late final GeneratedColumn<String> codigo = GeneratedColumn<String>(
+      'codigo', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 200),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, uuid, createdAt, updatedAt, sincronizado, nome];
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, codigo];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -932,6 +940,12 @@ class $GrupoDefeitoEquipamentoTableTable extends GrupoDefeitoEquipamentoTable
     } else if (isInserting) {
       context.missing(_nomeMeta);
     }
+    if (data.containsKey('codigo')) {
+      context.handle(_codigoMeta,
+          codigo.isAcceptableOrUnknown(data['codigo']!, _codigoMeta));
+    } else if (isInserting) {
+      context.missing(_codigoMeta);
+    }
     return context;
   }
 
@@ -954,6 +968,8 @@ class $GrupoDefeitoEquipamentoTableTable extends GrupoDefeitoEquipamentoTable
           .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
       nome: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
+      codigo: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}codigo'])!,
     );
   }
 
@@ -971,13 +987,15 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
   final DateTime updatedAt;
   final bool sincronizado;
   final String nome;
+  final String codigo;
   const GrupoDefeitoEquipamentoTableData(
       {required this.id,
       required this.uuid,
       required this.createdAt,
       required this.updatedAt,
       required this.sincronizado,
-      required this.nome});
+      required this.nome,
+      required this.codigo});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -987,6 +1005,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
     map['updated_at'] = Variable<DateTime>(updatedAt);
     map['sincronizado'] = Variable<bool>(sincronizado);
     map['nome'] = Variable<String>(nome);
+    map['codigo'] = Variable<String>(codigo);
     return map;
   }
 
@@ -998,6 +1017,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
       updatedAt: Value(updatedAt),
       sincronizado: Value(sincronizado),
       nome: Value(nome),
+      codigo: Value(codigo),
     );
   }
 
@@ -1011,6 +1031,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
       nome: serializer.fromJson<String>(json['nome']),
+      codigo: serializer.fromJson<String>(json['codigo']),
     );
   }
   @override
@@ -1023,6 +1044,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
       'sincronizado': serializer.toJson<bool>(sincronizado),
       'nome': serializer.toJson<String>(nome),
+      'codigo': serializer.toJson<String>(codigo),
     };
   }
 
@@ -1032,7 +1054,8 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
           DateTime? createdAt,
           DateTime? updatedAt,
           bool? sincronizado,
-          String? nome}) =>
+          String? nome,
+          String? codigo}) =>
       GrupoDefeitoEquipamentoTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -1040,6 +1063,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
         updatedAt: updatedAt ?? this.updatedAt,
         sincronizado: sincronizado ?? this.sincronizado,
         nome: nome ?? this.nome,
+        codigo: codigo ?? this.codigo,
       );
   GrupoDefeitoEquipamentoTableData copyWithCompanion(
       GrupoDefeitoEquipamentoTableCompanion data) {
@@ -1052,6 +1076,7 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
           ? data.sincronizado.value
           : this.sincronizado,
       nome: data.nome.present ? data.nome.value : this.nome,
+      codigo: data.codigo.present ? data.codigo.value : this.codigo,
     );
   }
 
@@ -1063,14 +1088,15 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
-          ..write('nome: $nome')
+          ..write('nome: $nome, ')
+          ..write('codigo: $codigo')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, uuid, createdAt, updatedAt, sincronizado, nome);
+      Object.hash(id, uuid, createdAt, updatedAt, sincronizado, nome, codigo);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1080,7 +1106,8 @@ class GrupoDefeitoEquipamentoTableData extends DataClass
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt &&
           other.sincronizado == this.sincronizado &&
-          other.nome == this.nome);
+          other.nome == this.nome &&
+          other.codigo == this.codigo);
 }
 
 class GrupoDefeitoEquipamentoTableCompanion
@@ -1091,6 +1118,7 @@ class GrupoDefeitoEquipamentoTableCompanion
   final Value<DateTime> updatedAt;
   final Value<bool> sincronizado;
   final Value<String> nome;
+  final Value<String> codigo;
   const GrupoDefeitoEquipamentoTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -1098,6 +1126,7 @@ class GrupoDefeitoEquipamentoTableCompanion
     this.updatedAt = const Value.absent(),
     this.sincronizado = const Value.absent(),
     this.nome = const Value.absent(),
+    this.codigo = const Value.absent(),
   });
   GrupoDefeitoEquipamentoTableCompanion.insert({
     this.id = const Value.absent(),
@@ -1106,10 +1135,12 @@ class GrupoDefeitoEquipamentoTableCompanion
     required DateTime updatedAt,
     this.sincronizado = const Value.absent(),
     required String nome,
+    required String codigo,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
-        nome = Value(nome);
+        nome = Value(nome),
+        codigo = Value(codigo);
   static Insertable<GrupoDefeitoEquipamentoTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -1117,6 +1148,7 @@ class GrupoDefeitoEquipamentoTableCompanion
     Expression<DateTime>? updatedAt,
     Expression<bool>? sincronizado,
     Expression<String>? nome,
+    Expression<String>? codigo,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -1125,6 +1157,7 @@ class GrupoDefeitoEquipamentoTableCompanion
       if (updatedAt != null) 'updated_at': updatedAt,
       if (sincronizado != null) 'sincronizado': sincronizado,
       if (nome != null) 'nome': nome,
+      if (codigo != null) 'codigo': codigo,
     });
   }
 
@@ -1134,7 +1167,8 @@ class GrupoDefeitoEquipamentoTableCompanion
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt,
       Value<bool>? sincronizado,
-      Value<String>? nome}) {
+      Value<String>? nome,
+      Value<String>? codigo}) {
     return GrupoDefeitoEquipamentoTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -1142,6 +1176,7 @@ class GrupoDefeitoEquipamentoTableCompanion
       updatedAt: updatedAt ?? this.updatedAt,
       sincronizado: sincronizado ?? this.sincronizado,
       nome: nome ?? this.nome,
+      codigo: codigo ?? this.codigo,
     );
   }
 
@@ -1166,6 +1201,9 @@ class GrupoDefeitoEquipamentoTableCompanion
     if (nome.present) {
       map['nome'] = Variable<String>(nome.value);
     }
+    if (codigo.present) {
+      map['codigo'] = Variable<String>(codigo.value);
+    }
     return map;
   }
 
@@ -1177,449 +1215,8 @@ class GrupoDefeitoEquipamentoTableCompanion
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
-          ..write('nome: $nome')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $GrupoDefeitoCodigoTableTable extends GrupoDefeitoCodigoTable
-    with TableInfo<$GrupoDefeitoCodigoTableTable, GrupoDefeitoCodigoTableData> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $GrupoDefeitoCodigoTableTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
-  @override
-  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
-      'uuid', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  @override
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
-  @override
-  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _sincronizadoMeta =
-      const VerificationMeta('sincronizado');
-  @override
-  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
-      'sincronizado', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'CHECK ("sincronizado" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _siglaMeta = const VerificationMeta('sigla');
-  @override
-  late final GeneratedColumn<String> sigla = GeneratedColumn<String>(
-      'sigla', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 100),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _codigoMeta = const VerificationMeta('codigo');
-  @override
-  late final GeneratedColumn<String> codigo = GeneratedColumn<String>(
-      'codigo', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 2, maxTextLength: 200),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _grupoDefeitoIdMeta =
-      const VerificationMeta('grupoDefeitoId');
-  @override
-  late final GeneratedColumn<String> grupoDefeitoId = GeneratedColumn<String>(
-      'grupo_defeito_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES grupo_defeito_equipamento_table (uuid)'));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        uuid,
-        createdAt,
-        updatedAt,
-        sincronizado,
-        sigla,
-        codigo,
-        grupoDefeitoId
-      ];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'grupo_defeito_codigo_table';
-  @override
-  VerificationContext validateIntegrity(
-      Insertable<GrupoDefeitoCodigoTableData> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('uuid')) {
-      context.handle(
-          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
-    } else if (isInserting) {
-      context.missing(_uuidMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
-    }
-    if (data.containsKey('sincronizado')) {
-      context.handle(
-          _sincronizadoMeta,
-          sincronizado.isAcceptableOrUnknown(
-              data['sincronizado']!, _sincronizadoMeta));
-    }
-    if (data.containsKey('sigla')) {
-      context.handle(
-          _siglaMeta, sigla.isAcceptableOrUnknown(data['sigla']!, _siglaMeta));
-    } else if (isInserting) {
-      context.missing(_siglaMeta);
-    }
-    if (data.containsKey('codigo')) {
-      context.handle(_codigoMeta,
-          codigo.isAcceptableOrUnknown(data['codigo']!, _codigoMeta));
-    } else if (isInserting) {
-      context.missing(_codigoMeta);
-    }
-    if (data.containsKey('grupo_defeito_id')) {
-      context.handle(
-          _grupoDefeitoIdMeta,
-          grupoDefeitoId.isAcceptableOrUnknown(
-              data['grupo_defeito_id']!, _grupoDefeitoIdMeta));
-    } else if (isInserting) {
-      context.missing(_grupoDefeitoIdMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  GrupoDefeitoCodigoTableData map(Map<String, dynamic> data,
-      {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return GrupoDefeitoCodigoTableData(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      uuid: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
-      sincronizado: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
-      sigla: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}sigla'])!,
-      codigo: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}codigo'])!,
-      grupoDefeitoId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}grupo_defeito_id'])!,
-    );
-  }
-
-  @override
-  $GrupoDefeitoCodigoTableTable createAlias(String alias) {
-    return $GrupoDefeitoCodigoTableTable(attachedDatabase, alias);
-  }
-}
-
-class GrupoDefeitoCodigoTableData extends DataClass
-    implements Insertable<GrupoDefeitoCodigoTableData> {
-  final int id;
-  final String uuid;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final bool sincronizado;
-  final String sigla;
-  final String codigo;
-  final String grupoDefeitoId;
-  const GrupoDefeitoCodigoTableData(
-      {required this.id,
-      required this.uuid,
-      required this.createdAt,
-      required this.updatedAt,
-      required this.sincronizado,
-      required this.sigla,
-      required this.codigo,
-      required this.grupoDefeitoId});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['uuid'] = Variable<String>(uuid);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['updated_at'] = Variable<DateTime>(updatedAt);
-    map['sincronizado'] = Variable<bool>(sincronizado);
-    map['sigla'] = Variable<String>(sigla);
-    map['codigo'] = Variable<String>(codigo);
-    map['grupo_defeito_id'] = Variable<String>(grupoDefeitoId);
-    return map;
-  }
-
-  GrupoDefeitoCodigoTableCompanion toCompanion(bool nullToAbsent) {
-    return GrupoDefeitoCodigoTableCompanion(
-      id: Value(id),
-      uuid: Value(uuid),
-      createdAt: Value(createdAt),
-      updatedAt: Value(updatedAt),
-      sincronizado: Value(sincronizado),
-      sigla: Value(sigla),
-      codigo: Value(codigo),
-      grupoDefeitoId: Value(grupoDefeitoId),
-    );
-  }
-
-  factory GrupoDefeitoCodigoTableData.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return GrupoDefeitoCodigoTableData(
-      id: serializer.fromJson<int>(json['id']),
-      uuid: serializer.fromJson<String>(json['uuid']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
-      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
-      sigla: serializer.fromJson<String>(json['sigla']),
-      codigo: serializer.fromJson<String>(json['codigo']),
-      grupoDefeitoId: serializer.fromJson<String>(json['grupoDefeitoId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'uuid': serializer.toJson<String>(uuid),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
-      'sincronizado': serializer.toJson<bool>(sincronizado),
-      'sigla': serializer.toJson<String>(sigla),
-      'codigo': serializer.toJson<String>(codigo),
-      'grupoDefeitoId': serializer.toJson<String>(grupoDefeitoId),
-    };
-  }
-
-  GrupoDefeitoCodigoTableData copyWith(
-          {int? id,
-          String? uuid,
-          DateTime? createdAt,
-          DateTime? updatedAt,
-          bool? sincronizado,
-          String? sigla,
-          String? codigo,
-          String? grupoDefeitoId}) =>
-      GrupoDefeitoCodigoTableData(
-        id: id ?? this.id,
-        uuid: uuid ?? this.uuid,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        sincronizado: sincronizado ?? this.sincronizado,
-        sigla: sigla ?? this.sigla,
-        codigo: codigo ?? this.codigo,
-        grupoDefeitoId: grupoDefeitoId ?? this.grupoDefeitoId,
-      );
-  GrupoDefeitoCodigoTableData copyWithCompanion(
-      GrupoDefeitoCodigoTableCompanion data) {
-    return GrupoDefeitoCodigoTableData(
-      id: data.id.present ? data.id.value : this.id,
-      uuid: data.uuid.present ? data.uuid.value : this.uuid,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-      sincronizado: data.sincronizado.present
-          ? data.sincronizado.value
-          : this.sincronizado,
-      sigla: data.sigla.present ? data.sigla.value : this.sigla,
-      codigo: data.codigo.present ? data.codigo.value : this.codigo,
-      grupoDefeitoId: data.grupoDefeitoId.present
-          ? data.grupoDefeitoId.value
-          : this.grupoDefeitoId,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('GrupoDefeitoCodigoTableData(')
-          ..write('id: $id, ')
-          ..write('uuid: $uuid, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('sincronizado: $sincronizado, ')
-          ..write('sigla: $sigla, ')
-          ..write('codigo: $codigo, ')
-          ..write('grupoDefeitoId: $grupoDefeitoId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
-      sigla, codigo, grupoDefeitoId);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is GrupoDefeitoCodigoTableData &&
-          other.id == this.id &&
-          other.uuid == this.uuid &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt &&
-          other.sincronizado == this.sincronizado &&
-          other.sigla == this.sigla &&
-          other.codigo == this.codigo &&
-          other.grupoDefeitoId == this.grupoDefeitoId);
-}
-
-class GrupoDefeitoCodigoTableCompanion
-    extends UpdateCompanion<GrupoDefeitoCodigoTableData> {
-  final Value<int> id;
-  final Value<String> uuid;
-  final Value<DateTime> createdAt;
-  final Value<DateTime> updatedAt;
-  final Value<bool> sincronizado;
-  final Value<String> sigla;
-  final Value<String> codigo;
-  final Value<String> grupoDefeitoId;
-  const GrupoDefeitoCodigoTableCompanion({
-    this.id = const Value.absent(),
-    this.uuid = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-    this.sincronizado = const Value.absent(),
-    this.sigla = const Value.absent(),
-    this.codigo = const Value.absent(),
-    this.grupoDefeitoId = const Value.absent(),
-  });
-  GrupoDefeitoCodigoTableCompanion.insert({
-    this.id = const Value.absent(),
-    required String uuid,
-    required DateTime createdAt,
-    required DateTime updatedAt,
-    this.sincronizado = const Value.absent(),
-    required String sigla,
-    required String codigo,
-    required String grupoDefeitoId,
-  })  : uuid = Value(uuid),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt),
-        sigla = Value(sigla),
-        codigo = Value(codigo),
-        grupoDefeitoId = Value(grupoDefeitoId);
-  static Insertable<GrupoDefeitoCodigoTableData> custom({
-    Expression<int>? id,
-    Expression<String>? uuid,
-    Expression<DateTime>? createdAt,
-    Expression<DateTime>? updatedAt,
-    Expression<bool>? sincronizado,
-    Expression<String>? sigla,
-    Expression<String>? codigo,
-    Expression<String>? grupoDefeitoId,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (uuid != null) 'uuid': uuid,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-      if (sincronizado != null) 'sincronizado': sincronizado,
-      if (sigla != null) 'sigla': sigla,
-      if (codigo != null) 'codigo': codigo,
-      if (grupoDefeitoId != null) 'grupo_defeito_id': grupoDefeitoId,
-    });
-  }
-
-  GrupoDefeitoCodigoTableCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? uuid,
-      Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt,
-      Value<bool>? sincronizado,
-      Value<String>? sigla,
-      Value<String>? codigo,
-      Value<String>? grupoDefeitoId}) {
-    return GrupoDefeitoCodigoTableCompanion(
-      id: id ?? this.id,
-      uuid: uuid ?? this.uuid,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-      sincronizado: sincronizado ?? this.sincronizado,
-      sigla: sigla ?? this.sigla,
-      codigo: codigo ?? this.codigo,
-      grupoDefeitoId: grupoDefeitoId ?? this.grupoDefeitoId,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (uuid.present) {
-      map['uuid'] = Variable<String>(uuid.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    if (sincronizado.present) {
-      map['sincronizado'] = Variable<bool>(sincronizado.value);
-    }
-    if (sigla.present) {
-      map['sigla'] = Variable<String>(sigla.value);
-    }
-    if (codigo.present) {
-      map['codigo'] = Variable<String>(codigo.value);
-    }
-    if (grupoDefeitoId.present) {
-      map['grupo_defeito_id'] = Variable<String>(grupoDefeitoId.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('GrupoDefeitoCodigoTableCompanion(')
-          ..write('id: $id, ')
-          ..write('uuid: $uuid, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt, ')
-          ..write('sincronizado: $sincronizado, ')
-          ..write('sigla: $sigla, ')
-          ..write('codigo: $codigo, ')
-          ..write('grupoDefeitoId: $grupoDefeitoId')
+          ..write('nome: $nome, ')
+          ..write('codigo: $codigo')
           ..write(')'))
         .toString();
   }
@@ -1696,15 +1293,15 @@ class $EquipamentoTableTable extends EquipamentoTable
           GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 3),
       type: DriftSqlType.string,
       requiredDuringInsert: true);
-  static const VerificationMeta _grupoDefeitoCodigoMeta =
-      const VerificationMeta('grupoDefeitoCodigo');
+  static const VerificationMeta _grupoIdMeta =
+      const VerificationMeta('grupoId');
   @override
-  late final GeneratedColumn<String> grupoDefeitoCodigo =
-      GeneratedColumn<String>('grupo_defeito_codigo', aliasedName, false,
-          type: DriftSqlType.string,
-          requiredDuringInsert: true,
-          defaultConstraints: GeneratedColumn.constraintIsAlways(
-              'REFERENCES grupo_defeito_codigo_table (uuid)'));
+  late final GeneratedColumn<String> grupoId = GeneratedColumn<String>(
+      'grupo_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES grupo_defeito_equipamento_table (uuid)'));
   @override
   List<GeneratedColumn> get $columns => [
         id,
@@ -1715,7 +1312,7 @@ class $EquipamentoTableTable extends EquipamentoTable
         nome,
         descricao,
         subestacao,
-        grupoDefeitoCodigo
+        grupoId
       ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -1775,13 +1372,11 @@ class $EquipamentoTableTable extends EquipamentoTable
     } else if (isInserting) {
       context.missing(_subestacaoMeta);
     }
-    if (data.containsKey('grupo_defeito_codigo')) {
-      context.handle(
-          _grupoDefeitoCodigoMeta,
-          grupoDefeitoCodigo.isAcceptableOrUnknown(
-              data['grupo_defeito_codigo']!, _grupoDefeitoCodigoMeta));
+    if (data.containsKey('grupo_id')) {
+      context.handle(_grupoIdMeta,
+          grupoId.isAcceptableOrUnknown(data['grupo_id']!, _grupoIdMeta));
     } else if (isInserting) {
-      context.missing(_grupoDefeitoCodigoMeta);
+      context.missing(_grupoIdMeta);
     }
     return context;
   }
@@ -1808,8 +1403,8 @@ class $EquipamentoTableTable extends EquipamentoTable
           .read(DriftSqlType.string, data['${effectivePrefix}descricao'])!,
       subestacao: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}subestacao'])!,
-      grupoDefeitoCodigo: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}grupo_defeito_codigo'])!,
+      grupoId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}grupo_id'])!,
     );
   }
 
@@ -1829,7 +1424,7 @@ class EquipamentoTableData extends DataClass
   final String nome;
   final String descricao;
   final String subestacao;
-  final String grupoDefeitoCodigo;
+  final String grupoId;
   const EquipamentoTableData(
       {required this.id,
       required this.uuid,
@@ -1839,7 +1434,7 @@ class EquipamentoTableData extends DataClass
       required this.nome,
       required this.descricao,
       required this.subestacao,
-      required this.grupoDefeitoCodigo});
+      required this.grupoId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -1851,7 +1446,7 @@ class EquipamentoTableData extends DataClass
     map['nome'] = Variable<String>(nome);
     map['descricao'] = Variable<String>(descricao);
     map['subestacao'] = Variable<String>(subestacao);
-    map['grupo_defeito_codigo'] = Variable<String>(grupoDefeitoCodigo);
+    map['grupo_id'] = Variable<String>(grupoId);
     return map;
   }
 
@@ -1865,7 +1460,7 @@ class EquipamentoTableData extends DataClass
       nome: Value(nome),
       descricao: Value(descricao),
       subestacao: Value(subestacao),
-      grupoDefeitoCodigo: Value(grupoDefeitoCodigo),
+      grupoId: Value(grupoId),
     );
   }
 
@@ -1881,8 +1476,7 @@ class EquipamentoTableData extends DataClass
       nome: serializer.fromJson<String>(json['nome']),
       descricao: serializer.fromJson<String>(json['descricao']),
       subestacao: serializer.fromJson<String>(json['subestacao']),
-      grupoDefeitoCodigo:
-          serializer.fromJson<String>(json['grupoDefeitoCodigo']),
+      grupoId: serializer.fromJson<String>(json['grupoId']),
     );
   }
   @override
@@ -1897,7 +1491,7 @@ class EquipamentoTableData extends DataClass
       'nome': serializer.toJson<String>(nome),
       'descricao': serializer.toJson<String>(descricao),
       'subestacao': serializer.toJson<String>(subestacao),
-      'grupoDefeitoCodigo': serializer.toJson<String>(grupoDefeitoCodigo),
+      'grupoId': serializer.toJson<String>(grupoId),
     };
   }
 
@@ -1910,7 +1504,7 @@ class EquipamentoTableData extends DataClass
           String? nome,
           String? descricao,
           String? subestacao,
-          String? grupoDefeitoCodigo}) =>
+          String? grupoId}) =>
       EquipamentoTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -1920,7 +1514,7 @@ class EquipamentoTableData extends DataClass
         nome: nome ?? this.nome,
         descricao: descricao ?? this.descricao,
         subestacao: subestacao ?? this.subestacao,
-        grupoDefeitoCodigo: grupoDefeitoCodigo ?? this.grupoDefeitoCodigo,
+        grupoId: grupoId ?? this.grupoId,
       );
   EquipamentoTableData copyWithCompanion(EquipamentoTableCompanion data) {
     return EquipamentoTableData(
@@ -1935,9 +1529,7 @@ class EquipamentoTableData extends DataClass
       descricao: data.descricao.present ? data.descricao.value : this.descricao,
       subestacao:
           data.subestacao.present ? data.subestacao.value : this.subestacao,
-      grupoDefeitoCodigo: data.grupoDefeitoCodigo.present
-          ? data.grupoDefeitoCodigo.value
-          : this.grupoDefeitoCodigo,
+      grupoId: data.grupoId.present ? data.grupoId.value : this.grupoId,
     );
   }
 
@@ -1952,14 +1544,14 @@ class EquipamentoTableData extends DataClass
           ..write('nome: $nome, ')
           ..write('descricao: $descricao, ')
           ..write('subestacao: $subestacao, ')
-          ..write('grupoDefeitoCodigo: $grupoDefeitoCodigo')
+          ..write('grupoId: $grupoId')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
-      nome, descricao, subestacao, grupoDefeitoCodigo);
+      nome, descricao, subestacao, grupoId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1972,7 +1564,7 @@ class EquipamentoTableData extends DataClass
           other.nome == this.nome &&
           other.descricao == this.descricao &&
           other.subestacao == this.subestacao &&
-          other.grupoDefeitoCodigo == this.grupoDefeitoCodigo);
+          other.grupoId == this.grupoId);
 }
 
 class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
@@ -1984,7 +1576,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
   final Value<String> nome;
   final Value<String> descricao;
   final Value<String> subestacao;
-  final Value<String> grupoDefeitoCodigo;
+  final Value<String> grupoId;
   const EquipamentoTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -1994,7 +1586,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
     this.nome = const Value.absent(),
     this.descricao = const Value.absent(),
     this.subestacao = const Value.absent(),
-    this.grupoDefeitoCodigo = const Value.absent(),
+    this.grupoId = const Value.absent(),
   });
   EquipamentoTableCompanion.insert({
     this.id = const Value.absent(),
@@ -2005,14 +1597,14 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
     required String nome,
     required String descricao,
     required String subestacao,
-    required String grupoDefeitoCodigo,
+    required String grupoId,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
         nome = Value(nome),
         descricao = Value(descricao),
         subestacao = Value(subestacao),
-        grupoDefeitoCodigo = Value(grupoDefeitoCodigo);
+        grupoId = Value(grupoId);
   static Insertable<EquipamentoTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -2022,7 +1614,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
     Expression<String>? nome,
     Expression<String>? descricao,
     Expression<String>? subestacao,
-    Expression<String>? grupoDefeitoCodigo,
+    Expression<String>? grupoId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -2033,8 +1625,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
       if (nome != null) 'nome': nome,
       if (descricao != null) 'descricao': descricao,
       if (subestacao != null) 'subestacao': subestacao,
-      if (grupoDefeitoCodigo != null)
-        'grupo_defeito_codigo': grupoDefeitoCodigo,
+      if (grupoId != null) 'grupo_id': grupoId,
     });
   }
 
@@ -2047,7 +1638,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
       Value<String>? nome,
       Value<String>? descricao,
       Value<String>? subestacao,
-      Value<String>? grupoDefeitoCodigo}) {
+      Value<String>? grupoId}) {
     return EquipamentoTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -2057,7 +1648,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
       nome: nome ?? this.nome,
       descricao: descricao ?? this.descricao,
       subestacao: subestacao ?? this.subestacao,
-      grupoDefeitoCodigo: grupoDefeitoCodigo ?? this.grupoDefeitoCodigo,
+      grupoId: grupoId ?? this.grupoId,
     );
   }
 
@@ -2088,8 +1679,8 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
     if (subestacao.present) {
       map['subestacao'] = Variable<String>(subestacao.value);
     }
-    if (grupoDefeitoCodigo.present) {
-      map['grupo_defeito_codigo'] = Variable<String>(grupoDefeitoCodigo.value);
+    if (grupoId.present) {
+      map['grupo_id'] = Variable<String>(grupoId.value);
     }
     return map;
   }
@@ -2105,7 +1696,7 @@ class EquipamentoTableCompanion extends UpdateCompanion<EquipamentoTableData> {
           ..write('nome: $nome, ')
           ..write('descricao: $descricao, ')
           ..write('subestacao: $subestacao, ')
-          ..write('grupoDefeitoCodigo: $grupoDefeitoCodigo')
+          ..write('grupoId: $grupoId')
           ..write(')'))
         .toString();
   }
@@ -3324,16 +2915,6 @@ class $DefeitoTableTable extends DefeitoTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES subgrupo_defeito_equipamento_table (uuid)'));
-  static const VerificationMeta _grupoDefeitoCodigoIdMeta =
-      const VerificationMeta('grupoDefeitoCodigoId');
-  @override
-  late final GeneratedColumn<String> grupoDefeitoCodigoId =
-      GeneratedColumn<String>(
-          'grupo_defeito_codigo_id', aliasedName, false,
-          type: DriftSqlType.string,
-          requiredDuringInsert: true,
-          defaultConstraints: GeneratedColumn.constraintIsAlways(
-              'REFERENCES grupo_defeito_codigo_table (uuid)'));
   static const VerificationMeta _codigoSapMeta =
       const VerificationMeta('codigoSap');
   @override
@@ -3363,7 +2944,6 @@ class $DefeitoTableTable extends DefeitoTable
         sincronizado,
         grupoId,
         subgrupoId,
-        grupoDefeitoCodigoId,
         codigoSap,
         descricao,
         prioridade
@@ -3419,14 +2999,6 @@ class $DefeitoTableTable extends DefeitoTable
     } else if (isInserting) {
       context.missing(_subgrupoIdMeta);
     }
-    if (data.containsKey('grupo_defeito_codigo_id')) {
-      context.handle(
-          _grupoDefeitoCodigoIdMeta,
-          grupoDefeitoCodigoId.isAcceptableOrUnknown(
-              data['grupo_defeito_codigo_id']!, _grupoDefeitoCodigoIdMeta));
-    } else if (isInserting) {
-      context.missing(_grupoDefeitoCodigoIdMeta);
-    }
     if (data.containsKey('codigo_sap')) {
       context.handle(_codigoSapMeta,
           codigoSap.isAcceptableOrUnknown(data['codigo_sap']!, _codigoSapMeta));
@@ -3463,9 +3035,6 @@ class $DefeitoTableTable extends DefeitoTable
           .read(DriftSqlType.string, data['${effectivePrefix}grupo_id'])!,
       subgrupoId: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}subgrupo_id'])!,
-      grupoDefeitoCodigoId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}grupo_defeito_codigo_id'])!,
       codigoSap: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}codigo_sap'])!,
       descricao: attachedDatabase.typeMapping
@@ -3494,7 +3063,6 @@ class DefeitoTableData extends DataClass
   final bool sincronizado;
   final String grupoId;
   final String subgrupoId;
-  final String grupoDefeitoCodigoId;
   final String codigoSap;
   final String descricao;
   final PrioridadeDefeito prioridade;
@@ -3506,7 +3074,6 @@ class DefeitoTableData extends DataClass
       required this.sincronizado,
       required this.grupoId,
       required this.subgrupoId,
-      required this.grupoDefeitoCodigoId,
       required this.codigoSap,
       required this.descricao,
       required this.prioridade});
@@ -3520,7 +3087,6 @@ class DefeitoTableData extends DataClass
     map['sincronizado'] = Variable<bool>(sincronizado);
     map['grupo_id'] = Variable<String>(grupoId);
     map['subgrupo_id'] = Variable<String>(subgrupoId);
-    map['grupo_defeito_codigo_id'] = Variable<String>(grupoDefeitoCodigoId);
     map['codigo_sap'] = Variable<String>(codigoSap);
     map['descricao'] = Variable<String>(descricao);
     {
@@ -3539,7 +3105,6 @@ class DefeitoTableData extends DataClass
       sincronizado: Value(sincronizado),
       grupoId: Value(grupoId),
       subgrupoId: Value(subgrupoId),
-      grupoDefeitoCodigoId: Value(grupoDefeitoCodigoId),
       codigoSap: Value(codigoSap),
       descricao: Value(descricao),
       prioridade: Value(prioridade),
@@ -3557,8 +3122,6 @@ class DefeitoTableData extends DataClass
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
       grupoId: serializer.fromJson<String>(json['grupoId']),
       subgrupoId: serializer.fromJson<String>(json['subgrupoId']),
-      grupoDefeitoCodigoId:
-          serializer.fromJson<String>(json['grupoDefeitoCodigoId']),
       codigoSap: serializer.fromJson<String>(json['codigoSap']),
       descricao: serializer.fromJson<String>(json['descricao']),
       prioridade: serializer.fromJson<PrioridadeDefeito>(json['prioridade']),
@@ -3575,7 +3138,6 @@ class DefeitoTableData extends DataClass
       'sincronizado': serializer.toJson<bool>(sincronizado),
       'grupoId': serializer.toJson<String>(grupoId),
       'subgrupoId': serializer.toJson<String>(subgrupoId),
-      'grupoDefeitoCodigoId': serializer.toJson<String>(grupoDefeitoCodigoId),
       'codigoSap': serializer.toJson<String>(codigoSap),
       'descricao': serializer.toJson<String>(descricao),
       'prioridade': serializer.toJson<PrioridadeDefeito>(prioridade),
@@ -3590,7 +3152,6 @@ class DefeitoTableData extends DataClass
           bool? sincronizado,
           String? grupoId,
           String? subgrupoId,
-          String? grupoDefeitoCodigoId,
           String? codigoSap,
           String? descricao,
           PrioridadeDefeito? prioridade}) =>
@@ -3602,7 +3163,6 @@ class DefeitoTableData extends DataClass
         sincronizado: sincronizado ?? this.sincronizado,
         grupoId: grupoId ?? this.grupoId,
         subgrupoId: subgrupoId ?? this.subgrupoId,
-        grupoDefeitoCodigoId: grupoDefeitoCodigoId ?? this.grupoDefeitoCodigoId,
         codigoSap: codigoSap ?? this.codigoSap,
         descricao: descricao ?? this.descricao,
         prioridade: prioridade ?? this.prioridade,
@@ -3619,9 +3179,6 @@ class DefeitoTableData extends DataClass
       grupoId: data.grupoId.present ? data.grupoId.value : this.grupoId,
       subgrupoId:
           data.subgrupoId.present ? data.subgrupoId.value : this.subgrupoId,
-      grupoDefeitoCodigoId: data.grupoDefeitoCodigoId.present
-          ? data.grupoDefeitoCodigoId.value
-          : this.grupoDefeitoCodigoId,
       codigoSap: data.codigoSap.present ? data.codigoSap.value : this.codigoSap,
       descricao: data.descricao.present ? data.descricao.value : this.descricao,
       prioridade:
@@ -3639,7 +3196,6 @@ class DefeitoTableData extends DataClass
           ..write('sincronizado: $sincronizado, ')
           ..write('grupoId: $grupoId, ')
           ..write('subgrupoId: $subgrupoId, ')
-          ..write('grupoDefeitoCodigoId: $grupoDefeitoCodigoId, ')
           ..write('codigoSap: $codigoSap, ')
           ..write('descricao: $descricao, ')
           ..write('prioridade: $prioridade')
@@ -3648,18 +3204,8 @@ class DefeitoTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(
-      id,
-      uuid,
-      createdAt,
-      updatedAt,
-      sincronizado,
-      grupoId,
-      subgrupoId,
-      grupoDefeitoCodigoId,
-      codigoSap,
-      descricao,
-      prioridade);
+  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
+      grupoId, subgrupoId, codigoSap, descricao, prioridade);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -3671,7 +3217,6 @@ class DefeitoTableData extends DataClass
           other.sincronizado == this.sincronizado &&
           other.grupoId == this.grupoId &&
           other.subgrupoId == this.subgrupoId &&
-          other.grupoDefeitoCodigoId == this.grupoDefeitoCodigoId &&
           other.codigoSap == this.codigoSap &&
           other.descricao == this.descricao &&
           other.prioridade == this.prioridade);
@@ -3685,7 +3230,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
   final Value<bool> sincronizado;
   final Value<String> grupoId;
   final Value<String> subgrupoId;
-  final Value<String> grupoDefeitoCodigoId;
   final Value<String> codigoSap;
   final Value<String> descricao;
   final Value<PrioridadeDefeito> prioridade;
@@ -3697,7 +3241,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
     this.sincronizado = const Value.absent(),
     this.grupoId = const Value.absent(),
     this.subgrupoId = const Value.absent(),
-    this.grupoDefeitoCodigoId = const Value.absent(),
     this.codigoSap = const Value.absent(),
     this.descricao = const Value.absent(),
     this.prioridade = const Value.absent(),
@@ -3710,7 +3253,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
     this.sincronizado = const Value.absent(),
     required String grupoId,
     required String subgrupoId,
-    required String grupoDefeitoCodigoId,
     required String codigoSap,
     required String descricao,
     required PrioridadeDefeito prioridade,
@@ -3719,7 +3261,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
         updatedAt = Value(updatedAt),
         grupoId = Value(grupoId),
         subgrupoId = Value(subgrupoId),
-        grupoDefeitoCodigoId = Value(grupoDefeitoCodigoId),
         codigoSap = Value(codigoSap),
         descricao = Value(descricao),
         prioridade = Value(prioridade);
@@ -3731,7 +3272,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
     Expression<bool>? sincronizado,
     Expression<String>? grupoId,
     Expression<String>? subgrupoId,
-    Expression<String>? grupoDefeitoCodigoId,
     Expression<String>? codigoSap,
     Expression<String>? descricao,
     Expression<String>? prioridade,
@@ -3744,8 +3284,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
       if (sincronizado != null) 'sincronizado': sincronizado,
       if (grupoId != null) 'grupo_id': grupoId,
       if (subgrupoId != null) 'subgrupo_id': subgrupoId,
-      if (grupoDefeitoCodigoId != null)
-        'grupo_defeito_codigo_id': grupoDefeitoCodigoId,
       if (codigoSap != null) 'codigo_sap': codigoSap,
       if (descricao != null) 'descricao': descricao,
       if (prioridade != null) 'prioridade': prioridade,
@@ -3760,7 +3298,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
       Value<bool>? sincronizado,
       Value<String>? grupoId,
       Value<String>? subgrupoId,
-      Value<String>? grupoDefeitoCodigoId,
       Value<String>? codigoSap,
       Value<String>? descricao,
       Value<PrioridadeDefeito>? prioridade}) {
@@ -3772,7 +3309,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
       sincronizado: sincronizado ?? this.sincronizado,
       grupoId: grupoId ?? this.grupoId,
       subgrupoId: subgrupoId ?? this.subgrupoId,
-      grupoDefeitoCodigoId: grupoDefeitoCodigoId ?? this.grupoDefeitoCodigoId,
       codigoSap: codigoSap ?? this.codigoSap,
       descricao: descricao ?? this.descricao,
       prioridade: prioridade ?? this.prioridade,
@@ -3803,10 +3339,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
     if (subgrupoId.present) {
       map['subgrupo_id'] = Variable<String>(subgrupoId.value);
     }
-    if (grupoDefeitoCodigoId.present) {
-      map['grupo_defeito_codigo_id'] =
-          Variable<String>(grupoDefeitoCodigoId.value);
-    }
     if (codigoSap.present) {
       map['codigo_sap'] = Variable<String>(codigoSap.value);
     }
@@ -3830,7 +3362,6 @@ class DefeitoTableCompanion extends UpdateCompanion<DefeitoTableData> {
           ..write('sincronizado: $sincronizado, ')
           ..write('grupoId: $grupoId, ')
           ..write('subgrupoId: $subgrupoId, ')
-          ..write('grupoDefeitoCodigoId: $grupoDefeitoCodigoId, ')
           ..write('codigoSap: $codigoSap, ')
           ..write('descricao: $descricao, ')
           ..write('prioridade: $prioridade')
@@ -13147,8 +12678,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $TipoAtividadeTableTable(this);
   late final $GrupoDefeitoEquipamentoTableTable grupoDefeitoEquipamentoTable =
       $GrupoDefeitoEquipamentoTableTable(this);
-  late final $GrupoDefeitoCodigoTableTable grupoDefeitoCodigoTable =
-      $GrupoDefeitoCodigoTableTable(this);
   late final $EquipamentoTableTable equipamentoTable =
       $EquipamentoTableTable(this);
   late final $AtividadeTableTable atividadeTable = $AtividadeTableTable(this);
@@ -13215,7 +12744,6 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         usuarioTable,
         tipoAtividadeTable,
         grupoDefeitoEquipamentoTable,
-        grupoDefeitoCodigoTable,
         equipamentoTable,
         atividadeTable,
         subgrupoDefeitoEquipamentoTable,
@@ -14164,6 +13692,7 @@ typedef $$GrupoDefeitoEquipamentoTableTableCreateCompanionBuilder
   required DateTime updatedAt,
   Value<bool> sincronizado,
   required String nome,
+  required String codigo,
 });
 typedef $$GrupoDefeitoEquipamentoTableTableUpdateCompanionBuilder
     = GrupoDefeitoEquipamentoTableCompanion Function({
@@ -14173,6 +13702,7 @@ typedef $$GrupoDefeitoEquipamentoTableTableUpdateCompanionBuilder
   Value<DateTime> updatedAt,
   Value<bool> sincronizado,
   Value<String> nome,
+  Value<String> codigo,
 });
 
 final class $$GrupoDefeitoEquipamentoTableTableReferences
@@ -14181,21 +13711,20 @@ final class $$GrupoDefeitoEquipamentoTableTableReferences
   $$GrupoDefeitoEquipamentoTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$GrupoDefeitoCodigoTableTable,
-      List<GrupoDefeitoCodigoTableData>> _grupoDefeitoCodigoTableRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.grupoDefeitoCodigoTable,
-          aliasName: $_aliasNameGenerator(db.grupoDefeitoEquipamentoTable.uuid,
-              db.grupoDefeitoCodigoTable.grupoDefeitoId));
+  static MultiTypedResultKey<$EquipamentoTableTable, List<EquipamentoTableData>>
+      _equipamentoTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.equipamentoTable,
+              aliasName: $_aliasNameGenerator(
+                  db.grupoDefeitoEquipamentoTable.uuid,
+                  db.equipamentoTable.grupoId));
 
-  $$GrupoDefeitoCodigoTableTableProcessedTableManager
-      get grupoDefeitoCodigoTableRefs {
-    final manager = $$GrupoDefeitoCodigoTableTableTableManager(
-            $_db, $_db.grupoDefeitoCodigoTable)
-        .filter((f) => f.grupoDefeitoId.uuid($_item.uuid));
+  $$EquipamentoTableTableProcessedTableManager get equipamentoTableRefs {
+    final manager =
+        $$EquipamentoTableTableTableManager($_db, $_db.equipamentoTable)
+            .filter((f) => f.grupoId.uuid($_item.uuid));
 
     final cache =
-        $_typedResult.readTableOrNull(_grupoDefeitoCodigoTableRefsTable($_db));
+        $_typedResult.readTableOrNull(_equipamentoTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -14263,26 +13792,27 @@ class $$GrupoDefeitoEquipamentoTableTableFilterComposer
   ColumnFilters<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnFilters(column));
 
-  Expression<bool> grupoDefeitoCodigoTableRefs(
-      Expression<bool> Function($$GrupoDefeitoCodigoTableTableFilterComposer f)
-          f) {
-    final $$GrupoDefeitoCodigoTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.uuid,
-            referencedTable: $db.grupoDefeitoCodigoTable,
-            getReferencedColumn: (t) => t.grupoDefeitoId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+  ColumnFilters<String> get codigo => $composableBuilder(
+      column: $table.codigo, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> equipamentoTableRefs(
+      Expression<bool> Function($$EquipamentoTableTableFilterComposer f) f) {
+    final $$EquipamentoTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.uuid,
+        referencedTable: $db.equipamentoTable,
+        getReferencedColumn: (t) => t.grupoId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$EquipamentoTableTableFilterComposer(
+              $db: $db,
+              $table: $db.equipamentoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
@@ -14359,6 +13889,9 @@ class $$GrupoDefeitoEquipamentoTableTableOrderingComposer
 
   ColumnOrderings<String> get nome => $composableBuilder(
       column: $table.nome, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get codigo => $composableBuilder(
+      column: $table.codigo, builder: (column) => ColumnOrderings(column));
 }
 
 class $$GrupoDefeitoEquipamentoTableTableAnnotationComposer
@@ -14388,26 +13921,27 @@ class $$GrupoDefeitoEquipamentoTableTableAnnotationComposer
   GeneratedColumn<String> get nome =>
       $composableBuilder(column: $table.nome, builder: (column) => column);
 
-  Expression<T> grupoDefeitoCodigoTableRefs<T extends Object>(
-      Expression<T> Function($$GrupoDefeitoCodigoTableTableAnnotationComposer a)
-          f) {
-    final $$GrupoDefeitoCodigoTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.uuid,
-            referencedTable: $db.grupoDefeitoCodigoTable,
-            getReferencedColumn: (t) => t.grupoDefeitoId,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
+  GeneratedColumn<String> get codigo =>
+      $composableBuilder(column: $table.codigo, builder: (column) => column);
+
+  Expression<T> equipamentoTableRefs<T extends Object>(
+      Expression<T> Function($$EquipamentoTableTableAnnotationComposer a) f) {
+    final $$EquipamentoTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.uuid,
+        referencedTable: $db.equipamentoTable,
+        getReferencedColumn: (t) => t.grupoId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$EquipamentoTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.equipamentoTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 
@@ -14472,7 +14006,7 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
     ),
     GrupoDefeitoEquipamentoTableData,
     PrefetchHooks Function(
-        {bool grupoDefeitoCodigoTableRefs,
+        {bool equipamentoTableRefs,
         bool subgrupoDefeitoEquipamentoTableRefs,
         bool defeitoTableRefs})> {
   $$GrupoDefeitoEquipamentoTableTableTableManager(
@@ -14496,6 +14030,7 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
             Value<DateTime> updatedAt = const Value.absent(),
             Value<bool> sincronizado = const Value.absent(),
             Value<String> nome = const Value.absent(),
+            Value<String> codigo = const Value.absent(),
           }) =>
               GrupoDefeitoEquipamentoTableCompanion(
             id: id,
@@ -14504,6 +14039,7 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
             sincronizado: sincronizado,
             nome: nome,
+            codigo: codigo,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -14512,6 +14048,7 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
             required DateTime updatedAt,
             Value<bool> sincronizado = const Value.absent(),
             required String nome,
+            required String codigo,
           }) =>
               GrupoDefeitoEquipamentoTableCompanion.insert(
             id: id,
@@ -14520,6 +14057,7 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
             sincronizado: sincronizado,
             nome: nome,
+            codigo: codigo,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
@@ -14528,13 +14066,13 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {grupoDefeitoCodigoTableRefs = false,
+              {equipamentoTableRefs = false,
               subgrupoDefeitoEquipamentoTableRefs = false,
               defeitoTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
-                if (grupoDefeitoCodigoTableRefs) db.grupoDefeitoCodigoTable,
+                if (equipamentoTableRefs) db.equipamentoTable,
                 if (subgrupoDefeitoEquipamentoTableRefs)
                   db.subgrupoDefeitoEquipamentoTable,
                 if (defeitoTableRefs) db.defeitoTable
@@ -14542,19 +14080,19 @@ class $$GrupoDefeitoEquipamentoTableTableTableManager extends RootTableManager<
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
-                  if (grupoDefeitoCodigoTableRefs)
+                  if (equipamentoTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable:
                             $$GrupoDefeitoEquipamentoTableTableReferences
-                                ._grupoDefeitoCodigoTableRefsTable(db),
+                                ._equipamentoTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$GrupoDefeitoEquipamentoTableTableReferences(
                                     db, table, p0)
-                                .grupoDefeitoCodigoTableRefs,
+                                .equipamentoTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
-                                .where((e) => e.grupoDefeitoId == item.uuid),
+                                .where((e) => e.grupoId == item.uuid),
                         typedResults: items),
                   if (subgrupoDefeitoEquipamentoTableRefs)
                     await $_getPrefetchedData(
@@ -14607,491 +14145,8 @@ typedef $$GrupoDefeitoEquipamentoTableTableProcessedTableManager
         ),
         GrupoDefeitoEquipamentoTableData,
         PrefetchHooks Function(
-            {bool grupoDefeitoCodigoTableRefs,
+            {bool equipamentoTableRefs,
             bool subgrupoDefeitoEquipamentoTableRefs,
-            bool defeitoTableRefs})>;
-typedef $$GrupoDefeitoCodigoTableTableCreateCompanionBuilder
-    = GrupoDefeitoCodigoTableCompanion Function({
-  Value<int> id,
-  required String uuid,
-  required DateTime createdAt,
-  required DateTime updatedAt,
-  Value<bool> sincronizado,
-  required String sigla,
-  required String codigo,
-  required String grupoDefeitoId,
-});
-typedef $$GrupoDefeitoCodigoTableTableUpdateCompanionBuilder
-    = GrupoDefeitoCodigoTableCompanion Function({
-  Value<int> id,
-  Value<String> uuid,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-  Value<bool> sincronizado,
-  Value<String> sigla,
-  Value<String> codigo,
-  Value<String> grupoDefeitoId,
-});
-
-final class $$GrupoDefeitoCodigoTableTableReferences extends BaseReferences<
-    _$AppDatabase, $GrupoDefeitoCodigoTableTable, GrupoDefeitoCodigoTableData> {
-  $$GrupoDefeitoCodigoTableTableReferences(
-      super.$_db, super.$_table, super.$_typedResult);
-
-  static $GrupoDefeitoEquipamentoTableTable _grupoDefeitoIdTable(
-          _$AppDatabase db) =>
-      db.grupoDefeitoEquipamentoTable.createAlias($_aliasNameGenerator(
-          db.grupoDefeitoCodigoTable.grupoDefeitoId,
-          db.grupoDefeitoEquipamentoTable.uuid));
-
-  $$GrupoDefeitoEquipamentoTableTableProcessedTableManager get grupoDefeitoId {
-    final manager = $$GrupoDefeitoEquipamentoTableTableTableManager(
-            $_db, $_db.grupoDefeitoEquipamentoTable)
-        .filter((f) => f.uuid($_item.grupoDefeitoId));
-    final item = $_typedResult.readTableOrNull(_grupoDefeitoIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-
-  static MultiTypedResultKey<$EquipamentoTableTable, List<EquipamentoTableData>>
-      _equipamentoTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.equipamentoTable,
-              aliasName: $_aliasNameGenerator(db.grupoDefeitoCodigoTable.uuid,
-                  db.equipamentoTable.grupoDefeitoCodigo));
-
-  $$EquipamentoTableTableProcessedTableManager get equipamentoTableRefs {
-    final manager =
-        $$EquipamentoTableTableTableManager($_db, $_db.equipamentoTable)
-            .filter((f) => f.grupoDefeitoCodigo.uuid($_item.uuid));
-
-    final cache =
-        $_typedResult.readTableOrNull(_equipamentoTableRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-
-  static MultiTypedResultKey<$DefeitoTableTable, List<DefeitoTableData>>
-      _defeitoTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.defeitoTable,
-              aliasName: $_aliasNameGenerator(db.grupoDefeitoCodigoTable.uuid,
-                  db.defeitoTable.grupoDefeitoCodigoId));
-
-  $$DefeitoTableTableProcessedTableManager get defeitoTableRefs {
-    final manager = $$DefeitoTableTableTableManager($_db, $_db.defeitoTable)
-        .filter((f) => f.grupoDefeitoCodigoId.uuid($_item.uuid));
-
-    final cache = $_typedResult.readTableOrNull(_defeitoTableRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-}
-
-class $$GrupoDefeitoCodigoTableTableFilterComposer
-    extends Composer<_$AppDatabase, $GrupoDefeitoCodigoTableTable> {
-  $$GrupoDefeitoCodigoTableTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get uuid => $composableBuilder(
-      column: $table.uuid, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<bool> get sincronizado => $composableBuilder(
-      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get sigla => $composableBuilder(
-      column: $table.sigla, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get codigo => $composableBuilder(
-      column: $table.codigo, builder: (column) => ColumnFilters(column));
-
-  $$GrupoDefeitoEquipamentoTableTableFilterComposer get grupoDefeitoId {
-    final $$GrupoDefeitoEquipamentoTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoId,
-            referencedTable: $db.grupoDefeitoEquipamentoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoEquipamentoTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoEquipamentoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
-  Expression<bool> equipamentoTableRefs(
-      Expression<bool> Function($$EquipamentoTableTableFilterComposer f) f) {
-    final $$EquipamentoTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.equipamentoTable,
-        getReferencedColumn: (t) => t.grupoDefeitoCodigo,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$EquipamentoTableTableFilterComposer(
-              $db: $db,
-              $table: $db.equipamentoTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-
-  Expression<bool> defeitoTableRefs(
-      Expression<bool> Function($$DefeitoTableTableFilterComposer f) f) {
-    final $$DefeitoTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.defeitoTable,
-        getReferencedColumn: (t) => t.grupoDefeitoCodigoId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DefeitoTableTableFilterComposer(
-              $db: $db,
-              $table: $db.defeitoTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$GrupoDefeitoCodigoTableTableOrderingComposer
-    extends Composer<_$AppDatabase, $GrupoDefeitoCodigoTableTable> {
-  $$GrupoDefeitoCodigoTableTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get uuid => $composableBuilder(
-      column: $table.uuid, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<bool> get sincronizado => $composableBuilder(
-      column: $table.sincronizado,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get sigla => $composableBuilder(
-      column: $table.sigla, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get codigo => $composableBuilder(
-      column: $table.codigo, builder: (column) => ColumnOrderings(column));
-
-  $$GrupoDefeitoEquipamentoTableTableOrderingComposer get grupoDefeitoId {
-    final $$GrupoDefeitoEquipamentoTableTableOrderingComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoId,
-            referencedTable: $db.grupoDefeitoEquipamentoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoEquipamentoTableTableOrderingComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoEquipamentoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-}
-
-class $$GrupoDefeitoCodigoTableTableAnnotationComposer
-    extends Composer<_$AppDatabase, $GrupoDefeitoCodigoTableTable> {
-  $$GrupoDefeitoCodigoTableTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get uuid =>
-      $composableBuilder(column: $table.uuid, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get updatedAt =>
-      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
-
-  GeneratedColumn<bool> get sincronizado => $composableBuilder(
-      column: $table.sincronizado, builder: (column) => column);
-
-  GeneratedColumn<String> get sigla =>
-      $composableBuilder(column: $table.sigla, builder: (column) => column);
-
-  GeneratedColumn<String> get codigo =>
-      $composableBuilder(column: $table.codigo, builder: (column) => column);
-
-  $$GrupoDefeitoEquipamentoTableTableAnnotationComposer get grupoDefeitoId {
-    final $$GrupoDefeitoEquipamentoTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoId,
-            referencedTable: $db.grupoDefeitoEquipamentoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoEquipamentoTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoEquipamentoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
-  Expression<T> equipamentoTableRefs<T extends Object>(
-      Expression<T> Function($$EquipamentoTableTableAnnotationComposer a) f) {
-    final $$EquipamentoTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.equipamentoTable,
-        getReferencedColumn: (t) => t.grupoDefeitoCodigo,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$EquipamentoTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.equipamentoTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-
-  Expression<T> defeitoTableRefs<T extends Object>(
-      Expression<T> Function($$DefeitoTableTableAnnotationComposer a) f) {
-    final $$DefeitoTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.defeitoTable,
-        getReferencedColumn: (t) => t.grupoDefeitoCodigoId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$DefeitoTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.defeitoTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$GrupoDefeitoCodigoTableTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $GrupoDefeitoCodigoTableTable,
-    GrupoDefeitoCodigoTableData,
-    $$GrupoDefeitoCodigoTableTableFilterComposer,
-    $$GrupoDefeitoCodigoTableTableOrderingComposer,
-    $$GrupoDefeitoCodigoTableTableAnnotationComposer,
-    $$GrupoDefeitoCodigoTableTableCreateCompanionBuilder,
-    $$GrupoDefeitoCodigoTableTableUpdateCompanionBuilder,
-    (GrupoDefeitoCodigoTableData, $$GrupoDefeitoCodigoTableTableReferences),
-    GrupoDefeitoCodigoTableData,
-    PrefetchHooks Function(
-        {bool grupoDefeitoId,
-        bool equipamentoTableRefs,
-        bool defeitoTableRefs})> {
-  $$GrupoDefeitoCodigoTableTableTableManager(
-      _$AppDatabase db, $GrupoDefeitoCodigoTableTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$GrupoDefeitoCodigoTableTableFilterComposer(
-                  $db: db, $table: table),
-          createOrderingComposer: () =>
-              $$GrupoDefeitoCodigoTableTableOrderingComposer(
-                  $db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$GrupoDefeitoCodigoTableTableAnnotationComposer(
-                  $db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> uuid = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-            Value<bool> sincronizado = const Value.absent(),
-            Value<String> sigla = const Value.absent(),
-            Value<String> codigo = const Value.absent(),
-            Value<String> grupoDefeitoId = const Value.absent(),
-          }) =>
-              GrupoDefeitoCodigoTableCompanion(
-            id: id,
-            uuid: uuid,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            sincronizado: sincronizado,
-            sigla: sigla,
-            codigo: codigo,
-            grupoDefeitoId: grupoDefeitoId,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String uuid,
-            required DateTime createdAt,
-            required DateTime updatedAt,
-            Value<bool> sincronizado = const Value.absent(),
-            required String sigla,
-            required String codigo,
-            required String grupoDefeitoId,
-          }) =>
-              GrupoDefeitoCodigoTableCompanion.insert(
-            id: id,
-            uuid: uuid,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-            sincronizado: sincronizado,
-            sigla: sigla,
-            codigo: codigo,
-            grupoDefeitoId: grupoDefeitoId,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$GrupoDefeitoCodigoTableTableReferences(db, table, e)
-                  ))
-              .toList(),
-          prefetchHooksCallback: (
-              {grupoDefeitoId = false,
-              equipamentoTableRefs = false,
-              defeitoTableRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [
-                if (equipamentoTableRefs) db.equipamentoTable,
-                if (defeitoTableRefs) db.defeitoTable
-              ],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (grupoDefeitoId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.grupoDefeitoId,
-                    referencedTable: $$GrupoDefeitoCodigoTableTableReferences
-                        ._grupoDefeitoIdTable(db),
-                    referencedColumn: $$GrupoDefeitoCodigoTableTableReferences
-                        ._grupoDefeitoIdTable(db)
-                        .uuid,
-                  ) as T;
-                }
-
-                return state;
-              },
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (equipamentoTableRefs)
-                    await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$GrupoDefeitoCodigoTableTableReferences
-                                ._equipamentoTableRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$GrupoDefeitoCodigoTableTableReferences(
-                                    db, table, p0)
-                                .equipamentoTableRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems.where(
-                                (e) => e.grupoDefeitoCodigo == item.uuid),
-                        typedResults: items),
-                  if (defeitoTableRefs)
-                    await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable:
-                            $$GrupoDefeitoCodigoTableTableReferences
-                                ._defeitoTableRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$GrupoDefeitoCodigoTableTableReferences(
-                                    db, table, p0)
-                                .defeitoTableRefs,
-                        referencedItemsForCurrentItem:
-                            (item, referencedItems) => referencedItems.where(
-                                (e) => e.grupoDefeitoCodigoId == item.uuid),
-                        typedResults: items)
-                ];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$GrupoDefeitoCodigoTableTableProcessedTableManager
-    = ProcessedTableManager<
-        _$AppDatabase,
-        $GrupoDefeitoCodigoTableTable,
-        GrupoDefeitoCodigoTableData,
-        $$GrupoDefeitoCodigoTableTableFilterComposer,
-        $$GrupoDefeitoCodigoTableTableOrderingComposer,
-        $$GrupoDefeitoCodigoTableTableAnnotationComposer,
-        $$GrupoDefeitoCodigoTableTableCreateCompanionBuilder,
-        $$GrupoDefeitoCodigoTableTableUpdateCompanionBuilder,
-        (GrupoDefeitoCodigoTableData, $$GrupoDefeitoCodigoTableTableReferences),
-        GrupoDefeitoCodigoTableData,
-        PrefetchHooks Function(
-            {bool grupoDefeitoId,
-            bool equipamentoTableRefs,
             bool defeitoTableRefs})>;
 typedef $$EquipamentoTableTableCreateCompanionBuilder
     = EquipamentoTableCompanion Function({
@@ -15103,7 +14158,7 @@ typedef $$EquipamentoTableTableCreateCompanionBuilder
   required String nome,
   required String descricao,
   required String subestacao,
-  required String grupoDefeitoCodigo,
+  required String grupoId,
 });
 typedef $$EquipamentoTableTableUpdateCompanionBuilder
     = EquipamentoTableCompanion Function({
@@ -15115,7 +14170,7 @@ typedef $$EquipamentoTableTableUpdateCompanionBuilder
   Value<String> nome,
   Value<String> descricao,
   Value<String> subestacao,
-  Value<String> grupoDefeitoCodigo,
+  Value<String> grupoId,
 });
 
 final class $$EquipamentoTableTableReferences extends BaseReferences<
@@ -15123,17 +14178,15 @@ final class $$EquipamentoTableTableReferences extends BaseReferences<
   $$EquipamentoTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
 
-  static $GrupoDefeitoCodigoTableTable _grupoDefeitoCodigoTable(
-          _$AppDatabase db) =>
-      db.grupoDefeitoCodigoTable.createAlias($_aliasNameGenerator(
-          db.equipamentoTable.grupoDefeitoCodigo,
-          db.grupoDefeitoCodigoTable.uuid));
+  static $GrupoDefeitoEquipamentoTableTable _grupoIdTable(_$AppDatabase db) =>
+      db.grupoDefeitoEquipamentoTable.createAlias($_aliasNameGenerator(
+          db.equipamentoTable.grupoId, db.grupoDefeitoEquipamentoTable.uuid));
 
-  $$GrupoDefeitoCodigoTableTableProcessedTableManager get grupoDefeitoCodigo {
-    final manager = $$GrupoDefeitoCodigoTableTableTableManager(
-            $_db, $_db.grupoDefeitoCodigoTable)
-        .filter((f) => f.uuid($_item.grupoDefeitoCodigo));
-    final item = $_typedResult.readTableOrNull(_grupoDefeitoCodigoTable($_db));
+  $$GrupoDefeitoEquipamentoTableTableProcessedTableManager get grupoId {
+    final manager = $$GrupoDefeitoEquipamentoTableTableTableManager(
+            $_db, $_db.grupoDefeitoEquipamentoTable)
+        .filter((f) => f.uuid($_item.grupoId));
+    final item = $_typedResult.readTableOrNull(_grupoIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
@@ -15203,19 +14256,19 @@ class $$EquipamentoTableTableFilterComposer
   ColumnFilters<String> get subestacao => $composableBuilder(
       column: $table.subestacao, builder: (column) => ColumnFilters(column));
 
-  $$GrupoDefeitoCodigoTableTableFilterComposer get grupoDefeitoCodigo {
-    final $$GrupoDefeitoCodigoTableTableFilterComposer composer =
+  $$GrupoDefeitoEquipamentoTableTableFilterComposer get grupoId {
+    final $$GrupoDefeitoEquipamentoTableTableFilterComposer composer =
         $composerBuilder(
             composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigo,
-            referencedTable: $db.grupoDefeitoCodigoTable,
+            getCurrentColumn: (t) => t.grupoId,
+            referencedTable: $db.grupoDefeitoEquipamentoTable,
             getReferencedColumn: (t) => t.uuid,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableFilterComposer(
+                $$GrupoDefeitoEquipamentoTableTableFilterComposer(
                   $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
+                  $table: $db.grupoDefeitoEquipamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -15301,19 +14354,19 @@ class $$EquipamentoTableTableOrderingComposer
   ColumnOrderings<String> get subestacao => $composableBuilder(
       column: $table.subestacao, builder: (column) => ColumnOrderings(column));
 
-  $$GrupoDefeitoCodigoTableTableOrderingComposer get grupoDefeitoCodigo {
-    final $$GrupoDefeitoCodigoTableTableOrderingComposer composer =
+  $$GrupoDefeitoEquipamentoTableTableOrderingComposer get grupoId {
+    final $$GrupoDefeitoEquipamentoTableTableOrderingComposer composer =
         $composerBuilder(
             composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigo,
-            referencedTable: $db.grupoDefeitoCodigoTable,
+            getCurrentColumn: (t) => t.grupoId,
+            referencedTable: $db.grupoDefeitoEquipamentoTable,
             getReferencedColumn: (t) => t.uuid,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableOrderingComposer(
+                $$GrupoDefeitoEquipamentoTableTableOrderingComposer(
                   $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
+                  $table: $db.grupoDefeitoEquipamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -15356,19 +14409,19 @@ class $$EquipamentoTableTableAnnotationComposer
   GeneratedColumn<String> get subestacao => $composableBuilder(
       column: $table.subestacao, builder: (column) => column);
 
-  $$GrupoDefeitoCodigoTableTableAnnotationComposer get grupoDefeitoCodigo {
-    final $$GrupoDefeitoCodigoTableTableAnnotationComposer composer =
+  $$GrupoDefeitoEquipamentoTableTableAnnotationComposer get grupoId {
+    final $$GrupoDefeitoEquipamentoTableTableAnnotationComposer composer =
         $composerBuilder(
             composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigo,
-            referencedTable: $db.grupoDefeitoCodigoTable,
+            getCurrentColumn: (t) => t.grupoId,
+            referencedTable: $db.grupoDefeitoEquipamentoTable,
             getReferencedColumn: (t) => t.uuid,
             builder: (joinBuilder,
                     {$addJoinBuilderToRootComposer,
                     $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableAnnotationComposer(
+                $$GrupoDefeitoEquipamentoTableTableAnnotationComposer(
                   $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
+                  $table: $db.grupoDefeitoEquipamentoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -15432,9 +14485,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
     (EquipamentoTableData, $$EquipamentoTableTableReferences),
     EquipamentoTableData,
     PrefetchHooks Function(
-        {bool grupoDefeitoCodigo,
-        bool atividadeTableRefs,
-        bool anomaliaTableRefs})> {
+        {bool grupoId, bool atividadeTableRefs, bool anomaliaTableRefs})> {
   $$EquipamentoTableTableTableManager(
       _$AppDatabase db, $EquipamentoTableTable table)
       : super(TableManagerState(
@@ -15455,7 +14506,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
             Value<String> nome = const Value.absent(),
             Value<String> descricao = const Value.absent(),
             Value<String> subestacao = const Value.absent(),
-            Value<String> grupoDefeitoCodigo = const Value.absent(),
+            Value<String> grupoId = const Value.absent(),
           }) =>
               EquipamentoTableCompanion(
             id: id,
@@ -15466,7 +14517,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
             nome: nome,
             descricao: descricao,
             subestacao: subestacao,
-            grupoDefeitoCodigo: grupoDefeitoCodigo,
+            grupoId: grupoId,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -15477,7 +14528,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
             required String nome,
             required String descricao,
             required String subestacao,
-            required String grupoDefeitoCodigo,
+            required String grupoId,
           }) =>
               EquipamentoTableCompanion.insert(
             id: id,
@@ -15488,7 +14539,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
             nome: nome,
             descricao: descricao,
             subestacao: subestacao,
-            grupoDefeitoCodigo: grupoDefeitoCodigo,
+            grupoId: grupoId,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
@@ -15497,7 +14548,7 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {grupoDefeitoCodigo = false,
+              {grupoId = false,
               atividadeTableRefs = false,
               anomaliaTableRefs = false}) {
             return PrefetchHooks(
@@ -15519,14 +14570,14 @@ class $$EquipamentoTableTableTableManager extends RootTableManager<
                       dynamic,
                       dynamic,
                       dynamic>>(state) {
-                if (grupoDefeitoCodigo) {
+                if (grupoId) {
                   state = state.withJoin(
                     currentTable: table,
-                    currentColumn: table.grupoDefeitoCodigo,
-                    referencedTable: $$EquipamentoTableTableReferences
-                        ._grupoDefeitoCodigoTable(db),
+                    currentColumn: table.grupoId,
+                    referencedTable:
+                        $$EquipamentoTableTableReferences._grupoIdTable(db),
                     referencedColumn: $$EquipamentoTableTableReferences
-                        ._grupoDefeitoCodigoTable(db)
+                        ._grupoIdTable(db)
                         .uuid,
                   ) as T;
                 }
@@ -15578,9 +14629,7 @@ typedef $$EquipamentoTableTableProcessedTableManager = ProcessedTableManager<
     (EquipamentoTableData, $$EquipamentoTableTableReferences),
     EquipamentoTableData,
     PrefetchHooks Function(
-        {bool grupoDefeitoCodigo,
-        bool atividadeTableRefs,
-        bool anomaliaTableRefs})>;
+        {bool grupoId, bool atividadeTableRefs, bool anomaliaTableRefs})>;
 typedef $$AtividadeTableTableCreateCompanionBuilder = AtividadeTableCompanion
     Function({
   Value<int> id,
@@ -16960,7 +16009,6 @@ typedef $$DefeitoTableTableCreateCompanionBuilder = DefeitoTableCompanion
   Value<bool> sincronizado,
   required String grupoId,
   required String subgrupoId,
-  required String grupoDefeitoCodigoId,
   required String codigoSap,
   required String descricao,
   required PrioridadeDefeito prioridade,
@@ -16974,7 +16022,6 @@ typedef $$DefeitoTableTableUpdateCompanionBuilder = DefeitoTableCompanion
   Value<bool> sincronizado,
   Value<String> grupoId,
   Value<String> subgrupoId,
-  Value<String> grupoDefeitoCodigoId,
   Value<String> codigoSap,
   Value<String> descricao,
   Value<PrioridadeDefeito> prioridade,
@@ -17008,23 +16055,6 @@ final class $$DefeitoTableTableReferences extends BaseReferences<_$AppDatabase,
             $_db, $_db.subgrupoDefeitoEquipamentoTable)
         .filter((f) => f.uuid($_item.subgrupoId));
     final item = $_typedResult.readTableOrNull(_subgrupoIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-
-  static $GrupoDefeitoCodigoTableTable _grupoDefeitoCodigoIdTable(
-          _$AppDatabase db) =>
-      db.grupoDefeitoCodigoTable.createAlias($_aliasNameGenerator(
-          db.defeitoTable.grupoDefeitoCodigoId,
-          db.grupoDefeitoCodigoTable.uuid));
-
-  $$GrupoDefeitoCodigoTableTableProcessedTableManager get grupoDefeitoCodigoId {
-    final manager = $$GrupoDefeitoCodigoTableTableTableManager(
-            $_db, $_db.grupoDefeitoCodigoTable)
-        .filter((f) => f.uuid($_item.grupoDefeitoCodigoId));
-    final item =
-        $_typedResult.readTableOrNull(_grupoDefeitoCodigoIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
@@ -17115,27 +16145,6 @@ class $$DefeitoTableTableFilterComposer
                 $$SubgrupoDefeitoEquipamentoTableTableFilterComposer(
                   $db: $db,
                   $table: $db.subgrupoDefeitoEquipamentoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
-  $$GrupoDefeitoCodigoTableTableFilterComposer get grupoDefeitoCodigoId {
-    final $$GrupoDefeitoCodigoTableTableFilterComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigoId,
-            referencedTable: $db.grupoDefeitoCodigoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableFilterComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -17241,27 +16250,6 @@ class $$DefeitoTableTableOrderingComposer
                 ));
     return composer;
   }
-
-  $$GrupoDefeitoCodigoTableTableOrderingComposer get grupoDefeitoCodigoId {
-    final $$GrupoDefeitoCodigoTableTableOrderingComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigoId,
-            referencedTable: $db.grupoDefeitoCodigoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableOrderingComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
 }
 
 class $$DefeitoTableTableAnnotationComposer
@@ -17340,27 +16328,6 @@ class $$DefeitoTableTableAnnotationComposer
     return composer;
   }
 
-  $$GrupoDefeitoCodigoTableTableAnnotationComposer get grupoDefeitoCodigoId {
-    final $$GrupoDefeitoCodigoTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.grupoDefeitoCodigoId,
-            referencedTable: $db.grupoDefeitoCodigoTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$GrupoDefeitoCodigoTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.grupoDefeitoCodigoTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
   Expression<T> anomaliaTableRefs<T extends Object>(
       Expression<T> Function($$AnomaliaTableTableAnnotationComposer a) f) {
     final $$AnomaliaTableTableAnnotationComposer composer = $composerBuilder(
@@ -17395,10 +16362,7 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
     (DefeitoTableData, $$DefeitoTableTableReferences),
     DefeitoTableData,
     PrefetchHooks Function(
-        {bool grupoId,
-        bool subgrupoId,
-        bool grupoDefeitoCodigoId,
-        bool anomaliaTableRefs})> {
+        {bool grupoId, bool subgrupoId, bool anomaliaTableRefs})> {
   $$DefeitoTableTableTableManager(_$AppDatabase db, $DefeitoTableTable table)
       : super(TableManagerState(
           db: db,
@@ -17417,7 +16381,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             Value<String> grupoId = const Value.absent(),
             Value<String> subgrupoId = const Value.absent(),
-            Value<String> grupoDefeitoCodigoId = const Value.absent(),
             Value<String> codigoSap = const Value.absent(),
             Value<String> descricao = const Value.absent(),
             Value<PrioridadeDefeito> prioridade = const Value.absent(),
@@ -17430,7 +16393,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             grupoId: grupoId,
             subgrupoId: subgrupoId,
-            grupoDefeitoCodigoId: grupoDefeitoCodigoId,
             codigoSap: codigoSap,
             descricao: descricao,
             prioridade: prioridade,
@@ -17443,7 +16405,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             required String grupoId,
             required String subgrupoId,
-            required String grupoDefeitoCodigoId,
             required String codigoSap,
             required String descricao,
             required PrioridadeDefeito prioridade,
@@ -17456,7 +16417,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             grupoId: grupoId,
             subgrupoId: subgrupoId,
-            grupoDefeitoCodigoId: grupoDefeitoCodigoId,
             codigoSap: codigoSap,
             descricao: descricao,
             prioridade: prioridade,
@@ -17470,7 +16430,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
           prefetchHooksCallback: (
               {grupoId = false,
               subgrupoId = false,
-              grupoDefeitoCodigoId = false,
               anomaliaTableRefs = false}) {
             return PrefetchHooks(
               db: db,
@@ -17510,17 +16469,6 @@ class $$DefeitoTableTableTableManager extends RootTableManager<
                         $$DefeitoTableTableReferences._subgrupoIdTable(db).uuid,
                   ) as T;
                 }
-                if (grupoDefeitoCodigoId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.grupoDefeitoCodigoId,
-                    referencedTable: $$DefeitoTableTableReferences
-                        ._grupoDefeitoCodigoIdTable(db),
-                    referencedColumn: $$DefeitoTableTableReferences
-                        ._grupoDefeitoCodigoIdTable(db)
-                        .uuid,
-                  ) as T;
-                }
 
                 return state;
               },
@@ -17557,10 +16505,7 @@ typedef $$DefeitoTableTableProcessedTableManager = ProcessedTableManager<
     (DefeitoTableData, $$DefeitoTableTableReferences),
     DefeitoTableData,
     PrefetchHooks Function(
-        {bool grupoId,
-        bool subgrupoId,
-        bool grupoDefeitoCodigoId,
-        bool anomaliaTableRefs})>;
+        {bool grupoId, bool subgrupoId, bool anomaliaTableRefs})>;
 typedef $$ChecklistPerguntaTableTableCreateCompanionBuilder
     = ChecklistPerguntaTableCompanion Function({
   Value<int> id,
@@ -26700,9 +25645,6 @@ class $AppDatabaseManager {
       get grupoDefeitoEquipamentoTable =>
           $$GrupoDefeitoEquipamentoTableTableTableManager(
               _db, _db.grupoDefeitoEquipamentoTable);
-  $$GrupoDefeitoCodigoTableTableTableManager get grupoDefeitoCodigoTable =>
-      $$GrupoDefeitoCodigoTableTableTableManager(
-          _db, _db.grupoDefeitoCodigoTable);
   $$EquipamentoTableTableTableManager get equipamentoTable =>
       $$EquipamentoTableTableTableManager(_db, _db.equipamentoTable);
   $$AtividadeTableTableTableManager get atividadeTable =>

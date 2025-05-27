@@ -6,7 +6,6 @@ class DefeitoTableDto {
   final String uuid;
   final String grupoId;
   final String subgrupoId;
-  final String grupoDefeitoCodigoId;
   final String codigoSap;
   final String descricao;
   final PrioridadeDefeito prioridade;
@@ -15,7 +14,6 @@ class DefeitoTableDto {
     required this.uuid,
     required this.grupoId,
     required this.subgrupoId,
-    required this.grupoDefeitoCodigoId,
     required this.codigoSap,
     required this.descricao,
     required this.prioridade,
@@ -27,7 +25,6 @@ class DefeitoTableDto {
       uuid: json['id'],
       grupoId: json['grupoId'],
       subgrupoId: json['subgrupoId'],
-      grupoDefeitoCodigoId: json['grupoDefeitoCodigoId'],
       codigoSap: json['codigoSap'],
       descricao: json['descricao'],
       prioridade: PrioridadeDefeito.values.firstWhere(
@@ -43,7 +40,6 @@ class DefeitoTableDto {
       'id': uuid,
       'grupoId': grupoId,
       'subgrupoId': subgrupoId,
-      'grupoDefeitoCodigoId': grupoDefeitoCodigoId,
       'codigoSap': codigoSap,
       'descricao': descricao,
       'prioridade': prioridade.name,
@@ -56,7 +52,6 @@ class DefeitoTableDto {
       uuid: Value(uuid),
       grupoId: Value(grupoId),
       subgrupoId: Value(subgrupoId),
-      grupoDefeitoCodigoId: Value(grupoDefeitoCodigoId),
       codigoSap: Value(codigoSap),
       descricao: Value(descricao),
       prioridade: Value(prioridade),
@@ -72,7 +67,6 @@ class DefeitoTableDto {
       uuid: data.uuid,
       grupoId: data.grupoId,
       subgrupoId: data.subgrupoId,
-      grupoDefeitoCodigoId: data.grupoDefeitoCodigoId,
       codigoSap: data.codigoSap,
       descricao: data.descricao,
       prioridade: PrioridadeDefeito.values.firstWhere(

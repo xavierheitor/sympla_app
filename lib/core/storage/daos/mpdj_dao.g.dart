@@ -6,8 +6,6 @@ part of 'mpdj_dao.dart';
 mixin _$MpdjDaoMixin on DatabaseAccessor<AppDatabase> {
   $GrupoDefeitoEquipamentoTableTable get grupoDefeitoEquipamentoTable =>
       attachedDatabase.grupoDefeitoEquipamentoTable;
-  $GrupoDefeitoCodigoTableTable get grupoDefeitoCodigoTable =>
-      attachedDatabase.grupoDefeitoCodigoTable;
   $EquipamentoTableTable get equipamentoTable =>
       attachedDatabase.equipamentoTable;
   $TipoAtividadeTableTable get tipoAtividadeTable =>

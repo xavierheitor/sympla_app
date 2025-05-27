@@ -4,7 +4,7 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/tables/schema.dart';
 
-part 'generated/checklist_dao.g.dart';
+part 'checklist_dao.g.dart';
 
 /// DAO unificado para Checklist, incluindo modelo, perguntas, relacionamentos e respostas.
 @DriftAccessor(tables: [

@@ -55,7 +55,7 @@ class GrupoDefeitoEquipamentoTableSyncImpl
     try {
       final data = await buscarDaApi();
       final itens = data.map((e) => e.toCompanion()).toList();
-      await defeitoDao.sincronizaGruposDefeitoEquipamentoComApi(itens);
+      await defeitoDao.sincronizarGruposDefeitoEquipamentoComApi(itens);
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(
