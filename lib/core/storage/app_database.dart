@@ -42,7 +42,7 @@ part 'app_database.g.dart';
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'sympla7.sqlite'));
+    final file = File(p.join(dbFolder.path, 'sympla.sqlite'));
 
     final nativeDb = NativeDatabase(
       file,
@@ -68,6 +68,7 @@ LazyDatabase _openConnection() {
     ChecklistPerguntaRelacionamentoTable,
     ChecklistPreenchidoTable,
     ChecklistRespostaTable,
+    ChecklistTipoAtividadeTable,
     FormularioMpbbTable,
     MedicaoElementoMpbbTable,
     MpDjFormTable,
@@ -79,6 +80,7 @@ LazyDatabase _openConnection() {
     AprTable,
     AprQuestionTable,
     AprPerguntaRelacionamentoTable,
+    AprTipoAtividadeTable,
     AprPreenchidaTable,
     AprRespostaTable,
     AprAssinaturaTable,

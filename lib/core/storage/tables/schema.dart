@@ -72,8 +72,6 @@ class AprTable extends SyncableTable {
   TextColumn get nome => text()();
   TextColumn get descricao => text().nullable()();
 
-  Column<String> get tipoAtividadeId =>
-      text().references(TipoAtividadeTable, #uuid)();
 }
 
 class AprQuestionTable extends SyncableTable {
@@ -84,6 +82,12 @@ class AprPerguntaRelacionamentoTable extends SyncableTable {
   Column<String> get aprId => text().references(AprTable, #uuid)();
   Column<String> get perguntaId => text().references(AprQuestionTable, #uuid)();
   IntColumn get ordem => integer()();
+}
+
+class AprTipoAtividadeTable extends SyncableTable {
+  TextColumn get tipoAtividadeId =>
+      text().references(TipoAtividadeTable, #uuid)();
+  TextColumn get aprId => text().references(AprTable, #uuid)();
 }
 
 class AprPreenchidaTable extends Table {
@@ -130,9 +134,6 @@ class AprAssinaturaTable extends Table {
 class ChecklistTable extends SyncableTable {
   TextColumn get nome => text()();
   TextColumn get descricao => text().nullable()();
-
-  Column<String> get tipoAtividadeId =>
-      text().references(TipoAtividadeTable, #uuid)();
 }
 
 class ChecklistPerguntaTable extends SyncableTable {
@@ -144,6 +145,12 @@ class ChecklistPerguntaRelacionamentoTable extends SyncableTable {
   TextColumn get perguntaId =>
       text().references(ChecklistPerguntaTable, #uuid)();
   IntColumn get ordem => integer().withDefault(const Constant(0))();
+}
+
+class ChecklistTipoAtividadeTable extends SyncableTable {
+  TextColumn get checklistId => text().references(ChecklistTable, #uuid)();
+  TextColumn get tipoAtividadeId =>
+      text().references(TipoAtividadeTable, #uuid)();
 }
 
 class ChecklistPreenchidoTable extends Table {

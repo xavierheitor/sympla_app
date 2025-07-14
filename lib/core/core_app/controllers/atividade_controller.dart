@@ -52,7 +52,22 @@ class AtividadeController extends GetxController {
       AppLogger.d('🌀 Carregando atividades do banco');
       final lista = await atividadeService.buscarAtividadesComEquipamento();
       atividades.assignAll(lista);
+
+      AppLogger.d('📦 ${lista.length} atividades carregadas do banco.');
+
+      final porStatus = <StatusAtividade, int>{};
+      for (final a in lista) {
+        porStatus[a.status] = (porStatus[a.status] ?? 0) + 1;
+      }
+
+      for (final entry in porStatus.entries) {
+        AppLogger.d(
+            '🔢 ${entry.value} atividades com status ${entry.key.name}');
+      }
+
       await _carregarEmAndamento();
+    } catch (e, s) {
+      AppLogger.e('❌ Erro ao carregar atividades: $e', stackTrace: s);
     } finally {
       isLoading.value = false;
     }

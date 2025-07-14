@@ -5,13 +5,11 @@ class ChecklistTableDto {
   final String uuid;
   final String nome;
   final String? descricao;
-  final String tipoAtividadeId;
 
   ChecklistTableDto({
     required this.uuid,
     required this.nome,
     this.descricao,
-    required this.tipoAtividadeId,
   });
 
   // 🔄 De JSON para DTO
@@ -20,7 +18,6 @@ class ChecklistTableDto {
       uuid: json['id'],
       nome: json['nome'],
       descricao: json['descricao'],
-      tipoAtividadeId: json['tipoAtividadeId'],
     );
   }
 
@@ -30,7 +27,6 @@ class ChecklistTableDto {
       'uuid': uuid,
       'nome': nome,
       'descricao': descricao,
-      'tipoAtividadeId': tipoAtividadeId,
     };
   }
 
@@ -40,7 +36,6 @@ class ChecklistTableDto {
       uuid: Value(uuid),
       nome: Value(nome),
       descricao: Value(descricao),
-      tipoAtividadeId: Value(tipoAtividadeId),
       createdAt: Value(DateTime.now()),
       updatedAt: Value(DateTime.now()),
       sincronizado: const Value(true),
@@ -53,7 +48,6 @@ class ChecklistTableDto {
       uuid: data.uuid,
       nome: data.nome,
       descricao: data.descricao,
-      tipoAtividadeId: data.tipoAtividadeId,
     );
   }
 }

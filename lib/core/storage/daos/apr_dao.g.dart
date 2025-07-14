@@ -4,9 +4,9 @@ part of 'apr_dao.dart';
 
 // ignore_for_file: type=lint
 mixin _$AprDaoMixin on DatabaseAccessor<AppDatabase> {
+  $AprTableTable get aprTable => attachedDatabase.aprTable;
   $TipoAtividadeTableTable get tipoAtividadeTable =>
       attachedDatabase.tipoAtividadeTable;
-  $AprTableTable get aprTable => attachedDatabase.aprTable;
   $AprQuestionTableTable get aprQuestionTable =>
       attachedDatabase.aprQuestionTable;
   $AprPerguntaRelacionamentoTableTable get aprPerguntaRelacionamentoTable =>
@@ -24,4 +24,6 @@ mixin _$AprDaoMixin on DatabaseAccessor<AppDatabase> {
   $TecnicoTableTable get tecnicoTable => attachedDatabase.tecnicoTable;
   $AprAssinaturaTableTable get aprAssinaturaTable =>
       attachedDatabase.aprAssinaturaTable;
+  $AprTipoAtividadeTableTable get aprTipoAtividadeTable =>
+      attachedDatabase.aprTipoAtividadeTable;
 }

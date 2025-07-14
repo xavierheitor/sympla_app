@@ -111,7 +111,7 @@ class DefeitoDao extends DatabaseAccessor<AppDatabase> with _$DefeitoDaoMixin {
   Future<GrupoDefeitoEquipamentoTableData?> buscarGrupoDefeitoCodigo(
       String codigo) async {
     return (select(grupoDefeitoEquipamentoTable)
-          ..where((tbl) => tbl.codigo.equals(codigo)))
+          ..where((tbl) => tbl.uuid.equals(codigo)))
         .getSingleOrNull();
   }
 }

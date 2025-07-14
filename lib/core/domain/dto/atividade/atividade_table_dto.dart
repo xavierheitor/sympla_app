@@ -45,7 +45,9 @@ class AtividadeTableDto {
       titulo: json['titulo'],
       ordemServico: json['ordemServico'],
       descricao: json['descricao'],
-      subestacao: json['subestacao'],
+      subestacao: (json['subestacao'] as String?)?.trim().isNotEmpty == true
+          ? json['subestacao']
+          : 'AAA',
       status: StatusAtividade.values.firstWhere(
         (e) => e.name == json['status'],
         orElse: () => StatusAtividade.pendente,

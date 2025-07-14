@@ -13,6 +13,7 @@ part 'checklist_dao.g.dart';
   ChecklistPerguntaRelacionamentoTable,
   ChecklistRespostaTable,
   TipoAtividadeTable,
+  ChecklistTipoAtividadeTable,
 ])
 class ChecklistDao extends DatabaseAccessor<AppDatabase>
     with _$ChecklistDaoMixin {
@@ -85,18 +86,38 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
   }
 
   /// Busca checklist associado a um tipo de atividade
-  Future<ChecklistTableData?> buscarPorTipoAtividade(
+  Future<ChecklistTableData> buscarPorTipoAtividade(
       String tipoAtividadeId) async {
-    final query = select(checklistTable).join([
-      innerJoin(
-        tipoAtividadeTable,
-        tipoAtividadeTable.uuid.equalsExp(checklistTable.tipoAtividadeId),
-      )
-    ])
-      ..where(tipoAtividadeTable.uuid.equals(tipoAtividadeId));
+    AppLogger.d(
+        '🔍 Buscando Checklist vinculado ao tipo de atividade $tipoAtividadeId');
 
-    final result = await query.getSingleOrNull();
-    return result?.readTable(checklistTable);
+    // Passo 1: buscar relacionamentos na tabela intermediária
+    final relacionamentos = await (select(checklistTipoAtividadeTable)
+          ..where((tbl) => tbl.tipoAtividadeId.equals(tipoAtividadeId)))
+        .get();
+
+    if (relacionamentos.isEmpty) {
+      AppLogger.w('⚠️ Nenhum checklist relacionado ao tipo $tipoAtividadeId');
+      throw Exception(
+          'Nenhum checklist encontrado para tipo de atividade $tipoAtividadeId');
+    }
+
+    // Pega o primeiro checklistId encontrado
+    final checklistId = relacionamentos.first.checklistId;
+
+    // Passo 2: buscar o checklist na tabela principal
+    final checklist = await (select(checklistTable)
+          ..where((tbl) => tbl.uuid.equals(checklistId)))
+        .getSingleOrNull();
+
+    if (checklist == null) {
+      AppLogger.e('❌ Checklist com id $checklistId não encontrado');
+      throw Exception('Checklist com id $checklistId não encontrado');
+    }
+
+    AppLogger.d(
+        '✅ Checklist ${checklist.uuid} encontrado para tipo $tipoAtividadeId');
+    return checklist;
   }
 
   /// Busca perguntas associadas a um checklist
@@ -201,6 +222,46 @@ class ChecklistDao extends DatabaseAccessor<AppDatabase>
         .go();
     AppLogger.d(
         'Checklist preenchido deletado (ID: $checklistPreenchidoId, registros: $deletados)',
+        tag: 'ChecklistDao');
+  }
+
+  //** === CHECKLIST TIPO ATIVIDADE === */
+
+  Future<void> salvarChecklistTipoAtividade(
+      ChecklistTipoAtividadeTableCompanion entry) async {
+    AppLogger.d('💾 Salvando ChecklistTipoAtividade: $entry',
+        tag: 'ChecklistDao');
+    await into(checklistTipoAtividadeTable).insert(entry);
+  }
+
+  Future<void> sincronizarChecklistTipoAtividade(
+      List<ChecklistTipoAtividadeTableCompanion> entradas) async {
+    AppLogger.d(
+        '🔄 Sincronizando ${entradas.length} tipos de atividade Checklist',
+        tag: 'ChecklistDao');
+    await batch((batch) {
+      batch.update(
+          checklistTipoAtividadeTable,
+          const ChecklistTipoAtividadeTableCompanion(
+              sincronizado: Value(false)));
+      batch.insertAllOnConflictUpdate(checklistTipoAtividadeTable, entradas);
+    });
+  }
+
+  Future<bool> estaVazioChecklistTipoAtividade() async {
+    final query = selectOnly(checklistTipoAtividadeTable)
+      ..addColumns([checklistTipoAtividadeTable.id.count()]);
+    final row = await query.getSingle();
+    return row.read(checklistTipoAtividadeTable.id.count()) == 0;
+  }
+
+  Future<void> deletarChecklistTipoAtividade(
+      int checklistTipoAtividadeId) async {
+    final deletados = await (delete(checklistTipoAtividadeTable)
+          ..where((tbl) => tbl.id.equals(checklistTipoAtividadeId)))
+        .go();
+    AppLogger.d(
+        'ChecklistTipoAtividade deletado (ID: $checklistTipoAtividadeId, registros: $deletados)',
         tag: 'ChecklistDao');
   }
 }

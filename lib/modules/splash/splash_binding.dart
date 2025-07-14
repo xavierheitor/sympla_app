@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/repositories/implementations/sync/apr_modelo_tipo_atividade_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/apr_pergunta_relacionamento_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/apr_question_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/apr_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/atividade_table_sync_impl.dart';
+import 'package:sympla_app/core/domain/repositories/implementations/sync/checklist_modelo_tipo_atividade_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/checklist_pergunta_relacionamento_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/checklist_pergunta_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/checklist_table_sync_impl.dart';
@@ -89,6 +91,16 @@ class SplashBinding extends Bindings {
       Get.find(),
     ));
     // syncManager.registrar(OutroSyncImpl());
+
+    syncManager.registrar(AprModeloTipoAtividadeTableSyncImpl(
+      Get.find(),
+      Get.find(),
+    ));
+
+    syncManager.registrar(ChecklistModeloTipoAtividadeTableSyncImpl(
+      Get.find(),
+      Get.find(),
+    ));
 
     // Registra o SyncManager e o SplashController
     Get.put<SyncManager>(syncManager, permanent: true);

@@ -13,6 +13,7 @@ part 'apr_dao.g.dart';
   AprPreenchidaTable,
   AprRespostaTable,
   AprAssinaturaTable,
+  AprTipoAtividadeTable,
 ])
 class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   AprDao(super.db);
@@ -55,21 +56,35 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
 
   /// Busca o modelo de APR vinculado a um tipo de atividade
   Future<AprTableData> buscarPorTipoAtividade(String tipoAtividadeUuid) async {
-    final query = select(tipoAtividadeTable).join([
-      innerJoin(
-        aprTable,
-        aprTable.tipoAtividadeId.equalsExp(tipoAtividadeTable.uuid),
-      )
-    ])
-      ..where(tipoAtividadeTable.uuid.equals(tipoAtividadeUuid));
+    AppLogger.d(
+        '🔍 Buscando APR vinculada ao tipo de atividade $tipoAtividadeUuid');
 
-    final row = await query.getSingleOrNull();
-    if (row == null) {
+    // Passo 1: buscar o aprId relacionado ao tipo de atividade
+    final aprRelacionamentos = await (select(aprTipoAtividadeTable)
+          ..where((t) => t.tipoAtividadeId.equals(tipoAtividadeUuid)))
+        .get();
+
+    if (aprRelacionamentos.isEmpty) {
+      AppLogger.w(
+          '⚠️ Nenhum vínculo APR encontrado para tipo $tipoAtividadeUuid');
       throw Exception(
-          'Não encontrado APR para TipoAtividade $tipoAtividadeUuid');
+          'Nenhuma APR vinculada ao tipo de atividade $tipoAtividadeUuid');
     }
 
-    return row.readTable(aprTable);
+    // Pega o primeiro APR vinculado (pode ajustar se quiser lógica diferente)
+    final aprId = aprRelacionamentos.first.aprId;
+
+    // Passo 2: busca o APR na tabela principal
+    final apr = await (select(aprTable)..where((t) => t.uuid.equals(aprId)))
+        .getSingleOrNull();
+
+    if (apr == null) {
+      AppLogger.e('❌ APR com id $aprId não encontrado na tabela aprTable');
+      throw Exception('APR com id $aprId não encontrado');
+    }
+
+    AppLogger.d('✅ APR ${apr.uuid} encontrado para tipo $tipoAtividadeUuid');
+    return apr;
   }
 
   // === PERGUNTAS E RELACIONAMENTOS ===
@@ -143,7 +158,7 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   /// Insere um registro de APR preenchida
   Future<int> inserirAprPreenchida(AprPreenchidaTableCompanion entry) async {
     AppLogger.d('💾 Salvando AprPreenchida: $entry', tag: 'AprDao');
-    
+
     // Verifica se já existe APR preenchida para esta atividade
     final existente = await (select(aprPreenchidaTable)
           ..where((t) => t.atividadeId.equals(entry.atividadeId.value)))
@@ -296,4 +311,30 @@ class AprDao extends DatabaseAccessor<AppDatabase> with _$AprDaoMixin {
   }
 
   deletarRespostas(int aprPreenchidaId) {}
+
+  //** === APR TIPO ATIVIDADE === */
+
+  Future<void> salvarAprTipoAtividade(
+      AprTipoAtividadeTableCompanion entry) async {
+    AppLogger.d('💾 Salvando AprTipoAtividade: $entry', tag: 'AprDao');
+    await into(aprTipoAtividadeTable).insert(entry);
+  }
+
+  Future<void> sincronizarAprTipoAtividade(
+      List<AprTipoAtividadeTableCompanion> entradas) async {
+    AppLogger.d('🔄 Sincronizando ${entradas.length} tipos de atividade APR',
+        tag: 'AprDao');
+    await batch((batch) {
+      batch.update(aprTipoAtividadeTable,
+          const AprTipoAtividadeTableCompanion(sincronizado: Value(false)));
+      batch.insertAllOnConflictUpdate(aprTipoAtividadeTable, entradas);
+    });
+  }
+
+  Future<bool> estaVazioAprTipoAtividade() async {
+    final query = selectOnly(aprTipoAtividadeTable)
+      ..addColumns([aprTipoAtividadeTable.id.count()]);
+    final row = await query.getSingle();
+    return row.read(aprTipoAtividadeTable.id.count()) == 0;
+  }
 }

@@ -4626,26 +4626,9 @@ class $ChecklistTableTable extends ChecklistTable
   late final GeneratedColumn<String> descricao = GeneratedColumn<String>(
       'descricao', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _tipoAtividadeIdMeta =
-      const VerificationMeta('tipoAtividadeId');
   @override
-  late final GeneratedColumn<String> tipoAtividadeId = GeneratedColumn<String>(
-      'tipo_atividade_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES tipo_atividade_table (uuid)'));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        uuid,
-        createdAt,
-        updatedAt,
-        sincronizado,
-        nome,
-        descricao,
-        tipoAtividadeId
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, descricao];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -4693,14 +4676,6 @@ class $ChecklistTableTable extends ChecklistTable
       context.handle(_descricaoMeta,
           descricao.isAcceptableOrUnknown(data['descricao']!, _descricaoMeta));
     }
-    if (data.containsKey('tipo_atividade_id')) {
-      context.handle(
-          _tipoAtividadeIdMeta,
-          tipoAtividadeId.isAcceptableOrUnknown(
-              data['tipo_atividade_id']!, _tipoAtividadeIdMeta));
-    } else if (isInserting) {
-      context.missing(_tipoAtividadeIdMeta);
-    }
     return context;
   }
 
@@ -4724,8 +4699,6 @@ class $ChecklistTableTable extends ChecklistTable
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
       descricao: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}descricao']),
-      tipoAtividadeId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}tipo_atividade_id'])!,
     );
   }
 
@@ -4744,7 +4717,6 @@ class ChecklistTableData extends DataClass
   final bool sincronizado;
   final String nome;
   final String? descricao;
-  final String tipoAtividadeId;
   const ChecklistTableData(
       {required this.id,
       required this.uuid,
@@ -4752,8 +4724,7 @@ class ChecklistTableData extends DataClass
       required this.updatedAt,
       required this.sincronizado,
       required this.nome,
-      this.descricao,
-      required this.tipoAtividadeId});
+      this.descricao});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -4766,7 +4737,6 @@ class ChecklistTableData extends DataClass
     if (!nullToAbsent || descricao != null) {
       map['descricao'] = Variable<String>(descricao);
     }
-    map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId);
     return map;
   }
 
@@ -4781,7 +4751,6 @@ class ChecklistTableData extends DataClass
       descricao: descricao == null && nullToAbsent
           ? const Value.absent()
           : Value(descricao),
-      tipoAtividadeId: Value(tipoAtividadeId),
     );
   }
 
@@ -4796,7 +4765,6 @@ class ChecklistTableData extends DataClass
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
       nome: serializer.fromJson<String>(json['nome']),
       descricao: serializer.fromJson<String?>(json['descricao']),
-      tipoAtividadeId: serializer.fromJson<String>(json['tipoAtividadeId']),
     );
   }
   @override
@@ -4810,7 +4778,6 @@ class ChecklistTableData extends DataClass
       'sincronizado': serializer.toJson<bool>(sincronizado),
       'nome': serializer.toJson<String>(nome),
       'descricao': serializer.toJson<String?>(descricao),
-      'tipoAtividadeId': serializer.toJson<String>(tipoAtividadeId),
     };
   }
 
@@ -4821,8 +4788,7 @@ class ChecklistTableData extends DataClass
           DateTime? updatedAt,
           bool? sincronizado,
           String? nome,
-          Value<String?> descricao = const Value.absent(),
-          String? tipoAtividadeId}) =>
+          Value<String?> descricao = const Value.absent()}) =>
       ChecklistTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -4831,7 +4797,6 @@ class ChecklistTableData extends DataClass
         sincronizado: sincronizado ?? this.sincronizado,
         nome: nome ?? this.nome,
         descricao: descricao.present ? descricao.value : this.descricao,
-        tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
       );
   ChecklistTableData copyWithCompanion(ChecklistTableCompanion data) {
     return ChecklistTableData(
@@ -4844,9 +4809,6 @@ class ChecklistTableData extends DataClass
           : this.sincronizado,
       nome: data.nome.present ? data.nome.value : this.nome,
       descricao: data.descricao.present ? data.descricao.value : this.descricao,
-      tipoAtividadeId: data.tipoAtividadeId.present
-          ? data.tipoAtividadeId.value
-          : this.tipoAtividadeId,
     );
   }
 
@@ -4859,15 +4821,14 @@ class ChecklistTableData extends DataClass
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
           ..write('nome: $nome, ')
-          ..write('descricao: $descricao, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId')
+          ..write('descricao: $descricao')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
-      nome, descricao, tipoAtividadeId);
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, nome, descricao);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -4878,8 +4839,7 @@ class ChecklistTableData extends DataClass
           other.updatedAt == this.updatedAt &&
           other.sincronizado == this.sincronizado &&
           other.nome == this.nome &&
-          other.descricao == this.descricao &&
-          other.tipoAtividadeId == this.tipoAtividadeId);
+          other.descricao == this.descricao);
 }
 
 class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
@@ -4890,7 +4850,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
   final Value<bool> sincronizado;
   final Value<String> nome;
   final Value<String?> descricao;
-  final Value<String> tipoAtividadeId;
   const ChecklistTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -4899,7 +4858,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
     this.sincronizado = const Value.absent(),
     this.nome = const Value.absent(),
     this.descricao = const Value.absent(),
-    this.tipoAtividadeId = const Value.absent(),
   });
   ChecklistTableCompanion.insert({
     this.id = const Value.absent(),
@@ -4909,12 +4867,10 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
     this.sincronizado = const Value.absent(),
     required String nome,
     this.descricao = const Value.absent(),
-    required String tipoAtividadeId,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
-        nome = Value(nome),
-        tipoAtividadeId = Value(tipoAtividadeId);
+        nome = Value(nome);
   static Insertable<ChecklistTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -4923,7 +4879,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
     Expression<bool>? sincronizado,
     Expression<String>? nome,
     Expression<String>? descricao,
-    Expression<String>? tipoAtividadeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -4933,7 +4888,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
       if (sincronizado != null) 'sincronizado': sincronizado,
       if (nome != null) 'nome': nome,
       if (descricao != null) 'descricao': descricao,
-      if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
     });
   }
 
@@ -4944,8 +4898,7 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
       Value<DateTime>? updatedAt,
       Value<bool>? sincronizado,
       Value<String>? nome,
-      Value<String?>? descricao,
-      Value<String>? tipoAtividadeId}) {
+      Value<String?>? descricao}) {
     return ChecklistTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -4954,7 +4907,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
       sincronizado: sincronizado ?? this.sincronizado,
       nome: nome ?? this.nome,
       descricao: descricao ?? this.descricao,
-      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
     );
   }
 
@@ -4982,9 +4934,6 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
     if (descricao.present) {
       map['descricao'] = Variable<String>(descricao.value);
     }
-    if (tipoAtividadeId.present) {
-      map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId.value);
-    }
     return map;
   }
 
@@ -4997,8 +4946,7 @@ class ChecklistTableCompanion extends UpdateCompanion<ChecklistTableData> {
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
           ..write('nome: $nome, ')
-          ..write('descricao: $descricao, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId')
+          ..write('descricao: $descricao')
           ..write(')'))
         .toString();
   }
@@ -6064,6 +6012,414 @@ class ChecklistRespostaTableCompanion
           ..write('checklistPreenchidoId: $checklistPreenchidoId, ')
           ..write('perguntaId: $perguntaId, ')
           ..write('resposta: $resposta')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $ChecklistTipoAtividadeTableTable extends ChecklistTipoAtividadeTable
+    with
+        TableInfo<$ChecklistTipoAtividadeTableTable,
+            ChecklistTipoAtividadeTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $ChecklistTipoAtividadeTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _checklistIdMeta =
+      const VerificationMeta('checklistId');
+  @override
+  late final GeneratedColumn<String> checklistId = GeneratedColumn<String>(
+      'checklist_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES checklist_table (uuid)'));
+  static const VerificationMeta _tipoAtividadeIdMeta =
+      const VerificationMeta('tipoAtividadeId');
+  @override
+  late final GeneratedColumn<String> tipoAtividadeId = GeneratedColumn<String>(
+      'tipo_atividade_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES tipo_atividade_table (uuid)'));
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        uuid,
+        createdAt,
+        updatedAt,
+        sincronizado,
+        checklistId,
+        tipoAtividadeId
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'checklist_tipo_atividade_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ChecklistTipoAtividadeTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('checklist_id')) {
+      context.handle(
+          _checklistIdMeta,
+          checklistId.isAcceptableOrUnknown(
+              data['checklist_id']!, _checklistIdMeta));
+    } else if (isInserting) {
+      context.missing(_checklistIdMeta);
+    }
+    if (data.containsKey('tipo_atividade_id')) {
+      context.handle(
+          _tipoAtividadeIdMeta,
+          tipoAtividadeId.isAcceptableOrUnknown(
+              data['tipo_atividade_id']!, _tipoAtividadeIdMeta));
+    } else if (isInserting) {
+      context.missing(_tipoAtividadeIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ChecklistTipoAtividadeTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ChecklistTipoAtividadeTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      checklistId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}checklist_id'])!,
+      tipoAtividadeId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}tipo_atividade_id'])!,
+    );
+  }
+
+  @override
+  $ChecklistTipoAtividadeTableTable createAlias(String alias) {
+    return $ChecklistTipoAtividadeTableTable(attachedDatabase, alias);
+  }
+}
+
+class ChecklistTipoAtividadeTableData extends DataClass
+    implements Insertable<ChecklistTipoAtividadeTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String checklistId;
+  final String tipoAtividadeId;
+  const ChecklistTipoAtividadeTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.checklistId,
+      required this.tipoAtividadeId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['checklist_id'] = Variable<String>(checklistId);
+    map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId);
+    return map;
+  }
+
+  ChecklistTipoAtividadeTableCompanion toCompanion(bool nullToAbsent) {
+    return ChecklistTipoAtividadeTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      checklistId: Value(checklistId),
+      tipoAtividadeId: Value(tipoAtividadeId),
+    );
+  }
+
+  factory ChecklistTipoAtividadeTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ChecklistTipoAtividadeTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      checklistId: serializer.fromJson<String>(json['checklistId']),
+      tipoAtividadeId: serializer.fromJson<String>(json['tipoAtividadeId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'checklistId': serializer.toJson<String>(checklistId),
+      'tipoAtividadeId': serializer.toJson<String>(tipoAtividadeId),
+    };
+  }
+
+  ChecklistTipoAtividadeTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? checklistId,
+          String? tipoAtividadeId}) =>
+      ChecklistTipoAtividadeTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        checklistId: checklistId ?? this.checklistId,
+        tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+      );
+  ChecklistTipoAtividadeTableData copyWithCompanion(
+      ChecklistTipoAtividadeTableCompanion data) {
+    return ChecklistTipoAtividadeTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      checklistId:
+          data.checklistId.present ? data.checklistId.value : this.checklistId,
+      tipoAtividadeId: data.tipoAtividadeId.present
+          ? data.tipoAtividadeId.value
+          : this.tipoAtividadeId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistTipoAtividadeTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
+          ..write('tipoAtividadeId: $tipoAtividadeId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
+      checklistId, tipoAtividadeId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ChecklistTipoAtividadeTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.checklistId == this.checklistId &&
+          other.tipoAtividadeId == this.tipoAtividadeId);
+}
+
+class ChecklistTipoAtividadeTableCompanion
+    extends UpdateCompanion<ChecklistTipoAtividadeTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> checklistId;
+  final Value<String> tipoAtividadeId;
+  const ChecklistTipoAtividadeTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.checklistId = const Value.absent(),
+    this.tipoAtividadeId = const Value.absent(),
+  });
+  ChecklistTipoAtividadeTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String checklistId,
+    required String tipoAtividadeId,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        checklistId = Value(checklistId),
+        tipoAtividadeId = Value(tipoAtividadeId);
+  static Insertable<ChecklistTipoAtividadeTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? checklistId,
+    Expression<String>? tipoAtividadeId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (checklistId != null) 'checklist_id': checklistId,
+      if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
+    });
+  }
+
+  ChecklistTipoAtividadeTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? checklistId,
+      Value<String>? tipoAtividadeId}) {
+    return ChecklistTipoAtividadeTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      checklistId: checklistId ?? this.checklistId,
+      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (checklistId.present) {
+      map['checklist_id'] = Variable<String>(checklistId.value);
+    }
+    if (tipoAtividadeId.present) {
+      map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ChecklistTipoAtividadeTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('checklistId: $checklistId, ')
+          ..write('tipoAtividadeId: $tipoAtividadeId')
           ..write(')'))
         .toString();
   }
@@ -10456,26 +10812,9 @@ class $AprTableTable extends AprTable
   late final GeneratedColumn<String> descricao = GeneratedColumn<String>(
       'descricao', aliasedName, true,
       type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _tipoAtividadeIdMeta =
-      const VerificationMeta('tipoAtividadeId');
   @override
-  late final GeneratedColumn<String> tipoAtividadeId = GeneratedColumn<String>(
-      'tipo_atividade_id', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES tipo_atividade_table (uuid)'));
-  @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        uuid,
-        createdAt,
-        updatedAt,
-        sincronizado,
-        nome,
-        descricao,
-        tipoAtividadeId
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, nome, descricao];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -10523,14 +10862,6 @@ class $AprTableTable extends AprTable
       context.handle(_descricaoMeta,
           descricao.isAcceptableOrUnknown(data['descricao']!, _descricaoMeta));
     }
-    if (data.containsKey('tipo_atividade_id')) {
-      context.handle(
-          _tipoAtividadeIdMeta,
-          tipoAtividadeId.isAcceptableOrUnknown(
-              data['tipo_atividade_id']!, _tipoAtividadeIdMeta));
-    } else if (isInserting) {
-      context.missing(_tipoAtividadeIdMeta);
-    }
     return context;
   }
 
@@ -10554,8 +10885,6 @@ class $AprTableTable extends AprTable
           .read(DriftSqlType.string, data['${effectivePrefix}nome'])!,
       descricao: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}descricao']),
-      tipoAtividadeId: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}tipo_atividade_id'])!,
     );
   }
 
@@ -10573,7 +10902,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
   final bool sincronizado;
   final String nome;
   final String? descricao;
-  final String tipoAtividadeId;
   const AprTableData(
       {required this.id,
       required this.uuid,
@@ -10581,8 +10909,7 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
       required this.updatedAt,
       required this.sincronizado,
       required this.nome,
-      this.descricao,
-      required this.tipoAtividadeId});
+      this.descricao});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -10595,7 +10922,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
     if (!nullToAbsent || descricao != null) {
       map['descricao'] = Variable<String>(descricao);
     }
-    map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId);
     return map;
   }
 
@@ -10610,7 +10936,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
       descricao: descricao == null && nullToAbsent
           ? const Value.absent()
           : Value(descricao),
-      tipoAtividadeId: Value(tipoAtividadeId),
     );
   }
 
@@ -10625,7 +10950,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
       sincronizado: serializer.fromJson<bool>(json['sincronizado']),
       nome: serializer.fromJson<String>(json['nome']),
       descricao: serializer.fromJson<String?>(json['descricao']),
-      tipoAtividadeId: serializer.fromJson<String>(json['tipoAtividadeId']),
     );
   }
   @override
@@ -10639,7 +10963,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
       'sincronizado': serializer.toJson<bool>(sincronizado),
       'nome': serializer.toJson<String>(nome),
       'descricao': serializer.toJson<String?>(descricao),
-      'tipoAtividadeId': serializer.toJson<String>(tipoAtividadeId),
     };
   }
 
@@ -10650,8 +10973,7 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
           DateTime? updatedAt,
           bool? sincronizado,
           String? nome,
-          Value<String?> descricao = const Value.absent(),
-          String? tipoAtividadeId}) =>
+          Value<String?> descricao = const Value.absent()}) =>
       AprTableData(
         id: id ?? this.id,
         uuid: uuid ?? this.uuid,
@@ -10660,7 +10982,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
         sincronizado: sincronizado ?? this.sincronizado,
         nome: nome ?? this.nome,
         descricao: descricao.present ? descricao.value : this.descricao,
-        tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
       );
   AprTableData copyWithCompanion(AprTableCompanion data) {
     return AprTableData(
@@ -10673,9 +10994,6 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
           : this.sincronizado,
       nome: data.nome.present ? data.nome.value : this.nome,
       descricao: data.descricao.present ? data.descricao.value : this.descricao,
-      tipoAtividadeId: data.tipoAtividadeId.present
-          ? data.tipoAtividadeId.value
-          : this.tipoAtividadeId,
     );
   }
 
@@ -10688,15 +11006,14 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
           ..write('nome: $nome, ')
-          ..write('descricao: $descricao, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId')
+          ..write('descricao: $descricao')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, uuid, createdAt, updatedAt, sincronizado,
-      nome, descricao, tipoAtividadeId);
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, nome, descricao);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -10707,8 +11024,7 @@ class AprTableData extends DataClass implements Insertable<AprTableData> {
           other.updatedAt == this.updatedAt &&
           other.sincronizado == this.sincronizado &&
           other.nome == this.nome &&
-          other.descricao == this.descricao &&
-          other.tipoAtividadeId == this.tipoAtividadeId);
+          other.descricao == this.descricao);
 }
 
 class AprTableCompanion extends UpdateCompanion<AprTableData> {
@@ -10719,7 +11035,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
   final Value<bool> sincronizado;
   final Value<String> nome;
   final Value<String?> descricao;
-  final Value<String> tipoAtividadeId;
   const AprTableCompanion({
     this.id = const Value.absent(),
     this.uuid = const Value.absent(),
@@ -10728,7 +11043,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
     this.sincronizado = const Value.absent(),
     this.nome = const Value.absent(),
     this.descricao = const Value.absent(),
-    this.tipoAtividadeId = const Value.absent(),
   });
   AprTableCompanion.insert({
     this.id = const Value.absent(),
@@ -10738,12 +11052,10 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
     this.sincronizado = const Value.absent(),
     required String nome,
     this.descricao = const Value.absent(),
-    required String tipoAtividadeId,
   })  : uuid = Value(uuid),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt),
-        nome = Value(nome),
-        tipoAtividadeId = Value(tipoAtividadeId);
+        nome = Value(nome);
   static Insertable<AprTableData> custom({
     Expression<int>? id,
     Expression<String>? uuid,
@@ -10752,7 +11064,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
     Expression<bool>? sincronizado,
     Expression<String>? nome,
     Expression<String>? descricao,
-    Expression<String>? tipoAtividadeId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -10762,7 +11073,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
       if (sincronizado != null) 'sincronizado': sincronizado,
       if (nome != null) 'nome': nome,
       if (descricao != null) 'descricao': descricao,
-      if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
     });
   }
 
@@ -10773,8 +11083,7 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
       Value<DateTime>? updatedAt,
       Value<bool>? sincronizado,
       Value<String>? nome,
-      Value<String?>? descricao,
-      Value<String>? tipoAtividadeId}) {
+      Value<String?>? descricao}) {
     return AprTableCompanion(
       id: id ?? this.id,
       uuid: uuid ?? this.uuid,
@@ -10783,7 +11092,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
       sincronizado: sincronizado ?? this.sincronizado,
       nome: nome ?? this.nome,
       descricao: descricao ?? this.descricao,
-      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
     );
   }
 
@@ -10811,9 +11119,6 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
     if (descricao.present) {
       map['descricao'] = Variable<String>(descricao.value);
     }
-    if (tipoAtividadeId.present) {
-      map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId.value);
-    }
     return map;
   }
 
@@ -10826,8 +11131,7 @@ class AprTableCompanion extends UpdateCompanion<AprTableData> {
           ..write('updatedAt: $updatedAt, ')
           ..write('sincronizado: $sincronizado, ')
           ..write('nome: $nome, ')
-          ..write('descricao: $descricao, ')
-          ..write('tipoAtividadeId: $tipoAtividadeId')
+          ..write('descricao: $descricao')
           ..write(')'))
         .toString();
   }
@@ -11606,6 +11910,401 @@ class AprPerguntaRelacionamentoTableCompanion
           ..write('aprId: $aprId, ')
           ..write('perguntaId: $perguntaId, ')
           ..write('ordem: $ordem')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AprTipoAtividadeTableTable extends AprTipoAtividadeTable
+    with TableInfo<$AprTipoAtividadeTableTable, AprTipoAtividadeTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AprTipoAtividadeTableTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _uuidMeta = const VerificationMeta('uuid');
+  @override
+  late final GeneratedColumn<String> uuid = GeneratedColumn<String>(
+      'uuid', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _sincronizadoMeta =
+      const VerificationMeta('sincronizado');
+  @override
+  late final GeneratedColumn<bool> sincronizado = GeneratedColumn<bool>(
+      'sincronizado', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("sincronizado" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _tipoAtividadeIdMeta =
+      const VerificationMeta('tipoAtividadeId');
+  @override
+  late final GeneratedColumn<String> tipoAtividadeId = GeneratedColumn<String>(
+      'tipo_atividade_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'REFERENCES tipo_atividade_table (uuid)'));
+  static const VerificationMeta _aprIdMeta = const VerificationMeta('aprId');
+  @override
+  late final GeneratedColumn<String> aprId = GeneratedColumn<String>(
+      'apr_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('REFERENCES apr_table (uuid)'));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, uuid, createdAt, updatedAt, sincronizado, tipoAtividadeId, aprId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'apr_tipo_atividade_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AprTipoAtividadeTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('uuid')) {
+      context.handle(
+          _uuidMeta, uuid.isAcceptableOrUnknown(data['uuid']!, _uuidMeta));
+    } else if (isInserting) {
+      context.missing(_uuidMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    if (data.containsKey('sincronizado')) {
+      context.handle(
+          _sincronizadoMeta,
+          sincronizado.isAcceptableOrUnknown(
+              data['sincronizado']!, _sincronizadoMeta));
+    }
+    if (data.containsKey('tipo_atividade_id')) {
+      context.handle(
+          _tipoAtividadeIdMeta,
+          tipoAtividadeId.isAcceptableOrUnknown(
+              data['tipo_atividade_id']!, _tipoAtividadeIdMeta));
+    } else if (isInserting) {
+      context.missing(_tipoAtividadeIdMeta);
+    }
+    if (data.containsKey('apr_id')) {
+      context.handle(
+          _aprIdMeta, aprId.isAcceptableOrUnknown(data['apr_id']!, _aprIdMeta));
+    } else if (isInserting) {
+      context.missing(_aprIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AprTipoAtividadeTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AprTipoAtividadeTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      uuid: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}uuid'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+      sincronizado: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sincronizado'])!,
+      tipoAtividadeId: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}tipo_atividade_id'])!,
+      aprId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}apr_id'])!,
+    );
+  }
+
+  @override
+  $AprTipoAtividadeTableTable createAlias(String alias) {
+    return $AprTipoAtividadeTableTable(attachedDatabase, alias);
+  }
+}
+
+class AprTipoAtividadeTableData extends DataClass
+    implements Insertable<AprTipoAtividadeTableData> {
+  final int id;
+  final String uuid;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final bool sincronizado;
+  final String tipoAtividadeId;
+  final String aprId;
+  const AprTipoAtividadeTableData(
+      {required this.id,
+      required this.uuid,
+      required this.createdAt,
+      required this.updatedAt,
+      required this.sincronizado,
+      required this.tipoAtividadeId,
+      required this.aprId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['uuid'] = Variable<String>(uuid);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    map['sincronizado'] = Variable<bool>(sincronizado);
+    map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId);
+    map['apr_id'] = Variable<String>(aprId);
+    return map;
+  }
+
+  AprTipoAtividadeTableCompanion toCompanion(bool nullToAbsent) {
+    return AprTipoAtividadeTableCompanion(
+      id: Value(id),
+      uuid: Value(uuid),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+      sincronizado: Value(sincronizado),
+      tipoAtividadeId: Value(tipoAtividadeId),
+      aprId: Value(aprId),
+    );
+  }
+
+  factory AprTipoAtividadeTableData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AprTipoAtividadeTableData(
+      id: serializer.fromJson<int>(json['id']),
+      uuid: serializer.fromJson<String>(json['uuid']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      sincronizado: serializer.fromJson<bool>(json['sincronizado']),
+      tipoAtividadeId: serializer.fromJson<String>(json['tipoAtividadeId']),
+      aprId: serializer.fromJson<String>(json['aprId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'uuid': serializer.toJson<String>(uuid),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'sincronizado': serializer.toJson<bool>(sincronizado),
+      'tipoAtividadeId': serializer.toJson<String>(tipoAtividadeId),
+      'aprId': serializer.toJson<String>(aprId),
+    };
+  }
+
+  AprTipoAtividadeTableData copyWith(
+          {int? id,
+          String? uuid,
+          DateTime? createdAt,
+          DateTime? updatedAt,
+          bool? sincronizado,
+          String? tipoAtividadeId,
+          String? aprId}) =>
+      AprTipoAtividadeTableData(
+        id: id ?? this.id,
+        uuid: uuid ?? this.uuid,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+        sincronizado: sincronizado ?? this.sincronizado,
+        tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+        aprId: aprId ?? this.aprId,
+      );
+  AprTipoAtividadeTableData copyWithCompanion(
+      AprTipoAtividadeTableCompanion data) {
+    return AprTipoAtividadeTableData(
+      id: data.id.present ? data.id.value : this.id,
+      uuid: data.uuid.present ? data.uuid.value : this.uuid,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+      sincronizado: data.sincronizado.present
+          ? data.sincronizado.value
+          : this.sincronizado,
+      tipoAtividadeId: data.tipoAtividadeId.present
+          ? data.tipoAtividadeId.value
+          : this.tipoAtividadeId,
+      aprId: data.aprId.present ? data.aprId.value : this.aprId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprTipoAtividadeTableData(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('tipoAtividadeId: $tipoAtividadeId, ')
+          ..write('aprId: $aprId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, uuid, createdAt, updatedAt, sincronizado, tipoAtividadeId, aprId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AprTipoAtividadeTableData &&
+          other.id == this.id &&
+          other.uuid == this.uuid &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt &&
+          other.sincronizado == this.sincronizado &&
+          other.tipoAtividadeId == this.tipoAtividadeId &&
+          other.aprId == this.aprId);
+}
+
+class AprTipoAtividadeTableCompanion
+    extends UpdateCompanion<AprTipoAtividadeTableData> {
+  final Value<int> id;
+  final Value<String> uuid;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  final Value<bool> sincronizado;
+  final Value<String> tipoAtividadeId;
+  final Value<String> aprId;
+  const AprTipoAtividadeTableCompanion({
+    this.id = const Value.absent(),
+    this.uuid = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+    this.sincronizado = const Value.absent(),
+    this.tipoAtividadeId = const Value.absent(),
+    this.aprId = const Value.absent(),
+  });
+  AprTipoAtividadeTableCompanion.insert({
+    this.id = const Value.absent(),
+    required String uuid,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    this.sincronizado = const Value.absent(),
+    required String tipoAtividadeId,
+    required String aprId,
+  })  : uuid = Value(uuid),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt),
+        tipoAtividadeId = Value(tipoAtividadeId),
+        aprId = Value(aprId);
+  static Insertable<AprTipoAtividadeTableData> custom({
+    Expression<int>? id,
+    Expression<String>? uuid,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+    Expression<bool>? sincronizado,
+    Expression<String>? tipoAtividadeId,
+    Expression<String>? aprId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (uuid != null) 'uuid': uuid,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+      if (sincronizado != null) 'sincronizado': sincronizado,
+      if (tipoAtividadeId != null) 'tipo_atividade_id': tipoAtividadeId,
+      if (aprId != null) 'apr_id': aprId,
+    });
+  }
+
+  AprTipoAtividadeTableCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? uuid,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt,
+      Value<bool>? sincronizado,
+      Value<String>? tipoAtividadeId,
+      Value<String>? aprId}) {
+    return AprTipoAtividadeTableCompanion(
+      id: id ?? this.id,
+      uuid: uuid ?? this.uuid,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      sincronizado: sincronizado ?? this.sincronizado,
+      tipoAtividadeId: tipoAtividadeId ?? this.tipoAtividadeId,
+      aprId: aprId ?? this.aprId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (uuid.present) {
+      map['uuid'] = Variable<String>(uuid.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (sincronizado.present) {
+      map['sincronizado'] = Variable<bool>(sincronizado.value);
+    }
+    if (tipoAtividadeId.present) {
+      map['tipo_atividade_id'] = Variable<String>(tipoAtividadeId.value);
+    }
+    if (aprId.present) {
+      map['apr_id'] = Variable<String>(aprId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AprTipoAtividadeTableCompanion(')
+          ..write('id: $id, ')
+          ..write('uuid: $uuid, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('sincronizado: $sincronizado, ')
+          ..write('tipoAtividadeId: $tipoAtividadeId, ')
+          ..write('aprId: $aprId')
           ..write(')'))
         .toString();
   }
@@ -12698,6 +13397,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $ChecklistPreenchidoTableTable(this);
   late final $ChecklistRespostaTableTable checklistRespostaTable =
       $ChecklistRespostaTableTable(this);
+  late final $ChecklistTipoAtividadeTableTable checklistTipoAtividadeTable =
+      $ChecklistTipoAtividadeTableTable(this);
   late final $FormularioMpbbTableTable formularioMpbbTable =
       $FormularioMpbbTableTable(this);
   late final $MedicaoElementoMpbbTableTable medicaoElementoMpbbTable =
@@ -12719,6 +13420,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $AprPerguntaRelacionamentoTableTable
       aprPerguntaRelacionamentoTable =
       $AprPerguntaRelacionamentoTableTable(this);
+  late final $AprTipoAtividadeTableTable aprTipoAtividadeTable =
+      $AprTipoAtividadeTableTable(this);
   late final $AprPreenchidaTableTable aprPreenchidaTable =
       $AprPreenchidaTableTable(this);
   late final $AprRespostaTableTable aprRespostaTable =
@@ -12755,6 +13458,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         checklistPerguntaRelacionamentoTable,
         checklistPreenchidoTable,
         checklistRespostaTable,
+        checklistTipoAtividadeTable,
         formularioMpbbTable,
         medicaoElementoMpbbTable,
         mpDjFormTable,
@@ -12766,6 +13470,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         aprTable,
         aprQuestionTable,
         aprPerguntaRelacionamentoTable,
+        aprTipoAtividadeTable,
         aprPreenchidaTable,
         aprRespostaTable,
         aprAssinaturaTable
@@ -13288,32 +13993,40 @@ final class $$TipoAtividadeTableTableReferences extends BaseReferences<
         manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$ChecklistTableTable, List<ChecklistTableData>>
-      _checklistTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.checklistTable,
+  static MultiTypedResultKey<$ChecklistTipoAtividadeTableTable,
+          List<ChecklistTipoAtividadeTableData>>
+      _checklistTipoAtividadeTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistTipoAtividadeTable,
               aliasName: $_aliasNameGenerator(db.tipoAtividadeTable.uuid,
-                  db.checklistTable.tipoAtividadeId));
+                  db.checklistTipoAtividadeTable.tipoAtividadeId));
 
-  $$ChecklistTableTableProcessedTableManager get checklistTableRefs {
-    final manager = $$ChecklistTableTableTableManager($_db, $_db.checklistTable)
+  $$ChecklistTipoAtividadeTableTableProcessedTableManager
+      get checklistTipoAtividadeTableRefs {
+    final manager = $$ChecklistTipoAtividadeTableTableTableManager(
+            $_db, $_db.checklistTipoAtividadeTable)
         .filter((f) => f.tipoAtividadeId.uuid($_item.uuid));
 
-    final cache = $_typedResult.readTableOrNull(_checklistTableRefsTable($_db));
+    final cache = $_typedResult
+        .readTableOrNull(_checklistTipoAtividadeTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
 
-  static MultiTypedResultKey<$AprTableTable, List<AprTableData>>
-      _aprTableRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.aprTable,
-              aliasName: $_aliasNameGenerator(
-                  db.tipoAtividadeTable.uuid, db.aprTable.tipoAtividadeId));
+  static MultiTypedResultKey<$AprTipoAtividadeTableTable,
+      List<AprTipoAtividadeTableData>> _aprTipoAtividadeTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprTipoAtividadeTable,
+          aliasName: $_aliasNameGenerator(db.tipoAtividadeTable.uuid,
+              db.aprTipoAtividadeTable.tipoAtividadeId));
 
-  $$AprTableTableProcessedTableManager get aprTableRefs {
-    final manager = $$AprTableTableTableManager($_db, $_db.aprTable)
+  $$AprTipoAtividadeTableTableProcessedTableManager
+      get aprTipoAtividadeTableRefs {
+    final manager = $$AprTipoAtividadeTableTableTableManager(
+            $_db, $_db.aprTipoAtividadeTable)
         .filter((f) => f.tipoAtividadeId.uuid($_item.uuid));
 
-    final cache = $_typedResult.readTableOrNull(_aprTableRefsTable($_db));
+    final cache =
+        $_typedResult.readTableOrNull(_aprTipoAtividadeTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -13373,45 +14086,50 @@ class $$TipoAtividadeTableTableFilterComposer
     return f(composer);
   }
 
-  Expression<bool> checklistTableRefs(
-      Expression<bool> Function($$ChecklistTableTableFilterComposer f) f) {
-    final $$ChecklistTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.checklistTable,
-        getReferencedColumn: (t) => t.tipoAtividadeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ChecklistTableTableFilterComposer(
-              $db: $db,
-              $table: $db.checklistTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+  Expression<bool> checklistTipoAtividadeTableRefs(
+      Expression<bool> Function(
+              $$ChecklistTipoAtividadeTableTableFilterComposer f)
+          f) {
+    final $$ChecklistTipoAtividadeTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.checklistTipoAtividadeTable,
+            getReferencedColumn: (t) => t.tipoAtividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistTipoAtividadeTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 
-  Expression<bool> aprTableRefs(
-      Expression<bool> Function($$AprTableTableFilterComposer f) f) {
-    final $$AprTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.aprTable,
-        getReferencedColumn: (t) => t.tipoAtividadeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$AprTableTableFilterComposer(
-              $db: $db,
-              $table: $db.aprTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+  Expression<bool> aprTipoAtividadeTableRefs(
+      Expression<bool> Function($$AprTipoAtividadeTableTableFilterComposer f)
+          f) {
+    final $$AprTipoAtividadeTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.aprTipoAtividadeTable,
+            getReferencedColumn: (t) => t.tipoAtividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprTipoAtividadeTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.aprTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
@@ -13501,45 +14219,50 @@ class $$TipoAtividadeTableTableAnnotationComposer
     return f(composer);
   }
 
-  Expression<T> checklistTableRefs<T extends Object>(
-      Expression<T> Function($$ChecklistTableTableAnnotationComposer a) f) {
-    final $$ChecklistTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.checklistTable,
-        getReferencedColumn: (t) => t.tipoAtividadeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$ChecklistTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.checklistTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+  Expression<T> checklistTipoAtividadeTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistTipoAtividadeTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistTipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.checklistTipoAtividadeTable,
+            getReferencedColumn: (t) => t.tipoAtividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistTipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 
-  Expression<T> aprTableRefs<T extends Object>(
-      Expression<T> Function($$AprTableTableAnnotationComposer a) f) {
-    final $$AprTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.uuid,
-        referencedTable: $db.aprTable,
-        getReferencedColumn: (t) => t.tipoAtividadeId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$AprTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.aprTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
+  Expression<T> aprTipoAtividadeTableRefs<T extends Object>(
+      Expression<T> Function($$AprTipoAtividadeTableTableAnnotationComposer a)
+          f) {
+    final $$AprTipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.aprTipoAtividadeTable,
+            getReferencedColumn: (t) => t.tipoAtividadeId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprTipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
@@ -13557,8 +14280,8 @@ class $$TipoAtividadeTableTableTableManager extends RootTableManager<
     TipoAtividadeTableData,
     PrefetchHooks Function(
         {bool atividadeTableRefs,
-        bool checklistTableRefs,
-        bool aprTableRefs})> {
+        bool checklistTipoAtividadeTableRefs,
+        bool aprTipoAtividadeTableRefs})> {
   $$TipoAtividadeTableTableTableManager(
       _$AppDatabase db, $TipoAtividadeTableTable table)
       : super(TableManagerState(
@@ -13616,14 +14339,15 @@ class $$TipoAtividadeTableTableTableManager extends RootTableManager<
               .toList(),
           prefetchHooksCallback: (
               {atividadeTableRefs = false,
-              checklistTableRefs = false,
-              aprTableRefs = false}) {
+              checklistTipoAtividadeTableRefs = false,
+              aprTipoAtividadeTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (atividadeTableRefs) db.atividadeTable,
-                if (checklistTableRefs) db.checklistTable,
-                if (aprTableRefs) db.aprTable
+                if (checklistTipoAtividadeTableRefs)
+                  db.checklistTipoAtividadeTable,
+                if (aprTipoAtividadeTableRefs) db.aprTipoAtividadeTable
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -13640,26 +14364,26 @@ class $$TipoAtividadeTableTableTableManager extends RootTableManager<
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.tipoAtividadeId == item.uuid),
                         typedResults: items),
-                  if (checklistTableRefs)
+                  if (checklistTipoAtividadeTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$TipoAtividadeTableTableReferences
-                            ._checklistTableRefsTable(db),
+                            ._checklistTipoAtividadeTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$TipoAtividadeTableTableReferences(db, table, p0)
-                                .checklistTableRefs,
+                                .checklistTipoAtividadeTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.tipoAtividadeId == item.uuid),
                         typedResults: items),
-                  if (aprTableRefs)
+                  if (aprTipoAtividadeTableRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
                         referencedTable: $$TipoAtividadeTableTableReferences
-                            ._aprTableRefsTable(db),
+                            ._aprTipoAtividadeTableRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$TipoAtividadeTableTableReferences(db, table, p0)
-                                .aprTableRefs,
+                                .aprTipoAtividadeTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.tipoAtividadeId == item.uuid),
@@ -13683,7 +14407,9 @@ typedef $$TipoAtividadeTableTableProcessedTableManager = ProcessedTableManager<
     (TipoAtividadeTableData, $$TipoAtividadeTableTableReferences),
     TipoAtividadeTableData,
     PrefetchHooks Function(
-        {bool atividadeTableRefs, bool checklistTableRefs, bool aprTableRefs})>;
+        {bool atividadeTableRefs,
+        bool checklistTipoAtividadeTableRefs,
+        bool aprTipoAtividadeTableRefs})>;
 typedef $$GrupoDefeitoEquipamentoTableTableCreateCompanionBuilder
     = GrupoDefeitoEquipamentoTableCompanion Function({
   Value<int> id,
@@ -17980,7 +18706,6 @@ typedef $$ChecklistTableTableCreateCompanionBuilder = ChecklistTableCompanion
   Value<bool> sincronizado,
   required String nome,
   Value<String?> descricao,
-  required String tipoAtividadeId,
 });
 typedef $$ChecklistTableTableUpdateCompanionBuilder = ChecklistTableCompanion
     Function({
@@ -17991,27 +18716,12 @@ typedef $$ChecklistTableTableUpdateCompanionBuilder = ChecklistTableCompanion
   Value<bool> sincronizado,
   Value<String> nome,
   Value<String?> descricao,
-  Value<String> tipoAtividadeId,
 });
 
 final class $$ChecklistTableTableReferences extends BaseReferences<
     _$AppDatabase, $ChecklistTableTable, ChecklistTableData> {
   $$ChecklistTableTableReferences(
       super.$_db, super.$_table, super.$_typedResult);
-
-  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
-      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
-          db.checklistTable.tipoAtividadeId, db.tipoAtividadeTable.uuid));
-
-  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
-    final manager =
-        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
-            .filter((f) => f.uuid($_item.tipoAtividadeId));
-    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
 
   static MultiTypedResultKey<$ChecklistPerguntaRelacionamentoTableTable,
           List<ChecklistPerguntaRelacionamentoTableData>>
@@ -18050,6 +18760,25 @@ final class $$ChecklistTableTableReferences extends BaseReferences<
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
+
+  static MultiTypedResultKey<$ChecklistTipoAtividadeTableTable,
+          List<ChecklistTipoAtividadeTableData>>
+      _checklistTipoAtividadeTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.checklistTipoAtividadeTable,
+              aliasName: $_aliasNameGenerator(db.checklistTable.uuid,
+                  db.checklistTipoAtividadeTable.checklistId));
+
+  $$ChecklistTipoAtividadeTableTableProcessedTableManager
+      get checklistTipoAtividadeTableRefs {
+    final manager = $$ChecklistTipoAtividadeTableTableTableManager(
+            $_db, $_db.checklistTipoAtividadeTable)
+        .filter((f) => f.checklistId.uuid($_item.uuid));
+
+    final cache = $_typedResult
+        .readTableOrNull(_checklistTipoAtividadeTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$ChecklistTableTableFilterComposer
@@ -18081,26 +18810,6 @@ class $$ChecklistTableTableFilterComposer
 
   ColumnFilters<String> get descricao => $composableBuilder(
       column: $table.descricao, builder: (column) => ColumnFilters(column));
-
-  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.uuid,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableFilterComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
 
   Expression<bool> checklistPerguntaRelacionamentoTableRefs(
       Expression<bool> Function(
@@ -18148,6 +18857,30 @@ class $$ChecklistTableTableFilterComposer
                 ));
     return f(composer);
   }
+
+  Expression<bool> checklistTipoAtividadeTableRefs(
+      Expression<bool> Function(
+              $$ChecklistTipoAtividadeTableTableFilterComposer f)
+          f) {
+    final $$ChecklistTipoAtividadeTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.checklistTipoAtividadeTable,
+            getReferencedColumn: (t) => t.checklistId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistTipoAtividadeTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.checklistTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$ChecklistTableTableOrderingComposer
@@ -18180,26 +18913,6 @@ class $$ChecklistTableTableOrderingComposer
 
   ColumnOrderings<String> get descricao => $composableBuilder(
       column: $table.descricao, builder: (column) => ColumnOrderings(column));
-
-  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.uuid,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
 }
 
 class $$ChecklistTableTableAnnotationComposer
@@ -18231,27 +18944,6 @@ class $$ChecklistTableTableAnnotationComposer
 
   GeneratedColumn<String> get descricao =>
       $composableBuilder(column: $table.descricao, builder: (column) => column);
-
-  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.tipoAtividadeId,
-            referencedTable: $db.tipoAtividadeTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$TipoAtividadeTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.tipoAtividadeTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
 
   Expression<T> checklistPerguntaRelacionamentoTableRefs<T extends Object>(
       Expression<T> Function(
@@ -18300,6 +18992,30 @@ class $$ChecklistTableTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> checklistTipoAtividadeTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$ChecklistTipoAtividadeTableTableAnnotationComposer a)
+          f) {
+    final $$ChecklistTipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.checklistTipoAtividadeTable,
+            getReferencedColumn: (t) => t.checklistId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$ChecklistTipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.checklistTipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$ChecklistTableTableTableManager extends RootTableManager<
@@ -18314,9 +19030,9 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
     (ChecklistTableData, $$ChecklistTableTableReferences),
     ChecklistTableData,
     PrefetchHooks Function(
-        {bool tipoAtividadeId,
-        bool checklistPerguntaRelacionamentoTableRefs,
-        bool checklistPreenchidoTableRefs})> {
+        {bool checklistPerguntaRelacionamentoTableRefs,
+        bool checklistPreenchidoTableRefs,
+        bool checklistTipoAtividadeTableRefs})> {
   $$ChecklistTableTableTableManager(
       _$AppDatabase db, $ChecklistTableTable table)
       : super(TableManagerState(
@@ -18336,7 +19052,6 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             Value<String> nome = const Value.absent(),
             Value<String?> descricao = const Value.absent(),
-            Value<String> tipoAtividadeId = const Value.absent(),
           }) =>
               ChecklistTableCompanion(
             id: id,
@@ -18346,7 +19061,6 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             nome: nome,
             descricao: descricao,
-            tipoAtividadeId: tipoAtividadeId,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -18356,7 +19070,6 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             required String nome,
             Value<String?> descricao = const Value.absent(),
-            required String tipoAtividadeId,
           }) =>
               ChecklistTableCompanion.insert(
             id: id,
@@ -18366,7 +19079,6 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             nome: nome,
             descricao: descricao,
-            tipoAtividadeId: tipoAtividadeId,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (
@@ -18375,43 +19087,19 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
                   ))
               .toList(),
           prefetchHooksCallback: (
-              {tipoAtividadeId = false,
-              checklistPerguntaRelacionamentoTableRefs = false,
-              checklistPreenchidoTableRefs = false}) {
+              {checklistPerguntaRelacionamentoTableRefs = false,
+              checklistPreenchidoTableRefs = false,
+              checklistTipoAtividadeTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (checklistPerguntaRelacionamentoTableRefs)
                   db.checklistPerguntaRelacionamentoTable,
-                if (checklistPreenchidoTableRefs) db.checklistPreenchidoTable
+                if (checklistPreenchidoTableRefs) db.checklistPreenchidoTable,
+                if (checklistTipoAtividadeTableRefs)
+                  db.checklistTipoAtividadeTable
               ],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (tipoAtividadeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.tipoAtividadeId,
-                    referencedTable: $$ChecklistTableTableReferences
-                        ._tipoAtividadeIdTable(db),
-                    referencedColumn: $$ChecklistTableTableReferences
-                        ._tipoAtividadeIdTable(db)
-                        .uuid,
-                  ) as T;
-                }
-
-                return state;
-              },
+              addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (checklistPerguntaRelacionamentoTableRefs)
@@ -18437,6 +19125,18 @@ class $$ChecklistTableTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.checklistId == item.uuid),
+                        typedResults: items),
+                  if (checklistTipoAtividadeTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$ChecklistTableTableReferences
+                            ._checklistTipoAtividadeTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$ChecklistTableTableReferences(db, table, p0)
+                                .checklistTipoAtividadeTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.checklistId == item.uuid),
                         typedResults: items)
                 ];
               },
@@ -18457,9 +19157,9 @@ typedef $$ChecklistTableTableProcessedTableManager = ProcessedTableManager<
     (ChecklistTableData, $$ChecklistTableTableReferences),
     ChecklistTableData,
     PrefetchHooks Function(
-        {bool tipoAtividadeId,
-        bool checklistPerguntaRelacionamentoTableRefs,
-        bool checklistPreenchidoTableRefs})>;
+        {bool checklistPerguntaRelacionamentoTableRefs,
+        bool checklistPreenchidoTableRefs,
+        bool checklistTipoAtividadeTableRefs})>;
 typedef $$ChecklistPerguntaRelacionamentoTableTableCreateCompanionBuilder
     = ChecklistPerguntaRelacionamentoTableCompanion Function({
   Value<int> id,
@@ -19754,6 +20454,401 @@ typedef $$ChecklistRespostaTableTableProcessedTableManager
         (ChecklistRespostaTableData, $$ChecklistRespostaTableTableReferences),
         ChecklistRespostaTableData,
         PrefetchHooks Function({bool checklistPreenchidoId, bool perguntaId})>;
+typedef $$ChecklistTipoAtividadeTableTableCreateCompanionBuilder
+    = ChecklistTipoAtividadeTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String checklistId,
+  required String tipoAtividadeId,
+});
+typedef $$ChecklistTipoAtividadeTableTableUpdateCompanionBuilder
+    = ChecklistTipoAtividadeTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> checklistId,
+  Value<String> tipoAtividadeId,
+});
+
+final class $$ChecklistTipoAtividadeTableTableReferences extends BaseReferences<
+    _$AppDatabase,
+    $ChecklistTipoAtividadeTableTable,
+    ChecklistTipoAtividadeTableData> {
+  $$ChecklistTipoAtividadeTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $ChecklistTableTable _checklistIdTable(_$AppDatabase db) =>
+      db.checklistTable.createAlias($_aliasNameGenerator(
+          db.checklistTipoAtividadeTable.checklistId, db.checklistTable.uuid));
+
+  $$ChecklistTableTableProcessedTableManager get checklistId {
+    final manager = $$ChecklistTableTableTableManager($_db, $_db.checklistTable)
+        .filter((f) => f.uuid($_item.checklistId));
+    final item = $_typedResult.readTableOrNull(_checklistIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
+      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
+          db.checklistTipoAtividadeTable.tipoAtividadeId,
+          db.tipoAtividadeTable.uuid));
+
+  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
+    final manager =
+        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
+            .filter((f) => f.uuid($_item.tipoAtividadeId));
+    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$ChecklistTipoAtividadeTableTableFilterComposer
+    extends Composer<_$AppDatabase, $ChecklistTipoAtividadeTableTable> {
+  $$ChecklistTipoAtividadeTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  $$ChecklistTableTableFilterComposer get checklistId {
+    final $$ChecklistTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableFilterComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ChecklistTipoAtividadeTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $ChecklistTipoAtividadeTableTable> {
+  $$ChecklistTipoAtividadeTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  $$ChecklistTableTableOrderingComposer get checklistId {
+    final $$ChecklistTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$ChecklistTipoAtividadeTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $ChecklistTipoAtividadeTableTable> {
+  $$ChecklistTipoAtividadeTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  $$ChecklistTableTableAnnotationComposer get checklistId {
+    final $$ChecklistTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.checklistId,
+        referencedTable: $db.checklistTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$ChecklistTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.checklistTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.tipoAtividadeId,
+            referencedTable: $db.tipoAtividadeTable,
+            getReferencedColumn: (t) => t.uuid,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$TipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.tipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$ChecklistTipoAtividadeTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $ChecklistTipoAtividadeTableTable,
+    ChecklistTipoAtividadeTableData,
+    $$ChecklistTipoAtividadeTableTableFilterComposer,
+    $$ChecklistTipoAtividadeTableTableOrderingComposer,
+    $$ChecklistTipoAtividadeTableTableAnnotationComposer,
+    $$ChecklistTipoAtividadeTableTableCreateCompanionBuilder,
+    $$ChecklistTipoAtividadeTableTableUpdateCompanionBuilder,
+    (
+      ChecklistTipoAtividadeTableData,
+      $$ChecklistTipoAtividadeTableTableReferences
+    ),
+    ChecklistTipoAtividadeTableData,
+    PrefetchHooks Function({bool checklistId, bool tipoAtividadeId})> {
+  $$ChecklistTipoAtividadeTableTableTableManager(
+      _$AppDatabase db, $ChecklistTipoAtividadeTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$ChecklistTipoAtividadeTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$ChecklistTipoAtividadeTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$ChecklistTipoAtividadeTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> checklistId = const Value.absent(),
+            Value<String> tipoAtividadeId = const Value.absent(),
+          }) =>
+              ChecklistTipoAtividadeTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            checklistId: checklistId,
+            tipoAtividadeId: tipoAtividadeId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String checklistId,
+            required String tipoAtividadeId,
+          }) =>
+              ChecklistTipoAtividadeTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            checklistId: checklistId,
+            tipoAtividadeId: tipoAtividadeId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$ChecklistTipoAtividadeTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: (
+              {checklistId = false, tipoAtividadeId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (checklistId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.checklistId,
+                    referencedTable:
+                        $$ChecklistTipoAtividadeTableTableReferences
+                            ._checklistIdTable(db),
+                    referencedColumn:
+                        $$ChecklistTipoAtividadeTableTableReferences
+                            ._checklistIdTable(db)
+                            .uuid,
+                  ) as T;
+                }
+                if (tipoAtividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.tipoAtividadeId,
+                    referencedTable:
+                        $$ChecklistTipoAtividadeTableTableReferences
+                            ._tipoAtividadeIdTable(db),
+                    referencedColumn:
+                        $$ChecklistTipoAtividadeTableTableReferences
+                            ._tipoAtividadeIdTable(db)
+                            .uuid,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$ChecklistTipoAtividadeTableTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $ChecklistTipoAtividadeTableTable,
+    ChecklistTipoAtividadeTableData,
+    $$ChecklistTipoAtividadeTableTableFilterComposer,
+    $$ChecklistTipoAtividadeTableTableOrderingComposer,
+    $$ChecklistTipoAtividadeTableTableAnnotationComposer,
+    $$ChecklistTipoAtividadeTableTableCreateCompanionBuilder,
+    $$ChecklistTipoAtividadeTableTableUpdateCompanionBuilder,
+    (
+      ChecklistTipoAtividadeTableData,
+      $$ChecklistTipoAtividadeTableTableReferences
+    ),
+    ChecklistTipoAtividadeTableData,
+    PrefetchHooks Function({bool checklistId, bool tipoAtividadeId})>;
 typedef $$FormularioMpbbTableTableCreateCompanionBuilder
     = FormularioMpbbTableCompanion Function({
   Value<int> id,
@@ -23001,7 +24096,6 @@ typedef $$AprTableTableCreateCompanionBuilder = AprTableCompanion Function({
   Value<bool> sincronizado,
   required String nome,
   Value<String?> descricao,
-  required String tipoAtividadeId,
 });
 typedef $$AprTableTableUpdateCompanionBuilder = AprTableCompanion Function({
   Value<int> id,
@@ -23011,26 +24105,11 @@ typedef $$AprTableTableUpdateCompanionBuilder = AprTableCompanion Function({
   Value<bool> sincronizado,
   Value<String> nome,
   Value<String?> descricao,
-  Value<String> tipoAtividadeId,
 });
 
 final class $$AprTableTableReferences
     extends BaseReferences<_$AppDatabase, $AprTableTable, AprTableData> {
   $$AprTableTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
-      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
-          db.aprTable.tipoAtividadeId, db.tipoAtividadeTable.uuid));
-
-  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
-    final manager =
-        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
-            .filter((f) => f.uuid($_item.tipoAtividadeId));
-    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
 
   static MultiTypedResultKey<$AprPerguntaRelacionamentoTableTable,
           List<AprPerguntaRelacionamentoTableData>>
@@ -23047,6 +24126,25 @@ final class $$AprTableTableReferences
 
     final cache = $_typedResult
         .readTableOrNull(_aprPerguntaRelacionamentoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$AprTipoAtividadeTableTable,
+      List<AprTipoAtividadeTableData>> _aprTipoAtividadeTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.aprTipoAtividadeTable,
+          aliasName: $_aliasNameGenerator(
+              db.aprTable.uuid, db.aprTipoAtividadeTable.aprId));
+
+  $$AprTipoAtividadeTableTableProcessedTableManager
+      get aprTipoAtividadeTableRefs {
+    final manager = $$AprTipoAtividadeTableTableTableManager(
+            $_db, $_db.aprTipoAtividadeTable)
+        .filter((f) => f.aprId.uuid($_item.uuid));
+
+    final cache =
+        $_typedResult.readTableOrNull(_aprTipoAtividadeTableRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -23100,26 +24198,6 @@ class $$AprTableTableFilterComposer
   ColumnFilters<String> get descricao => $composableBuilder(
       column: $table.descricao, builder: (column) => ColumnFilters(column));
 
-  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.uuid,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableFilterComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
   Expression<bool> aprPerguntaRelacionamentoTableRefs(
       Expression<bool> Function(
               $$AprPerguntaRelacionamentoTableTableFilterComposer f)
@@ -23136,6 +24214,29 @@ class $$AprTableTableFilterComposer
                 $$AprPerguntaRelacionamentoTableTableFilterComposer(
                   $db: $db,
                   $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<bool> aprTipoAtividadeTableRefs(
+      Expression<bool> Function($$AprTipoAtividadeTableTableFilterComposer f)
+          f) {
+    final $$AprTipoAtividadeTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.aprTipoAtividadeTable,
+            getReferencedColumn: (t) => t.aprId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprTipoAtividadeTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.aprTipoAtividadeTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -23196,26 +24297,6 @@ class $$AprTableTableOrderingComposer
 
   ColumnOrderings<String> get descricao => $composableBuilder(
       column: $table.descricao, builder: (column) => ColumnOrderings(column));
-
-  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.tipoAtividadeId,
-        referencedTable: $db.tipoAtividadeTable,
-        getReferencedColumn: (t) => t.uuid,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TipoAtividadeTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.tipoAtividadeTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
 }
 
 class $$AprTableTableAnnotationComposer
@@ -23248,27 +24329,6 @@ class $$AprTableTableAnnotationComposer
   GeneratedColumn<String> get descricao =>
       $composableBuilder(column: $table.descricao, builder: (column) => column);
 
-  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
-    final $$TipoAtividadeTableTableAnnotationComposer composer =
-        $composerBuilder(
-            composer: this,
-            getCurrentColumn: (t) => t.tipoAtividadeId,
-            referencedTable: $db.tipoAtividadeTable,
-            getReferencedColumn: (t) => t.uuid,
-            builder: (joinBuilder,
-                    {$addJoinBuilderToRootComposer,
-                    $removeJoinBuilderFromRootComposer}) =>
-                $$TipoAtividadeTableTableAnnotationComposer(
-                  $db: $db,
-                  $table: $db.tipoAtividadeTable,
-                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-                  joinBuilder: joinBuilder,
-                  $removeJoinBuilderFromRootComposer:
-                      $removeJoinBuilderFromRootComposer,
-                ));
-    return composer;
-  }
-
   Expression<T> aprPerguntaRelacionamentoTableRefs<T extends Object>(
       Expression<T> Function(
               $$AprPerguntaRelacionamentoTableTableAnnotationComposer a)
@@ -23285,6 +24345,29 @@ class $$AprTableTableAnnotationComposer
                 $$AprPerguntaRelacionamentoTableTableAnnotationComposer(
                   $db: $db,
                   $table: $db.aprPerguntaRelacionamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
+  Expression<T> aprTipoAtividadeTableRefs<T extends Object>(
+      Expression<T> Function($$AprTipoAtividadeTableTableAnnotationComposer a)
+          f) {
+    final $$AprTipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.uuid,
+            referencedTable: $db.aprTipoAtividadeTable,
+            getReferencedColumn: (t) => t.aprId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$AprTipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.aprTipoAtividadeTable,
                   $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
                   joinBuilder: joinBuilder,
                   $removeJoinBuilderFromRootComposer:
@@ -23328,8 +24411,8 @@ class $$AprTableTableTableManager extends RootTableManager<
     (AprTableData, $$AprTableTableReferences),
     AprTableData,
     PrefetchHooks Function(
-        {bool tipoAtividadeId,
-        bool aprPerguntaRelacionamentoTableRefs,
+        {bool aprPerguntaRelacionamentoTableRefs,
+        bool aprTipoAtividadeTableRefs,
         bool aprPreenchidaTableRefs})> {
   $$AprTableTableTableManager(_$AppDatabase db, $AprTableTable table)
       : super(TableManagerState(
@@ -23349,7 +24432,6 @@ class $$AprTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             Value<String> nome = const Value.absent(),
             Value<String?> descricao = const Value.absent(),
-            Value<String> tipoAtividadeId = const Value.absent(),
           }) =>
               AprTableCompanion(
             id: id,
@@ -23359,7 +24441,6 @@ class $$AprTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             nome: nome,
             descricao: descricao,
-            tipoAtividadeId: tipoAtividadeId,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -23369,7 +24450,6 @@ class $$AprTableTableTableManager extends RootTableManager<
             Value<bool> sincronizado = const Value.absent(),
             required String nome,
             Value<String?> descricao = const Value.absent(),
-            required String tipoAtividadeId,
           }) =>
               AprTableCompanion.insert(
             id: id,
@@ -23379,50 +24459,24 @@ class $$AprTableTableTableManager extends RootTableManager<
             sincronizado: sincronizado,
             nome: nome,
             descricao: descricao,
-            tipoAtividadeId: tipoAtividadeId,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) =>
                   (e.readTable(table), $$AprTableTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: (
-              {tipoAtividadeId = false,
-              aprPerguntaRelacionamentoTableRefs = false,
+              {aprPerguntaRelacionamentoTableRefs = false,
+              aprTipoAtividadeTableRefs = false,
               aprPreenchidaTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (aprPerguntaRelacionamentoTableRefs)
                   db.aprPerguntaRelacionamentoTable,
+                if (aprTipoAtividadeTableRefs) db.aprTipoAtividadeTable,
                 if (aprPreenchidaTableRefs) db.aprPreenchidaTable
               ],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (tipoAtividadeId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.tipoAtividadeId,
-                    referencedTable:
-                        $$AprTableTableReferences._tipoAtividadeIdTable(db),
-                    referencedColumn: $$AprTableTableReferences
-                        ._tipoAtividadeIdTable(db)
-                        .uuid,
-                  ) as T;
-                }
-
-                return state;
-              },
+              addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (aprPerguntaRelacionamentoTableRefs)
@@ -23433,6 +24487,18 @@ class $$AprTableTableTableManager extends RootTableManager<
                         managerFromTypedResult: (p0) =>
                             $$AprTableTableReferences(db, table, p0)
                                 .aprPerguntaRelacionamentoTableRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.aprId == item.uuid),
+                        typedResults: items),
+                  if (aprTipoAtividadeTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$AprTableTableReferences
+                            ._aprTipoAtividadeTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$AprTableTableReferences(db, table, p0)
+                                .aprTipoAtividadeTableRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.aprId == item.uuid),
@@ -23468,8 +24534,8 @@ typedef $$AprTableTableProcessedTableManager = ProcessedTableManager<
     (AprTableData, $$AprTableTableReferences),
     AprTableData,
     PrefetchHooks Function(
-        {bool tipoAtividadeId,
-        bool aprPerguntaRelacionamentoTableRefs,
+        {bool aprPerguntaRelacionamentoTableRefs,
+        bool aprTipoAtividadeTableRefs,
         bool aprPreenchidaTableRefs})>;
 typedef $$AprQuestionTableTableCreateCompanionBuilder
     = AprQuestionTableCompanion Function({
@@ -24236,6 +25302,389 @@ typedef $$AprPerguntaRelacionamentoTableTableProcessedTableManager
         ),
         AprPerguntaRelacionamentoTableData,
         PrefetchHooks Function({bool aprId, bool perguntaId})>;
+typedef $$AprTipoAtividadeTableTableCreateCompanionBuilder
+    = AprTipoAtividadeTableCompanion Function({
+  Value<int> id,
+  required String uuid,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+  Value<bool> sincronizado,
+  required String tipoAtividadeId,
+  required String aprId,
+});
+typedef $$AprTipoAtividadeTableTableUpdateCompanionBuilder
+    = AprTipoAtividadeTableCompanion Function({
+  Value<int> id,
+  Value<String> uuid,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+  Value<bool> sincronizado,
+  Value<String> tipoAtividadeId,
+  Value<String> aprId,
+});
+
+final class $$AprTipoAtividadeTableTableReferences extends BaseReferences<
+    _$AppDatabase, $AprTipoAtividadeTableTable, AprTipoAtividadeTableData> {
+  $$AprTipoAtividadeTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $TipoAtividadeTableTable _tipoAtividadeIdTable(_$AppDatabase db) =>
+      db.tipoAtividadeTable.createAlias($_aliasNameGenerator(
+          db.aprTipoAtividadeTable.tipoAtividadeId,
+          db.tipoAtividadeTable.uuid));
+
+  $$TipoAtividadeTableTableProcessedTableManager get tipoAtividadeId {
+    final manager =
+        $$TipoAtividadeTableTableTableManager($_db, $_db.tipoAtividadeTable)
+            .filter((f) => f.uuid($_item.tipoAtividadeId));
+    final item = $_typedResult.readTableOrNull(_tipoAtividadeIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static $AprTableTable _aprIdTable(_$AppDatabase db) =>
+      db.aprTable.createAlias($_aliasNameGenerator(
+          db.aprTipoAtividadeTable.aprId, db.aprTable.uuid));
+
+  $$AprTableTableProcessedTableManager get aprId {
+    final manager = $$AprTableTableTableManager($_db, $_db.aprTable)
+        .filter((f) => f.uuid($_item.aprId));
+    final item = $_typedResult.readTableOrNull(_aprIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$AprTipoAtividadeTableTableFilterComposer
+    extends Composer<_$AppDatabase, $AprTipoAtividadeTableTable> {
+  $$AprTipoAtividadeTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => ColumnFilters(column));
+
+  $$TipoAtividadeTableTableFilterComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableFilterComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprTableTableFilterComposer get aprId {
+    final $$AprTableTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableFilterComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprTipoAtividadeTableTableOrderingComposer
+    extends Composer<_$AppDatabase, $AprTipoAtividadeTableTable> {
+  $$AprTipoAtividadeTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get uuid => $composableBuilder(
+      column: $table.uuid, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado,
+      builder: (column) => ColumnOrderings(column));
+
+  $$TipoAtividadeTableTableOrderingComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.tipoAtividadeId,
+        referencedTable: $db.tipoAtividadeTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TipoAtividadeTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.tipoAtividadeTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $$AprTableTableOrderingComposer get aprId {
+    final $$AprTableTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableOrderingComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprTipoAtividadeTableTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AprTipoAtividadeTableTable> {
+  $$AprTipoAtividadeTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get uuid =>
+      $composableBuilder(column: $table.uuid, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sincronizado => $composableBuilder(
+      column: $table.sincronizado, builder: (column) => column);
+
+  $$TipoAtividadeTableTableAnnotationComposer get tipoAtividadeId {
+    final $$TipoAtividadeTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.tipoAtividadeId,
+            referencedTable: $db.tipoAtividadeTable,
+            getReferencedColumn: (t) => t.uuid,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$TipoAtividadeTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.tipoAtividadeTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+
+  $$AprTableTableAnnotationComposer get aprId {
+    final $$AprTableTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.aprId,
+        referencedTable: $db.aprTable,
+        getReferencedColumn: (t) => t.uuid,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$AprTableTableAnnotationComposer(
+              $db: $db,
+              $table: $db.aprTable,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$AprTipoAtividadeTableTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $AprTipoAtividadeTableTable,
+    AprTipoAtividadeTableData,
+    $$AprTipoAtividadeTableTableFilterComposer,
+    $$AprTipoAtividadeTableTableOrderingComposer,
+    $$AprTipoAtividadeTableTableAnnotationComposer,
+    $$AprTipoAtividadeTableTableCreateCompanionBuilder,
+    $$AprTipoAtividadeTableTableUpdateCompanionBuilder,
+    (AprTipoAtividadeTableData, $$AprTipoAtividadeTableTableReferences),
+    AprTipoAtividadeTableData,
+    PrefetchHooks Function({bool tipoAtividadeId, bool aprId})> {
+  $$AprTipoAtividadeTableTableTableManager(
+      _$AppDatabase db, $AprTipoAtividadeTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AprTipoAtividadeTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AprTipoAtividadeTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AprTipoAtividadeTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> uuid = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+            Value<bool> sincronizado = const Value.absent(),
+            Value<String> tipoAtividadeId = const Value.absent(),
+            Value<String> aprId = const Value.absent(),
+          }) =>
+              AprTipoAtividadeTableCompanion(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            tipoAtividadeId: tipoAtividadeId,
+            aprId: aprId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String uuid,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+            Value<bool> sincronizado = const Value.absent(),
+            required String tipoAtividadeId,
+            required String aprId,
+          }) =>
+              AprTipoAtividadeTableCompanion.insert(
+            id: id,
+            uuid: uuid,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            sincronizado: sincronizado,
+            tipoAtividadeId: tipoAtividadeId,
+            aprId: aprId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$AprTipoAtividadeTableTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({tipoAtividadeId = false, aprId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (tipoAtividadeId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.tipoAtividadeId,
+                    referencedTable: $$AprTipoAtividadeTableTableReferences
+                        ._tipoAtividadeIdTable(db),
+                    referencedColumn: $$AprTipoAtividadeTableTableReferences
+                        ._tipoAtividadeIdTable(db)
+                        .uuid,
+                  ) as T;
+                }
+                if (aprId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.aprId,
+                    referencedTable:
+                        $$AprTipoAtividadeTableTableReferences._aprIdTable(db),
+                    referencedColumn: $$AprTipoAtividadeTableTableReferences
+                        ._aprIdTable(db)
+                        .uuid,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$AprTipoAtividadeTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $AprTipoAtividadeTableTable,
+        AprTipoAtividadeTableData,
+        $$AprTipoAtividadeTableTableFilterComposer,
+        $$AprTipoAtividadeTableTableOrderingComposer,
+        $$AprTipoAtividadeTableTableAnnotationComposer,
+        $$AprTipoAtividadeTableTableCreateCompanionBuilder,
+        $$AprTipoAtividadeTableTableUpdateCompanionBuilder,
+        (AprTipoAtividadeTableData, $$AprTipoAtividadeTableTableReferences),
+        AprTipoAtividadeTableData,
+        PrefetchHooks Function({bool tipoAtividadeId, bool aprId})>;
 typedef $$AprPreenchidaTableTableCreateCompanionBuilder
     = AprPreenchidaTableCompanion Function({
   Value<int> id,
@@ -25674,6 +27123,10 @@ class $AppDatabaseManager {
   $$ChecklistRespostaTableTableTableManager get checklistRespostaTable =>
       $$ChecklistRespostaTableTableTableManager(
           _db, _db.checklistRespostaTable);
+  $$ChecklistTipoAtividadeTableTableTableManager
+      get checklistTipoAtividadeTable =>
+          $$ChecklistTipoAtividadeTableTableTableManager(
+              _db, _db.checklistTipoAtividadeTable);
   $$FormularioMpbbTableTableTableManager get formularioMpbbTable =>
       $$FormularioMpbbTableTableTableManager(_db, _db.formularioMpbbTable);
   $$MedicaoElementoMpbbTableTableTableManager get medicaoElementoMpbbTable =>
@@ -25704,6 +27157,8 @@ class $AppDatabaseManager {
       get aprPerguntaRelacionamentoTable =>
           $$AprPerguntaRelacionamentoTableTableTableManager(
               _db, _db.aprPerguntaRelacionamentoTable);
+  $$AprTipoAtividadeTableTableTableManager get aprTipoAtividadeTable =>
+      $$AprTipoAtividadeTableTableTableManager(_db, _db.aprTipoAtividadeTable);
   $$AprPreenchidaTableTableTableManager get aprPreenchidaTable =>
       $$AprPreenchidaTableTableTableManager(_db, _db.aprPreenchidaTable);
   $$AprRespostaTableTableTableManager get aprRespostaTable =>
