@@ -27,6 +27,7 @@ class ChecklistRepositoryImpl
     return executar('buscarModeloPorTipoAtividade', () async {
       final checklist =
           await checklistDao.buscarPorTipoAtividade(idTipoAtividade);
+      // ignore: unnecessary_null_comparison
       return checklist != null ? ChecklistTableDto.fromData(checklist) : null;
     }, onErrorReturn: null);
   }
