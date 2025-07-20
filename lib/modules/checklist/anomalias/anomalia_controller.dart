@@ -36,6 +36,7 @@ class AnomaliaController extends GetxController {
     });
   }
 
+  //* Carrega os equipamentos para a subestação selecionada
   Future<void> carregarEquipamentos() async {
     try {
       final sub = atividadeController.atividadeEmAndamento.value?.subestacao;
@@ -50,6 +51,7 @@ class AnomaliaController extends GetxController {
     }
   }
 
+  //* Carrega os defeitos para o equipamento selecionado
   Future<void> carregarDefeitos(EquipamentoTableDto equipamento) async {
     try {
       AppLogger.d(
@@ -59,10 +61,10 @@ class AnomaliaController extends GetxController {
 
       if (lista.isEmpty) {
         AppLogger.w(
-            '[AnomaliaController] Nenhum defeito encontrado no banco para equipamento ID ${equipamento.uuid}');
+            '[AnomaliaController] Nenhum defeito encontrado no banco para equipamento ${equipamento.nome}');
       } else {
         AppLogger.d(
-            '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ID ${equipamento.uuid}');
+            '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ${equipamento.nome}');
       }
     } catch (e, s) {
       AppLogger.e('[AnomaliaController] Erro ao carregar defeitos',
@@ -70,6 +72,7 @@ class AnomaliaController extends GetxController {
     }
   }
 
+  //* Salva a anomalia
   Future<void> salvarAnomalia(
       String perguntaId, AnomaliaTableDto anomalia) async {
     final lista = _anomalias[perguntaId] ?? [];
@@ -85,6 +88,7 @@ class AnomaliaController extends GetxController {
         '[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
   }
 
+  //* Busca as anomalias para a pergunta selecionada
   List<AnomaliaTableDto> buscarAnomalias(String perguntaId) {
     return _anomalias[perguntaId] ?? [];
   }
