@@ -62,7 +62,7 @@ class AppLogger {
     debugPrint('$color[$now] $formatted$_reset');
 
     // Salva em arquivo
-    await _writeToFile("[$now] $formatted");
+    await _writeToFile('[$now] $formatted');
   }
 
   static Future<void> _writeToFile(String content) async {

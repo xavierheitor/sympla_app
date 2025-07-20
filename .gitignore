@@ -41,3 +41,60 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated files
+*.g.dart
+*.freezed.dart
+*.config.dart
+*.mocks.dart
+
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Log files
+*.log
+logs/
+app.log
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Package manager files
+node_modules/
+yarn.lock
+package-lock.json
+
+# IDE specific files
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+
+# Flutter specific
+**/ios/Pods/
+**/ios/Podfile.lock
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Test artifacts
+test_artifacts/

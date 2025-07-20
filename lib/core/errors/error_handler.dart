@@ -20,12 +20,12 @@ class ErrorHandler {
       }
 
       final statusCode = error.response?.statusCode;
-      final message = error.response?.data?["message"] ?? "Erro desconhecido";
+      final message = error.response?.data?['message'] ?? 'Erro desconhecido';
 
       return ApiException(message, statusCode: statusCode, stack: stack);
     }
 
-    return LocalException("Erro inesperado", stack: stack);
+    return LocalException('Erro inesperado', stack: stack);
   }
 
   static MensagemErro mensagemUsuario(Object error) {

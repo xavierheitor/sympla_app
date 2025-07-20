@@ -1,1 +1,31 @@
 include: package:flutter_lints/flutter.yaml
+
+# Configurações para ignorar avisos em arquivos de documentação
+analyzer:
+  exclude:
+    - "README.md"
+    - "**/*.md"
+    - "**/*.txt"
+    - "**/*.yaml"
+    - "**/*.yml"
+    - "**/*.json"
+    - "**/*.lock"
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+    - "**/*.config.dart"
+    - "**/generated/**"
+    - "**/build/**"
+    - "**/.dart_tool/**"
+    - "**/node_modules/**"
+    - "**/ios/Pods/**"
+    - "**/android/.gradle/**"
+
+# Configurações específicas para o linter
+linter:
+  rules:
+    # Desabilitar regras que podem gerar muitos avisos desnecessários
+    prefer_const_constructors: true
+    prefer_const_literals_to_create_immutables: true
+    avoid_print: true
+    prefer_single_quotes: true
+    always_use_package_imports: true

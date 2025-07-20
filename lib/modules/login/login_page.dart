@@ -1,7 +1,7 @@
 // login_page.dart
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'login_controller.dart';
+import 'package:sympla_app/modules/login/login_controller.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
