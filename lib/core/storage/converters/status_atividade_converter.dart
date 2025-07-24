@@ -6,6 +6,8 @@ enum StatusAtividade {
   concluido,
   cancelado,
   sincronizado,
+  pendenteUpload,
+  erroUpload,
 }
 
 class StatusAtividadeConverter extends TypeConverter<StatusAtividade, String> {
@@ -36,6 +38,10 @@ extension StatusAtividadeExt on StatusAtividade {
         return 'Cancelado';
       case StatusAtividade.sincronizado:
         return 'Sincronizado';
+      case StatusAtividade.pendenteUpload:
+        return 'Pendente Upload';
+      case StatusAtividade.erroUpload:
+        return 'Erro Upload';
     }
   }
 }

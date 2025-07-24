@@ -56,6 +56,15 @@ class AppDrawer extends StatelessWidget {
               controller.sincronizarTudo();
             },
           ),
+          //botao de sincronizar
+          ListTile(
+            leading: const Icon(Icons.sync),
+            title: const Text('Enviar concluidos'),
+            onTap: () {
+              //TODO: Implementar a função de enviar concluidos
+            },
+          ),
+          //botao de limpar dados
           ListTile(
             leading: const Icon(Icons.delete_forever, color: Colors.red),
             title:

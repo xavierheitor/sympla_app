@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_descricao_widget.dart';
 class AtividadeCard extends StatelessWidget {
   final AtividadeTableDto atividade;
@@ -29,6 +29,8 @@ class AtividadeCard extends StatelessWidget {
         StatusAtividade.concluido => Colors.green[50]!,
         StatusAtividade.cancelado => Colors.red[50]!,
         StatusAtividade.sincronizado => Colors.grey[200]!,
+        StatusAtividade.pendenteUpload => Colors.yellow[50]!,
+        StatusAtividade.erroUpload => Colors.red[50]!,
       };
 
       final chipColor = switch (status) {
@@ -37,6 +39,8 @@ class AtividadeCard extends StatelessWidget {
         StatusAtividade.concluido => Colors.green[100]!,
         StatusAtividade.cancelado => Colors.red[100]!,
         StatusAtividade.sincronizado => Colors.grey[300]!,
+        StatusAtividade.pendenteUpload => Colors.yellow[100]!,
+        StatusAtividade.erroUpload => Colors.red[100]!,
       };
 
       return Card(

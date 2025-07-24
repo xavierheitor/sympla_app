@@ -108,6 +108,8 @@ class AtividadeController extends GetxController {
   Future<void> finalizarAtividade(AtividadeTableDto atividade) async {
     AppLogger.d('⏹️ Finalizando atividade ${atividade.uuid}');
     await atividadeService.finalizar(atividade);
+
+    // await Get.find<UploadManager>().adicionarNaFila(atividade.uuid);
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();
