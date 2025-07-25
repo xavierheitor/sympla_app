@@ -1,8 +1,10 @@
 // AdicionarAnomaliaPage (com botão de salvar na AppBar e salvamento imediato no banco)
 
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
@@ -33,6 +35,10 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
 
   final TextEditingController deltaController = TextEditingController();
   final TextEditingController observacaoController = TextEditingController();
+  //controller para o campo de equipamento - pra corrigir o problema de não atualizar o campo depois de selecionar um equipamento
+  final TextEditingController equipamentoTextFieldController = TextEditingController();
+  //controller para o campo de defeito - pra corrigir o problema de não atualizar o campo depois de selecionar um defeito
+  final TextEditingController defeitoTextFieldController = TextEditingController();
 
   final ImagePicker _picker = ImagePicker();
   File? _imagemSelecionada;
@@ -49,8 +55,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
             icon: const Icon(Icons.save),
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                final atividade =
-                    controller.atividadeController.atividadeEmAndamento.value;
+                final atividade = controller.atividadeController.atividadeEmAndamento.value;
                 final equipamento = controller.equipamentoSelecionado.value;
                 final defeito = defeitoSelecionado.value;
                 final fase = faseSelecionada.value;
@@ -61,8 +66,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                     defeito == null ||
                     fase == null ||
                     lado == null) {
-                  AppLogger.w(
-                      '[AdicionarAnomaliaPage] Campos obrigatórios ausentes');
+                  AppLogger.w('[AdicionarAnomaliaPage] Campos obrigatórios ausentes');
                   return;
                 }
 
@@ -74,12 +78,8 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                   fase: fase,
                   lado: lado,
                   delta: double.tryParse(deltaController.text),
-                  observacao: observacaoController.text.isEmpty
-                      ? null
-                      : observacaoController.text,
-                  foto: _imagemSelecionada != null
-                      ? await _imagemSelecionada!.readAsBytes()
-                      : null,
+                  observacao: observacaoController.text.isEmpty ? null : observacaoController.text,
+                  foto: _imagemSelecionada != null ? await _imagemSelecionada!.readAsBytes() : null,
                   corrigida: false,
                 );
                 await controller.salvarAnomalia(widget.perguntaId, anomalia);
@@ -97,45 +97,119 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Obx(() => DropdownButtonFormField<EquipamentoTableDto>(
-                      value: controller.equipamentoSelecionado.value,
-                      decoration:
-                          const InputDecoration(labelText: 'Equipamento'),
-                      items: controller.equipamentos.map((e) {
-                        return DropdownMenuItem(
-                          value: e,
-                          child: Text(e.nome),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        controller.equipamentoSelecionado.value = value;
-                        defeitoSelecionado.value = null;
-                      },
-                      validator: (value) =>
-                          value == null ? 'Selecione o equipamento' : null,
-                    )),
+                TypeAheadField<EquipamentoTableDto>(
+                  controller: equipamentoTextFieldController,
+                  suggestionsCallback: (pattern) {
+                    return controller.equipamentos
+                        .where((e) => e.nome.toLowerCase().contains(pattern.toLowerCase()))
+                        .toList();
+                  },
+                  itemBuilder: (context, equipamento) {
+                    return ListTile(title: Text(equipamento.nome));
+                  },
+                  onSelected: (value) {
+                    controller.equipamentoSelecionado.value = value;
+                    defeitoSelecionado.value = null;
+                    equipamentoTextFieldController.text = value.nome;
+                  },
+                  builder: (context, textController, focusNode) {
+                    final equipamentoSelecionado = controller.equipamentoSelecionado.value;
+
+                    // Garante que o campo reflita o equipamento selecionado
+                    if (equipamentoSelecionado != null &&
+                        textController.text != equipamentoSelecionado.nome) {
+                      textController.text = equipamentoSelecionado.nome;
+                      textController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: textController.text.length),
+                      );
+                    }
+
+                    return TextField(
+                      controller: textController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        labelText: 'Equipamento',
+                        border: OutlineInputBorder(),
+                      ),
+                    );
+                  },
+                  hideOnEmpty: true,
+                  hideOnError: true,
+                ),
+                // Obx(() => DropdownButtonFormField<EquipamentoTableDto>(
+                //       value: controller.equipamentoSelecionado.value,
+                //       decoration:
+                //           const InputDecoration(labelText: 'Equipamento'),
+                //       items: controller.equipamentos.map((e) {
+                //         return DropdownMenuItem(
+                //           value: e,
+                //           child: Text(e.nome),
+                //         );
+                //       }).toList(),
+                //       onChanged: (value) {
+                //         controller.equipamentoSelecionado.value = value;
+                //         defeitoSelecionado.value = null;
+                //       },
+                //       validator: (value) =>
+                //           value == null ? 'Selecione o equipamento' : null,
+                //     )),
                 const SizedBox(height: 16),
-                Obx(() => DropdownButtonFormField<DefeitoTableDto>(
-                      value: defeitoSelecionado.value,
-                      decoration: const InputDecoration(labelText: 'Defeito'),
-                      items: controller.defeitos.map((d) {
-                        return DropdownMenuItem(
-                          value: d,
-                          child: Text(d.descricao),
-                        );
-                      }).toList(),
-                      onChanged: (value) => defeitoSelecionado.value = value,
-                      validator: (value) =>
-                          value == null ? 'Selecione o defeito' : null,
-                    )),
+                // Obx(() => DropdownButtonFormField<DefeitoTableDto>(
+                //       value: defeitoSelecionado.value,
+                //       decoration: const InputDecoration(labelText: 'Defeito'),
+                //       items: controller.defeitos.map((d) {
+                //         return DropdownMenuItem(
+                //           value: d,
+                //           child: Text(d.descricao),
+                //         );
+                //       }).toList(),
+                //       onChanged: (value) => defeitoSelecionado.value = value,
+                //       validator: (value) => value == null ? 'Selecione o defeito' : null,
+                //     )),
+                TypeAheadField<DefeitoTableDto>(
+                  controller: defeitoTextFieldController,
+                  suggestionsCallback: (pattern) {
+                    return controller.defeitos
+                        .where((d) => d.descricao.toLowerCase().contains(pattern.toLowerCase()))
+                        .toList();
+                  },
+                  itemBuilder: (context, defeito) {
+                    return ListTile(title: Text(defeito.descricao));
+                  },
+                  onSelected: (value) {
+                    defeitoSelecionado.value = value;
+                    defeitoTextFieldController.text = value.descricao;
+                  },
+                  builder: (context, textController, focusNode) {
+                    final defeitoSelecionado = this.defeitoSelecionado.value;
+
+                    if (defeitoSelecionado != null &&
+                        textController.text != defeitoSelecionado.descricao) {
+                      textController.text = defeitoSelecionado.descricao;
+                      textController.selection = TextSelection.fromPosition(
+                        TextPosition(offset: textController.text.length),
+                      );
+                    }
+
+                    return TextField(
+                      controller: textController,
+                      focusNode: focusNode,
+                      decoration: const InputDecoration(
+                        labelText: 'Defeito',
+                        border: OutlineInputBorder(),
+                      ),
+                    );
+                  },
+                  hideOnEmpty: true,
+                  hideOnError: true,
+                ),
                 const SizedBox(height: 16),
                 Row(
                   children: [
                     Expanded(
                       child: Obx(() => DropdownButtonFormField<FaseAnomalia>(
                             value: faseSelecionada.value,
-                            decoration:
-                                const InputDecoration(labelText: 'Fase'),
+                            decoration: const InputDecoration(labelText: 'Fase'),
                             items: FaseAnomalia.values.map((f) {
                               return DropdownMenuItem(
                                 value: f,
@@ -143,16 +217,14 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                               );
                             }).toList(),
                             onChanged: (value) => faseSelecionada.value = value,
-                            validator: (value) =>
-                                value == null ? 'Selecione a fase' : null,
+                            validator: (value) => value == null ? 'Selecione a fase' : null,
                           )),
                     ),
                     const SizedBox(width: 16),
                     Expanded(
                       child: Obx(() => DropdownButtonFormField<LadoAnomalia>(
                             value: ladoSelecionado.value,
-                            decoration:
-                                const InputDecoration(labelText: 'Lado'),
+                            decoration: const InputDecoration(labelText: 'Lado'),
                             items: LadoAnomalia.values.map((l) {
                               return DropdownMenuItem(
                                 value: l,
@@ -160,8 +232,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                               );
                             }).toList(),
                             onChanged: (value) => ladoSelecionado.value = value,
-                            validator: (value) =>
-                                value == null ? 'Selecione o lado' : null,
+                            validator: (value) => value == null ? 'Selecione o lado' : null,
                           )),
                     ),
                   ],
@@ -171,8 +242,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                   controller: deltaController,
                   keyboardType: TextInputType.number,
                   inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d*\.?\d{0,2}')),
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
                   ],
                   decoration: const InputDecoration(
                     labelText: 'Delta T (opcional)',

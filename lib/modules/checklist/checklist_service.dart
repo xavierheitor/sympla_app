@@ -1,8 +1,10 @@
+import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_table_dto.dart';
-import 'package:sympla_app/core/domain/dto/checklist/checklist_preenchido_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/defeito_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/grupo_defeito_equipamento/equipamento_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/anomalia_repository.dart';
@@ -12,8 +14,6 @@ import 'package:sympla_app/core/domain/repositories/abstracts/defeito_repository
 import 'package:sympla_app/core/domain/repositories/abstracts/equipamento_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:get/get.dart';
-import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
 class ChecklistService {
   final ChecklistRepository checklistRepository;
@@ -180,20 +180,31 @@ class ChecklistService {
     }
   }
 
-  Future<bool> checklistJaRespondido(String atividadeId) async {
+Future<bool> checklistJaRespondido(String atividadeId) async {
     try {
       AppLogger.d(
           '[ChecklistService - checklistJaRespondido] Buscando checklist preenchido para atividade $atividadeId');
-      final checklistPreenchido =
-          await checklistRepository.buscarChecklistPreenchido(atividadeId);
-      if (checklistPreenchido == null) {
+    
+      final preenchido = await checklistRepository.buscarChecklistPreenchido(atividadeId);
+
+      if (preenchido == null) {
         AppLogger.d(
-            '[ChecklistService - checklistJaRespondido] Não encontrei checklist preenchido para atividade $atividadeId');
+            '[ChecklistService] Nenhum checklist preenchido encontrado para atividade $atividadeId');
         return false;
       }
+
+      if (preenchido.id == null) {
       AppLogger.d(
-          '[ChecklistService - checklistJaRespondido] Encontrei checklist preenchido para atividade $atividadeId');
-      return true;
+            '[ChecklistService] Checklist preenchido ID não encontrado para atividade $atividadeId');
+        return false;
+      }
+
+      final temRespostas = await checklistRepository.existeRespostas(preenchido.id!);
+
+      AppLogger.d(
+          '[ChecklistService] Checklist preenchido ID: ${preenchido.id} - Possui respostas: $temRespostas');
+
+      return temRespostas;
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e('[ChecklistService - checklistJaRespondido] ${erro.mensagem}',

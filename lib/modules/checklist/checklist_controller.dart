@@ -3,8 +3,8 @@ import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_resposta_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/modules/checklist/checklist_service.dart';
 import 'package:sympla_app/core/storage/converters/resposta_checklist_converter.dart';
+import 'package:sympla_app/modules/checklist/checklist_service.dart';
 
 class ChecklistController extends GetxController {
   final ChecklistService service;
@@ -154,10 +154,13 @@ class ChecklistController extends GetxController {
   void onClose() {
     // Se não salvou o formulário, deleta o checklist preenchido
     if (_checklistPreenchidoId != null && !_salvouFormulario) {
+      AppLogger.d('[ChecklistController] Deletando checklist preenchido: $_checklistPreenchidoId');
       service.deletarChecklistPreenchido(_checklistPreenchidoId!);
     }
     super.onClose();
   }
+
+  
 }
 
 class GrupoSubgrupoKey {

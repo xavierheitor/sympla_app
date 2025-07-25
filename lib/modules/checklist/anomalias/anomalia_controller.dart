@@ -9,7 +9,9 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/checklist/checklist_service.dart';
 
 class AnomaliaController extends GetxController {
+  //services
   final ChecklistService checklistService;
+  //controllers
   final AtividadeController atividadeController;
 
   AnomaliaController({
@@ -17,8 +19,11 @@ class AnomaliaController extends GetxController {
     required this.atividadeController,
   });
 
+  //lista de equipamentos filtrados por subestacao da atividade
   final equipamentos = <EquipamentoTableDto>[].obs;
+  //lista de defeitos atualiza sempre que equipamentoSelecionado muda
   final defeitos = <DefeitoTableDto>[].obs;
+  //equipamento selecionado no campo
   final equipamentoSelecionado = Rxn<EquipamentoTableDto>();
 
   final _anomalias = <String, List<AnomaliaTableDto>>{}.obs;
@@ -41,13 +46,11 @@ class AnomaliaController extends GetxController {
     try {
       final sub = atividadeController.atividadeEmAndamento.value?.subestacao;
       if (sub == null) throw Exception('Subestação não encontrada.');
-      AppLogger.d(
-          '[AnomaliaController] Buscando equipamentos para subestação: $sub');
+      AppLogger.d('[AnomaliaController] Buscando equipamentos para subestação: $sub');
       final lista = await checklistService.buscarEquipamentos(sub);
       equipamentos.assignAll(lista);
     } catch (e, s) {
-      AppLogger.e('[AnomaliaController] Erro ao carregar equipamentos',
-          error: e, stackTrace: s);
+      AppLogger.e('[AnomaliaController] Erro ao carregar equipamentos', error: e, stackTrace: s);
     }
   }
 
@@ -67,25 +70,21 @@ class AnomaliaController extends GetxController {
             '[AnomaliaController] ${lista.length} defeito(s) carregado(s) para equipamento ${equipamento.nome}');
       }
     } catch (e, s) {
-      AppLogger.e('[AnomaliaController] Erro ao carregar defeitos',
-          error: e, stackTrace: s);
+      AppLogger.e('[AnomaliaController] Erro ao carregar defeitos', error: e, stackTrace: s);
     }
   }
 
   //* Salva a anomalia
-  Future<void> salvarAnomalia(
-      String perguntaId, AnomaliaTableDto anomalia) async {
+  Future<void> salvarAnomalia(String perguntaId, AnomaliaTableDto anomalia) async {
     final lista = _anomalias[perguntaId] ?? [];
     lista.add(anomalia);
     _anomalias[perguntaId] = lista;
     try {
       await checklistService.salvarAnomalia(anomalia);
     } catch (e, s) {
-      AppLogger.e('[AnomaliaController] Erro ao salvar anomalia',
-          error: e, stackTrace: s);
+      AppLogger.e('[AnomaliaController] Erro ao salvar anomalia', error: e, stackTrace: s);
     }
-    AppLogger.d(
-        '[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
+    AppLogger.d('[AnomaliaController] Anomalia salva (Companion) para pergunta $perguntaId');
   }
 
   //* Busca as anomalias para a pergunta selecionada
