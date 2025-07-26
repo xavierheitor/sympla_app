@@ -7,6 +7,8 @@ import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
+import 'package:sympla_app/core/upload/background_sync_service.dart';
+import 'package:sympla_app/core/upload/upload_manager.dart';
 
 /// 🎯 Controller responsável por gerenciar o estado das atividades,
 /// incluindo a lista de atividades disponíveis, a atividade em andamento,
@@ -109,7 +111,25 @@ class AtividadeController extends GetxController {
     AppLogger.d('⏹️ Finalizando atividade ${atividade.uuid}');
     await atividadeService.finalizar(atividade);
 
-    // await Get.find<UploadManager>().adicionarNaFila(atividade.uuid);
+    // Adicionar atividade na fila de upload
+    try {
+      await Get.find<UploadManager>().adicionarNaFila(atividade.uuid);
+      AppLogger.d('📤 Atividade ${atividade.uuid} adicionada na fila de upload');
+    } catch (e, s) {
+      AppLogger.e('❌ Erro ao adicionar atividade na fila de upload', error: e, stackTrace: s);
+    }
+
+    // Iniciar o serviço de background se ainda não estiver rodando
+    try {
+      final backgroundService = Get.find<BackgroundSyncService>();
+      if (!backgroundService.status['executando']) {
+        await backgroundService.iniciar();
+        AppLogger.d('🚀 BackgroundSyncService iniciado');
+      }
+    } catch (e, s) {
+      AppLogger.e('❌ Erro ao iniciar BackgroundSyncService', error: e, stackTrace: s);
+    }
+
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();

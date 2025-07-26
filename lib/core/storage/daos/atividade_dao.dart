@@ -145,6 +145,16 @@ Future<List<TypedResult>> buscarComEquipamento() async {
     return query.get(); // ← Retorna TypedResult com as 3 tabelas
   }
 
+  /// Busca atividades por status específico
+  Future<List<AtividadeTableData>> buscarPorStatus(StatusAtividade status) async {
+    final query = select(atividadeTable)..where((tbl) => tbl.status.equals(status.name));
+
+    final result = await query.get();
+    AppLogger.d('📄 Encontradas ${result.length} atividades com status ${status.name}',
+        tag: 'AtividadeDAO');
+    return result;
+  }
+
   /// Busca uma atividade específica pelo ID com os dados do equipamento e tipo.
   Future<AtividadeTableData?> buscarAtividadePorId(String id) async {
     final query = select(atividadeTable).join([

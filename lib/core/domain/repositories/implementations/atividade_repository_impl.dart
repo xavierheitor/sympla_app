@@ -6,6 +6,7 @@ import 'package:sympla_app/core/domain/repositories/abstracts/atividade_reposito
 import 'package:sympla_app/core/domain/repositories/abstracts/repository_helper.dart';
 import 'package:sympla_app/core/network/dio_client.dart';
 import 'package:sympla_app/core/storage/app_database.dart';
+import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
 
 class AtividadeRepositoryImpl
@@ -66,6 +67,18 @@ class AtividadeRepositoryImpl
           return AtividadeTableDto.fromJoin(
               atividade, equipamento, tipoAtividade);
         }).toList();
+      },
+      onErrorReturn: [],
+    );
+  }
+
+  @override
+  Future<List<AtividadeTableDto>> buscarAtividadesPorStatus(StatusAtividade status) {
+    return executar(
+      'buscarAtividadesPorStatus',
+      () async {
+        final data = await atividadeDao.buscarPorStatus(status);
+        return data.map(AtividadeTableDto.fromData).toList();
       },
       onErrorReturn: [],
     );
