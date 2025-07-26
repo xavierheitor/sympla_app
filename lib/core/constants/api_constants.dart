@@ -22,10 +22,13 @@ abstract class ApiConstants {
 
   static const checklist = '/checklist/modelos';
   static const checklistPerguntas = '/checklist/perguntas';
-  static const checklistPerguntasRelacionamentos =
-      '/checklist/perguntas-relacionamento';
+  static const checklistPerguntasRelacionamentos = '/checklist/perguntas-relacionamento';
   static const checklistTipoAtividade = '/checklist/modelo-tipo-atividade';
 
   static const tecnicos = '/tecnico';
+
+  //*upload endpoints
+  static const uploadAtividade = '/atividade/upload'; // Endpoint para upload de atividades
+
   // ... adicione mais endpoints conforme necessário
 }
