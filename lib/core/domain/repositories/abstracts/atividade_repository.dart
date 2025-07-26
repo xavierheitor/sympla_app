@@ -22,6 +22,9 @@ abstract class AtividadeRepository {
   /// 🔥 Finaliza a atividade no banco (muda status e data).
   Future<void> finalizarAtividade(AtividadeTableDto atividade);
 
+
+  Future<void> atualizarAtividade(AtividadeTableDto atividade);
+
   // --------------------------------------------------------------------------
   // 🏷️ Tipo de Atividade
   // --------------------------------------------------------------------------
@@ -39,4 +42,5 @@ abstract class AtividadeRepository {
 
   /// 🔍 Busca atividades com dados de equipamento e tipo (join no banco).
   Future<List<AtividadeTableDto>> buscarAtividadesComEquipamento();
+
 }

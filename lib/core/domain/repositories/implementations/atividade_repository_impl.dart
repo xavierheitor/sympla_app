@@ -112,4 +112,10 @@ class AtividadeRepositoryImpl
       onErrorReturn: [],
     );
   }
+  
+  @override
+  Future<void> atualizarAtividade(AtividadeTableDto atividade) {
+    // TODO: implement atualizarAtividade
+    throw UnimplementedError();
+  }
 }
