@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
+import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 import 'package:sympla_app/core/storage/converters/tipo_bateria_converter.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_controller.dart';
 import 'package:sympla_app/modules/mp_bb/widgets/mp_bb_medicoes_editor_widget.dart';
-import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
-import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 
-double? parseDouble(String input) {
-  return double.tryParse(input.trim().replaceAll(',', '.'));
-}
-
+/// 📦 Página de formulário de bateria
+///
+/// Responsabilidades:
+/// - Exibe o formulário de bateria
+/// - Gerencia o estado do formulário
+/// - Valida os dados do formulário
+/// - Salva os dados do formulário
 class MpBbFormPage extends StatefulWidget {
   const MpBbFormPage({super.key});
 
@@ -20,8 +23,8 @@ class MpBbFormPage extends StatefulWidget {
 
 class _MpBbFormPageState extends State<MpBbFormPage> {
   final _formKey = GlobalKey<FormState>();
-  final _fabricanteController = TextEditingController();
-  final _modeloController = TextEditingController();
+  final _fabricanteController = TextEditingController(); //ok
+  final _modeloController = TextEditingController(); //ok
   final _capacidadeController = TextEditingController();
   final _tensaoCelulaController = TextEditingController();
   final _tensaoBancoController = TextEditingController();
@@ -60,19 +63,15 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
               if (_formKey.currentState?.validate() ?? false) {
                 final dados = FormularioBateriaTableDto(
                   id: controller.formulario.value?.id,
-                  atividadeId: controller
-                      .atividadeController.atividadeEmAndamento.value!.uuid,
+                  atividadeId: controller.atividadeController.atividadeEmAndamento.value!.uuid,
                   fabricante: _fabricanteController.text,
                   modelo: _modeloController.text,
                   capacidadeAh: int.tryParse(_capacidadeController.text.trim()),
-                  tensaoFlutuacaoCelula:
-                      parseDouble(_tensaoCelulaController.text),
-                  tensaoFlutuacaoBanco:
-                      parseDouble(_tensaoBancoController.text),
+                  tensaoFlutuacaoCelula: parseDouble(_tensaoCelulaController.text),
+                  tensaoFlutuacaoBanco: parseDouble(_tensaoBancoController.text),
                   rippleMedido: parseDouble(_rippleController.text),
                   tipoBateria:
-                      controller.formulario.value?.tipoBateria ??
-                      TipoBateria.ventilada.name,
+                      controller.formulario.value?.tipoBateria ?? TipoBateria.ventilada.name,
                   createdAt: DateTime.now(),
                   updatedAt: DateTime.now(),
                   densidadeCritica: null,
@@ -99,10 +98,8 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
           _fabricanteController.text = form.fabricante ?? '';
           _modeloController.text = form.modelo ?? '';
           _capacidadeController.text = form.capacidadeAh?.toString() ?? '';
-          _tensaoCelulaController.text =
-              form.tensaoFlutuacaoCelula?.toString() ?? '';
-          _tensaoBancoController.text =
-              form.tensaoFlutuacaoBanco?.toString() ?? '';
+          _tensaoCelulaController.text = form.tensaoFlutuacaoCelula?.toString() ?? '';
+          _tensaoBancoController.text = form.tensaoFlutuacaoBanco?.toString() ?? '';
           _rippleController.text = form.rippleMedido?.toString() ?? '';
         }
 
@@ -114,7 +111,7 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
               children: [
                 TextFormField(
                   controller: _fabricanteController,
-                  decoration: const InputDecoration(labelText: 'Fabricante'),
+                  decoration: const InputDecoration(labelText: 'Fabricante', hintText: 'Ex: MOURA'),
                 ),
                 TextFormField(
                   controller: _modeloController,
@@ -123,29 +120,24 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
                 TextFormField(
                   controller: _capacidadeController,
                   keyboardType: TextInputType.number,
-                  decoration:
-                      const InputDecoration(labelText: 'Capacidade (Ah)'),
+                  decoration: const InputDecoration(labelText: 'Capacidade (Ah)'),
                 ),
                 TextFormField(
                   controller: _tensaoCelulaController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   decoration: const InputDecoration(
-                      labelText: 'Tensão flutuação célula (V)'),
+                      labelText: 'Tensão flutuação célula (V)', hintText: 'Ex: 1.75'),
                 ),
                 TextFormField(
                   controller: _tensaoBancoController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
                   decoration: const InputDecoration(
-                      labelText: 'Tensão flutuação banco (V)'),
+                      labelText: 'Tensão flutuação banco (V)', hintText: 'Ex: 135.5'),
                 ),
                 TextFormField(
                   controller: _rippleController,
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
-                  decoration:
-                      const InputDecoration(labelText: 'Ripple Medido (mV)'),
+                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(labelText: 'Ripple Medido (mV)'),
                 ),
                 const SizedBox(height: 24),
                 const Text(
@@ -166,4 +158,8 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
       }),
     );
   }
+}
+
+double? parseDouble(String input) {
+  return double.tryParse(input.trim().replaceAll(',', '.'));
 }

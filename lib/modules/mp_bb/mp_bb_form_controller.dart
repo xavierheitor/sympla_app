@@ -1,10 +1,17 @@
 import 'package:get/get.dart';
+import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 import 'package:sympla_app/core/domain/dto/mpbb/formulario_bateria_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/mpbb/medicao_elemento_table_dto.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/modules/mp_bb/mp_bb_form_service.dart';
-import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
 
+/// 📦 Controller do formulário de bateria
+///
+/// Responsabilidades:
+/// - Carrega o formulário de bateria
+/// - Gerencia o estado do formulário
+/// - Salva o formulário de bateria
+/// - Valida os dados do formulário
 class MpBbFormController extends GetxController {
   final MpBbFormService service;
   final AtividadeController atividadeController;

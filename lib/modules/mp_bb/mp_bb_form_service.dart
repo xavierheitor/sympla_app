@@ -5,6 +5,12 @@ import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
 /// 🔥 Service responsável pela orquestração das operações do formulário MPBB
+///
+/// Responsabilidades:
+/// - Busca o formulário de uma atividade
+/// - Salva o formulário de bateria
+/// - Deleta o formulário de bateria
+/// - Busca as medições de um formulário
 class MpBbFormService {
   final MpbbRepository mpbbRepository;
 
