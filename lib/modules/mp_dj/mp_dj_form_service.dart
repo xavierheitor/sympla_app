@@ -3,11 +3,17 @@ import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_contato_tabl
 import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/mpdj/medicao_tempo_operacao_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/mpdj/prev_disj_form_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/mpdj_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
-import 'package:sympla_app/core/domain/repositories/abstracts/mpdj_repository.dart';
 
 /// 🚀 Service que abstrai operações sobre o formulário MPDJ e suas medições.
+///
+/// Responsabilidades:
+/// - Busca o formulário de uma atividade
+/// - Salva o formulário de disjuntores
+/// - Deleta o formulário de disjuntores
+/// - Busca as medições de um formulário
 class MpDjFormService {
   final MpDjRepository repository;
 
