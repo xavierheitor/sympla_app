@@ -59,8 +59,8 @@ class AppDrawer extends StatelessWidget {
           ),
           //botao de sincronizar
           ListTile(
-            leading: const Icon(Icons.sync),
-            title: const Text('Sync Status'),
+            leading: const Icon(Icons.cloud_upload),
+            title: const Text('Upload Status'),
             onTap: () {
               Get.toNamed(Routes.syncStatus);
             },

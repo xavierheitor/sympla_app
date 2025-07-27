@@ -85,6 +85,7 @@ class ChecklistController extends GetxController {
       }
 
       _perguntas.value = perguntasRelacionadas;
+      //TODO: ADICIONAR TRATAMENTO DE ERRO QUANDO NAO ENCONTRAR CHECKLISR PRA O TIPO DE ATIVIDADE
 
       // Criar checklist preenchido vazio
       _checklistPreenchidoId = await service.criarChecklistPreenchido(

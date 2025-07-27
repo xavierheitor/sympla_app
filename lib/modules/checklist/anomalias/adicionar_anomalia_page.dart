@@ -309,3 +309,4 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
     }
   }
 }
+//TODO: ADICIONAR REATIVIDADE AO SALVAR A FOTO DA ANOMALIA, TA DEMORANDO MUITO SALVAR, PRECISA DE UM INDICADOR DE PROGRESSO
