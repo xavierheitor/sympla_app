@@ -7,11 +7,21 @@ import 'package:sympla_app/core/upload/upload_item.dart';
 import 'package:sympla_app/core/upload/upload_queue.dart';
 import 'package:sympla_app/core/upload/upload_service.dart';
 
+/// 📦 Gerenciador de upload
+///
+/// Responsabilidades:
+/// - Gerencia a fila de upload
+/// - Processa a fila de upload
+/// - Envia atividades para o servidor
+/// - Marca atividades como sincronizadas ou pendentes
+/// - Gerencia o estado de processamento
 class UploadManager {
-  final UploadQueue _fila = UploadQueue();
   final DioClient _dio;
   final AtividadeRepository _atividadeRepo;
+
+  final UploadQueue _fila = UploadQueue();
   final UploadService _uploadService;
+
   bool _processando = false;
 
   UploadManager({

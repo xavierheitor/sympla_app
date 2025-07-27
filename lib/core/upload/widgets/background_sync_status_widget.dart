@@ -98,4 +98,4 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
       ),
     );
   }
-} 
+}

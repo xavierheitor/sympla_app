@@ -74,6 +74,7 @@ class BackgroundSyncService extends GetxService {
 
   /// 🔄 Verifica conectividade com a internet
   Future<void> _verificarConectividade() async {
+    //TODO: melhorar a verificação de conectividade, ver se o usuário está conectado a internet por wifi apenas
     try {
       final resultado = await InternetAddress.lookup('google.com');
       final novaConectividade = resultado.isNotEmpty && resultado[0].rawAddress.isNotEmpty;

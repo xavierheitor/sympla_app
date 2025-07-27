@@ -1,5 +1,12 @@
 import 'package:sympla_app/core/upload/upload_item.dart';
 
+/// 📦 Fila de upload
+///
+/// Responsabilidades:
+/// - Gerencia a fila de upload
+/// - Adiciona itens à fila
+/// - Remove itens da fila
+/// - Verifica se a fila está vazia
 class UploadQueue {
   final List<UploadItem> _items = [];
 

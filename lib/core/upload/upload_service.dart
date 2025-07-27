@@ -12,6 +12,12 @@ import 'package:sympla_app/core/domain/repositories/abstracts/mpbb_repository.da
 import 'package:sympla_app/core/domain/repositories/abstracts/mpdj_repository.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
+/// 🔄 Serviço de upload
+///
+/// Responsabilidades:
+/// - Monta o AtividadeSyncDto completo
+/// - Gerencia a montagem de dados relacionados
+/// - Trata erros de montagem
 class UploadService {
   final AtividadeRepository _atividadeRepository;
   final ChecklistRepository _checklistRepository;

@@ -1,5 +1,12 @@
 import 'package:sympla_app/core/domain/dto/sync/atividade_sync_dto.dart';
 
+/// 📦 Item de upload
+///
+/// Responsabilidades:
+/// - Representa uma atividade a ser enviada
+/// - Gerencia tentativas de upload
+/// - Armazena informações de erro
+/// - Calcula tempo na fila
 class UploadItem {
   final AtividadeSyncDto atividadeSync;
   int tentativas;
