@@ -13,5 +13,9 @@ abstract class Routes {
   static const etapaIsolamento = '/etapa-isolamento';
   static const etapaTempoOperacao = '/etapa-tempo-operacao';
   static const etapaPressaoSf6 = '/etapa-pressao-sf6';
+  
+  // Sincronização
+  static const syncStatus = '/sync-status';
+  
   // ... futuras rotas
 }

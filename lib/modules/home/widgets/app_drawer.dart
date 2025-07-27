@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/modules/home/home_controller.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -59,9 +60,9 @@ class AppDrawer extends StatelessWidget {
           //botao de sincronizar
           ListTile(
             leading: const Icon(Icons.sync),
-            title: const Text('Enviar concluidos'),
+            title: const Text('Sync Status'),
             onTap: () {
-              //TODO: Implementar a função de enviar concluidos
+              Get.toNamed(Routes.syncStatus);
             },
           ),
           //botao de limpar dados

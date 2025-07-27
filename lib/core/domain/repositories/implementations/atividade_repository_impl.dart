@@ -9,9 +9,7 @@ import 'package:sympla_app/core/storage/app_database.dart';
 import 'package:sympla_app/core/storage/converters/status_atividade_converter.dart';
 import 'package:sympla_app/core/storage/daos/atividade_dao.dart';
 
-class AtividadeRepositoryImpl
-    with RepositoryHelper
-    implements AtividadeRepository {
+class AtividadeRepositoryImpl with RepositoryHelper implements AtividadeRepository {
   final AppDatabase db;
   final AtividadeDao atividadeDao;
   final DioClient dio;
@@ -64,8 +62,7 @@ class AtividadeRepositoryImpl
           final atividade = row.readTable(db.atividadeTable);
           final equipamento = row.readTable(db.equipamentoTable);
           final tipoAtividade = row.readTable(db.tipoAtividadeTable);
-          return AtividadeTableDto.fromJoin(
-              atividade, equipamento, tipoAtividade);
+          return AtividadeTableDto.fromJoin(atividade, equipamento, tipoAtividade);
         }).toList();
       },
       onErrorReturn: [],
@@ -103,8 +100,7 @@ class AtividadeRepositoryImpl
   // --------------------- Tipo Atividade ---------------------
 
   @override
-  Future<TipoAtividadeTableDto?> buscarTipoAtividadePorAtividadeId(
-      String atividadeId) {
+  Future<TipoAtividadeTableDto?> buscarTipoAtividadePorAtividadeId(String atividadeId) {
     return executar(
       'buscarTipoAtividadePorAtividadeId',
       () async {
@@ -125,10 +121,12 @@ class AtividadeRepositoryImpl
       onErrorReturn: [],
     );
   }
-  
+
   @override
   Future<void> atualizarAtividade(AtividadeTableDto atividade) {
-    // TODO: implement atualizarAtividade
-    throw UnimplementedError();
+    return executar(
+      'atualizarAtividade',
+      () => atividadeDao.salvarAtividade(atividade.toCompanion()),
+    );
   }
 }
