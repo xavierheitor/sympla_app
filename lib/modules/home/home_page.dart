@@ -36,6 +36,8 @@ class HomePage extends StatelessWidget {
                       try {
                         await Get.find<SyncManager>()
                             .sincronizarModulo('atividade', force: true);
+                        // Recarrega as atividades após sincronização
+                        await controller.atividadeController.carregarAtividades();
                       } finally {
                         controller.sincronizacao.value = false;
                       }
