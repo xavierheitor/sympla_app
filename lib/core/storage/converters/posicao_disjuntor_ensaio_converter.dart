@@ -2,7 +2,7 @@ import 'package:drift/drift.dart';
 
 /// Representa a posição do disjuntor durante o ensaio:
 /// Entrada (E), Saída (S) ou Terra (T)
-enum PosicaoDisjuntorEnsaio { entrada, saida, terra }
+enum PosicaoDisjuntorEnsaio { entrada, saida, terra, nenhum }
 
 class PosicaoDisjuntorEnsaioConverter
     extends TypeConverter<PosicaoDisjuntorEnsaio, String> {
@@ -17,6 +17,8 @@ class PosicaoDisjuntorEnsaioConverter
         return PosicaoDisjuntorEnsaio.saida;
       case 'T':
         return PosicaoDisjuntorEnsaio.terra;
+      case 'N':
+        return PosicaoDisjuntorEnsaio.nenhum;
       default:
         throw ArgumentError('Posição inválida no banco: $fromDb');
     }
@@ -31,6 +33,8 @@ class PosicaoDisjuntorEnsaioConverter
         return 'S';
       case PosicaoDisjuntorEnsaio.terra:
         return 'T';
+      case PosicaoDisjuntorEnsaio.nenhum:
+        return 'N';
     }
   }
 }
