@@ -156,30 +156,18 @@ class MpDjResistenciaContatoSyncDto {
   }
 }
 
-/// DTO para sincronização de medição de resistência de isolamento
+/// DTO para sincronização de configurações de medição de resistência de isolamento
 class MpDjResistenciaIsolamentoSyncDto {
   final int? id;
-  final int formularioDisjuntorId;
-  final String linha;
-  final String terra;
-  final String guarda;
+  final int mpDjFormId;
   final double tensaoKv;
-  final double? resistenciaFaseA;
-  final double? resistenciaFaseB;
-  final double? resistenciaFaseC;
   final double? temperaturaDisjuntor;
   final double? umidadeRelativaAr;
 
   MpDjResistenciaIsolamentoSyncDto({
     this.id,
-    required this.formularioDisjuntorId,
-    required this.linha,
-    required this.terra,
-    required this.guarda,
+    required this.mpDjFormId,
     required this.tensaoKv,
-    this.resistenciaFaseA,
-    this.resistenciaFaseB,
-    this.resistenciaFaseC,
     this.temperaturaDisjuntor,
     this.umidadeRelativaAr,
   });
@@ -187,14 +175,8 @@ class MpDjResistenciaIsolamentoSyncDto {
   factory MpDjResistenciaIsolamentoSyncDto.fromMedicaoDto(MedicaoResistenciaIsolamentoTableDto medicao) {
     return MpDjResistenciaIsolamentoSyncDto(
       id: medicao.id,
-      formularioDisjuntorId: medicao.formularioDisjuntorId,
-      linha: medicao.linha,
-      terra: medicao.terra,
-      guarda: medicao.guarda,
+      mpDjFormId: medicao.mpDjFormId,
       tensaoKv: medicao.tensaoKv,
-      resistenciaFaseA: medicao.resistenciaFaseA,
-      resistenciaFaseB: medicao.resistenciaFaseB,
-      resistenciaFaseC: medicao.resistenciaFaseC,
       temperaturaDisjuntor: medicao.temperaturaDisjuntor,
       umidadeRelativaAr: medicao.umidadeRelativaAr,
     );
@@ -203,14 +185,8 @@ class MpDjResistenciaIsolamentoSyncDto {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'formularioDisjuntorId': formularioDisjuntorId,
-      'linha': linha,
-      'terra': terra,
-      'guarda': guarda,
+      'mpDjFormId': mpDjFormId,
       'tensaoKv': tensaoKv,
-      'resistenciaFaseA': resistenciaFaseA,
-      'resistenciaFaseB': resistenciaFaseB,
-      'resistenciaFaseC': resistenciaFaseC,
       'temperaturaDisjuntor': temperaturaDisjuntor,
       'umidadeRelativaAr': umidadeRelativaAr,
     };

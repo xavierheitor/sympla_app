@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_medicoes_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/mpdj/medicao_resistencia_isolamento_table_dto.dart';
+import 'package:sympla_app/core/storage/converters/estado_disjuntor_converter.dart';
+import 'package:sympla_app/core/storage/converters/fase_isolamento_converter.dart';
 import 'package:sympla_app/core/storage/converters/posicao_disjuntor_ensaio_converter.dart';
 import 'package:sympla_app/modules/mp_dj/mp_dj_form_controller.dart';
 
@@ -78,43 +81,31 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
   /// 📥 Carrega dados salvos do banco para preencher os campos
   ///
   /// 🔧 LÓGICA:
-  /// 1. Busca medições existentes no controller
-  /// 2. Se existem dados: converte DTOs para campos de formulário
-  /// 3. Se não existem: cria uma nova medição vazia
+  /// 1. Busca configurações gerais do ensaio
+  /// 2. Busca medições específicas
+  /// 3. Se existem dados: converte DTOs para campos de formulário
+  /// 4. Se não existem: cria uma nova medição vazia
   ///
   /// 🔄 CONVERSÕES:
-  /// - String → PosicaoDisjuntorEnsaio (para dropdowns)
+  /// - Enum → Enum (para dropdowns)
   /// - double → String (para campos de texto)
   /// - Tratamento de valores nulos
   void _preencherCamposSeExistir() {
-    /// 📋 Lista de medições já salvas no banco
+    /// 📋 Lista de configurações gerais já salvas no banco
     final lista = controller.isolamentos;
 
     if (lista.isNotEmpty) {
-      /// 🔄 Para cada medição salva, cria um campo de formulário
-      for (final med in lista) {
-        /// 🆕 Cria novo campo de medição com ID do formulário
-        final m = _MedicaoFields(numero: med.formularioDisjuntorId);
+      /// 📊 Carrega configurações do ensaio (só na primeira configuração)
+      final config = lista.first;
+      _tensaoController.text = config.tensaoKv.toString();
+      _temperaturaController.text = config.temperaturaDisjuntor?.toString() ?? '';
+      _umidadeController.text = config.umidadeRelativaAr?.toString() ?? '';
 
-        /// 🔌 Converte strings do banco para enums de posição
-        /// Se não encontrar, usa valores padrão seguros
-        m.linha = PosicaoDisjuntorEnsaio.values
-            .firstWhere((e) => e.name == med.linha, orElse: () => PosicaoDisjuntorEnsaio.entrada);
-        m.terra = PosicaoDisjuntorEnsaio.values
-            .firstWhere((e) => e.name == med.terra, orElse: () => PosicaoDisjuntorEnsaio.saida);
-        m.guarda = PosicaoDisjuntorEnsaio.values
-            .firstWhere((e) => e.name == med.guarda, orElse: () => PosicaoDisjuntorEnsaio.terra);
-
-        /// 📊 Carrega configurações do ensaio (só na primeira medição)
-        if (_medicoes.isEmpty) {
-          _tensaoController.text = med.tensaoKv.toString();
-          _temperaturaController.text = med.temperaturaDisjuntor?.toString() ?? '';
-          _umidadeController.text = med.umidadeRelativaAr?.toString() ?? '';
-        }
-
-        /// ➕ Adiciona à lista de medições sendo editadas
-        m.setUpdateCallback(() => setState(() {}));
-        _medicoes.add(m);
+      /// 🔄 Para cada configuração, busca as medições específicas
+      for (final config in lista) {
+        // TODO: Implementar busca de medições específicas por config.id
+        // Por enquanto, cria uma medição vazia
+        _adicionarMedicao();
       }
     } else {
       /// ➕ Se não há dados salvos, cria uma medição vazia para o usuário preencher
@@ -190,34 +181,43 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
       return;
     }
 
-    /// 🔄 Converte cada medição do formulário para DTO
-    final dados = _medicoes.map((m) {
-      return MedicaoResistenciaIsolamentoTableDto(
+    /// 🔧 Cria configuração geral do ensaio
+    final configuracao = MedicaoResistenciaIsolamentoTableDto(
+      id: 0, // Novo registro (será gerado pelo banco)
+      mpDjFormId: id, // ID do formulário pai
+      tensaoKv: double.tryParse(_tensaoController.text.trim()) ?? 0.0, // Valor obrigatório
+      temperaturaDisjuntor: double.tryParse(_temperaturaController.text.trim()),
+      umidadeRelativaAr: double.tryParse(_umidadeController.text.trim()),
+    );
+
+    /// 🔄 Converte cada medição do formulário para DTO de medições específicas
+    final medicoes = _medicoes.map((m) {
+      return MedicaoResistenciaIsolamentoMedicoesTableDto(
         id: 0, // Novo registro (será gerado pelo banco)
-        formularioDisjuntorId: id, // ID do formulário pai
-
-        /// 🔌 Posições do disjuntor (convertidas de enum para string)
-        linha: m.linha.name,
-        terra: m.terra.name,
-        guarda: m.guarda.name,
-
-        /// ⚡ Configurações do ensaio (usando controllers fixos)
-        tensaoKv: double.tryParse(_tensaoController.text.trim()) ?? 0.0, // Valor obrigatório
-
-        /// 📊 Medições de resistência por fase (podem ser nulas)
-        /// TODO: Atualizar DTO para incluir os 11 campos de resistência
-        resistenciaFaseA: double.tryParse(m.resistencia30s.text.trim()),
-        resistenciaFaseB: double.tryParse(m.resistencia1min.text.trim()),
-        resistenciaFaseC: double.tryParse(m.resistencia2min.text.trim()),
-
-        /// 🌡️ Configurações ambientais (podem ser nulas)
-        temperaturaDisjuntor: double.tryParse(_temperaturaController.text.trim()),
-        umidadeRelativaAr: double.tryParse(_umidadeController.text.trim()),
+        mpDjResistenciaIsolamentoId: 0, // Será definido após salvar a configuração
+        dataMedicao: DateTime.now(),
+        linha: m.linha,
+        terra: m.terra,
+        guarda: m.guarda,
+        fase: m.fase,
+        estadoDisjuntor: m.estadoDisjuntor,
+        resistencia30s: double.tryParse(m.resistencia30s.text.trim()),
+        resistencia1min: double.tryParse(m.resistencia1min.text.trim()),
+        resistencia2min: double.tryParse(m.resistencia2min.text.trim()),
+        resistencia3min: double.tryParse(m.resistencia3min.text.trim()),
+        resistencia4min: double.tryParse(m.resistencia4min.text.trim()),
+        resistencia5min: double.tryParse(m.resistencia5min.text.trim()),
+        resistencia6min: double.tryParse(m.resistencia6min.text.trim()),
+        resistencia7min: double.tryParse(m.resistencia7min.text.trim()),
+        resistencia8min: double.tryParse(m.resistencia8min.text.trim()),
+        resistencia9min: double.tryParse(m.resistencia9min.text.trim()),
+        resistencia10min: double.tryParse(m.resistencia10min.text.trim()),
       );
     }).toList();
 
     /// 💾 Chama o controller para salvar no banco e atualizar estado
-    controller.salvarIsolamentos(dados);
+    // TODO: Atualizar controller para salvar configuração + medições
+    controller.salvarIsolamentos([configuracao]);
   }
 
   @override
@@ -542,45 +542,7 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
   }
 }
 
-/// 🔧 Enum para as fases do ensaio de resistência de isolamento
-enum FaseIsolamento {
-  abc, // Todas as fases
-  a, // Fase A
-  b, // Fase B
-  c, // Fase C
-}
-
-extension FaseIsolamentoExt on FaseIsolamento {
-  String get label {
-    switch (this) {
-      case FaseIsolamento.abc:
-        return 'ABC';
-      case FaseIsolamento.a:
-        return 'A';
-      case FaseIsolamento.b:
-        return 'B';
-      case FaseIsolamento.c:
-        return 'C';
-    }
-  }
-}
-
-/// 🔌 Enum para o estado do disjuntor durante o ensaio
-enum EstadoDisjuntor {
-  aberto, // Disjuntor aberto
-  fechado, // Disjuntor fechado
-}
-
-extension EstadoDisjuntorExt on EstadoDisjuntor {
-  String get label {
-    switch (this) {
-      case EstadoDisjuntor.aberto:
-        return 'Aberto';
-      case EstadoDisjuntor.fechado:
-        return 'Fechado';
-    }
-  }
-}
+/// 🔧 Usa as extensões dos converters importados
 
 /// 📊 Classe que representa os campos de uma medição de resistência de isolamento
 ///

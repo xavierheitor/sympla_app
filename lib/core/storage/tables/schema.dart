@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:sympla_app/core/storage/converters/caracterizacao_ensaio_converter.dart';
+import 'package:sympla_app/core/storage/converters/estado_disjuntor_converter.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
+import 'package:sympla_app/core/storage/converters/fase_isolamento_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/core/storage/converters/posicao_disjuntor_ensaio_converter.dart';
 import 'package:sympla_app/core/storage/converters/prioridade_defeito_converter.dart';
@@ -47,8 +49,7 @@ class UsuarioTable extends Table {
 class TipoAtividadeTable extends SyncableTable {
   TextColumn get nome => text().withLength(min: 2, max: 100)();
 
-  TextColumn get tipoAtividadeMobile =>
-      text().map(const TipoAtividadeMobileConverter())();
+  TextColumn get tipoAtividadeMobile => text().map(const TipoAtividadeMobileConverter())();
 }
 
 class AtividadeTable extends SyncableTable {
@@ -63,15 +64,13 @@ class AtividadeTable extends SyncableTable {
   DateTimeColumn get dataFim => dateTime().nullable()();
 
   TextColumn get equipamentoId => text().references(EquipamentoTable, #uuid)();
-  TextColumn get tipoAtividadeId =>
-      text().references(TipoAtividadeTable, #uuid)();
+  TextColumn get tipoAtividadeId => text().references(TipoAtividadeTable, #uuid)();
 }
 
 //**------------------ APR --------------- */
 class AprTable extends SyncableTable {
   TextColumn get nome => text()();
   TextColumn get descricao => text().nullable()();
-
 }
 
 class AprQuestionTable extends SyncableTable {
@@ -85,8 +84,7 @@ class AprPerguntaRelacionamentoTable extends SyncableTable {
 }
 
 class AprTipoAtividadeTable extends SyncableTable {
-  TextColumn get tipoAtividadeId =>
-      text().references(TipoAtividadeTable, #uuid)();
+  TextColumn get tipoAtividadeId => text().references(TipoAtividadeTable, #uuid)();
   TextColumn get aprId => text().references(AprTable, #uuid)();
 }
 
@@ -102,8 +100,7 @@ class AprPreenchidaTable extends Table {
 class AprRespostaTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  IntColumn get aprPreenchidaId =>
-      integer().references(AprPreenchidaTable, #id)();
+  IntColumn get aprPreenchidaId => integer().references(AprPreenchidaTable, #id)();
 
   Column<String> get perguntaId =>
       text().references(AprQuestionTable, #uuid)(); //Pergunta que respondeu
@@ -115,8 +112,7 @@ class AprAssinaturaTable extends Table {
   //id
   IntColumn get id => integer().autoIncrement()();
   //id da atividade preenchida
-  IntColumn get aprPreenchidaId =>
-      integer().references(AprPreenchidaTable, #id)();
+  IntColumn get aprPreenchidaId => integer().references(AprPreenchidaTable, #id)();
   //id do usuário
   Column<String> get usuarioId => text().references(UsuarioTable, #uuid)();
   //data da assinatura
@@ -142,15 +138,13 @@ class ChecklistPerguntaTable extends SyncableTable {
 
 class ChecklistPerguntaRelacionamentoTable extends SyncableTable {
   TextColumn get checklistId => text().references(ChecklistTable, #uuid)();
-  TextColumn get perguntaId =>
-      text().references(ChecklistPerguntaTable, #uuid)();
+  TextColumn get perguntaId => text().references(ChecklistPerguntaTable, #uuid)();
   IntColumn get ordem => integer().withDefault(const Constant(0))();
 }
 
 class ChecklistTipoAtividadeTable extends SyncableTable {
   TextColumn get checklistId => text().references(ChecklistTable, #uuid)();
-  TextColumn get tipoAtividadeId =>
-      text().references(TipoAtividadeTable, #uuid)();
+  TextColumn get tipoAtividadeId => text().references(TipoAtividadeTable, #uuid)();
 }
 
 class ChecklistPreenchidoTable extends Table {
@@ -163,10 +157,8 @@ class ChecklistPreenchidoTable extends Table {
 
 class ChecklistRespostaTable extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get checklistPreenchidoId =>
-      integer().references(ChecklistPreenchidoTable, #id)();
-  TextColumn get perguntaId =>
-      text().references(ChecklistPerguntaTable, #uuid)();
+  IntColumn get checklistPreenchidoId => integer().references(ChecklistPreenchidoTable, #id)();
+  TextColumn get perguntaId => text().references(ChecklistPerguntaTable, #uuid)();
   TextColumn get resposta => text().map(const RespostaChecklistConverter())();
 }
 
@@ -179,15 +171,12 @@ class GrupoDefeitoEquipamentoTable extends SyncableTable {
 
 class SubgrupoDefeitoEquipamentoTable extends SyncableTable {
   TextColumn get nome => text().withLength(min: 2, max: 100)();
-  TextColumn get grupoDefeitoId =>
-      text().references(GrupoDefeitoEquipamentoTable, #uuid)();
+  TextColumn get grupoDefeitoId => text().references(GrupoDefeitoEquipamentoTable, #uuid)();
 }
 
 class DefeitoTable extends SyncableTable {
-  TextColumn get grupoId =>
-      text().references(GrupoDefeitoEquipamentoTable, #uuid)();
-  TextColumn get subgrupoId =>
-      text().references(SubgrupoDefeitoEquipamentoTable, #uuid)();
+  TextColumn get grupoId => text().references(GrupoDefeitoEquipamentoTable, #uuid)();
+  TextColumn get subgrupoId => text().references(SubgrupoDefeitoEquipamentoTable, #uuid)();
 
   TextColumn get codigoSap => text()();
   TextColumn get descricao => text()();
@@ -201,8 +190,7 @@ class EquipamentoTable extends SyncableTable {
   TextColumn get descricao => text().withLength(min: 2, max: 200)();
   TextColumn get subestacao => text().withLength(min: 1, max: 3)();
 
-  TextColumn get grupoId =>
-      text().references(GrupoDefeitoEquipamentoTable, #uuid)();
+  TextColumn get grupoId => text().references(GrupoDefeitoEquipamentoTable, #uuid)();
 }
 
 //**------------------ ANOMALIA --------------- */
@@ -229,8 +217,7 @@ class CorrecaoAnomaliaTable extends Table {
   IntColumn get id => integer().autoIncrement()();
   IntColumn get anomaliaId => integer().references(AnomaliaTable, #id)();
   TextColumn get atividadeId => text().references(AtividadeTable, #uuid)();
-  BlobColumn get foto =>
-      blob().nullable()(); // Pode ser base64 ou caminho local
+  BlobColumn get foto => blob().nullable()(); // Pode ser base64 ou caminho local
 }
 
 //**------------------ MPBB --------------- */
@@ -258,8 +245,8 @@ class FormularioMpbbTable extends Table {
 class MedicaoElementoMpbbTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  IntColumn get formularioMpbbId => integer()
-      .references(FormularioMpbbTable, #id, onDelete: KeyAction.cascade)();
+  IntColumn get formularioMpbbId =>
+      integer().references(FormularioMpbbTable, #id, onDelete: KeyAction.cascade)();
 
   IntColumn get elementoBateriaNumero => integer()();
   RealColumn get tensao => real().nullable()();
@@ -308,34 +295,54 @@ class MpDjResistenciaContatoTable extends Table {
 
 class MpDjResistenciaIsolamentoTable extends Table {
   IntColumn get id => integer().autoIncrement()();
-
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
-  IntColumn get numeroCamara => integer()();
 
-  TextColumn get linha => text().map(const PosicaoDisjuntorEnsaioConverter())();
-  TextColumn get terra => text().map(const PosicaoDisjuntorEnsaioConverter())();
-  TextColumn get guarda =>
-      text().map(const PosicaoDisjuntorEnsaioConverter())();
-
+  /// 🔧 Configurações gerais do ensaio (fixas, não mudam por medição)
   RealColumn get tensaoKv => real()();
-
-  RealColumn get resistenciaFaseA => real().nullable()();
-  RealColumn get resistenciaFaseB => real().nullable()();
-  RealColumn get resistenciaFaseC => real().nullable()();
-
   RealColumn get temperaturaDisjuntor => real().nullable()();
   RealColumn get umidadeRelativaAr => real().nullable()();
+}
+
+class MpDjResistenciaIsolamentoMedicoesTable extends Table {
+  IntColumn get id => integer().autoIncrement()();
+
+  IntColumn get mpDjResistenciaIsolamentoId =>
+      integer().references(MpDjResistenciaIsolamentoTable, #id)();
+
+  DateTimeColumn get dataMedicao => dateTime().withDefault(currentDateAndTime)();
+
+  /// 🔌 Configurações de posição do disjuntor
+  TextColumn get linha => text().map(const PosicaoDisjuntorEnsaioConverter())();
+  TextColumn get terra => text().map(const PosicaoDisjuntorEnsaioConverter())();
+  TextColumn get guarda => text().map(const PosicaoDisjuntorEnsaioConverter())();
+
+  /// ⚡ Fase selecionada para medição
+  TextColumn get fase => text().map(const FaseIsolamentoConverter())();
+
+  /// 🔌 Estado do disjuntor durante o ensaio
+  TextColumn get estadoDisjuntor => text().map(const EstadoDisjuntorConverter())();
+
+  /// 📊 Medições de resistência (11 campos: 30s, 1min, 2min... até 10min)
+  RealColumn get resistencia30s => real().nullable()();
+  RealColumn get resistencia1min => real().nullable()();
+  RealColumn get resistencia2min => real().nullable()();
+  RealColumn get resistencia3min => real().nullable()();
+  RealColumn get resistencia4min => real().nullable()();
+  RealColumn get resistencia5min => real().nullable()();
+  RealColumn get resistencia6min => real().nullable()();
+  RealColumn get resistencia7min => real().nullable()();
+  RealColumn get resistencia8min => real().nullable()();
+  RealColumn get resistencia9min => real().nullable()();
+  RealColumn get resistencia10min => real().nullable()();
 }
 
 class MpDjTempoOperacaoTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
-  IntColumn get formularioDisjuntorId =>
-      integer().references(MpDjFormTable, #id)(); // FK futura
+  IntColumn get formularioDisjuntorId => integer().references(MpDjFormTable, #id)(); // FK futura
 
-  TextColumn get fase =>
-      text().map(const FaseAnomaliaConverter())(); // A, B ou C
+  TextColumn get fase => text().map(const FaseAnomaliaConverter())(); // A, B ou C
 
   // Tempos normais
   RealColumn get fechamentoBobina1 => real().nullable()();
@@ -349,8 +356,7 @@ class MpDjPressaoSf6Table extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
-  TextColumn get fase =>
-      text().map(const FaseAnomaliaConverter())(); // A, B ou C
+  TextColumn get fase => text().map(const FaseAnomaliaConverter())(); // A, B ou C
 
   RealColumn get valorPressao => real()(); // Ex: 6.30 BAR
   RealColumn get temperatura => real()(); // Em ºC

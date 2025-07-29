@@ -9744,57 +9744,12 @@ class $MpDjResistenciaIsolamentoTableTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES mp_dj_form_table (id)'));
-  static const VerificationMeta _numeroCamaraMeta =
-      const VerificationMeta('numeroCamara');
-  @override
-  late final GeneratedColumn<int> numeroCamara = GeneratedColumn<int>(
-      'numero_camara', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _linhaMeta = const VerificationMeta('linha');
-  @override
-  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
-      linha = GeneratedColumn<String>('linha', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<PosicaoDisjuntorEnsaio>(
-              $MpDjResistenciaIsolamentoTableTable.$converterlinha);
-  static const VerificationMeta _terraMeta = const VerificationMeta('terra');
-  @override
-  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
-      terra = GeneratedColumn<String>('terra', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<PosicaoDisjuntorEnsaio>(
-              $MpDjResistenciaIsolamentoTableTable.$converterterra);
-  static const VerificationMeta _guardaMeta = const VerificationMeta('guarda');
-  @override
-  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
-      guarda = GeneratedColumn<String>('guarda', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<PosicaoDisjuntorEnsaio>(
-              $MpDjResistenciaIsolamentoTableTable.$converterguarda);
   static const VerificationMeta _tensaoKvMeta =
       const VerificationMeta('tensaoKv');
   @override
   late final GeneratedColumn<double> tensaoKv = GeneratedColumn<double>(
       'tensao_kv', aliasedName, false,
       type: DriftSqlType.double, requiredDuringInsert: true);
-  static const VerificationMeta _resistenciaFaseAMeta =
-      const VerificationMeta('resistenciaFaseA');
-  @override
-  late final GeneratedColumn<double> resistenciaFaseA = GeneratedColumn<double>(
-      'resistencia_fase_a', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _resistenciaFaseBMeta =
-      const VerificationMeta('resistenciaFaseB');
-  @override
-  late final GeneratedColumn<double> resistenciaFaseB = GeneratedColumn<double>(
-      'resistencia_fase_b', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
-  static const VerificationMeta _resistenciaFaseCMeta =
-      const VerificationMeta('resistenciaFaseC');
-  @override
-  late final GeneratedColumn<double> resistenciaFaseC = GeneratedColumn<double>(
-      'resistencia_fase_c', aliasedName, true,
-      type: DriftSqlType.double, requiredDuringInsert: false);
   static const VerificationMeta _temperaturaDisjuntorMeta =
       const VerificationMeta('temperaturaDisjuntor');
   @override
@@ -9808,20 +9763,8 @@ class $MpDjResistenciaIsolamentoTableTable
       GeneratedColumn<double>('umidade_relativa_ar', aliasedName, true,
           type: DriftSqlType.double, requiredDuringInsert: false);
   @override
-  List<GeneratedColumn> get $columns => [
-        id,
-        mpDjFormId,
-        numeroCamara,
-        linha,
-        terra,
-        guarda,
-        tensaoKv,
-        resistenciaFaseA,
-        resistenciaFaseB,
-        resistenciaFaseC,
-        temperaturaDisjuntor,
-        umidadeRelativaAr
-      ];
+  List<GeneratedColumn> get $columns =>
+      [id, mpDjFormId, tensaoKv, temperaturaDisjuntor, umidadeRelativaAr];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -9844,40 +9787,11 @@ class $MpDjResistenciaIsolamentoTableTable
     } else if (isInserting) {
       context.missing(_mpDjFormIdMeta);
     }
-    if (data.containsKey('numero_camara')) {
-      context.handle(
-          _numeroCamaraMeta,
-          numeroCamara.isAcceptableOrUnknown(
-              data['numero_camara']!, _numeroCamaraMeta));
-    } else if (isInserting) {
-      context.missing(_numeroCamaraMeta);
-    }
-    context.handle(_linhaMeta, const VerificationResult.success());
-    context.handle(_terraMeta, const VerificationResult.success());
-    context.handle(_guardaMeta, const VerificationResult.success());
     if (data.containsKey('tensao_kv')) {
       context.handle(_tensaoKvMeta,
           tensaoKv.isAcceptableOrUnknown(data['tensao_kv']!, _tensaoKvMeta));
     } else if (isInserting) {
       context.missing(_tensaoKvMeta);
-    }
-    if (data.containsKey('resistencia_fase_a')) {
-      context.handle(
-          _resistenciaFaseAMeta,
-          resistenciaFaseA.isAcceptableOrUnknown(
-              data['resistencia_fase_a']!, _resistenciaFaseAMeta));
-    }
-    if (data.containsKey('resistencia_fase_b')) {
-      context.handle(
-          _resistenciaFaseBMeta,
-          resistenciaFaseB.isAcceptableOrUnknown(
-              data['resistencia_fase_b']!, _resistenciaFaseBMeta));
-    }
-    if (data.containsKey('resistencia_fase_c')) {
-      context.handle(
-          _resistenciaFaseCMeta,
-          resistenciaFaseC.isAcceptableOrUnknown(
-              data['resistencia_fase_c']!, _resistenciaFaseCMeta));
     }
     if (data.containsKey('temperatura_disjuntor')) {
       context.handle(
@@ -9905,25 +9819,8 @@ class $MpDjResistenciaIsolamentoTableTable
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       mpDjFormId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}mp_dj_form_id'])!,
-      numeroCamara: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}numero_camara'])!,
-      linha: $MpDjResistenciaIsolamentoTableTable.$converterlinha.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}linha'])!),
-      terra: $MpDjResistenciaIsolamentoTableTable.$converterterra.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}terra'])!),
-      guarda: $MpDjResistenciaIsolamentoTableTable.$converterguarda.fromSql(
-          attachedDatabase.typeMapping
-              .read(DriftSqlType.string, data['${effectivePrefix}guarda'])!),
       tensaoKv: attachedDatabase.typeMapping
           .read(DriftSqlType.double, data['${effectivePrefix}tensao_kv'])!,
-      resistenciaFaseA: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_a']),
-      resistenciaFaseB: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_b']),
-      resistenciaFaseC: attachedDatabase.typeMapping.read(
-          DriftSqlType.double, data['${effectivePrefix}resistencia_fase_c']),
       temperaturaDisjuntor: attachedDatabase.typeMapping.read(
           DriftSqlType.double, data['${effectivePrefix}temperatura_disjuntor']),
       umidadeRelativaAr: attachedDatabase.typeMapping.read(
@@ -9935,40 +9832,21 @@ class $MpDjResistenciaIsolamentoTableTable
   $MpDjResistenciaIsolamentoTableTable createAlias(String alias) {
     return $MpDjResistenciaIsolamentoTableTable(attachedDatabase, alias);
   }
-
-  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterlinha =
-      const PosicaoDisjuntorEnsaioConverter();
-  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterterra =
-      const PosicaoDisjuntorEnsaioConverter();
-  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterguarda =
-      const PosicaoDisjuntorEnsaioConverter();
 }
 
 class MpDjResistenciaIsolamentoTableData extends DataClass
     implements Insertable<MpDjResistenciaIsolamentoTableData> {
   final int id;
   final int mpDjFormId;
-  final int numeroCamara;
-  final PosicaoDisjuntorEnsaio linha;
-  final PosicaoDisjuntorEnsaio terra;
-  final PosicaoDisjuntorEnsaio guarda;
+
+  /// 🔧 Configurações gerais do ensaio (fixas, não mudam por medição)
   final double tensaoKv;
-  final double? resistenciaFaseA;
-  final double? resistenciaFaseB;
-  final double? resistenciaFaseC;
   final double? temperaturaDisjuntor;
   final double? umidadeRelativaAr;
   const MpDjResistenciaIsolamentoTableData(
       {required this.id,
       required this.mpDjFormId,
-      required this.numeroCamara,
-      required this.linha,
-      required this.terra,
-      required this.guarda,
       required this.tensaoKv,
-      this.resistenciaFaseA,
-      this.resistenciaFaseB,
-      this.resistenciaFaseC,
       this.temperaturaDisjuntor,
       this.umidadeRelativaAr});
   @override
@@ -9976,29 +9854,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['mp_dj_form_id'] = Variable<int>(mpDjFormId);
-    map['numero_camara'] = Variable<int>(numeroCamara);
-    {
-      map['linha'] = Variable<String>(
-          $MpDjResistenciaIsolamentoTableTable.$converterlinha.toSql(linha));
-    }
-    {
-      map['terra'] = Variable<String>(
-          $MpDjResistenciaIsolamentoTableTable.$converterterra.toSql(terra));
-    }
-    {
-      map['guarda'] = Variable<String>(
-          $MpDjResistenciaIsolamentoTableTable.$converterguarda.toSql(guarda));
-    }
     map['tensao_kv'] = Variable<double>(tensaoKv);
-    if (!nullToAbsent || resistenciaFaseA != null) {
-      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA);
-    }
-    if (!nullToAbsent || resistenciaFaseB != null) {
-      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB);
-    }
-    if (!nullToAbsent || resistenciaFaseC != null) {
-      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC);
-    }
     if (!nullToAbsent || temperaturaDisjuntor != null) {
       map['temperatura_disjuntor'] = Variable<double>(temperaturaDisjuntor);
     }
@@ -10012,20 +9868,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
     return MpDjResistenciaIsolamentoTableCompanion(
       id: Value(id),
       mpDjFormId: Value(mpDjFormId),
-      numeroCamara: Value(numeroCamara),
-      linha: Value(linha),
-      terra: Value(terra),
-      guarda: Value(guarda),
       tensaoKv: Value(tensaoKv),
-      resistenciaFaseA: resistenciaFaseA == null && nullToAbsent
-          ? const Value.absent()
-          : Value(resistenciaFaseA),
-      resistenciaFaseB: resistenciaFaseB == null && nullToAbsent
-          ? const Value.absent()
-          : Value(resistenciaFaseB),
-      resistenciaFaseC: resistenciaFaseC == null && nullToAbsent
-          ? const Value.absent()
-          : Value(resistenciaFaseC),
       temperaturaDisjuntor: temperaturaDisjuntor == null && nullToAbsent
           ? const Value.absent()
           : Value(temperaturaDisjuntor),
@@ -10041,14 +9884,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
     return MpDjResistenciaIsolamentoTableData(
       id: serializer.fromJson<int>(json['id']),
       mpDjFormId: serializer.fromJson<int>(json['mpDjFormId']),
-      numeroCamara: serializer.fromJson<int>(json['numeroCamara']),
-      linha: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['linha']),
-      terra: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['terra']),
-      guarda: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['guarda']),
       tensaoKv: serializer.fromJson<double>(json['tensaoKv']),
-      resistenciaFaseA: serializer.fromJson<double?>(json['resistenciaFaseA']),
-      resistenciaFaseB: serializer.fromJson<double?>(json['resistenciaFaseB']),
-      resistenciaFaseC: serializer.fromJson<double?>(json['resistenciaFaseC']),
       temperaturaDisjuntor:
           serializer.fromJson<double?>(json['temperaturaDisjuntor']),
       umidadeRelativaAr:
@@ -10061,14 +9897,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'mpDjFormId': serializer.toJson<int>(mpDjFormId),
-      'numeroCamara': serializer.toJson<int>(numeroCamara),
-      'linha': serializer.toJson<PosicaoDisjuntorEnsaio>(linha),
-      'terra': serializer.toJson<PosicaoDisjuntorEnsaio>(terra),
-      'guarda': serializer.toJson<PosicaoDisjuntorEnsaio>(guarda),
       'tensaoKv': serializer.toJson<double>(tensaoKv),
-      'resistenciaFaseA': serializer.toJson<double?>(resistenciaFaseA),
-      'resistenciaFaseB': serializer.toJson<double?>(resistenciaFaseB),
-      'resistenciaFaseC': serializer.toJson<double?>(resistenciaFaseC),
       'temperaturaDisjuntor': serializer.toJson<double?>(temperaturaDisjuntor),
       'umidadeRelativaAr': serializer.toJson<double?>(umidadeRelativaAr),
     };
@@ -10077,33 +9906,13 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
   MpDjResistenciaIsolamentoTableData copyWith(
           {int? id,
           int? mpDjFormId,
-          int? numeroCamara,
-          PosicaoDisjuntorEnsaio? linha,
-          PosicaoDisjuntorEnsaio? terra,
-          PosicaoDisjuntorEnsaio? guarda,
           double? tensaoKv,
-          Value<double?> resistenciaFaseA = const Value.absent(),
-          Value<double?> resistenciaFaseB = const Value.absent(),
-          Value<double?> resistenciaFaseC = const Value.absent(),
           Value<double?> temperaturaDisjuntor = const Value.absent(),
           Value<double?> umidadeRelativaAr = const Value.absent()}) =>
       MpDjResistenciaIsolamentoTableData(
         id: id ?? this.id,
         mpDjFormId: mpDjFormId ?? this.mpDjFormId,
-        numeroCamara: numeroCamara ?? this.numeroCamara,
-        linha: linha ?? this.linha,
-        terra: terra ?? this.terra,
-        guarda: guarda ?? this.guarda,
         tensaoKv: tensaoKv ?? this.tensaoKv,
-        resistenciaFaseA: resistenciaFaseA.present
-            ? resistenciaFaseA.value
-            : this.resistenciaFaseA,
-        resistenciaFaseB: resistenciaFaseB.present
-            ? resistenciaFaseB.value
-            : this.resistenciaFaseB,
-        resistenciaFaseC: resistenciaFaseC.present
-            ? resistenciaFaseC.value
-            : this.resistenciaFaseC,
         temperaturaDisjuntor: temperaturaDisjuntor.present
             ? temperaturaDisjuntor.value
             : this.temperaturaDisjuntor,
@@ -10117,22 +9926,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       mpDjFormId:
           data.mpDjFormId.present ? data.mpDjFormId.value : this.mpDjFormId,
-      numeroCamara: data.numeroCamara.present
-          ? data.numeroCamara.value
-          : this.numeroCamara,
-      linha: data.linha.present ? data.linha.value : this.linha,
-      terra: data.terra.present ? data.terra.value : this.terra,
-      guarda: data.guarda.present ? data.guarda.value : this.guarda,
       tensaoKv: data.tensaoKv.present ? data.tensaoKv.value : this.tensaoKv,
-      resistenciaFaseA: data.resistenciaFaseA.present
-          ? data.resistenciaFaseA.value
-          : this.resistenciaFaseA,
-      resistenciaFaseB: data.resistenciaFaseB.present
-          ? data.resistenciaFaseB.value
-          : this.resistenciaFaseB,
-      resistenciaFaseC: data.resistenciaFaseC.present
-          ? data.resistenciaFaseC.value
-          : this.resistenciaFaseC,
       temperaturaDisjuntor: data.temperaturaDisjuntor.present
           ? data.temperaturaDisjuntor.value
           : this.temperaturaDisjuntor,
@@ -10147,14 +9941,7 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
     return (StringBuffer('MpDjResistenciaIsolamentoTableData(')
           ..write('id: $id, ')
           ..write('mpDjFormId: $mpDjFormId, ')
-          ..write('numeroCamara: $numeroCamara, ')
-          ..write('linha: $linha, ')
-          ..write('terra: $terra, ')
-          ..write('guarda: $guarda, ')
           ..write('tensaoKv: $tensaoKv, ')
-          ..write('resistenciaFaseA: $resistenciaFaseA, ')
-          ..write('resistenciaFaseB: $resistenciaFaseB, ')
-          ..write('resistenciaFaseC: $resistenciaFaseC, ')
           ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
           ..write('umidadeRelativaAr: $umidadeRelativaAr')
           ..write(')'))
@@ -10163,32 +9950,14 @@ class MpDjResistenciaIsolamentoTableData extends DataClass
 
   @override
   int get hashCode => Object.hash(
-      id,
-      mpDjFormId,
-      numeroCamara,
-      linha,
-      terra,
-      guarda,
-      tensaoKv,
-      resistenciaFaseA,
-      resistenciaFaseB,
-      resistenciaFaseC,
-      temperaturaDisjuntor,
-      umidadeRelativaAr);
+      id, mpDjFormId, tensaoKv, temperaturaDisjuntor, umidadeRelativaAr);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MpDjResistenciaIsolamentoTableData &&
           other.id == this.id &&
           other.mpDjFormId == this.mpDjFormId &&
-          other.numeroCamara == this.numeroCamara &&
-          other.linha == this.linha &&
-          other.terra == this.terra &&
-          other.guarda == this.guarda &&
           other.tensaoKv == this.tensaoKv &&
-          other.resistenciaFaseA == this.resistenciaFaseA &&
-          other.resistenciaFaseB == this.resistenciaFaseB &&
-          other.resistenciaFaseC == this.resistenciaFaseC &&
           other.temperaturaDisjuntor == this.temperaturaDisjuntor &&
           other.umidadeRelativaAr == this.umidadeRelativaAr);
 }
@@ -10197,74 +9966,35 @@ class MpDjResistenciaIsolamentoTableCompanion
     extends UpdateCompanion<MpDjResistenciaIsolamentoTableData> {
   final Value<int> id;
   final Value<int> mpDjFormId;
-  final Value<int> numeroCamara;
-  final Value<PosicaoDisjuntorEnsaio> linha;
-  final Value<PosicaoDisjuntorEnsaio> terra;
-  final Value<PosicaoDisjuntorEnsaio> guarda;
   final Value<double> tensaoKv;
-  final Value<double?> resistenciaFaseA;
-  final Value<double?> resistenciaFaseB;
-  final Value<double?> resistenciaFaseC;
   final Value<double?> temperaturaDisjuntor;
   final Value<double?> umidadeRelativaAr;
   const MpDjResistenciaIsolamentoTableCompanion({
     this.id = const Value.absent(),
     this.mpDjFormId = const Value.absent(),
-    this.numeroCamara = const Value.absent(),
-    this.linha = const Value.absent(),
-    this.terra = const Value.absent(),
-    this.guarda = const Value.absent(),
     this.tensaoKv = const Value.absent(),
-    this.resistenciaFaseA = const Value.absent(),
-    this.resistenciaFaseB = const Value.absent(),
-    this.resistenciaFaseC = const Value.absent(),
     this.temperaturaDisjuntor = const Value.absent(),
     this.umidadeRelativaAr = const Value.absent(),
   });
   MpDjResistenciaIsolamentoTableCompanion.insert({
     this.id = const Value.absent(),
     required int mpDjFormId,
-    required int numeroCamara,
-    required PosicaoDisjuntorEnsaio linha,
-    required PosicaoDisjuntorEnsaio terra,
-    required PosicaoDisjuntorEnsaio guarda,
     required double tensaoKv,
-    this.resistenciaFaseA = const Value.absent(),
-    this.resistenciaFaseB = const Value.absent(),
-    this.resistenciaFaseC = const Value.absent(),
     this.temperaturaDisjuntor = const Value.absent(),
     this.umidadeRelativaAr = const Value.absent(),
   })  : mpDjFormId = Value(mpDjFormId),
-        numeroCamara = Value(numeroCamara),
-        linha = Value(linha),
-        terra = Value(terra),
-        guarda = Value(guarda),
         tensaoKv = Value(tensaoKv);
   static Insertable<MpDjResistenciaIsolamentoTableData> custom({
     Expression<int>? id,
     Expression<int>? mpDjFormId,
-    Expression<int>? numeroCamara,
-    Expression<String>? linha,
-    Expression<String>? terra,
-    Expression<String>? guarda,
     Expression<double>? tensaoKv,
-    Expression<double>? resistenciaFaseA,
-    Expression<double>? resistenciaFaseB,
-    Expression<double>? resistenciaFaseC,
     Expression<double>? temperaturaDisjuntor,
     Expression<double>? umidadeRelativaAr,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (mpDjFormId != null) 'mp_dj_form_id': mpDjFormId,
-      if (numeroCamara != null) 'numero_camara': numeroCamara,
-      if (linha != null) 'linha': linha,
-      if (terra != null) 'terra': terra,
-      if (guarda != null) 'guarda': guarda,
       if (tensaoKv != null) 'tensao_kv': tensaoKv,
-      if (resistenciaFaseA != null) 'resistencia_fase_a': resistenciaFaseA,
-      if (resistenciaFaseB != null) 'resistencia_fase_b': resistenciaFaseB,
-      if (resistenciaFaseC != null) 'resistencia_fase_c': resistenciaFaseC,
       if (temperaturaDisjuntor != null)
         'temperatura_disjuntor': temperaturaDisjuntor,
       if (umidadeRelativaAr != null) 'umidade_relativa_ar': umidadeRelativaAr,
@@ -10274,27 +10004,13 @@ class MpDjResistenciaIsolamentoTableCompanion
   MpDjResistenciaIsolamentoTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? mpDjFormId,
-      Value<int>? numeroCamara,
-      Value<PosicaoDisjuntorEnsaio>? linha,
-      Value<PosicaoDisjuntorEnsaio>? terra,
-      Value<PosicaoDisjuntorEnsaio>? guarda,
       Value<double>? tensaoKv,
-      Value<double?>? resistenciaFaseA,
-      Value<double?>? resistenciaFaseB,
-      Value<double?>? resistenciaFaseC,
       Value<double?>? temperaturaDisjuntor,
       Value<double?>? umidadeRelativaAr}) {
     return MpDjResistenciaIsolamentoTableCompanion(
       id: id ?? this.id,
       mpDjFormId: mpDjFormId ?? this.mpDjFormId,
-      numeroCamara: numeroCamara ?? this.numeroCamara,
-      linha: linha ?? this.linha,
-      terra: terra ?? this.terra,
-      guarda: guarda ?? this.guarda,
       tensaoKv: tensaoKv ?? this.tensaoKv,
-      resistenciaFaseA: resistenciaFaseA ?? this.resistenciaFaseA,
-      resistenciaFaseB: resistenciaFaseB ?? this.resistenciaFaseB,
-      resistenciaFaseC: resistenciaFaseC ?? this.resistenciaFaseC,
       temperaturaDisjuntor: temperaturaDisjuntor ?? this.temperaturaDisjuntor,
       umidadeRelativaAr: umidadeRelativaAr ?? this.umidadeRelativaAr,
     );
@@ -10309,35 +10025,8 @@ class MpDjResistenciaIsolamentoTableCompanion
     if (mpDjFormId.present) {
       map['mp_dj_form_id'] = Variable<int>(mpDjFormId.value);
     }
-    if (numeroCamara.present) {
-      map['numero_camara'] = Variable<int>(numeroCamara.value);
-    }
-    if (linha.present) {
-      map['linha'] = Variable<String>($MpDjResistenciaIsolamentoTableTable
-          .$converterlinha
-          .toSql(linha.value));
-    }
-    if (terra.present) {
-      map['terra'] = Variable<String>($MpDjResistenciaIsolamentoTableTable
-          .$converterterra
-          .toSql(terra.value));
-    }
-    if (guarda.present) {
-      map['guarda'] = Variable<String>($MpDjResistenciaIsolamentoTableTable
-          .$converterguarda
-          .toSql(guarda.value));
-    }
     if (tensaoKv.present) {
       map['tensao_kv'] = Variable<double>(tensaoKv.value);
-    }
-    if (resistenciaFaseA.present) {
-      map['resistencia_fase_a'] = Variable<double>(resistenciaFaseA.value);
-    }
-    if (resistenciaFaseB.present) {
-      map['resistencia_fase_b'] = Variable<double>(resistenciaFaseB.value);
-    }
-    if (resistenciaFaseC.present) {
-      map['resistencia_fase_c'] = Variable<double>(resistenciaFaseC.value);
     }
     if (temperaturaDisjuntor.present) {
       map['temperatura_disjuntor'] =
@@ -10354,16 +10043,1013 @@ class MpDjResistenciaIsolamentoTableCompanion
     return (StringBuffer('MpDjResistenciaIsolamentoTableCompanion(')
           ..write('id: $id, ')
           ..write('mpDjFormId: $mpDjFormId, ')
-          ..write('numeroCamara: $numeroCamara, ')
+          ..write('tensaoKv: $tensaoKv, ')
+          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
+          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $MpDjResistenciaIsolamentoMedicoesTableTable
+    extends MpDjResistenciaIsolamentoMedicoesTable
+    with
+        TableInfo<$MpDjResistenciaIsolamentoMedicoesTableTable,
+            MpDjResistenciaIsolamentoMedicoesTableData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $MpDjResistenciaIsolamentoMedicoesTableTable(this.attachedDatabase,
+      [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _mpDjResistenciaIsolamentoIdMeta =
+      const VerificationMeta('mpDjResistenciaIsolamentoId');
+  @override
+  late final GeneratedColumn<int> mpDjResistenciaIsolamentoId =
+      GeneratedColumn<int>(
+          'mp_dj_resistencia_isolamento_id', aliasedName, false,
+          type: DriftSqlType.int,
+          requiredDuringInsert: true,
+          defaultConstraints: GeneratedColumn.constraintIsAlways(
+              'REFERENCES mp_dj_resistencia_isolamento_table (id)'));
+  static const VerificationMeta _dataMedicaoMeta =
+      const VerificationMeta('dataMedicao');
+  @override
+  late final GeneratedColumn<DateTime> dataMedicao = GeneratedColumn<DateTime>(
+      'data_medicao', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      defaultValue: currentDateAndTime);
+  static const VerificationMeta _linhaMeta = const VerificationMeta('linha');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      linha = GeneratedColumn<String>('linha', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MpDjResistenciaIsolamentoMedicoesTableTable.$converterlinha);
+  static const VerificationMeta _terraMeta = const VerificationMeta('terra');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      terra = GeneratedColumn<String>('terra', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MpDjResistenciaIsolamentoMedicoesTableTable.$converterterra);
+  static const VerificationMeta _guardaMeta = const VerificationMeta('guarda');
+  @override
+  late final GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String>
+      guarda = GeneratedColumn<String>('guarda', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<PosicaoDisjuntorEnsaio>(
+              $MpDjResistenciaIsolamentoMedicoesTableTable.$converterguarda);
+  static const VerificationMeta _faseMeta = const VerificationMeta('fase');
+  @override
+  late final GeneratedColumnWithTypeConverter<FaseIsolamento, String> fase =
+      GeneratedColumn<String>('fase', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<FaseIsolamento>(
+              $MpDjResistenciaIsolamentoMedicoesTableTable.$converterfase);
+  static const VerificationMeta _estadoDisjuntorMeta =
+      const VerificationMeta('estadoDisjuntor');
+  @override
+  late final GeneratedColumnWithTypeConverter<EstadoDisjuntor, String>
+      estadoDisjuntor = GeneratedColumn<String>(
+              'estado_disjuntor', aliasedName, false,
+              type: DriftSqlType.string, requiredDuringInsert: true)
+          .withConverter<EstadoDisjuntor>(
+              $MpDjResistenciaIsolamentoMedicoesTableTable
+                  .$converterestadoDisjuntor);
+  static const VerificationMeta _resistencia30sMeta =
+      const VerificationMeta('resistencia30s');
+  @override
+  late final GeneratedColumn<double> resistencia30s = GeneratedColumn<double>(
+      'resistencia30s', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia1minMeta =
+      const VerificationMeta('resistencia1min');
+  @override
+  late final GeneratedColumn<double> resistencia1min = GeneratedColumn<double>(
+      'resistencia1min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia2minMeta =
+      const VerificationMeta('resistencia2min');
+  @override
+  late final GeneratedColumn<double> resistencia2min = GeneratedColumn<double>(
+      'resistencia2min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia3minMeta =
+      const VerificationMeta('resistencia3min');
+  @override
+  late final GeneratedColumn<double> resistencia3min = GeneratedColumn<double>(
+      'resistencia3min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia4minMeta =
+      const VerificationMeta('resistencia4min');
+  @override
+  late final GeneratedColumn<double> resistencia4min = GeneratedColumn<double>(
+      'resistencia4min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia5minMeta =
+      const VerificationMeta('resistencia5min');
+  @override
+  late final GeneratedColumn<double> resistencia5min = GeneratedColumn<double>(
+      'resistencia5min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia6minMeta =
+      const VerificationMeta('resistencia6min');
+  @override
+  late final GeneratedColumn<double> resistencia6min = GeneratedColumn<double>(
+      'resistencia6min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia7minMeta =
+      const VerificationMeta('resistencia7min');
+  @override
+  late final GeneratedColumn<double> resistencia7min = GeneratedColumn<double>(
+      'resistencia7min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia8minMeta =
+      const VerificationMeta('resistencia8min');
+  @override
+  late final GeneratedColumn<double> resistencia8min = GeneratedColumn<double>(
+      'resistencia8min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia9minMeta =
+      const VerificationMeta('resistencia9min');
+  @override
+  late final GeneratedColumn<double> resistencia9min = GeneratedColumn<double>(
+      'resistencia9min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  static const VerificationMeta _resistencia10minMeta =
+      const VerificationMeta('resistencia10min');
+  @override
+  late final GeneratedColumn<double> resistencia10min = GeneratedColumn<double>(
+      'resistencia10min', aliasedName, true,
+      type: DriftSqlType.double, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        mpDjResistenciaIsolamentoId,
+        dataMedicao,
+        linha,
+        terra,
+        guarda,
+        fase,
+        estadoDisjuntor,
+        resistencia30s,
+        resistencia1min,
+        resistencia2min,
+        resistencia3min,
+        resistencia4min,
+        resistencia5min,
+        resistencia6min,
+        resistencia7min,
+        resistencia8min,
+        resistencia9min,
+        resistencia10min
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'mp_dj_resistencia_isolamento_medicoes_table';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<MpDjResistenciaIsolamentoMedicoesTableData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('mp_dj_resistencia_isolamento_id')) {
+      context.handle(
+          _mpDjResistenciaIsolamentoIdMeta,
+          mpDjResistenciaIsolamentoId.isAcceptableOrUnknown(
+              data['mp_dj_resistencia_isolamento_id']!,
+              _mpDjResistenciaIsolamentoIdMeta));
+    } else if (isInserting) {
+      context.missing(_mpDjResistenciaIsolamentoIdMeta);
+    }
+    if (data.containsKey('data_medicao')) {
+      context.handle(
+          _dataMedicaoMeta,
+          dataMedicao.isAcceptableOrUnknown(
+              data['data_medicao']!, _dataMedicaoMeta));
+    }
+    context.handle(_linhaMeta, const VerificationResult.success());
+    context.handle(_terraMeta, const VerificationResult.success());
+    context.handle(_guardaMeta, const VerificationResult.success());
+    context.handle(_faseMeta, const VerificationResult.success());
+    context.handle(_estadoDisjuntorMeta, const VerificationResult.success());
+    if (data.containsKey('resistencia30s')) {
+      context.handle(
+          _resistencia30sMeta,
+          resistencia30s.isAcceptableOrUnknown(
+              data['resistencia30s']!, _resistencia30sMeta));
+    }
+    if (data.containsKey('resistencia1min')) {
+      context.handle(
+          _resistencia1minMeta,
+          resistencia1min.isAcceptableOrUnknown(
+              data['resistencia1min']!, _resistencia1minMeta));
+    }
+    if (data.containsKey('resistencia2min')) {
+      context.handle(
+          _resistencia2minMeta,
+          resistencia2min.isAcceptableOrUnknown(
+              data['resistencia2min']!, _resistencia2minMeta));
+    }
+    if (data.containsKey('resistencia3min')) {
+      context.handle(
+          _resistencia3minMeta,
+          resistencia3min.isAcceptableOrUnknown(
+              data['resistencia3min']!, _resistencia3minMeta));
+    }
+    if (data.containsKey('resistencia4min')) {
+      context.handle(
+          _resistencia4minMeta,
+          resistencia4min.isAcceptableOrUnknown(
+              data['resistencia4min']!, _resistencia4minMeta));
+    }
+    if (data.containsKey('resistencia5min')) {
+      context.handle(
+          _resistencia5minMeta,
+          resistencia5min.isAcceptableOrUnknown(
+              data['resistencia5min']!, _resistencia5minMeta));
+    }
+    if (data.containsKey('resistencia6min')) {
+      context.handle(
+          _resistencia6minMeta,
+          resistencia6min.isAcceptableOrUnknown(
+              data['resistencia6min']!, _resistencia6minMeta));
+    }
+    if (data.containsKey('resistencia7min')) {
+      context.handle(
+          _resistencia7minMeta,
+          resistencia7min.isAcceptableOrUnknown(
+              data['resistencia7min']!, _resistencia7minMeta));
+    }
+    if (data.containsKey('resistencia8min')) {
+      context.handle(
+          _resistencia8minMeta,
+          resistencia8min.isAcceptableOrUnknown(
+              data['resistencia8min']!, _resistencia8minMeta));
+    }
+    if (data.containsKey('resistencia9min')) {
+      context.handle(
+          _resistencia9minMeta,
+          resistencia9min.isAcceptableOrUnknown(
+              data['resistencia9min']!, _resistencia9minMeta));
+    }
+    if (data.containsKey('resistencia10min')) {
+      context.handle(
+          _resistencia10minMeta,
+          resistencia10min.isAcceptableOrUnknown(
+              data['resistencia10min']!, _resistencia10minMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  MpDjResistenciaIsolamentoMedicoesTableData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return MpDjResistenciaIsolamentoMedicoesTableData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      mpDjResistenciaIsolamentoId: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}mp_dj_resistencia_isolamento_id'])!,
+      dataMedicao: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}data_medicao'])!,
+      linha: $MpDjResistenciaIsolamentoMedicoesTableTable.$converterlinha
+          .fromSql(attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}linha'])!),
+      terra: $MpDjResistenciaIsolamentoMedicoesTableTable.$converterterra
+          .fromSql(attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}terra'])!),
+      guarda: $MpDjResistenciaIsolamentoMedicoesTableTable.$converterguarda
+          .fromSql(attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}guarda'])!),
+      fase: $MpDjResistenciaIsolamentoMedicoesTableTable.$converterfase.fromSql(
+          attachedDatabase.typeMapping
+              .read(DriftSqlType.string, data['${effectivePrefix}fase'])!),
+      estadoDisjuntor: $MpDjResistenciaIsolamentoMedicoesTableTable
+          .$converterestadoDisjuntor
+          .fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string,
+              data['${effectivePrefix}estado_disjuntor'])!),
+      resistencia30s: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia30s']),
+      resistencia1min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia1min']),
+      resistencia2min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia2min']),
+      resistencia3min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia3min']),
+      resistencia4min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia4min']),
+      resistencia5min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia5min']),
+      resistencia6min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia6min']),
+      resistencia7min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia7min']),
+      resistencia8min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia8min']),
+      resistencia9min: attachedDatabase.typeMapping
+          .read(DriftSqlType.double, data['${effectivePrefix}resistencia9min']),
+      resistencia10min: attachedDatabase.typeMapping.read(
+          DriftSqlType.double, data['${effectivePrefix}resistencia10min']),
+    );
+  }
+
+  @override
+  $MpDjResistenciaIsolamentoMedicoesTableTable createAlias(String alias) {
+    return $MpDjResistenciaIsolamentoMedicoesTableTable(
+        attachedDatabase, alias);
+  }
+
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterlinha =
+      const PosicaoDisjuntorEnsaioConverter();
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterterra =
+      const PosicaoDisjuntorEnsaioConverter();
+  static TypeConverter<PosicaoDisjuntorEnsaio, String> $converterguarda =
+      const PosicaoDisjuntorEnsaioConverter();
+  static TypeConverter<FaseIsolamento, String> $converterfase =
+      const FaseIsolamentoConverter();
+  static TypeConverter<EstadoDisjuntor, String> $converterestadoDisjuntor =
+      const EstadoDisjuntorConverter();
+}
+
+class MpDjResistenciaIsolamentoMedicoesTableData extends DataClass
+    implements Insertable<MpDjResistenciaIsolamentoMedicoesTableData> {
+  final int id;
+  final int mpDjResistenciaIsolamentoId;
+  final DateTime dataMedicao;
+
+  /// 🔌 Configurações de posição do disjuntor
+  final PosicaoDisjuntorEnsaio linha;
+  final PosicaoDisjuntorEnsaio terra;
+  final PosicaoDisjuntorEnsaio guarda;
+
+  /// ⚡ Fase selecionada para medição
+  final FaseIsolamento fase;
+
+  /// 🔌 Estado do disjuntor durante o ensaio
+  final EstadoDisjuntor estadoDisjuntor;
+
+  /// 📊 Medições de resistência (11 campos: 30s, 1min, 2min... até 10min)
+  final double? resistencia30s;
+  final double? resistencia1min;
+  final double? resistencia2min;
+  final double? resistencia3min;
+  final double? resistencia4min;
+  final double? resistencia5min;
+  final double? resistencia6min;
+  final double? resistencia7min;
+  final double? resistencia8min;
+  final double? resistencia9min;
+  final double? resistencia10min;
+  const MpDjResistenciaIsolamentoMedicoesTableData(
+      {required this.id,
+      required this.mpDjResistenciaIsolamentoId,
+      required this.dataMedicao,
+      required this.linha,
+      required this.terra,
+      required this.guarda,
+      required this.fase,
+      required this.estadoDisjuntor,
+      this.resistencia30s,
+      this.resistencia1min,
+      this.resistencia2min,
+      this.resistencia3min,
+      this.resistencia4min,
+      this.resistencia5min,
+      this.resistencia6min,
+      this.resistencia7min,
+      this.resistencia8min,
+      this.resistencia9min,
+      this.resistencia10min});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['mp_dj_resistencia_isolamento_id'] =
+        Variable<int>(mpDjResistenciaIsolamentoId);
+    map['data_medicao'] = Variable<DateTime>(dataMedicao);
+    {
+      map['linha'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterlinha
+              .toSql(linha));
+    }
+    {
+      map['terra'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterterra
+              .toSql(terra));
+    }
+    {
+      map['guarda'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterguarda
+              .toSql(guarda));
+    }
+    {
+      map['fase'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterfase
+              .toSql(fase));
+    }
+    {
+      map['estado_disjuntor'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterestadoDisjuntor
+              .toSql(estadoDisjuntor));
+    }
+    if (!nullToAbsent || resistencia30s != null) {
+      map['resistencia30s'] = Variable<double>(resistencia30s);
+    }
+    if (!nullToAbsent || resistencia1min != null) {
+      map['resistencia1min'] = Variable<double>(resistencia1min);
+    }
+    if (!nullToAbsent || resistencia2min != null) {
+      map['resistencia2min'] = Variable<double>(resistencia2min);
+    }
+    if (!nullToAbsent || resistencia3min != null) {
+      map['resistencia3min'] = Variable<double>(resistencia3min);
+    }
+    if (!nullToAbsent || resistencia4min != null) {
+      map['resistencia4min'] = Variable<double>(resistencia4min);
+    }
+    if (!nullToAbsent || resistencia5min != null) {
+      map['resistencia5min'] = Variable<double>(resistencia5min);
+    }
+    if (!nullToAbsent || resistencia6min != null) {
+      map['resistencia6min'] = Variable<double>(resistencia6min);
+    }
+    if (!nullToAbsent || resistencia7min != null) {
+      map['resistencia7min'] = Variable<double>(resistencia7min);
+    }
+    if (!nullToAbsent || resistencia8min != null) {
+      map['resistencia8min'] = Variable<double>(resistencia8min);
+    }
+    if (!nullToAbsent || resistencia9min != null) {
+      map['resistencia9min'] = Variable<double>(resistencia9min);
+    }
+    if (!nullToAbsent || resistencia10min != null) {
+      map['resistencia10min'] = Variable<double>(resistencia10min);
+    }
+    return map;
+  }
+
+  MpDjResistenciaIsolamentoMedicoesTableCompanion toCompanion(
+      bool nullToAbsent) {
+    return MpDjResistenciaIsolamentoMedicoesTableCompanion(
+      id: Value(id),
+      mpDjResistenciaIsolamentoId: Value(mpDjResistenciaIsolamentoId),
+      dataMedicao: Value(dataMedicao),
+      linha: Value(linha),
+      terra: Value(terra),
+      guarda: Value(guarda),
+      fase: Value(fase),
+      estadoDisjuntor: Value(estadoDisjuntor),
+      resistencia30s: resistencia30s == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia30s),
+      resistencia1min: resistencia1min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia1min),
+      resistencia2min: resistencia2min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia2min),
+      resistencia3min: resistencia3min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia3min),
+      resistencia4min: resistencia4min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia4min),
+      resistencia5min: resistencia5min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia5min),
+      resistencia6min: resistencia6min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia6min),
+      resistencia7min: resistencia7min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia7min),
+      resistencia8min: resistencia8min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia8min),
+      resistencia9min: resistencia9min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia9min),
+      resistencia10min: resistencia10min == null && nullToAbsent
+          ? const Value.absent()
+          : Value(resistencia10min),
+    );
+  }
+
+  factory MpDjResistenciaIsolamentoMedicoesTableData.fromJson(
+      Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return MpDjResistenciaIsolamentoMedicoesTableData(
+      id: serializer.fromJson<int>(json['id']),
+      mpDjResistenciaIsolamentoId:
+          serializer.fromJson<int>(json['mpDjResistenciaIsolamentoId']),
+      dataMedicao: serializer.fromJson<DateTime>(json['dataMedicao']),
+      linha: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['linha']),
+      terra: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['terra']),
+      guarda: serializer.fromJson<PosicaoDisjuntorEnsaio>(json['guarda']),
+      fase: serializer.fromJson<FaseIsolamento>(json['fase']),
+      estadoDisjuntor:
+          serializer.fromJson<EstadoDisjuntor>(json['estadoDisjuntor']),
+      resistencia30s: serializer.fromJson<double?>(json['resistencia30s']),
+      resistencia1min: serializer.fromJson<double?>(json['resistencia1min']),
+      resistencia2min: serializer.fromJson<double?>(json['resistencia2min']),
+      resistencia3min: serializer.fromJson<double?>(json['resistencia3min']),
+      resistencia4min: serializer.fromJson<double?>(json['resistencia4min']),
+      resistencia5min: serializer.fromJson<double?>(json['resistencia5min']),
+      resistencia6min: serializer.fromJson<double?>(json['resistencia6min']),
+      resistencia7min: serializer.fromJson<double?>(json['resistencia7min']),
+      resistencia8min: serializer.fromJson<double?>(json['resistencia8min']),
+      resistencia9min: serializer.fromJson<double?>(json['resistencia9min']),
+      resistencia10min: serializer.fromJson<double?>(json['resistencia10min']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'mpDjResistenciaIsolamentoId':
+          serializer.toJson<int>(mpDjResistenciaIsolamentoId),
+      'dataMedicao': serializer.toJson<DateTime>(dataMedicao),
+      'linha': serializer.toJson<PosicaoDisjuntorEnsaio>(linha),
+      'terra': serializer.toJson<PosicaoDisjuntorEnsaio>(terra),
+      'guarda': serializer.toJson<PosicaoDisjuntorEnsaio>(guarda),
+      'fase': serializer.toJson<FaseIsolamento>(fase),
+      'estadoDisjuntor': serializer.toJson<EstadoDisjuntor>(estadoDisjuntor),
+      'resistencia30s': serializer.toJson<double?>(resistencia30s),
+      'resistencia1min': serializer.toJson<double?>(resistencia1min),
+      'resistencia2min': serializer.toJson<double?>(resistencia2min),
+      'resistencia3min': serializer.toJson<double?>(resistencia3min),
+      'resistencia4min': serializer.toJson<double?>(resistencia4min),
+      'resistencia5min': serializer.toJson<double?>(resistencia5min),
+      'resistencia6min': serializer.toJson<double?>(resistencia6min),
+      'resistencia7min': serializer.toJson<double?>(resistencia7min),
+      'resistencia8min': serializer.toJson<double?>(resistencia8min),
+      'resistencia9min': serializer.toJson<double?>(resistencia9min),
+      'resistencia10min': serializer.toJson<double?>(resistencia10min),
+    };
+  }
+
+  MpDjResistenciaIsolamentoMedicoesTableData copyWith(
+          {int? id,
+          int? mpDjResistenciaIsolamentoId,
+          DateTime? dataMedicao,
+          PosicaoDisjuntorEnsaio? linha,
+          PosicaoDisjuntorEnsaio? terra,
+          PosicaoDisjuntorEnsaio? guarda,
+          FaseIsolamento? fase,
+          EstadoDisjuntor? estadoDisjuntor,
+          Value<double?> resistencia30s = const Value.absent(),
+          Value<double?> resistencia1min = const Value.absent(),
+          Value<double?> resistencia2min = const Value.absent(),
+          Value<double?> resistencia3min = const Value.absent(),
+          Value<double?> resistencia4min = const Value.absent(),
+          Value<double?> resistencia5min = const Value.absent(),
+          Value<double?> resistencia6min = const Value.absent(),
+          Value<double?> resistencia7min = const Value.absent(),
+          Value<double?> resistencia8min = const Value.absent(),
+          Value<double?> resistencia9min = const Value.absent(),
+          Value<double?> resistencia10min = const Value.absent()}) =>
+      MpDjResistenciaIsolamentoMedicoesTableData(
+        id: id ?? this.id,
+        mpDjResistenciaIsolamentoId:
+            mpDjResistenciaIsolamentoId ?? this.mpDjResistenciaIsolamentoId,
+        dataMedicao: dataMedicao ?? this.dataMedicao,
+        linha: linha ?? this.linha,
+        terra: terra ?? this.terra,
+        guarda: guarda ?? this.guarda,
+        fase: fase ?? this.fase,
+        estadoDisjuntor: estadoDisjuntor ?? this.estadoDisjuntor,
+        resistencia30s:
+            resistencia30s.present ? resistencia30s.value : this.resistencia30s,
+        resistencia1min: resistencia1min.present
+            ? resistencia1min.value
+            : this.resistencia1min,
+        resistencia2min: resistencia2min.present
+            ? resistencia2min.value
+            : this.resistencia2min,
+        resistencia3min: resistencia3min.present
+            ? resistencia3min.value
+            : this.resistencia3min,
+        resistencia4min: resistencia4min.present
+            ? resistencia4min.value
+            : this.resistencia4min,
+        resistencia5min: resistencia5min.present
+            ? resistencia5min.value
+            : this.resistencia5min,
+        resistencia6min: resistencia6min.present
+            ? resistencia6min.value
+            : this.resistencia6min,
+        resistencia7min: resistencia7min.present
+            ? resistencia7min.value
+            : this.resistencia7min,
+        resistencia8min: resistencia8min.present
+            ? resistencia8min.value
+            : this.resistencia8min,
+        resistencia9min: resistencia9min.present
+            ? resistencia9min.value
+            : this.resistencia9min,
+        resistencia10min: resistencia10min.present
+            ? resistencia10min.value
+            : this.resistencia10min,
+      );
+  MpDjResistenciaIsolamentoMedicoesTableData copyWithCompanion(
+      MpDjResistenciaIsolamentoMedicoesTableCompanion data) {
+    return MpDjResistenciaIsolamentoMedicoesTableData(
+      id: data.id.present ? data.id.value : this.id,
+      mpDjResistenciaIsolamentoId: data.mpDjResistenciaIsolamentoId.present
+          ? data.mpDjResistenciaIsolamentoId.value
+          : this.mpDjResistenciaIsolamentoId,
+      dataMedicao:
+          data.dataMedicao.present ? data.dataMedicao.value : this.dataMedicao,
+      linha: data.linha.present ? data.linha.value : this.linha,
+      terra: data.terra.present ? data.terra.value : this.terra,
+      guarda: data.guarda.present ? data.guarda.value : this.guarda,
+      fase: data.fase.present ? data.fase.value : this.fase,
+      estadoDisjuntor: data.estadoDisjuntor.present
+          ? data.estadoDisjuntor.value
+          : this.estadoDisjuntor,
+      resistencia30s: data.resistencia30s.present
+          ? data.resistencia30s.value
+          : this.resistencia30s,
+      resistencia1min: data.resistencia1min.present
+          ? data.resistencia1min.value
+          : this.resistencia1min,
+      resistencia2min: data.resistencia2min.present
+          ? data.resistencia2min.value
+          : this.resistencia2min,
+      resistencia3min: data.resistencia3min.present
+          ? data.resistencia3min.value
+          : this.resistencia3min,
+      resistencia4min: data.resistencia4min.present
+          ? data.resistencia4min.value
+          : this.resistencia4min,
+      resistencia5min: data.resistencia5min.present
+          ? data.resistencia5min.value
+          : this.resistencia5min,
+      resistencia6min: data.resistencia6min.present
+          ? data.resistencia6min.value
+          : this.resistencia6min,
+      resistencia7min: data.resistencia7min.present
+          ? data.resistencia7min.value
+          : this.resistencia7min,
+      resistencia8min: data.resistencia8min.present
+          ? data.resistencia8min.value
+          : this.resistencia8min,
+      resistencia9min: data.resistencia9min.present
+          ? data.resistencia9min.value
+          : this.resistencia9min,
+      resistencia10min: data.resistencia10min.present
+          ? data.resistencia10min.value
+          : this.resistencia10min,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MpDjResistenciaIsolamentoMedicoesTableData(')
+          ..write('id: $id, ')
+          ..write('mpDjResistenciaIsolamentoId: $mpDjResistenciaIsolamentoId, ')
+          ..write('dataMedicao: $dataMedicao, ')
           ..write('linha: $linha, ')
           ..write('terra: $terra, ')
           ..write('guarda: $guarda, ')
-          ..write('tensaoKv: $tensaoKv, ')
-          ..write('resistenciaFaseA: $resistenciaFaseA, ')
-          ..write('resistenciaFaseB: $resistenciaFaseB, ')
-          ..write('resistenciaFaseC: $resistenciaFaseC, ')
-          ..write('temperaturaDisjuntor: $temperaturaDisjuntor, ')
-          ..write('umidadeRelativaAr: $umidadeRelativaAr')
+          ..write('fase: $fase, ')
+          ..write('estadoDisjuntor: $estadoDisjuntor, ')
+          ..write('resistencia30s: $resistencia30s, ')
+          ..write('resistencia1min: $resistencia1min, ')
+          ..write('resistencia2min: $resistencia2min, ')
+          ..write('resistencia3min: $resistencia3min, ')
+          ..write('resistencia4min: $resistencia4min, ')
+          ..write('resistencia5min: $resistencia5min, ')
+          ..write('resistencia6min: $resistencia6min, ')
+          ..write('resistencia7min: $resistencia7min, ')
+          ..write('resistencia8min: $resistencia8min, ')
+          ..write('resistencia9min: $resistencia9min, ')
+          ..write('resistencia10min: $resistencia10min')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      mpDjResistenciaIsolamentoId,
+      dataMedicao,
+      linha,
+      terra,
+      guarda,
+      fase,
+      estadoDisjuntor,
+      resistencia30s,
+      resistencia1min,
+      resistencia2min,
+      resistencia3min,
+      resistencia4min,
+      resistencia5min,
+      resistencia6min,
+      resistencia7min,
+      resistencia8min,
+      resistencia9min,
+      resistencia10min);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is MpDjResistenciaIsolamentoMedicoesTableData &&
+          other.id == this.id &&
+          other.mpDjResistenciaIsolamentoId ==
+              this.mpDjResistenciaIsolamentoId &&
+          other.dataMedicao == this.dataMedicao &&
+          other.linha == this.linha &&
+          other.terra == this.terra &&
+          other.guarda == this.guarda &&
+          other.fase == this.fase &&
+          other.estadoDisjuntor == this.estadoDisjuntor &&
+          other.resistencia30s == this.resistencia30s &&
+          other.resistencia1min == this.resistencia1min &&
+          other.resistencia2min == this.resistencia2min &&
+          other.resistencia3min == this.resistencia3min &&
+          other.resistencia4min == this.resistencia4min &&
+          other.resistencia5min == this.resistencia5min &&
+          other.resistencia6min == this.resistencia6min &&
+          other.resistencia7min == this.resistencia7min &&
+          other.resistencia8min == this.resistencia8min &&
+          other.resistencia9min == this.resistencia9min &&
+          other.resistencia10min == this.resistencia10min);
+}
+
+class MpDjResistenciaIsolamentoMedicoesTableCompanion
+    extends UpdateCompanion<MpDjResistenciaIsolamentoMedicoesTableData> {
+  final Value<int> id;
+  final Value<int> mpDjResistenciaIsolamentoId;
+  final Value<DateTime> dataMedicao;
+  final Value<PosicaoDisjuntorEnsaio> linha;
+  final Value<PosicaoDisjuntorEnsaio> terra;
+  final Value<PosicaoDisjuntorEnsaio> guarda;
+  final Value<FaseIsolamento> fase;
+  final Value<EstadoDisjuntor> estadoDisjuntor;
+  final Value<double?> resistencia30s;
+  final Value<double?> resistencia1min;
+  final Value<double?> resistencia2min;
+  final Value<double?> resistencia3min;
+  final Value<double?> resistencia4min;
+  final Value<double?> resistencia5min;
+  final Value<double?> resistencia6min;
+  final Value<double?> resistencia7min;
+  final Value<double?> resistencia8min;
+  final Value<double?> resistencia9min;
+  final Value<double?> resistencia10min;
+  const MpDjResistenciaIsolamentoMedicoesTableCompanion({
+    this.id = const Value.absent(),
+    this.mpDjResistenciaIsolamentoId = const Value.absent(),
+    this.dataMedicao = const Value.absent(),
+    this.linha = const Value.absent(),
+    this.terra = const Value.absent(),
+    this.guarda = const Value.absent(),
+    this.fase = const Value.absent(),
+    this.estadoDisjuntor = const Value.absent(),
+    this.resistencia30s = const Value.absent(),
+    this.resistencia1min = const Value.absent(),
+    this.resistencia2min = const Value.absent(),
+    this.resistencia3min = const Value.absent(),
+    this.resistencia4min = const Value.absent(),
+    this.resistencia5min = const Value.absent(),
+    this.resistencia6min = const Value.absent(),
+    this.resistencia7min = const Value.absent(),
+    this.resistencia8min = const Value.absent(),
+    this.resistencia9min = const Value.absent(),
+    this.resistencia10min = const Value.absent(),
+  });
+  MpDjResistenciaIsolamentoMedicoesTableCompanion.insert({
+    this.id = const Value.absent(),
+    required int mpDjResistenciaIsolamentoId,
+    this.dataMedicao = const Value.absent(),
+    required PosicaoDisjuntorEnsaio linha,
+    required PosicaoDisjuntorEnsaio terra,
+    required PosicaoDisjuntorEnsaio guarda,
+    required FaseIsolamento fase,
+    required EstadoDisjuntor estadoDisjuntor,
+    this.resistencia30s = const Value.absent(),
+    this.resistencia1min = const Value.absent(),
+    this.resistencia2min = const Value.absent(),
+    this.resistencia3min = const Value.absent(),
+    this.resistencia4min = const Value.absent(),
+    this.resistencia5min = const Value.absent(),
+    this.resistencia6min = const Value.absent(),
+    this.resistencia7min = const Value.absent(),
+    this.resistencia8min = const Value.absent(),
+    this.resistencia9min = const Value.absent(),
+    this.resistencia10min = const Value.absent(),
+  })  : mpDjResistenciaIsolamentoId = Value(mpDjResistenciaIsolamentoId),
+        linha = Value(linha),
+        terra = Value(terra),
+        guarda = Value(guarda),
+        fase = Value(fase),
+        estadoDisjuntor = Value(estadoDisjuntor);
+  static Insertable<MpDjResistenciaIsolamentoMedicoesTableData> custom({
+    Expression<int>? id,
+    Expression<int>? mpDjResistenciaIsolamentoId,
+    Expression<DateTime>? dataMedicao,
+    Expression<String>? linha,
+    Expression<String>? terra,
+    Expression<String>? guarda,
+    Expression<String>? fase,
+    Expression<String>? estadoDisjuntor,
+    Expression<double>? resistencia30s,
+    Expression<double>? resistencia1min,
+    Expression<double>? resistencia2min,
+    Expression<double>? resistencia3min,
+    Expression<double>? resistencia4min,
+    Expression<double>? resistencia5min,
+    Expression<double>? resistencia6min,
+    Expression<double>? resistencia7min,
+    Expression<double>? resistencia8min,
+    Expression<double>? resistencia9min,
+    Expression<double>? resistencia10min,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (mpDjResistenciaIsolamentoId != null)
+        'mp_dj_resistencia_isolamento_id': mpDjResistenciaIsolamentoId,
+      if (dataMedicao != null) 'data_medicao': dataMedicao,
+      if (linha != null) 'linha': linha,
+      if (terra != null) 'terra': terra,
+      if (guarda != null) 'guarda': guarda,
+      if (fase != null) 'fase': fase,
+      if (estadoDisjuntor != null) 'estado_disjuntor': estadoDisjuntor,
+      if (resistencia30s != null) 'resistencia30s': resistencia30s,
+      if (resistencia1min != null) 'resistencia1min': resistencia1min,
+      if (resistencia2min != null) 'resistencia2min': resistencia2min,
+      if (resistencia3min != null) 'resistencia3min': resistencia3min,
+      if (resistencia4min != null) 'resistencia4min': resistencia4min,
+      if (resistencia5min != null) 'resistencia5min': resistencia5min,
+      if (resistencia6min != null) 'resistencia6min': resistencia6min,
+      if (resistencia7min != null) 'resistencia7min': resistencia7min,
+      if (resistencia8min != null) 'resistencia8min': resistencia8min,
+      if (resistencia9min != null) 'resistencia9min': resistencia9min,
+      if (resistencia10min != null) 'resistencia10min': resistencia10min,
+    });
+  }
+
+  MpDjResistenciaIsolamentoMedicoesTableCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? mpDjResistenciaIsolamentoId,
+      Value<DateTime>? dataMedicao,
+      Value<PosicaoDisjuntorEnsaio>? linha,
+      Value<PosicaoDisjuntorEnsaio>? terra,
+      Value<PosicaoDisjuntorEnsaio>? guarda,
+      Value<FaseIsolamento>? fase,
+      Value<EstadoDisjuntor>? estadoDisjuntor,
+      Value<double?>? resistencia30s,
+      Value<double?>? resistencia1min,
+      Value<double?>? resistencia2min,
+      Value<double?>? resistencia3min,
+      Value<double?>? resistencia4min,
+      Value<double?>? resistencia5min,
+      Value<double?>? resistencia6min,
+      Value<double?>? resistencia7min,
+      Value<double?>? resistencia8min,
+      Value<double?>? resistencia9min,
+      Value<double?>? resistencia10min}) {
+    return MpDjResistenciaIsolamentoMedicoesTableCompanion(
+      id: id ?? this.id,
+      mpDjResistenciaIsolamentoId:
+          mpDjResistenciaIsolamentoId ?? this.mpDjResistenciaIsolamentoId,
+      dataMedicao: dataMedicao ?? this.dataMedicao,
+      linha: linha ?? this.linha,
+      terra: terra ?? this.terra,
+      guarda: guarda ?? this.guarda,
+      fase: fase ?? this.fase,
+      estadoDisjuntor: estadoDisjuntor ?? this.estadoDisjuntor,
+      resistencia30s: resistencia30s ?? this.resistencia30s,
+      resistencia1min: resistencia1min ?? this.resistencia1min,
+      resistencia2min: resistencia2min ?? this.resistencia2min,
+      resistencia3min: resistencia3min ?? this.resistencia3min,
+      resistencia4min: resistencia4min ?? this.resistencia4min,
+      resistencia5min: resistencia5min ?? this.resistencia5min,
+      resistencia6min: resistencia6min ?? this.resistencia6min,
+      resistencia7min: resistencia7min ?? this.resistencia7min,
+      resistencia8min: resistencia8min ?? this.resistencia8min,
+      resistencia9min: resistencia9min ?? this.resistencia9min,
+      resistencia10min: resistencia10min ?? this.resistencia10min,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (mpDjResistenciaIsolamentoId.present) {
+      map['mp_dj_resistencia_isolamento_id'] =
+          Variable<int>(mpDjResistenciaIsolamentoId.value);
+    }
+    if (dataMedicao.present) {
+      map['data_medicao'] = Variable<DateTime>(dataMedicao.value);
+    }
+    if (linha.present) {
+      map['linha'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterlinha
+              .toSql(linha.value));
+    }
+    if (terra.present) {
+      map['terra'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterterra
+              .toSql(terra.value));
+    }
+    if (guarda.present) {
+      map['guarda'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterguarda
+              .toSql(guarda.value));
+    }
+    if (fase.present) {
+      map['fase'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterfase
+              .toSql(fase.value));
+    }
+    if (estadoDisjuntor.present) {
+      map['estado_disjuntor'] = Variable<String>(
+          $MpDjResistenciaIsolamentoMedicoesTableTable.$converterestadoDisjuntor
+              .toSql(estadoDisjuntor.value));
+    }
+    if (resistencia30s.present) {
+      map['resistencia30s'] = Variable<double>(resistencia30s.value);
+    }
+    if (resistencia1min.present) {
+      map['resistencia1min'] = Variable<double>(resistencia1min.value);
+    }
+    if (resistencia2min.present) {
+      map['resistencia2min'] = Variable<double>(resistencia2min.value);
+    }
+    if (resistencia3min.present) {
+      map['resistencia3min'] = Variable<double>(resistencia3min.value);
+    }
+    if (resistencia4min.present) {
+      map['resistencia4min'] = Variable<double>(resistencia4min.value);
+    }
+    if (resistencia5min.present) {
+      map['resistencia5min'] = Variable<double>(resistencia5min.value);
+    }
+    if (resistencia6min.present) {
+      map['resistencia6min'] = Variable<double>(resistencia6min.value);
+    }
+    if (resistencia7min.present) {
+      map['resistencia7min'] = Variable<double>(resistencia7min.value);
+    }
+    if (resistencia8min.present) {
+      map['resistencia8min'] = Variable<double>(resistencia8min.value);
+    }
+    if (resistencia9min.present) {
+      map['resistencia9min'] = Variable<double>(resistencia9min.value);
+    }
+    if (resistencia10min.present) {
+      map['resistencia10min'] = Variable<double>(resistencia10min.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('MpDjResistenciaIsolamentoMedicoesTableCompanion(')
+          ..write('id: $id, ')
+          ..write('mpDjResistenciaIsolamentoId: $mpDjResistenciaIsolamentoId, ')
+          ..write('dataMedicao: $dataMedicao, ')
+          ..write('linha: $linha, ')
+          ..write('terra: $terra, ')
+          ..write('guarda: $guarda, ')
+          ..write('fase: $fase, ')
+          ..write('estadoDisjuntor: $estadoDisjuntor, ')
+          ..write('resistencia30s: $resistencia30s, ')
+          ..write('resistencia1min: $resistencia1min, ')
+          ..write('resistencia2min: $resistencia2min, ')
+          ..write('resistencia3min: $resistencia3min, ')
+          ..write('resistencia4min: $resistencia4min, ')
+          ..write('resistencia5min: $resistencia5min, ')
+          ..write('resistencia6min: $resistencia6min, ')
+          ..write('resistencia7min: $resistencia7min, ')
+          ..write('resistencia8min: $resistencia8min, ')
+          ..write('resistencia9min: $resistencia9min, ')
+          ..write('resistencia10min: $resistencia10min')
           ..write(')'))
         .toString();
   }
@@ -13413,6 +14099,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MpDjResistenciaIsolamentoTableTable
       mpDjResistenciaIsolamentoTable =
       $MpDjResistenciaIsolamentoTableTable(this);
+  late final $MpDjResistenciaIsolamentoMedicoesTableTable
+      mpDjResistenciaIsolamentoMedicoesTable =
+      $MpDjResistenciaIsolamentoMedicoesTableTable(this);
   late final $TecnicoTableTable tecnicoTable = $TecnicoTableTable(this);
   late final $AprTableTable aprTable = $AprTableTable(this);
   late final $AprQuestionTableTable aprQuestionTable =
@@ -13466,6 +14155,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         mpDjTempoOperacaoTable,
         mpDjResistenciaContatoTable,
         mpDjResistenciaIsolamentoTable,
+        mpDjResistenciaIsolamentoMedicoesTable,
         tecnicoTable,
         aprTable,
         aprQuestionTable,
@@ -23397,14 +24087,7 @@ typedef $$MpDjResistenciaIsolamentoTableTableCreateCompanionBuilder
     = MpDjResistenciaIsolamentoTableCompanion Function({
   Value<int> id,
   required int mpDjFormId,
-  required int numeroCamara,
-  required PosicaoDisjuntorEnsaio linha,
-  required PosicaoDisjuntorEnsaio terra,
-  required PosicaoDisjuntorEnsaio guarda,
   required double tensaoKv,
-  Value<double?> resistenciaFaseA,
-  Value<double?> resistenciaFaseB,
-  Value<double?> resistenciaFaseC,
   Value<double?> temperaturaDisjuntor,
   Value<double?> umidadeRelativaAr,
 });
@@ -23412,14 +24095,7 @@ typedef $$MpDjResistenciaIsolamentoTableTableUpdateCompanionBuilder
     = MpDjResistenciaIsolamentoTableCompanion Function({
   Value<int> id,
   Value<int> mpDjFormId,
-  Value<int> numeroCamara,
-  Value<PosicaoDisjuntorEnsaio> linha,
-  Value<PosicaoDisjuntorEnsaio> terra,
-  Value<PosicaoDisjuntorEnsaio> guarda,
   Value<double> tensaoKv,
-  Value<double?> resistenciaFaseA,
-  Value<double?> resistenciaFaseB,
-  Value<double?> resistenciaFaseC,
   Value<double?> temperaturaDisjuntor,
   Value<double?> umidadeRelativaAr,
 });
@@ -23442,6 +24118,28 @@ final class $$MpDjResistenciaIsolamentoTableTableReferences
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
   }
+
+  static MultiTypedResultKey<$MpDjResistenciaIsolamentoMedicoesTableTable,
+          List<MpDjResistenciaIsolamentoMedicoesTableData>>
+      _mpDjResistenciaIsolamentoMedicoesTableRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(
+              db.mpDjResistenciaIsolamentoMedicoesTable,
+              aliasName: $_aliasNameGenerator(
+                  db.mpDjResistenciaIsolamentoTable.id,
+                  db.mpDjResistenciaIsolamentoMedicoesTable
+                      .mpDjResistenciaIsolamentoId));
+
+  $$MpDjResistenciaIsolamentoMedicoesTableTableProcessedTableManager
+      get mpDjResistenciaIsolamentoMedicoesTableRefs {
+    final manager = $$MpDjResistenciaIsolamentoMedicoesTableTableTableManager(
+            $_db, $_db.mpDjResistenciaIsolamentoMedicoesTable)
+        .filter((f) => f.mpDjResistenciaIsolamentoId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(
+        _mpDjResistenciaIsolamentoMedicoesTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
 }
 
 class $$MpDjResistenciaIsolamentoTableTableFilterComposer
@@ -23456,41 +24154,8 @@ class $$MpDjResistenciaIsolamentoTableTableFilterComposer
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get numeroCamara => $composableBuilder(
-      column: $table.numeroCamara, builder: (column) => ColumnFilters(column));
-
-  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
-          String>
-      get linha => $composableBuilder(
-          column: $table.linha,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
-
-  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
-          String>
-      get terra => $composableBuilder(
-          column: $table.terra,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
-
-  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
-          String>
-      get guarda => $composableBuilder(
-          column: $table.guarda,
-          builder: (column) => ColumnWithTypeConverterFilters(column));
-
   ColumnFilters<double> get tensaoKv => $composableBuilder(
       column: $table.tensaoKv, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<double> get resistenciaFaseA => $composableBuilder(
-      column: $table.resistenciaFaseA,
-      builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<double> get resistenciaFaseB => $composableBuilder(
-      column: $table.resistenciaFaseB,
-      builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<double> get resistenciaFaseC => $composableBuilder(
-      column: $table.resistenciaFaseC,
-      builder: (column) => ColumnFilters(column));
 
   ColumnFilters<double> get temperaturaDisjuntor => $composableBuilder(
       column: $table.temperaturaDisjuntor,
@@ -23519,6 +24184,30 @@ class $$MpDjResistenciaIsolamentoTableTableFilterComposer
             ));
     return composer;
   }
+
+  Expression<bool> mpDjResistenciaIsolamentoMedicoesTableRefs(
+      Expression<bool> Function(
+              $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer f)
+          f) {
+    final $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.mpDjResistenciaIsolamentoMedicoesTable,
+            getReferencedColumn: (t) => t.mpDjResistenciaIsolamentoId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.mpDjResistenciaIsolamentoMedicoesTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$MpDjResistenciaIsolamentoTableTableOrderingComposer
@@ -23533,33 +24222,8 @@ class $$MpDjResistenciaIsolamentoTableTableOrderingComposer
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get numeroCamara => $composableBuilder(
-      column: $table.numeroCamara,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get linha => $composableBuilder(
-      column: $table.linha, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get terra => $composableBuilder(
-      column: $table.terra, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get guarda => $composableBuilder(
-      column: $table.guarda, builder: (column) => ColumnOrderings(column));
-
   ColumnOrderings<double> get tensaoKv => $composableBuilder(
       column: $table.tensaoKv, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<double> get resistenciaFaseA => $composableBuilder(
-      column: $table.resistenciaFaseA,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<double> get resistenciaFaseB => $composableBuilder(
-      column: $table.resistenciaFaseB,
-      builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<double> get resistenciaFaseC => $composableBuilder(
-      column: $table.resistenciaFaseC,
-      builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<double> get temperaturaDisjuntor => $composableBuilder(
       column: $table.temperaturaDisjuntor,
@@ -23602,29 +24266,8 @@ class $$MpDjResistenciaIsolamentoTableTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<int> get numeroCamara => $composableBuilder(
-      column: $table.numeroCamara, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get linha =>
-      $composableBuilder(column: $table.linha, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get terra =>
-      $composableBuilder(column: $table.terra, builder: (column) => column);
-
-  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get guarda =>
-      $composableBuilder(column: $table.guarda, builder: (column) => column);
-
   GeneratedColumn<double> get tensaoKv =>
       $composableBuilder(column: $table.tensaoKv, builder: (column) => column);
-
-  GeneratedColumn<double> get resistenciaFaseA => $composableBuilder(
-      column: $table.resistenciaFaseA, builder: (column) => column);
-
-  GeneratedColumn<double> get resistenciaFaseB => $composableBuilder(
-      column: $table.resistenciaFaseB, builder: (column) => column);
-
-  GeneratedColumn<double> get resistenciaFaseC => $composableBuilder(
-      column: $table.resistenciaFaseC, builder: (column) => column);
 
   GeneratedColumn<double> get temperaturaDisjuntor => $composableBuilder(
       column: $table.temperaturaDisjuntor, builder: (column) => column);
@@ -23651,6 +24294,30 @@ class $$MpDjResistenciaIsolamentoTableTableAnnotationComposer
             ));
     return composer;
   }
+
+  Expression<T> mpDjResistenciaIsolamentoMedicoesTableRefs<T extends Object>(
+      Expression<T> Function(
+              $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer a)
+          f) {
+    final $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer
+        composer = $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.mpDjResistenciaIsolamentoMedicoesTable,
+            getReferencedColumn: (t) => t.mpDjResistenciaIsolamentoId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.mpDjResistenciaIsolamentoMedicoesTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$MpDjResistenciaIsolamentoTableTableTableManager
@@ -23668,7 +24335,9 @@ class $$MpDjResistenciaIsolamentoTableTableTableManager
           $$MpDjResistenciaIsolamentoTableTableReferences
         ),
         MpDjResistenciaIsolamentoTableData,
-        PrefetchHooks Function({bool mpDjFormId})> {
+        PrefetchHooks Function(
+            {bool mpDjFormId,
+            bool mpDjResistenciaIsolamentoMedicoesTableRefs})> {
   $$MpDjResistenciaIsolamentoTableTableTableManager(
       _$AppDatabase db, $MpDjResistenciaIsolamentoTableTable table)
       : super(TableManagerState(
@@ -23686,56 +24355,28 @@ class $$MpDjResistenciaIsolamentoTableTableTableManager
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> mpDjFormId = const Value.absent(),
-            Value<int> numeroCamara = const Value.absent(),
-            Value<PosicaoDisjuntorEnsaio> linha = const Value.absent(),
-            Value<PosicaoDisjuntorEnsaio> terra = const Value.absent(),
-            Value<PosicaoDisjuntorEnsaio> guarda = const Value.absent(),
             Value<double> tensaoKv = const Value.absent(),
-            Value<double?> resistenciaFaseA = const Value.absent(),
-            Value<double?> resistenciaFaseB = const Value.absent(),
-            Value<double?> resistenciaFaseC = const Value.absent(),
             Value<double?> temperaturaDisjuntor = const Value.absent(),
             Value<double?> umidadeRelativaAr = const Value.absent(),
           }) =>
               MpDjResistenciaIsolamentoTableCompanion(
             id: id,
             mpDjFormId: mpDjFormId,
-            numeroCamara: numeroCamara,
-            linha: linha,
-            terra: terra,
-            guarda: guarda,
             tensaoKv: tensaoKv,
-            resistenciaFaseA: resistenciaFaseA,
-            resistenciaFaseB: resistenciaFaseB,
-            resistenciaFaseC: resistenciaFaseC,
             temperaturaDisjuntor: temperaturaDisjuntor,
             umidadeRelativaAr: umidadeRelativaAr,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int mpDjFormId,
-            required int numeroCamara,
-            required PosicaoDisjuntorEnsaio linha,
-            required PosicaoDisjuntorEnsaio terra,
-            required PosicaoDisjuntorEnsaio guarda,
             required double tensaoKv,
-            Value<double?> resistenciaFaseA = const Value.absent(),
-            Value<double?> resistenciaFaseB = const Value.absent(),
-            Value<double?> resistenciaFaseC = const Value.absent(),
             Value<double?> temperaturaDisjuntor = const Value.absent(),
             Value<double?> umidadeRelativaAr = const Value.absent(),
           }) =>
               MpDjResistenciaIsolamentoTableCompanion.insert(
             id: id,
             mpDjFormId: mpDjFormId,
-            numeroCamara: numeroCamara,
-            linha: linha,
-            terra: terra,
-            guarda: guarda,
             tensaoKv: tensaoKv,
-            resistenciaFaseA: resistenciaFaseA,
-            resistenciaFaseB: resistenciaFaseB,
-            resistenciaFaseC: resistenciaFaseC,
             temperaturaDisjuntor: temperaturaDisjuntor,
             umidadeRelativaAr: umidadeRelativaAr,
           ),
@@ -23746,10 +24387,15 @@ class $$MpDjResistenciaIsolamentoTableTableTableManager
                         db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: ({mpDjFormId = false}) {
+          prefetchHooksCallback: (
+              {mpDjFormId = false,
+              mpDjResistenciaIsolamentoMedicoesTableRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [],
+              explicitlyWatchedTables: [
+                if (mpDjResistenciaIsolamentoMedicoesTableRefs)
+                  db.mpDjResistenciaIsolamentoMedicoesTable
+              ],
               addJoins: <
                   T extends TableManagerState<
                       dynamic,
@@ -23780,7 +24426,24 @@ class $$MpDjResistenciaIsolamentoTableTableTableManager
                 return state;
               },
               getPrefetchedDataCallback: (items) async {
-                return [];
+                return [
+                  if (mpDjResistenciaIsolamentoMedicoesTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $$MpDjResistenciaIsolamentoTableTableReferences
+                                ._mpDjResistenciaIsolamentoMedicoesTableRefsTable(
+                                    db),
+                        managerFromTypedResult: (p0) =>
+                            $$MpDjResistenciaIsolamentoTableTableReferences(
+                                    db, table, p0)
+                                .mpDjResistenciaIsolamentoMedicoesTableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems.where(
+                                (e) =>
+                                    e.mpDjResistenciaIsolamentoId == item.id),
+                        typedResults: items)
+                ];
               },
             );
           },
@@ -23802,7 +24465,557 @@ typedef $$MpDjResistenciaIsolamentoTableTableProcessedTableManager
           $$MpDjResistenciaIsolamentoTableTableReferences
         ),
         MpDjResistenciaIsolamentoTableData,
-        PrefetchHooks Function({bool mpDjFormId})>;
+        PrefetchHooks Function(
+            {bool mpDjFormId,
+            bool mpDjResistenciaIsolamentoMedicoesTableRefs})>;
+typedef $$MpDjResistenciaIsolamentoMedicoesTableTableCreateCompanionBuilder
+    = MpDjResistenciaIsolamentoMedicoesTableCompanion Function({
+  Value<int> id,
+  required int mpDjResistenciaIsolamentoId,
+  Value<DateTime> dataMedicao,
+  required PosicaoDisjuntorEnsaio linha,
+  required PosicaoDisjuntorEnsaio terra,
+  required PosicaoDisjuntorEnsaio guarda,
+  required FaseIsolamento fase,
+  required EstadoDisjuntor estadoDisjuntor,
+  Value<double?> resistencia30s,
+  Value<double?> resistencia1min,
+  Value<double?> resistencia2min,
+  Value<double?> resistencia3min,
+  Value<double?> resistencia4min,
+  Value<double?> resistencia5min,
+  Value<double?> resistencia6min,
+  Value<double?> resistencia7min,
+  Value<double?> resistencia8min,
+  Value<double?> resistencia9min,
+  Value<double?> resistencia10min,
+});
+typedef $$MpDjResistenciaIsolamentoMedicoesTableTableUpdateCompanionBuilder
+    = MpDjResistenciaIsolamentoMedicoesTableCompanion Function({
+  Value<int> id,
+  Value<int> mpDjResistenciaIsolamentoId,
+  Value<DateTime> dataMedicao,
+  Value<PosicaoDisjuntorEnsaio> linha,
+  Value<PosicaoDisjuntorEnsaio> terra,
+  Value<PosicaoDisjuntorEnsaio> guarda,
+  Value<FaseIsolamento> fase,
+  Value<EstadoDisjuntor> estadoDisjuntor,
+  Value<double?> resistencia30s,
+  Value<double?> resistencia1min,
+  Value<double?> resistencia2min,
+  Value<double?> resistencia3min,
+  Value<double?> resistencia4min,
+  Value<double?> resistencia5min,
+  Value<double?> resistencia6min,
+  Value<double?> resistencia7min,
+  Value<double?> resistencia8min,
+  Value<double?> resistencia9min,
+  Value<double?> resistencia10min,
+});
+
+final class $$MpDjResistenciaIsolamentoMedicoesTableTableReferences
+    extends BaseReferences<
+        _$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable,
+        MpDjResistenciaIsolamentoMedicoesTableData> {
+  $$MpDjResistenciaIsolamentoMedicoesTableTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $MpDjResistenciaIsolamentoTableTable _mpDjResistenciaIsolamentoIdTable(
+          _$AppDatabase db) =>
+      db.mpDjResistenciaIsolamentoTable.createAlias($_aliasNameGenerator(
+          db.mpDjResistenciaIsolamentoMedicoesTable.mpDjResistenciaIsolamentoId,
+          db.mpDjResistenciaIsolamentoTable.id));
+
+  $$MpDjResistenciaIsolamentoTableTableProcessedTableManager
+      get mpDjResistenciaIsolamentoId {
+    final manager = $$MpDjResistenciaIsolamentoTableTableTableManager(
+            $_db, $_db.mpDjResistenciaIsolamentoTable)
+        .filter((f) => f.id($_item.mpDjResistenciaIsolamentoId));
+    final item =
+        $_typedResult.readTableOrNull(_mpDjResistenciaIsolamentoIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer
+    extends Composer<_$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable> {
+  $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get dataMedicao => $composableBuilder(
+      column: $table.dataMedicao, builder: (column) => ColumnFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get linha => $composableBuilder(
+          column: $table.linha,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get terra => $composableBuilder(
+          column: $table.terra,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<PosicaoDisjuntorEnsaio, PosicaoDisjuntorEnsaio,
+          String>
+      get guarda => $composableBuilder(
+          column: $table.guarda,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<FaseIsolamento, FaseIsolamento, String>
+      get fase => $composableBuilder(
+          column: $table.fase,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnWithTypeConverterFilters<EstadoDisjuntor, EstadoDisjuntor, String>
+      get estadoDisjuntor => $composableBuilder(
+          column: $table.estadoDisjuntor,
+          builder: (column) => ColumnWithTypeConverterFilters(column));
+
+  ColumnFilters<double> get resistencia30s => $composableBuilder(
+      column: $table.resistencia30s,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia1min => $composableBuilder(
+      column: $table.resistencia1min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia2min => $composableBuilder(
+      column: $table.resistencia2min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia3min => $composableBuilder(
+      column: $table.resistencia3min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia4min => $composableBuilder(
+      column: $table.resistencia4min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia5min => $composableBuilder(
+      column: $table.resistencia5min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia6min => $composableBuilder(
+      column: $table.resistencia6min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia7min => $composableBuilder(
+      column: $table.resistencia7min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia8min => $composableBuilder(
+      column: $table.resistencia8min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia9min => $composableBuilder(
+      column: $table.resistencia9min,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<double> get resistencia10min => $composableBuilder(
+      column: $table.resistencia10min,
+      builder: (column) => ColumnFilters(column));
+
+  $$MpDjResistenciaIsolamentoTableTableFilterComposer
+      get mpDjResistenciaIsolamentoId {
+    final $$MpDjResistenciaIsolamentoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.mpDjResistenciaIsolamentoId,
+            referencedTable: $db.mpDjResistenciaIsolamentoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjResistenciaIsolamentoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.mpDjResistenciaIsolamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MpDjResistenciaIsolamentoMedicoesTableTableOrderingComposer
+    extends Composer<_$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable> {
+  $$MpDjResistenciaIsolamentoMedicoesTableTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get dataMedicao => $composableBuilder(
+      column: $table.dataMedicao, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get linha => $composableBuilder(
+      column: $table.linha, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get terra => $composableBuilder(
+      column: $table.terra, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get guarda => $composableBuilder(
+      column: $table.guarda, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get fase => $composableBuilder(
+      column: $table.fase, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get estadoDisjuntor => $composableBuilder(
+      column: $table.estadoDisjuntor,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia30s => $composableBuilder(
+      column: $table.resistencia30s,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia1min => $composableBuilder(
+      column: $table.resistencia1min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia2min => $composableBuilder(
+      column: $table.resistencia2min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia3min => $composableBuilder(
+      column: $table.resistencia3min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia4min => $composableBuilder(
+      column: $table.resistencia4min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia5min => $composableBuilder(
+      column: $table.resistencia5min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia6min => $composableBuilder(
+      column: $table.resistencia6min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia7min => $composableBuilder(
+      column: $table.resistencia7min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia8min => $composableBuilder(
+      column: $table.resistencia8min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia9min => $composableBuilder(
+      column: $table.resistencia9min,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<double> get resistencia10min => $composableBuilder(
+      column: $table.resistencia10min,
+      builder: (column) => ColumnOrderings(column));
+
+  $$MpDjResistenciaIsolamentoTableTableOrderingComposer
+      get mpDjResistenciaIsolamentoId {
+    final $$MpDjResistenciaIsolamentoTableTableOrderingComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.mpDjResistenciaIsolamentoId,
+            referencedTable: $db.mpDjResistenciaIsolamentoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjResistenciaIsolamentoTableTableOrderingComposer(
+                  $db: $db,
+                  $table: $db.mpDjResistenciaIsolamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer
+    extends Composer<_$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable> {
+  $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get dataMedicao => $composableBuilder(
+      column: $table.dataMedicao, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get linha =>
+      $composableBuilder(column: $table.linha, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get terra =>
+      $composableBuilder(column: $table.terra, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<PosicaoDisjuntorEnsaio, String> get guarda =>
+      $composableBuilder(column: $table.guarda, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<FaseIsolamento, String> get fase =>
+      $composableBuilder(column: $table.fase, builder: (column) => column);
+
+  GeneratedColumnWithTypeConverter<EstadoDisjuntor, String>
+      get estadoDisjuntor => $composableBuilder(
+          column: $table.estadoDisjuntor, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia30s => $composableBuilder(
+      column: $table.resistencia30s, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia1min => $composableBuilder(
+      column: $table.resistencia1min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia2min => $composableBuilder(
+      column: $table.resistencia2min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia3min => $composableBuilder(
+      column: $table.resistencia3min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia4min => $composableBuilder(
+      column: $table.resistencia4min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia5min => $composableBuilder(
+      column: $table.resistencia5min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia6min => $composableBuilder(
+      column: $table.resistencia6min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia7min => $composableBuilder(
+      column: $table.resistencia7min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia8min => $composableBuilder(
+      column: $table.resistencia8min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia9min => $composableBuilder(
+      column: $table.resistencia9min, builder: (column) => column);
+
+  GeneratedColumn<double> get resistencia10min => $composableBuilder(
+      column: $table.resistencia10min, builder: (column) => column);
+
+  $$MpDjResistenciaIsolamentoTableTableAnnotationComposer
+      get mpDjResistenciaIsolamentoId {
+    final $$MpDjResistenciaIsolamentoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.mpDjResistenciaIsolamentoId,
+            referencedTable: $db.mpDjResistenciaIsolamentoTable,
+            getReferencedColumn: (t) => t.id,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjResistenciaIsolamentoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.mpDjResistenciaIsolamentoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return composer;
+  }
+}
+
+class $$MpDjResistenciaIsolamentoMedicoesTableTableTableManager
+    extends RootTableManager<
+        _$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable,
+        MpDjResistenciaIsolamentoMedicoesTableData,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableOrderingComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableCreateCompanionBuilder,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableUpdateCompanionBuilder,
+        (
+          MpDjResistenciaIsolamentoMedicoesTableData,
+          $$MpDjResistenciaIsolamentoMedicoesTableTableReferences
+        ),
+        MpDjResistenciaIsolamentoMedicoesTableData,
+        PrefetchHooks Function({bool mpDjResistenciaIsolamentoId})> {
+  $$MpDjResistenciaIsolamentoMedicoesTableTableTableManager(
+      _$AppDatabase db, $MpDjResistenciaIsolamentoMedicoesTableTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$MpDjResistenciaIsolamentoMedicoesTableTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> mpDjResistenciaIsolamentoId = const Value.absent(),
+            Value<DateTime> dataMedicao = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> linha = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> terra = const Value.absent(),
+            Value<PosicaoDisjuntorEnsaio> guarda = const Value.absent(),
+            Value<FaseIsolamento> fase = const Value.absent(),
+            Value<EstadoDisjuntor> estadoDisjuntor = const Value.absent(),
+            Value<double?> resistencia30s = const Value.absent(),
+            Value<double?> resistencia1min = const Value.absent(),
+            Value<double?> resistencia2min = const Value.absent(),
+            Value<double?> resistencia3min = const Value.absent(),
+            Value<double?> resistencia4min = const Value.absent(),
+            Value<double?> resistencia5min = const Value.absent(),
+            Value<double?> resistencia6min = const Value.absent(),
+            Value<double?> resistencia7min = const Value.absent(),
+            Value<double?> resistencia8min = const Value.absent(),
+            Value<double?> resistencia9min = const Value.absent(),
+            Value<double?> resistencia10min = const Value.absent(),
+          }) =>
+              MpDjResistenciaIsolamentoMedicoesTableCompanion(
+            id: id,
+            mpDjResistenciaIsolamentoId: mpDjResistenciaIsolamentoId,
+            dataMedicao: dataMedicao,
+            linha: linha,
+            terra: terra,
+            guarda: guarda,
+            fase: fase,
+            estadoDisjuntor: estadoDisjuntor,
+            resistencia30s: resistencia30s,
+            resistencia1min: resistencia1min,
+            resistencia2min: resistencia2min,
+            resistencia3min: resistencia3min,
+            resistencia4min: resistencia4min,
+            resistencia5min: resistencia5min,
+            resistencia6min: resistencia6min,
+            resistencia7min: resistencia7min,
+            resistencia8min: resistencia8min,
+            resistencia9min: resistencia9min,
+            resistencia10min: resistencia10min,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int mpDjResistenciaIsolamentoId,
+            Value<DateTime> dataMedicao = const Value.absent(),
+            required PosicaoDisjuntorEnsaio linha,
+            required PosicaoDisjuntorEnsaio terra,
+            required PosicaoDisjuntorEnsaio guarda,
+            required FaseIsolamento fase,
+            required EstadoDisjuntor estadoDisjuntor,
+            Value<double?> resistencia30s = const Value.absent(),
+            Value<double?> resistencia1min = const Value.absent(),
+            Value<double?> resistencia2min = const Value.absent(),
+            Value<double?> resistencia3min = const Value.absent(),
+            Value<double?> resistencia4min = const Value.absent(),
+            Value<double?> resistencia5min = const Value.absent(),
+            Value<double?> resistencia6min = const Value.absent(),
+            Value<double?> resistencia7min = const Value.absent(),
+            Value<double?> resistencia8min = const Value.absent(),
+            Value<double?> resistencia9min = const Value.absent(),
+            Value<double?> resistencia10min = const Value.absent(),
+          }) =>
+              MpDjResistenciaIsolamentoMedicoesTableCompanion.insert(
+            id: id,
+            mpDjResistenciaIsolamentoId: mpDjResistenciaIsolamentoId,
+            dataMedicao: dataMedicao,
+            linha: linha,
+            terra: terra,
+            guarda: guarda,
+            fase: fase,
+            estadoDisjuntor: estadoDisjuntor,
+            resistencia30s: resistencia30s,
+            resistencia1min: resistencia1min,
+            resistencia2min: resistencia2min,
+            resistencia3min: resistencia3min,
+            resistencia4min: resistencia4min,
+            resistencia5min: resistencia5min,
+            resistencia6min: resistencia6min,
+            resistencia7min: resistencia7min,
+            resistencia8min: resistencia8min,
+            resistencia9min: resistencia9min,
+            resistencia10min: resistencia10min,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$MpDjResistenciaIsolamentoMedicoesTableTableReferences(
+                        db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({mpDjResistenciaIsolamentoId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (mpDjResistenciaIsolamentoId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.mpDjResistenciaIsolamentoId,
+                    referencedTable:
+                        $$MpDjResistenciaIsolamentoMedicoesTableTableReferences
+                            ._mpDjResistenciaIsolamentoIdTable(db),
+                    referencedColumn:
+                        $$MpDjResistenciaIsolamentoMedicoesTableTableReferences
+                            ._mpDjResistenciaIsolamentoIdTable(db)
+                            .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$MpDjResistenciaIsolamentoMedicoesTableTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $MpDjResistenciaIsolamentoMedicoesTableTable,
+        MpDjResistenciaIsolamentoMedicoesTableData,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableFilterComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableOrderingComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableAnnotationComposer,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableCreateCompanionBuilder,
+        $$MpDjResistenciaIsolamentoMedicoesTableTableUpdateCompanionBuilder,
+        (
+          MpDjResistenciaIsolamentoMedicoesTableData,
+          $$MpDjResistenciaIsolamentoMedicoesTableTableReferences
+        ),
+        MpDjResistenciaIsolamentoMedicoesTableData,
+        PrefetchHooks Function({bool mpDjResistenciaIsolamentoId})>;
 typedef $$TecnicoTableTableCreateCompanionBuilder = TecnicoTableCompanion
     Function({
   Value<int> id,
@@ -27147,6 +28360,10 @@ class $AppDatabaseManager {
       get mpDjResistenciaIsolamentoTable =>
           $$MpDjResistenciaIsolamentoTableTableTableManager(
               _db, _db.mpDjResistenciaIsolamentoTable);
+  $$MpDjResistenciaIsolamentoMedicoesTableTableTableManager
+      get mpDjResistenciaIsolamentoMedicoesTable =>
+          $$MpDjResistenciaIsolamentoMedicoesTableTableTableManager(
+              _db, _db.mpDjResistenciaIsolamentoMedicoesTable);
   $$TecnicoTableTableTableManager get tecnicoTable =>
       $$TecnicoTableTableTableManager(_db, _db.tecnicoTable);
   $$AprTableTableTableManager get aprTable =>

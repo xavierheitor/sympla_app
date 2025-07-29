@@ -18,6 +18,9 @@ mixin _$MpdjDaoMixin on DatabaseAccessor<AppDatabase> {
       attachedDatabase.mpDjResistenciaContatoTable;
   $MpDjResistenciaIsolamentoTableTable get mpDjResistenciaIsolamentoTable =>
       attachedDatabase.mpDjResistenciaIsolamentoTable;
+  $MpDjResistenciaIsolamentoMedicoesTableTable
+      get mpDjResistenciaIsolamentoMedicoesTable =>
+          attachedDatabase.mpDjResistenciaIsolamentoMedicoesTable;
   $MpDjTempoOperacaoTableTable get mpDjTempoOperacaoTable =>
       attachedDatabase.mpDjTempoOperacaoTable;
 }

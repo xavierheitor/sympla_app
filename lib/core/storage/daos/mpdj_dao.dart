@@ -10,6 +10,7 @@ part 'mpdj_dao.g.dart';
   MpDjPressaoSf6Table,
   MpDjResistenciaContatoTable,
   MpDjResistenciaIsolamentoTable,
+  MpDjResistenciaIsolamentoMedicoesTable,
   MpDjTempoOperacaoTable,
 ])
 class MpdjDao extends DatabaseAccessor<AppDatabase> with _$MpdjDaoMixin {
@@ -66,10 +67,35 @@ class MpdjDao extends DatabaseAccessor<AppDatabase> with _$MpdjDaoMixin {
         .get();
   }
 
+  /// 🔍 Busca configurações gerais de resistência de isolamento
   Future<List<MpDjResistenciaIsolamentoTableData>> buscarIsolamento(
       int formularioId) {
     return (select(mpDjResistenciaIsolamentoTable)
           ..where((t) => t.mpDjFormId.equals(formularioId)))
+        .get();
+  }
+
+  /// 🔍 Busca medições específicas de resistência de isolamento
+  Future<List<MpDjResistenciaIsolamentoMedicoesTableData>> buscarMedicoesIsolamento(
+      int isolamentoId) {
+    return (select(mpDjResistenciaIsolamentoMedicoesTable)
+          ..where((t) => t.mpDjResistenciaIsolamentoId.equals(isolamentoId))
+          ..orderBy([(t) => OrderingTerm.asc(t.dataMedicao)]))
+        .get();
+  }
+
+  /// 🔍 Busca todas as medições de isolamento de um formulário
+  Future<List<MpDjResistenciaIsolamentoMedicoesTableData>> buscarTodasMedicoesIsolamento(
+      int formularioId) {
+    return (select(mpDjResistenciaIsolamentoMedicoesTable)
+          ..join([
+            leftOuterJoin(
+                mpDjResistenciaIsolamentoTable,
+                mpDjResistenciaIsolamentoMedicoesTable.mpDjResistenciaIsolamentoId
+                    .equalsExp(mpDjResistenciaIsolamentoTable.id))
+          ])
+          ..where((t) => mpDjResistenciaIsolamentoTable.mpDjFormId.equals(formularioId))
+          ..orderBy([(t) => OrderingTerm.asc(t.dataMedicao)]))
         .get();
   }
 
@@ -101,12 +127,41 @@ class MpdjDao extends DatabaseAccessor<AppDatabase> with _$MpdjDaoMixin {
     });
   }
 
+  /// 💾 Salva configurações gerais de resistência de isolamento
   Future<void> salvarMedicoesIsolamento(
       List<MpDjResistenciaIsolamentoTableCompanion> lista) async {
-    AppLogger.d('💾 Salvando ${lista.length} medições de Isolamento',
+    AppLogger.d('💾 Salvando ${lista.length} configurações de Isolamento',
         tag: 'MpdjDao');
     await batch((b) {
       b.insertAll(mpDjResistenciaIsolamentoTable, lista);
+    });
+  }
+
+  /// 💾 Salva medições específicas de resistência de isolamento
+  Future<void> salvarMedicoesIsolamentoDetalhadas(
+      List<MpDjResistenciaIsolamentoMedicoesTableCompanion> lista) async {
+    AppLogger.d('💾 Salvando ${lista.length} medições detalhadas de Isolamento', tag: 'MpdjDao');
+    await batch((b) {
+      b.insertAll(mpDjResistenciaIsolamentoMedicoesTable, lista);
+    });
+  }
+
+  /// 💾 Salva configuração e medições de isolamento em uma transação
+  Future<void> salvarIsolamentoCompleto(MpDjResistenciaIsolamentoTableCompanion configuracao,
+      List<MpDjResistenciaIsolamentoMedicoesTableCompanion> medicoes) async {
+    AppLogger.d('💾 Salvando isolamento completo com ${medicoes.length} medições', tag: 'MpdjDao');
+
+    await transaction(() async {
+      // 1. Salva a configuração geral
+      final configId = await into(mpDjResistenciaIsolamentoTable).insert(configuracao);
+
+      // 2. Salva as medições vinculadas à configuração
+      final medicoesComId =
+          medicoes.map((m) => m.copyWith(mpDjResistenciaIsolamentoId: Value(configId))).toList();
+
+      await batch((b) {
+        b.insertAll(mpDjResistenciaIsolamentoMedicoesTable, medicoesComId);
+      });
     });
   }
 
