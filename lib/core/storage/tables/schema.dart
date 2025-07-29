@@ -340,7 +340,6 @@ class MpDjTempoOperacaoTable extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   IntColumn get mpDjFormId => integer().references(MpDjFormTable, #id)();
-  IntColumn get formularioDisjuntorId => integer().references(MpDjFormTable, #id)(); // FK futura
 
   TextColumn get fase => text().map(const FaseAnomaliaConverter())(); // A, B ou C
 

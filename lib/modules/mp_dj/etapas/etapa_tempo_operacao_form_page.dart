@@ -69,7 +69,6 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
       final c = _controllers[fase]!;
 
       return MedicaoTempoOperacaoTableDto(
-        id: 0,
         formularioDisjuntorId: id,
         fase: fase.name,
         fechamentoBobina1: double.tryParse(c['fechamentoBobina1']!.text.trim()),

@@ -102,7 +102,7 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
       _umidadeController.text = config.umidadeRelativaAr?.toString() ?? '';
 
       /// 🔄 Para cada configuração, busca as medições específicas
-      for (final config in lista) {
+      for (final _ in lista) {
         // TODO: Implementar busca de medições específicas por config.id
         // Por enquanto, cria uma medição vazia
         _adicionarMedicao();

@@ -8783,15 +8783,6 @@ class $MpDjTempoOperacaoTableTable extends MpDjTempoOperacaoTable
       requiredDuringInsert: true,
       defaultConstraints: GeneratedColumn.constraintIsAlways(
           'REFERENCES mp_dj_form_table (id)'));
-  static const VerificationMeta _formularioDisjuntorIdMeta =
-      const VerificationMeta('formularioDisjuntorId');
-  @override
-  late final GeneratedColumn<int> formularioDisjuntorId = GeneratedColumn<int>(
-      'formulario_disjuntor_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES mp_dj_form_table (id)'));
   static const VerificationMeta _faseMeta = const VerificationMeta('fase');
   @override
   late final GeneratedColumnWithTypeConverter<FaseAnomalia, String> fase =
@@ -8827,7 +8818,6 @@ class $MpDjTempoOperacaoTableTable extends MpDjTempoOperacaoTable
   List<GeneratedColumn> get $columns => [
         id,
         mpDjFormId,
-        formularioDisjuntorId,
         fase,
         fechamentoBobina1,
         fechamentoBobina2,
@@ -8855,14 +8845,6 @@ class $MpDjTempoOperacaoTableTable extends MpDjTempoOperacaoTable
               data['mp_dj_form_id']!, _mpDjFormIdMeta));
     } else if (isInserting) {
       context.missing(_mpDjFormIdMeta);
-    }
-    if (data.containsKey('formulario_disjuntor_id')) {
-      context.handle(
-          _formularioDisjuntorIdMeta,
-          formularioDisjuntorId.isAcceptableOrUnknown(
-              data['formulario_disjuntor_id']!, _formularioDisjuntorIdMeta));
-    } else if (isInserting) {
-      context.missing(_formularioDisjuntorIdMeta);
     }
     context.handle(_faseMeta, const VerificationResult.success());
     if (data.containsKey('fechamento_bobina1')) {
@@ -8903,8 +8885,6 @@ class $MpDjTempoOperacaoTableTable extends MpDjTempoOperacaoTable
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       mpDjFormId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}mp_dj_form_id'])!,
-      formularioDisjuntorId: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}formulario_disjuntor_id'])!,
       fase: $MpDjTempoOperacaoTableTable.$converterfase.fromSql(attachedDatabase
           .typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}fase'])!),
@@ -8932,7 +8912,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     implements Insertable<MpDjTempoOperacaoTableData> {
   final int id;
   final int mpDjFormId;
-  final int formularioDisjuntorId;
   final FaseAnomalia fase;
   final double? fechamentoBobina1;
   final double? fechamentoBobina2;
@@ -8941,7 +8920,6 @@ class MpDjTempoOperacaoTableData extends DataClass
   const MpDjTempoOperacaoTableData(
       {required this.id,
       required this.mpDjFormId,
-      required this.formularioDisjuntorId,
       required this.fase,
       this.fechamentoBobina1,
       this.fechamentoBobina2,
@@ -8952,7 +8930,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['mp_dj_form_id'] = Variable<int>(mpDjFormId);
-    map['formulario_disjuntor_id'] = Variable<int>(formularioDisjuntorId);
     {
       map['fase'] = Variable<String>(
           $MpDjTempoOperacaoTableTable.$converterfase.toSql(fase));
@@ -8976,7 +8953,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     return MpDjTempoOperacaoTableCompanion(
       id: Value(id),
       mpDjFormId: Value(mpDjFormId),
-      formularioDisjuntorId: Value(formularioDisjuntorId),
       fase: Value(fase),
       fechamentoBobina1: fechamentoBobina1 == null && nullToAbsent
           ? const Value.absent()
@@ -8999,8 +8975,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     return MpDjTempoOperacaoTableData(
       id: serializer.fromJson<int>(json['id']),
       mpDjFormId: serializer.fromJson<int>(json['mpDjFormId']),
-      formularioDisjuntorId:
-          serializer.fromJson<int>(json['formularioDisjuntorId']),
       fase: serializer.fromJson<FaseAnomalia>(json['fase']),
       fechamentoBobina1:
           serializer.fromJson<double?>(json['fechamentoBobina1']),
@@ -9016,7 +8990,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'mpDjFormId': serializer.toJson<int>(mpDjFormId),
-      'formularioDisjuntorId': serializer.toJson<int>(formularioDisjuntorId),
       'fase': serializer.toJson<FaseAnomalia>(fase),
       'fechamentoBobina1': serializer.toJson<double?>(fechamentoBobina1),
       'fechamentoBobina2': serializer.toJson<double?>(fechamentoBobina2),
@@ -9028,7 +9001,6 @@ class MpDjTempoOperacaoTableData extends DataClass
   MpDjTempoOperacaoTableData copyWith(
           {int? id,
           int? mpDjFormId,
-          int? formularioDisjuntorId,
           FaseAnomalia? fase,
           Value<double?> fechamentoBobina1 = const Value.absent(),
           Value<double?> fechamentoBobina2 = const Value.absent(),
@@ -9037,8 +9009,6 @@ class MpDjTempoOperacaoTableData extends DataClass
       MpDjTempoOperacaoTableData(
         id: id ?? this.id,
         mpDjFormId: mpDjFormId ?? this.mpDjFormId,
-        formularioDisjuntorId:
-            formularioDisjuntorId ?? this.formularioDisjuntorId,
         fase: fase ?? this.fase,
         fechamentoBobina1: fechamentoBobina1.present
             ? fechamentoBobina1.value
@@ -9059,9 +9029,6 @@ class MpDjTempoOperacaoTableData extends DataClass
       id: data.id.present ? data.id.value : this.id,
       mpDjFormId:
           data.mpDjFormId.present ? data.mpDjFormId.value : this.mpDjFormId,
-      formularioDisjuntorId: data.formularioDisjuntorId.present
-          ? data.formularioDisjuntorId.value
-          : this.formularioDisjuntorId,
       fase: data.fase.present ? data.fase.value : this.fase,
       fechamentoBobina1: data.fechamentoBobina1.present
           ? data.fechamentoBobina1.value
@@ -9083,7 +9050,6 @@ class MpDjTempoOperacaoTableData extends DataClass
     return (StringBuffer('MpDjTempoOperacaoTableData(')
           ..write('id: $id, ')
           ..write('mpDjFormId: $mpDjFormId, ')
-          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
           ..write('fase: $fase, ')
           ..write('fechamentoBobina1: $fechamentoBobina1, ')
           ..write('fechamentoBobina2: $fechamentoBobina2, ')
@@ -9094,15 +9060,14 @@ class MpDjTempoOperacaoTableData extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, mpDjFormId, formularioDisjuntorId, fase,
-      fechamentoBobina1, fechamentoBobina2, aberturaBobina1, aberturaBobina2);
+  int get hashCode => Object.hash(id, mpDjFormId, fase, fechamentoBobina1,
+      fechamentoBobina2, aberturaBobina1, aberturaBobina2);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is MpDjTempoOperacaoTableData &&
           other.id == this.id &&
           other.mpDjFormId == this.mpDjFormId &&
-          other.formularioDisjuntorId == this.formularioDisjuntorId &&
           other.fase == this.fase &&
           other.fechamentoBobina1 == this.fechamentoBobina1 &&
           other.fechamentoBobina2 == this.fechamentoBobina2 &&
@@ -9114,7 +9079,6 @@ class MpDjTempoOperacaoTableCompanion
     extends UpdateCompanion<MpDjTempoOperacaoTableData> {
   final Value<int> id;
   final Value<int> mpDjFormId;
-  final Value<int> formularioDisjuntorId;
   final Value<FaseAnomalia> fase;
   final Value<double?> fechamentoBobina1;
   final Value<double?> fechamentoBobina2;
@@ -9123,7 +9087,6 @@ class MpDjTempoOperacaoTableCompanion
   const MpDjTempoOperacaoTableCompanion({
     this.id = const Value.absent(),
     this.mpDjFormId = const Value.absent(),
-    this.formularioDisjuntorId = const Value.absent(),
     this.fase = const Value.absent(),
     this.fechamentoBobina1 = const Value.absent(),
     this.fechamentoBobina2 = const Value.absent(),
@@ -9133,19 +9096,16 @@ class MpDjTempoOperacaoTableCompanion
   MpDjTempoOperacaoTableCompanion.insert({
     this.id = const Value.absent(),
     required int mpDjFormId,
-    required int formularioDisjuntorId,
     required FaseAnomalia fase,
     this.fechamentoBobina1 = const Value.absent(),
     this.fechamentoBobina2 = const Value.absent(),
     this.aberturaBobina1 = const Value.absent(),
     this.aberturaBobina2 = const Value.absent(),
   })  : mpDjFormId = Value(mpDjFormId),
-        formularioDisjuntorId = Value(formularioDisjuntorId),
         fase = Value(fase);
   static Insertable<MpDjTempoOperacaoTableData> custom({
     Expression<int>? id,
     Expression<int>? mpDjFormId,
-    Expression<int>? formularioDisjuntorId,
     Expression<String>? fase,
     Expression<double>? fechamentoBobina1,
     Expression<double>? fechamentoBobina2,
@@ -9155,8 +9115,6 @@ class MpDjTempoOperacaoTableCompanion
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (mpDjFormId != null) 'mp_dj_form_id': mpDjFormId,
-      if (formularioDisjuntorId != null)
-        'formulario_disjuntor_id': formularioDisjuntorId,
       if (fase != null) 'fase': fase,
       if (fechamentoBobina1 != null) 'fechamento_bobina1': fechamentoBobina1,
       if (fechamentoBobina2 != null) 'fechamento_bobina2': fechamentoBobina2,
@@ -9168,7 +9126,6 @@ class MpDjTempoOperacaoTableCompanion
   MpDjTempoOperacaoTableCompanion copyWith(
       {Value<int>? id,
       Value<int>? mpDjFormId,
-      Value<int>? formularioDisjuntorId,
       Value<FaseAnomalia>? fase,
       Value<double?>? fechamentoBobina1,
       Value<double?>? fechamentoBobina2,
@@ -9177,8 +9134,6 @@ class MpDjTempoOperacaoTableCompanion
     return MpDjTempoOperacaoTableCompanion(
       id: id ?? this.id,
       mpDjFormId: mpDjFormId ?? this.mpDjFormId,
-      formularioDisjuntorId:
-          formularioDisjuntorId ?? this.formularioDisjuntorId,
       fase: fase ?? this.fase,
       fechamentoBobina1: fechamentoBobina1 ?? this.fechamentoBobina1,
       fechamentoBobina2: fechamentoBobina2 ?? this.fechamentoBobina2,
@@ -9195,10 +9150,6 @@ class MpDjTempoOperacaoTableCompanion
     }
     if (mpDjFormId.present) {
       map['mp_dj_form_id'] = Variable<int>(mpDjFormId.value);
-    }
-    if (formularioDisjuntorId.present) {
-      map['formulario_disjuntor_id'] =
-          Variable<int>(formularioDisjuntorId.value);
     }
     if (fase.present) {
       map['fase'] = Variable<String>(
@@ -9224,7 +9175,6 @@ class MpDjTempoOperacaoTableCompanion
     return (StringBuffer('MpDjTempoOperacaoTableCompanion(')
           ..write('id: $id, ')
           ..write('mpDjFormId: $mpDjFormId, ')
-          ..write('formularioDisjuntorId: $formularioDisjuntorId, ')
           ..write('fase: $fase, ')
           ..write('fechamentoBobina1: $fechamentoBobina1, ')
           ..write('fechamentoBobina2: $fechamentoBobina2, ')
@@ -22422,6 +22372,25 @@ final class $$MpDjFormTableTableReferences extends BaseReferences<_$AppDatabase,
         manager.$state.copyWith(prefetchedData: cache));
   }
 
+  static MultiTypedResultKey<$MpDjTempoOperacaoTableTable,
+      List<MpDjTempoOperacaoTableData>> _mpDjTempoOperacaoTableRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.mpDjTempoOperacaoTable,
+          aliasName: $_aliasNameGenerator(
+              db.mpDjFormTable.id, db.mpDjTempoOperacaoTable.mpDjFormId));
+
+  $$MpDjTempoOperacaoTableTableProcessedTableManager
+      get mpDjTempoOperacaoTableRefs {
+    final manager = $$MpDjTempoOperacaoTableTableTableManager(
+            $_db, $_db.mpDjTempoOperacaoTable)
+        .filter((f) => f.mpDjFormId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_mpDjTempoOperacaoTableRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
   static MultiTypedResultKey<$MpDjResistenciaContatoTableTable,
           List<MpDjResistenciaContatoTableData>>
       _mpDjResistenciaContatoTableRefsTable(_$AppDatabase db) =>
@@ -22567,6 +22536,29 @@ class $$MpDjFormTableTableFilterComposer
               $removeJoinBuilderFromRootComposer:
                   $removeJoinBuilderFromRootComposer,
             ));
+    return f(composer);
+  }
+
+  Expression<bool> mpDjTempoOperacaoTableRefs(
+      Expression<bool> Function($$MpDjTempoOperacaoTableTableFilterComposer f)
+          f) {
+    final $$MpDjTempoOperacaoTableTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.mpDjTempoOperacaoTable,
+            getReferencedColumn: (t) => t.mpDjFormId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjTempoOperacaoTableTableFilterComposer(
+                  $db: $db,
+                  $table: $db.mpDjTempoOperacaoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 
@@ -22803,6 +22795,29 @@ class $$MpDjFormTableTableAnnotationComposer
     return f(composer);
   }
 
+  Expression<T> mpDjTempoOperacaoTableRefs<T extends Object>(
+      Expression<T> Function($$MpDjTempoOperacaoTableTableAnnotationComposer a)
+          f) {
+    final $$MpDjTempoOperacaoTableTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.mpDjTempoOperacaoTable,
+            getReferencedColumn: (t) => t.mpDjFormId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$MpDjTempoOperacaoTableTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.mpDjTempoOperacaoTable,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
+
   Expression<T> mpDjResistenciaContatoTableRefs<T extends Object>(
       Expression<T> Function(
               $$MpDjResistenciaContatoTableTableAnnotationComposer a)
@@ -22866,6 +22881,7 @@ class $$MpDjFormTableTableTableManager extends RootTableManager<
     PrefetchHooks Function(
         {bool atividadeId,
         bool mpDjPressaoSf6TableRefs,
+        bool mpDjTempoOperacaoTableRefs,
         bool mpDjResistenciaContatoTableRefs,
         bool mpDjResistenciaIsolamentoTableRefs})> {
   $$MpDjFormTableTableTableManager(_$AppDatabase db, $MpDjFormTableTable table)
@@ -22963,12 +22979,14 @@ class $$MpDjFormTableTableTableManager extends RootTableManager<
           prefetchHooksCallback: (
               {atividadeId = false,
               mpDjPressaoSf6TableRefs = false,
+              mpDjTempoOperacaoTableRefs = false,
               mpDjResistenciaContatoTableRefs = false,
               mpDjResistenciaIsolamentoTableRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (mpDjPressaoSf6TableRefs) db.mpDjPressaoSf6Table,
+                if (mpDjTempoOperacaoTableRefs) db.mpDjTempoOperacaoTable,
                 if (mpDjResistenciaContatoTableRefs)
                   db.mpDjResistenciaContatoTable,
                 if (mpDjResistenciaIsolamentoTableRefs)
@@ -23011,6 +23029,18 @@ class $$MpDjFormTableTableTableManager extends RootTableManager<
                         managerFromTypedResult: (p0) =>
                             $$MpDjFormTableTableReferences(db, table, p0)
                                 .mpDjPressaoSf6TableRefs,
+                        referencedItemsForCurrentItem:
+                            (item, referencedItems) => referencedItems
+                                .where((e) => e.mpDjFormId == item.id),
+                        typedResults: items),
+                  if (mpDjTempoOperacaoTableRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $$MpDjFormTableTableReferences
+                            ._mpDjTempoOperacaoTableRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$MpDjFormTableTableReferences(db, table, p0)
+                                .mpDjTempoOperacaoTableRefs,
                         referencedItemsForCurrentItem:
                             (item, referencedItems) => referencedItems
                                 .where((e) => e.mpDjFormId == item.id),
@@ -23060,6 +23090,7 @@ typedef $$MpDjFormTableTableProcessedTableManager = ProcessedTableManager<
     PrefetchHooks Function(
         {bool atividadeId,
         bool mpDjPressaoSf6TableRefs,
+        bool mpDjTempoOperacaoTableRefs,
         bool mpDjResistenciaContatoTableRefs,
         bool mpDjResistenciaIsolamentoTableRefs})>;
 typedef $$MpDjPressaoSf6TableTableCreateCompanionBuilder
@@ -23341,7 +23372,6 @@ typedef $$MpDjTempoOperacaoTableTableCreateCompanionBuilder
     = MpDjTempoOperacaoTableCompanion Function({
   Value<int> id,
   required int mpDjFormId,
-  required int formularioDisjuntorId,
   required FaseAnomalia fase,
   Value<double?> fechamentoBobina1,
   Value<double?> fechamentoBobina2,
@@ -23352,7 +23382,6 @@ typedef $$MpDjTempoOperacaoTableTableUpdateCompanionBuilder
     = MpDjTempoOperacaoTableCompanion Function({
   Value<int> id,
   Value<int> mpDjFormId,
-  Value<int> formularioDisjuntorId,
   Value<FaseAnomalia> fase,
   Value<double?> fechamentoBobina1,
   Value<double?> fechamentoBobina2,
@@ -23373,21 +23402,6 @@ final class $$MpDjTempoOperacaoTableTableReferences extends BaseReferences<
     final manager = $$MpDjFormTableTableTableManager($_db, $_db.mpDjFormTable)
         .filter((f) => f.id($_item.mpDjFormId));
     final item = $_typedResult.readTableOrNull(_mpDjFormIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-
-  static $MpDjFormTableTable _formularioDisjuntorIdTable(_$AppDatabase db) =>
-      db.mpDjFormTable.createAlias($_aliasNameGenerator(
-          db.mpDjTempoOperacaoTable.formularioDisjuntorId,
-          db.mpDjFormTable.id));
-
-  $$MpDjFormTableTableProcessedTableManager get formularioDisjuntorId {
-    final manager = $$MpDjFormTableTableTableManager($_db, $_db.mpDjFormTable)
-        .filter((f) => f.id($_item.formularioDisjuntorId));
-    final item =
-        $_typedResult.readTableOrNull(_formularioDisjuntorIdTable($_db));
     if (item == null) return manager;
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: [item]));
@@ -23431,26 +23445,6 @@ class $$MpDjTempoOperacaoTableTableFilterComposer
     final $$MpDjFormTableTableFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.mpDjFormId,
-        referencedTable: $db.mpDjFormTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$MpDjFormTableTableFilterComposer(
-              $db: $db,
-              $table: $db.mpDjFormTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$MpDjFormTableTableFilterComposer get formularioDisjuntorId {
-    final $$MpDjFormTableTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.formularioDisjuntorId,
         referencedTable: $db.mpDjFormTable,
         getReferencedColumn: (t) => t.id,
         builder: (joinBuilder,
@@ -23518,26 +23512,6 @@ class $$MpDjTempoOperacaoTableTableOrderingComposer
             ));
     return composer;
   }
-
-  $$MpDjFormTableTableOrderingComposer get formularioDisjuntorId {
-    final $$MpDjFormTableTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.formularioDisjuntorId,
-        referencedTable: $db.mpDjFormTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$MpDjFormTableTableOrderingComposer(
-              $db: $db,
-              $table: $db.mpDjFormTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
 }
 
 class $$MpDjTempoOperacaoTableTableAnnotationComposer
@@ -23586,26 +23560,6 @@ class $$MpDjTempoOperacaoTableTableAnnotationComposer
             ));
     return composer;
   }
-
-  $$MpDjFormTableTableAnnotationComposer get formularioDisjuntorId {
-    final $$MpDjFormTableTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.formularioDisjuntorId,
-        referencedTable: $db.mpDjFormTable,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$MpDjFormTableTableAnnotationComposer(
-              $db: $db,
-              $table: $db.mpDjFormTable,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
 }
 
 class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
@@ -23619,7 +23573,7 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
     $$MpDjTempoOperacaoTableTableUpdateCompanionBuilder,
     (MpDjTempoOperacaoTableData, $$MpDjTempoOperacaoTableTableReferences),
     MpDjTempoOperacaoTableData,
-    PrefetchHooks Function({bool mpDjFormId, bool formularioDisjuntorId})> {
+    PrefetchHooks Function({bool mpDjFormId})> {
   $$MpDjTempoOperacaoTableTableTableManager(
       _$AppDatabase db, $MpDjTempoOperacaoTableTable table)
       : super(TableManagerState(
@@ -23637,7 +23591,6 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> mpDjFormId = const Value.absent(),
-            Value<int> formularioDisjuntorId = const Value.absent(),
             Value<FaseAnomalia> fase = const Value.absent(),
             Value<double?> fechamentoBobina1 = const Value.absent(),
             Value<double?> fechamentoBobina2 = const Value.absent(),
@@ -23647,7 +23600,6 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
               MpDjTempoOperacaoTableCompanion(
             id: id,
             mpDjFormId: mpDjFormId,
-            formularioDisjuntorId: formularioDisjuntorId,
             fase: fase,
             fechamentoBobina1: fechamentoBobina1,
             fechamentoBobina2: fechamentoBobina2,
@@ -23657,7 +23609,6 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
             required int mpDjFormId,
-            required int formularioDisjuntorId,
             required FaseAnomalia fase,
             Value<double?> fechamentoBobina1 = const Value.absent(),
             Value<double?> fechamentoBobina2 = const Value.absent(),
@@ -23667,7 +23618,6 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
               MpDjTempoOperacaoTableCompanion.insert(
             id: id,
             mpDjFormId: mpDjFormId,
-            formularioDisjuntorId: formularioDisjuntorId,
             fase: fase,
             fechamentoBobina1: fechamentoBobina1,
             fechamentoBobina2: fechamentoBobina2,
@@ -23680,8 +23630,7 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
                     $$MpDjTempoOperacaoTableTableReferences(db, table, e)
                   ))
               .toList(),
-          prefetchHooksCallback: (
-              {mpDjFormId = false, formularioDisjuntorId = false}) {
+          prefetchHooksCallback: ({mpDjFormId = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [],
@@ -23709,17 +23658,6 @@ class $$MpDjTempoOperacaoTableTableTableManager extends RootTableManager<
                         .id,
                   ) as T;
                 }
-                if (formularioDisjuntorId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.formularioDisjuntorId,
-                    referencedTable: $$MpDjTempoOperacaoTableTableReferences
-                        ._formularioDisjuntorIdTable(db),
-                    referencedColumn: $$MpDjTempoOperacaoTableTableReferences
-                        ._formularioDisjuntorIdTable(db)
-                        .id,
-                  ) as T;
-                }
 
                 return state;
               },
@@ -23743,7 +23681,7 @@ typedef $$MpDjTempoOperacaoTableTableProcessedTableManager
         $$MpDjTempoOperacaoTableTableUpdateCompanionBuilder,
         (MpDjTempoOperacaoTableData, $$MpDjTempoOperacaoTableTableReferences),
         MpDjTempoOperacaoTableData,
-        PrefetchHooks Function({bool mpDjFormId, bool formularioDisjuntorId})>;
+        PrefetchHooks Function({bool mpDjFormId})>;
 typedef $$MpDjResistenciaContatoTableTableCreateCompanionBuilder
     = MpDjResistenciaContatoTableCompanion Function({
   Value<int> id,
