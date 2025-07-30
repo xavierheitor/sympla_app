@@ -191,7 +191,8 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
     );
 
     /// 🔄 Converte cada medição do formulário para DTO de medições específicas
-    final medicoes = _medicoes.map((m) {
+    // TODO: Implementar salvamento das medições específicas
+    _medicoes.map((m) {
       return MedicaoResistenciaIsolamentoMedicoesTableDto(
         id: 0, // Novo registro (será gerado pelo banco)
         mpDjResistenciaIsolamentoId: 0, // Será definido após salvar a configuração

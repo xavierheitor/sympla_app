@@ -111,29 +111,39 @@ class AtividadeController extends GetxController {
     AppLogger.d('⏹️ Finalizando atividade ${atividade.uuid}');
     await atividadeService.finalizar(atividade);
 
-    // Adicionar atividade na fila de upload
-    try {
-      await Get.find<UploadManager>().adicionarNaFila(atividade.uuid);
-      AppLogger.d('📤 Atividade ${atividade.uuid} adicionada na fila de upload');
-    } catch (e, s) {
-      AppLogger.e('❌ Erro ao adicionar atividade na fila de upload', error: e, stackTrace: s);
-    }
+    // Iniciar processo de upload em background (não bloqueia a interface)
+    _iniciarUploadEmBackground(atividade.uuid);
 
-    // Iniciar o serviço de background se ainda não estiver rodando
-    try {
-      final backgroundService = Get.find<BackgroundSyncService>();
-      if (!backgroundService.status['executando']) {
-        await backgroundService.iniciar();
-        AppLogger.d('🚀 BackgroundSyncService iniciado');
-      }
-    } catch (e, s) {
-      AppLogger.e('❌ Erro ao iniciar BackgroundSyncService', error: e, stackTrace: s);
-    }
-
+    // Resetar estado e navegar imediatamente (sem aguardar upload)
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();
     Get.offAllNamed(Routes.home);
+  }
+
+  /// 🚀 Inicia o processo de upload em background sem bloquear a interface
+  void _iniciarUploadEmBackground(String atividadeId) {
+    // Usar Future.microtask para executar em background
+    Future.microtask(() async {
+      try {
+        AppLogger.d('📤 Iniciando upload em background para atividade: $atividadeId');
+        
+        // Adicionar atividade na fila de upload
+        await Get.find<UploadManager>().adicionarNaFila(atividadeId);
+        AppLogger.d('📤 Atividade $atividadeId adicionada na fila de upload');
+
+        // Iniciar o serviço de background se ainda não estiver rodando
+        final backgroundService = Get.find<BackgroundSyncService>();
+        if (!backgroundService.status['executando']) {
+          await backgroundService.iniciar();
+          AppLogger.d('🚀 BackgroundSyncService iniciado');
+        }
+        
+        AppLogger.d('✅ Upload em background iniciado com sucesso para: $atividadeId');
+      } catch (e, s) {
+        AppLogger.e('❌ Erro no upload em background para $atividadeId', error: e, stackTrace: s);
+      }
+    });
   }
 
   /// ⏭️ Avança para a próxima etapa do fluxo da atividade atual.

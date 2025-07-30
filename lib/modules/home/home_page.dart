@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
+import 'package:sympla_app/core/upload/widgets/background_sync_status_widget.dart';
 import 'package:sympla_app/modules/home/home_controller.dart';
 import 'package:sympla_app/modules/home/widgets/app_drawer.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_card_widget.dart';
@@ -68,6 +69,12 @@ class HomePage extends StatelessWidget {
 
         return Column(
           children: [
+            // Widget de status de upload
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: BackgroundSyncStatusWidget.compact(),
+            ),
+            
             //separa a lista de atividades em 2 listas, uma com as atividades em andamento e outra com as outras atividades
             //e mostra as atividades em andamento em um chip e as outras atividades em uma lista
             //o chip deve ser clicavel e deve abrir a tela de atividade em andamento

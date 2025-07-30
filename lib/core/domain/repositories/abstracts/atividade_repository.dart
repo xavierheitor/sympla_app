@@ -23,6 +23,9 @@ abstract class AtividadeRepository {
   /// 🔍 Busca atividades por status específico
   Future<List<AtividadeTableDto>> buscarAtividadesPorStatus(StatusAtividade status);
 
+  /// Busca atividades por múltiplos status
+  Future<List<AtividadeTableDto>> buscarAtividadesPorStatuses(List<StatusAtividade> statuses);
+
   /// 🔥 Marca a atividade como "em andamento" no banco.
   Future<void> iniciarAtividade(AtividadeTableDto atividade);
 

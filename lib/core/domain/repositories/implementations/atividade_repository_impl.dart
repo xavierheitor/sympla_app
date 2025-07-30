@@ -82,6 +82,18 @@ class AtividadeRepositoryImpl with RepositoryHelper implements AtividadeReposito
   }
 
   @override
+  Future<List<AtividadeTableDto>> buscarAtividadesPorStatuses(List<StatusAtividade> statuses) {
+    return executar(
+      'buscarAtividadesPorStatuses',
+      () async {
+        final data = await atividadeDao.buscarPorStatuses(statuses);
+        return data.map(AtividadeTableDto.fromData).toList();
+      },
+      onErrorReturn: [],
+    );
+  }
+
+  @override
   Future<void> iniciarAtividade(AtividadeTableDto atividade) {
     return executar(
       'iniciarAtividade',

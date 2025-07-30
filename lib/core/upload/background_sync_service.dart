@@ -135,28 +135,30 @@ class BackgroundSyncService extends GetxService {
   /// 🔍 Verifica atividades concluídas e adiciona na fila de upload
   Future<void> _verificarAtividadesConcluidas() async {
     try {
-      AppLogger.d('🔍 Verificando atividades concluídas...');
+      AppLogger.d('🔍 Verificando atividades concluídas e pendentes de upload...');
 
-      // Buscar atividades com status "concluido"
-      final atividadesConcluidas =
-          await _atividadeRepository.buscarAtividadesPorStatus(StatusAtividade.concluido);
+      // Buscar atividades com status "concluido" e "pendenteUpload"
+      final atividadesParaUpload = await _atividadeRepository.buscarAtividadesPorStatuses([
+        StatusAtividade.concluido,
+        StatusAtividade.pendenteUpload,
+      ]);
 
-      if (atividadesConcluidas.isEmpty) {
-        AppLogger.d('📭 Nenhuma atividade concluída encontrada');
+      if (atividadesParaUpload.isEmpty) {
+        AppLogger.d('📭 Nenhuma atividade para upload encontrada');
         return;
       }
 
-      AppLogger.d('📋 Encontradas ${atividadesConcluidas.length} atividades concluídas');
+      AppLogger.d('📋 Encontradas ${atividadesParaUpload.length} atividades para upload');
 
       // Adicionar cada atividade na fila de upload
-      for (final atividade in atividadesConcluidas) {
+      for (final atividade in atividadesParaUpload) {
         AppLogger.d('📤 Adicionando atividade ${atividade.uuid} na fila de upload');
         await _uploadManager.adicionarNaFila(atividade.uuid);
       }
 
-      AppLogger.d('✅ ${atividadesConcluidas.length} atividades adicionadas na fila');
+      AppLogger.d('✅ ${atividadesParaUpload.length} atividades adicionadas na fila');
     } catch (e, s) {
-      AppLogger.e('❌ Erro ao verificar atividades concluídas', error: e, stackTrace: s);
+      AppLogger.e('❌ Erro ao verificar atividades para upload', error: e, stackTrace: s);
     }
   }
 

@@ -158,6 +158,30 @@ class AtividadeDao extends DatabaseAccessor<AppDatabase> with _$AtividadeDaoMixi
     return result;
   }
 
+  /// Busca atividades por múltiplos status
+  Future<List<AtividadeTableData>> buscarPorStatuses(List<StatusAtividade> statuses) async {
+    if (statuses.isEmpty) {
+      AppLogger.w('⚠️ Lista de status vazia, retornando lista vazia', tag: 'AtividadeDAO');
+      return [];
+    }
+
+    final query = select(atividadeTable);
+
+    if (statuses.length == 1) {
+      query.where((tbl) => tbl.status.equals(statuses.first.name));
+    } else {
+      // Para múltiplos status, usar whereIn
+      final statusNames = statuses.map((s) => s.name).toList();
+      query.where((tbl) => tbl.status.isIn(statusNames));
+    }
+
+    final result = await query.get();
+    AppLogger.d(
+        '📄 Encontradas ${result.length} atividades com status: ${statuses.map((s) => s.name).join(', ')}',
+        tag: 'AtividadeDAO');
+    return result;
+  }
+
   /// Busca uma atividade específica pelo ID com os dados do equipamento e tipo.
   Future<AtividadeTableData?> buscarAtividadePorId(String id) async {
     final query = select(atividadeTable).join([

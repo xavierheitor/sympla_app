@@ -43,16 +43,34 @@ class HomeController extends GetxController {
   }
 
   // Metodo de sincronizar atividades
-  void sincronizarAtividades() async {
+  void sincronizarAtividades() {
     sincronizacao.value = true;
-    await Get.find<SyncManager>().sincronizarModulo('atividade', force: true);
-    sincronizacao.value = false;
+    // Executar em background
+    Future.microtask(() async {
+      try {
+        await Get.find<SyncManager>().sincronizarModulo('atividade', force: true);
+        AppLogger.d('✅ Sincronização de atividades concluída');
+      } catch (e, s) {
+        AppLogger.e('❌ Erro na sincronização de atividades', error: e, stackTrace: s);
+      } finally {
+        sincronizacao.value = false;
+      }
+    });
   }
 
   // Metodo de forçar sincronizacao completa
-  void sincronizarTudo() async {
+  void sincronizarTudo() {
     sincronizacao.value = true;
-    await Get.find<SyncManager>().sincronizarTudo(force: true);
-    sincronizacao.value = false;
+    // Executar em background
+    Future.microtask(() async {
+      try {
+        await Get.find<SyncManager>().sincronizarTudo(force: true);
+        AppLogger.d('✅ Sincronização completa concluída');
+      } catch (e, s) {
+        AppLogger.e('❌ Erro na sincronização completa', error: e, stackTrace: s);
+      } finally {
+        sincronizacao.value = false;
+      }
+    });
   }
 }
