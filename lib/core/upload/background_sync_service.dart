@@ -18,7 +18,9 @@ class BackgroundSyncService extends GetxService {
   final AtividadeRepository _atividadeRepository;
   final UploadManager _uploadManager;
 
+  //timer para verificar atividades concluídas e pendentes de upload
   Timer? _verificacaoTimer;
+  //timer para verificar se há conexão com a internet
   Timer? _sincronizacaoTimer;
   bool _executando = false;
   bool _temConexao = false;
