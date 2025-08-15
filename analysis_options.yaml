@@ -3,20 +3,11 @@ include: package:flutter_lints/flutter.yaml
 # Configurações para ignorar avisos em arquivos de documentação
 analyzer:
   exclude:
-    - "README.md"
-    - "**/*.md"
-    - "**/*.txt"
-    - "**/*.yaml"
-    - "**/*.yml"
-    - "**/*.json"
-    - "**/*.lock"
     - "**/*.g.dart"
     - "**/*.freezed.dart"
-    - "**/*.config.dart"
     - "**/generated/**"
     - "**/build/**"
     - "**/.dart_tool/**"
-    - "**/node_modules/**"
     - "**/ios/Pods/**"
     - "**/android/.gradle/**"
 

@@ -226,7 +226,7 @@ O sistema de sincronização permite que o app funcione offline, sincronizando d
 ```dart
 class SyncManager {
   final Map<String, SyncableRepository> _repos = {};
-  
+
   Future<SyncResult> sincronizarTudo({bool force = false});
   Future<void> sincronizarModulo(String nomeEntidade, {bool force = false});
 }
@@ -302,13 +302,13 @@ abstract class SyncableRepository<T> {
 class AtividadeRepositoryImpl implements AtividadeRepository, SyncableRepository<AtividadeTableDto> {
   @override
   String get nomeEntidade => 'atividade';
-  
+
   @override
   Future<List<AtividadeTableDto>> buscarDaApi() async {
     final response = await dioClient.get(ApiConstants.atividades);
     return (response.data as List).map((json) => AtividadeTableDto.fromJson(json)).toList();
   }
-  
+
   @override
   Future<void> sincronizarComBanco(List<AtividadeTableDto> dados) async {
     await atividadeDao.sincronizar(dados);
@@ -369,7 +369,7 @@ abstract class Routes {
 // lib/routes/app_pages.dart
 class AppPages {
   static const initial = Routes.splash;
-  
+
   static final routes = [
     GetPage(
       name: Routes.home,
@@ -462,19 +462,19 @@ lib/modules/nova_tela/
 // lib/modules/nova_tela/nova_tela_controller.dart
 class NovaTelaController extends GetxController {
   final NovaTelaService service;
-  
+
   final dados = <DadoModel>[].obs;
   final carregando = false.obs;
   final erro = ''.obs;
-  
+
   NovaTelaController(this.service);
-  
+
   @override
   Future<void> onInit() async {
     super.onInit();
     await carregarDados();
   }
-  
+
   Future<void> carregarDados() async {
     carregando.value = true;
     try {
@@ -495,9 +495,9 @@ class NovaTelaController extends GetxController {
 // lib/modules/nova_tela/nova_tela_page.dart
 class NovaTelaPage extends StatelessWidget {
   final controller = Get.find<NovaTelaController>();
-  
+
   NovaTelaPage({super.key});
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -512,13 +512,13 @@ class NovaTelaPage extends StatelessWidget {
         if (controller.carregando.value) {
           return const Center(child: CircularProgressIndicator());
         }
-        
+
         if (controller.erro.isNotEmpty) {
           return Center(
             child: Text('Erro: ${controller.erro.value}'),
           );
         }
-        
+
         return ListView.builder(
           itemCount: controller.dados.length,
           itemBuilder: (context, index) {
@@ -542,13 +542,13 @@ class NovaTelaPage extends StatelessWidget {
 // lib/modules/nova_tela/nova_tela_service.dart
 class NovaTelaService {
   final NovaTelaRepository repository;
-  
+
   NovaTelaService(this.repository);
-  
+
   Future<List<DadoModel>> buscarDados() async {
     return await repository.buscarTodos();
   }
-  
+
   Future<void> salvarDado(DadoModel dado) async {
     await repository.salvar(dado);
   }
@@ -619,14 +619,14 @@ class ConfiguracoesController extends GetxController {
   final temaEscuro = false.obs;
   final sincronizacaoAutomatica = true.obs;
   final intervaloSync = 30.obs; // minutos
-  
+
   void alternarTema() {
     temaEscuro.value = !temaEscuro.value;
     Get.changeThemeMode(
       temaEscuro.value ? ThemeMode.dark : ThemeMode.light
     );
   }
-  
+
   void alterarIntervaloSync(int minutos) {
     intervaloSync.value = minutos;
     // Salvar configuração
@@ -639,7 +639,7 @@ class ConfiguracoesController extends GetxController {
 ```dart
 class ConfiguracoesPage extends StatelessWidget {
   final controller = Get.find<ConfiguracoesController>();
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -714,7 +714,7 @@ class AtividadeTableDto {
   final String? equipamentoId;
   final DateTime dataCriacao;
   final DateTime? dataAtualizacao;
-  
+
   // Construtor, fromJson, toJson, copyWith...
 }
 ```
@@ -769,15 +769,15 @@ class LocalException extends AppException {}
 class ErrorHandler {
   static AppException tratar(dynamic error, [StackTrace? stack]) {
     if (error is AppException) return error;
-    
+
     if (error is DioException) {
       // Tratar erros de rede
       return NetworkException(...);
     }
-    
+
     return LocalException("Erro inesperado", stack: stack);
   }
-  
+
   static MensagemErro mensagemUsuario(Object error) {
     // Retornar mensagens amigáveis para o usuário
   }
@@ -796,7 +796,7 @@ Future<void> executarAcao() async {
   } catch (e, s) {
     final tratado = ErrorHandler.tratar(e, s);
     erro.value = tratado.mensagem;
-    
+
     Get.snackbar(
       'Erro',
       tratado.mensagem,
@@ -877,12 +877,12 @@ onRequest: (options, handler) {
 dependencies:
   flutter:
     sdk: flutter
-  dio: ^5.8.0+1          # Cliente HTTP
-  drift: ^2.13.0         # ORM para SQLite
-  get: ^4.7.2            # Gerenciamento de estado
-  signature: ^5.5.0      # Captura de assinatura
-  image_picker: ^1.1.2   # Captura de imagens
-  intl: ^0.20.2          # Internacionalização
+  dio: ^5.8.0+1 # Cliente HTTP
+  drift: ^2.13.0 # ORM para SQLite
+  get: ^4.7.2 # Gerenciamento de estado
+  signature: ^5.5.0 # Captura de assinatura
+  image_picker: ^1.1.2 # Captura de imagens
+  intl: ^0.20.2 # Internacionalização
 ```
 
 #### **Configurações de API:**
@@ -921,7 +921,7 @@ flutter build ios --release
 ```gradle
 android {
     compileSdkVersion 34
-    
+
     defaultConfig {
         applicationId "com.example.sympla_app"
         minSdkVersion 21
@@ -961,7 +961,7 @@ Para dúvidas sobre a implementação ou sugestões de melhorias, consulte a doc
 
 ---
 
-*Documentação gerada em: ${DateTime.now().toString()}*
+_Documentação gerada em: ${DateTime.now().toString()}_
 
 # sympla_app
 
@@ -970,7 +970,7 @@ A new Flutter project.
 comando gerar banco
 flutter pub run build_runner build --delete-conflicting-outputs
 
-  🚀 Passo a passo para depurar via Wi-Fi
+🚀 Passo a passo para depurar via Wi-Fi
 
 1. Conecte o dispositivo via USB
 
