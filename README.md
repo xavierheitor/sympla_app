@@ -1,17 +1,87 @@
 # 📱 Sympla App - Manual Completo
 
+## ⚡ Comandos rápidos
+
+- **Gerar banco (Drift/Build Runner)**:
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+- **Depurar via Wi‑Fi (ADB)**:
+  1. Conecte o dispositivo via USB e ative o TCP/IP:
+
+```bash
+adb usb
+adb devices
+adb tcpip 5555
+```
+
+  2. Descubra o IP do dispositivo:
+
+```bash
+adb shell ip route
+```
+
+  3. Conecte-se via Wi‑Fi (ajuste o IP):
+
+```bash
+adb connect 192.168.0.123:5555
+```
+
+- **Build Android**:
+
+```bash
+flutter build apk --release
+flutter build appbundle --release
+```
+
+- **Build iOS**:
+
+```bash
+flutter build ios --release
+```
+
+- **Logs do dispositivo (Android)**:
+
+```bash
+adb logcat
+```
+
+## ▶️ Como rodar localmente
+
+```bash
+flutter --version
+flutter pub get
+flutter run
+```
+
+## ✅ Pré‑requisitos
+
+- **Flutter SDK** instalado e no PATH
+- **Dart SDK** (vem com o Flutter)
+- **Android Studio** (SDKs/Emulador) e/ou **Xcode** para iOS
+- **ADB** para recursos Android/depuração via Wi‑Fi
+- Acesso à API configurado em `lib/core/constants/api_constants.dart`
+
 ## 📋 Índice
 
-1. [Visão Geral](#visão-geral)
-2. [Arquitetura do Projeto](#arquitetura-do-projeto)
-3. [Gerenciamento de Etapas de Atividade](#gerenciamento-de-etapas-de-atividade)
-4. [Sistema de Sincronização](#sistema-de-sincronização)
-5. [Fluxo de Navegação](#fluxo-de-navegação)
-6. [Como Adicionar uma Nova Tela](#como-adicionar-uma-nova-tela)
-7. [Estrutura de Dados](#estrutura-de-dados)
-8. [Tratamento de Erros](#tratamento-de-erros)
-9. [Logging e Debug](#logging-e-debug)
-10. [Configuração e Deploy](#configuração-e-deploy)
+1. [Comandos rápidos](#comandos-rápidos)
+2. [Como rodar localmente](#como-rodar-localmente)
+3. [Pré‑requisitos](#pré‑requisitos)
+4. [Visão Geral](#visão-geral)
+5. [Arquitetura do Projeto](#arquitetura-do-projeto)
+6. [Gerenciamento de Etapas de Atividade](#gerenciamento-de-etapas-de-atividade)
+7. [Sistema de Sincronização](#sistema-de-sincronização)
+8. [Fluxo de Navegação](#fluxo-de-navegação)
+9. [Como Adicionar uma Nova Tela](#como-adicionar-uma-nova-tela)
+10. [Como Adicionar um Novo Recurso](#como-adicionar-um-novo-recurso)
+11. [Estrutura de Dados](#estrutura-de-dados)
+12. [Tratamento de Erros](#tratamento-de-erros)
+13. [Logging e Debug](#logging-e-debug)
+14. [Configuração do Ambiente](#configuração-do-ambiente)
+15. [Configuração e Deploy](#configuração-e-deploy)
+16. [Notas rápidas originais](#notas-rápidas-originais)
 
 ---
 
@@ -210,6 +280,64 @@ Future<bool> desejaPularEtapa(EtapaAtividade etapa) async {
   return false; // Por enquanto, nenhuma etapa é pulada
 }
 ```
+
+## 🧩 Como Adicionar um Novo Recurso
+
+> Complementa “Como Adicionar uma Nova Tela” quando houver dados, API, sincronização e banco local.
+
+### 1) Definir contrato e modelos
+
+- Atualize endpoints em `lib/core/constants/api_constants.dart`.
+- Crie DTOs em `lib/core/domain/dto/` com `fromJson`/`toJson`.
+
+```dart
+// Exemplo de DTO
+class RecursoDto {
+  final String id;
+  final String nome;
+  final DateTime atualizadoEm;
+  // ... demais campos e métodos
+}
+```
+
+### 2) Persistência local (Drift)
+
+- Adicione tabela em `lib/core/storage/tables/` e gere o código.
+
+```dart
+// Exemplo de tabela Drift
+class RecursoTable extends Table {
+  TextColumn get id => text()();
+  TextColumn get nome => text()();
+  DateTimeColumn get atualizadoEm => dateTime()();
+}
+```
+
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
+### 3) Repositório e serviço
+
+- Defina `RecursoRepository` (contrato) e `RecursoRepositoryImpl` (API + banco local).
+- Crie `RecursoService` para regras de negócio e orquestração.
+
+### 4) UI e estado
+
+- Crie módulo `lib/modules/recurso/` com `controller`, `page`, `binding` e widgets.
+- Registre a rota em `lib/routes/app_pages.dart` e adicione ao `Drawer` se necessário.
+
+### 5) Sincronização (opcional)
+
+- Se aplicável, implemente `SyncableRepository` e registre no `SyncManager`.
+
+### 6) Telemetria e logs
+
+- Use `AppLogger` para info/erros; padronize mensagens.
+
+### 7) Testes
+
+- Crie testes de unidade para serviços e repositórios e testes de widget para UI.
 
 ---
 
@@ -867,6 +995,23 @@ onRequest: (options, handler) {
 
 ---
 
+## 🧰 Configuração do Ambiente
+
+### Variáveis e endpoints
+
+- Ajuste `lib/core/constants/api_constants.dart` com `baseUrl` e constantes.
+- Se precisar de múltiplos ambientes (dev/staging/prod), use `--dart-define` e uma fábrica de configs.
+
+### Android
+
+- Revise `android/app/build.gradle` (min/target/compile SDK) e permissões do `AndroidManifest.xml`.
+
+### iOS
+
+- Atualize `ios/Runner/Info.plist` com chaves de permissão (câmera, fotos, etc.).
+
+---
+
 ## ⚙️ Configuração e Deploy
 
 ### 🔧 Configurações do Projeto
@@ -963,6 +1108,11 @@ Para dúvidas sobre a implementação ou sugestões de melhorias, consulte a doc
 
 _Documentação gerada em: ${DateTime.now().toString()}_
 
+---
+
+## 🧷 Notas rápidas originais
+
+```text
 # sympla_app
 
 A new Flutter project.
@@ -1002,3 +1152,4 @@ Se tudo der certo:
 A partir de agora, você pode instalar, depurar, logar (adb logcat), tudo via Wi-Fi 😎
 
 ⸻
+```
