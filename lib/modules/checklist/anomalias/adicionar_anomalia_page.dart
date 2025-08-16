@@ -49,6 +49,8 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
   late final SearchableDropdownController<EquipamentoTableDto> equipDropdownCtrl;
   late final SearchableDropdownController<DefeitoTableDto> defeitoDropdownCtrl;
 
+  final RxBool salvando = false.obs; // 👈 add
+
   // ⬇️ ADD: workers para bind reativo
   Worker? _equipamentosWorker;
   Worker? _defeitosWorker;
@@ -98,43 +100,71 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
       appBar: AppBar(
         title: const Text('Adicionar Anomalia'),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () async {
-              if (_formKey.currentState!.validate()) {
-                final atividade = controller.atividadeController.atividadeEmAndamento.value;
-                final equipamento = controller.equipamentoSelecionado.value;
-                final defeito = defeitoSelecionado.value;
-                final fase = faseSelecionada.value;
-                final lado = ladoSelecionado.value;
+          Obx(() {
+            if (salvando.value) {
+              // loader compacto na AppBar
+              return const Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                ),
+              );
+            }
+            return IconButton(
+              icon: const Icon(Icons.save),
+              onPressed: () async {
+                if (_formKey.currentState!.validate()) {
+                  final controller = Get.find<AnomaliaController>();
+                  final atividade = controller.atividadeController.atividadeEmAndamento.value;
+                  final equipamento = controller.equipamentoSelecionado.value;
+                  final defeito = defeitoSelecionado.value;
+                  final fase = faseSelecionada.value;
+                  final lado = ladoSelecionado.value;
 
-                if (atividade == null ||
-                    equipamento == null ||
-                    defeito == null ||
-                    fase == null ||
-                    lado == null) {
-                  AppLogger.w('[AdicionarAnomaliaPage] Campos obrigatórios ausentes');
-                  return;
+                  if (atividade == null ||
+                      equipamento == null ||
+                      defeito == null ||
+                      fase == null ||
+                      lado == null) {
+                    AppLogger.w('[AdicionarAnomaliaPage] Campos obrigatórios ausentes');
+                    return;
+                  }
+
+                  salvando.value = true; // 👈 liga loader
+                  try {
+                    final anomalia = AnomaliaTableDto(
+                      perguntaId: widget.perguntaId,
+                      atividadeId: atividade.uuid,
+                      equipamentoId: equipamento.uuid,
+                      defeitoId: defeito.uuid,
+                      fase: fase,
+                      lado: lado,
+                      delta: double.tryParse(deltaController.text),
+                      observacao:
+                          observacaoController.text.isEmpty ? null : observacaoController.text,
+                      foto: _imagemSelecionada != null
+                          ? await _imagemSelecionada!.readAsBytes()
+                          : null,
+                      corrigida: false,
+                    );
+                    await controller.salvarAnomalia(widget.perguntaId, anomalia);
+                    Get.back();
+                  } catch (e, s) {
+                    AppLogger.e('[AdicionarAnomaliaPage] Erro ao salvar anomalia',
+                        error: e, stackTrace: s);
+                    // (opcional) feedback ao usuário
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Falha ao salvar. Tente novamente.')),
+                    );
+                  } finally {
+                    salvando.value = false; // 👈 desliga loader (se a tela não tiver sido fechada)
+                  }
                 }
-
-                final anomalia = AnomaliaTableDto(
-                  perguntaId: widget.perguntaId,
-                  atividadeId: atividade.uuid,
-                  equipamentoId: equipamento.uuid,
-                  defeitoId: defeito.uuid,
-                  fase: fase,
-                  lado: lado,
-                  delta: double.tryParse(deltaController.text),
-                  observacao: observacaoController.text.isEmpty ? null : observacaoController.text,
-                  foto: _imagemSelecionada != null ? await _imagemSelecionada!.readAsBytes() : null,
-                  corrigida: false,
-                );
-                await controller.salvarAnomalia(widget.perguntaId, anomalia);
-
-                Get.back();
-              }
-            },
-          )
+              },
+            );
+          }),
         ],
       ),
       body: Padding(
