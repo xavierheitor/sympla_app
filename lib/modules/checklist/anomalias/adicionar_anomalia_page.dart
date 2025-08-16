@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
@@ -14,6 +13,9 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/storage/converters/fase_converter.dart';
 import 'package:sympla_app/core/storage/converters/lado_converter.dart';
 import 'package:sympla_app/modules/checklist/anomalias/anomalia_controller.dart';
+import 'package:sympla_app/widgets/custom_searcheable_dropdown.dart';
+
+// 👇 novo import do componente
 
 class AdicionarAnomaliaPage extends StatefulWidget {
   final String perguntaId;
@@ -42,6 +44,51 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
 
   final ImagePicker _picker = ImagePicker();
   File? _imagemSelecionada;
+
+  // 👇 adicionados: controllers dos dropdowns pesquisáveis
+  late final SearchableDropdownController<EquipamentoTableDto> equipDropdownCtrl;
+  late final SearchableDropdownController<DefeitoTableDto> defeitoDropdownCtrl;
+
+  // ⬇️ ADD: workers para bind reativo
+  Worker? _equipamentosWorker;
+  Worker? _defeitosWorker;
+  Worker? _equipSelecionadoWorker;
+
+  @override
+  void initState() {
+    super.initState();
+    final a = Get.find<AnomaliaController>();
+
+    equipDropdownCtrl = SearchableDropdownController<EquipamentoTableDto>(
+      initialItems: a.equipamentos.toList(),
+      itemLabel: (e) => e.nome,
+    );
+
+    defeitoDropdownCtrl = SearchableDropdownController<DefeitoTableDto>(
+      initialItems: a.defeitos.toList(),
+      itemLabel: (d) => d.descricao,
+    );
+
+    // 👉 quando a lista de equipamentos mudar, atualiza o dropdown
+    _equipamentosWorker = ever<List<EquipamentoTableDto>>(a.equipamentos, (lista) {
+      equipDropdownCtrl.setItems(lista);
+    });
+
+    // 👉 quando a lista de defeitos mudar (após carregar do banco), atualiza dropdown e desliga loading
+    _defeitosWorker = ever<List<DefeitoTableDto>>(a.defeitos, (lista) {
+      defeitoDropdownCtrl.setItems(lista);
+      defeitoDropdownCtrl.loading.value = false; // encerra spinner do bottom sheet, se aberto
+    });
+
+    // 👉 mantém a seleção do dropdown de equipamento em sincronia com o controller (se setarem de fora)
+    _equipSelecionadoWorker = ever<EquipamentoTableDto?>(a.equipamentoSelecionado, (equip) {
+      if (equip == null) {
+        equipDropdownCtrl.clearSelection();
+      } else {
+        equipDropdownCtrl.select(equip);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -97,113 +144,43 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                TypeAheadField<EquipamentoTableDto>(
-                  controller: equipamentoTextFieldController,
-                  suggestionsCallback: (pattern) {
-                    return controller.equipamentos
-                        .where((e) => e.nome.toLowerCase().contains(pattern.toLowerCase()))
-                        .toList();
-                  },
-                  itemBuilder: (context, equipamento) {
-                    return ListTile(title: Text(equipamento.nome));
-                  },
-                  onSelected: (value) {
+                // ====== ALTERADO: campo de selecao do equipamento ======
+                SearchableDropdown<EquipamentoTableDto>(
+                  controller: equipDropdownCtrl,
+                  labelText: 'Equipamento',
+                  leadingIcon: const Icon(Icons.precision_manufacturing),
+                  onChanged: (value) {
+                    final controller = Get.find<AnomaliaController>();
+
+                    // atualiza estado original
                     controller.equipamentoSelecionado.value = value;
+
+                    // resetar defeito e mostrar spinner enquanto carrega do banco
                     defeitoSelecionado.value = null;
-                    equipamentoTextFieldController.text = value.nome;
-                  },
-                  builder: (context, textController, focusNode) {
-                    final equipamentoSelecionado = controller.equipamentoSelecionado.value;
+                    defeitoDropdownCtrl.clearSelection();
+                    defeitoDropdownCtrl.loading.value =
+                        true; // 👈 mostra CircularProgressIndicator no sheet
 
-                    // Garante que o campo reflita o equipamento selecionado
-                    if (equipamentoSelecionado != null &&
-                        textController.text != equipamentoSelecionado.nome) {
-                      textController.text = equipamentoSelecionado.nome;
-                      textController.selection = TextSelection.fromPosition(
-                        TextPosition(offset: textController.text.length),
-                      );
-                    }
-
-                    return TextField(
-                      controller: textController,
-                      focusNode: focusNode,
-                      decoration: const InputDecoration(
-                        labelText: 'Equipamento',
-                        border: OutlineInputBorder(),
-                      ),
-                    );
+                    // OBS: o carregarDefeitos é disparado pelo ever(equipamentoSelecionado)
+                    // dentro do AnomaliaController. Quando terminar, _defeitosWorker acima
+                    // vai setar a nova lista e desligar o loading.
                   },
-                  hideOnEmpty: true,
-                  hideOnError: true,
                 ),
-                // Obx(() => DropdownButtonFormField<EquipamentoTableDto>(
-                //       value: controller.equipamentoSelecionado.value,
-                //       decoration:
-                //           const InputDecoration(labelText: 'Equipamento'),
-                //       items: controller.equipamentos.map((e) {
-                //         return DropdownMenuItem(
-                //           value: e,
-                //           child: Text(e.nome),
-                //         );
-                //       }).toList(),
-                //       onChanged: (value) {
-                //         controller.equipamentoSelecionado.value = value;
-                //         defeitoSelecionado.value = null;
-                //       },
-                //       validator: (value) =>
-                //           value == null ? 'Selecione o equipamento' : null,
-                //     )),
+
                 const SizedBox(height: 16),
-                // Obx(() => DropdownButtonFormField<DefeitoTableDto>(
-                //       value: defeitoSelecionado.value,
-                //       decoration: const InputDecoration(labelText: 'Defeito'),
-                //       items: controller.defeitos.map((d) {
-                //         return DropdownMenuItem(
-                //           value: d,
-                //           child: Text(d.descricao),
-                //         );
-                //       }).toList(),
-                //       onChanged: (value) => defeitoSelecionado.value = value,
-                //       validator: (value) => value == null ? 'Selecione o defeito' : null,
-                //     )),
-                TypeAheadField<DefeitoTableDto>(
-                  controller: defeitoTextFieldController,
-                  suggestionsCallback: (pattern) {
-                    return controller.defeitos
-                        .where((d) => d.descricao.toLowerCase().contains(pattern.toLowerCase()))
-                        .toList();
-                  },
-                  itemBuilder: (context, defeito) {
-                    return ListTile(title: Text(defeito.descricao));
-                  },
-                  onSelected: (value) {
+
+                // ====== ALTERADO: campo de selecao do defeito ======
+                SearchableDropdown<DefeitoTableDto>(
+                  controller: defeitoDropdownCtrl,
+                  labelText: 'Defeito',
+                  leadingIcon: const Icon(Icons.report_problem),
+                  onChanged: (value) {
                     defeitoSelecionado.value = value;
-                    defeitoTextFieldController.text = value.descricao;
                   },
-                  builder: (context, textController, focusNode) {
-                    final defeitoSelecionado = this.defeitoSelecionado.value;
-
-                    if (defeitoSelecionado != null &&
-                        textController.text != defeitoSelecionado.descricao) {
-                      textController.text = defeitoSelecionado.descricao;
-                      textController.selection = TextSelection.fromPosition(
-                        TextPosition(offset: textController.text.length),
-                      );
-                    }
-
-                    return TextField(
-                      controller: textController,
-                      focusNode: focusNode,
-                      decoration: const InputDecoration(
-                        labelText: 'Defeito',
-                        border: OutlineInputBorder(),
-                      ),
-                    );
-                  },
-                  hideOnEmpty: true,
-                  hideOnError: true,
                 ),
+
                 const SizedBox(height: 16),
+
                 Row(
                   children: [
                     Expanded(
@@ -294,6 +271,16 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _equipamentosWorker?.dispose();
+    _defeitosWorker?.dispose();
+    _equipSelecionadoWorker?.dispose();
+    deltaController.dispose();
+    observacaoController.dispose();
+    super.dispose();
   }
 
   Future<void> _selecionarImagem(ImageSource origem) async {
