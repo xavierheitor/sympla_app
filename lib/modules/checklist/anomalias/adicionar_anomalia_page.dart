@@ -94,7 +94,7 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<AnomaliaController>();
+    // final controller = Get.find<AnomaliaController>();
 
     return Scaffold(
       appBar: AppBar(
@@ -155,9 +155,8 @@ class _AdicionarAnomaliaPageState extends State<AdicionarAnomaliaPage> {
                     AppLogger.e('[AdicionarAnomaliaPage] Erro ao salvar anomalia',
                         error: e, stackTrace: s);
                     // (opcional) feedback ao usuário
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Falha ao salvar. Tente novamente.')),
-                    );
+                    Get.snackbar('Erro ao salvar anomalia', 'Tente novamente',
+                        backgroundColor: Colors.red, colorText: Colors.white);
                   } finally {
                     salvando.value = false; // 👈 desliga loader (se a tela não tiver sido fechada)
                   }

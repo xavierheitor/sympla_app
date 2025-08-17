@@ -263,11 +263,12 @@ class _AnomaliaFormWidgetState extends State<AnomaliaFormWidget> {
       Get.back();
     } catch (e, s) {
       AppLogger.e('[AnomaliaFormWidget] Erro ao salvar anomalia', error: e, stackTrace: s);
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Erro ao salvar. Tente novamente.')),
-      );
+      Get.snackbar('Erro ao salvar anomalia', 'Tente novamente',
+          backgroundColor: Colors.red, colorText: Colors.white);
     } finally {
       salvando.value = false;
     }
   }
 }
+
+//TODO:   Unificar form de cadastro/edicao de anomalias, usamos 2 diferentes, mas podem ser um so
