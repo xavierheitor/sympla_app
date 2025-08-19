@@ -15,6 +15,7 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.5
   get: ^4.7.2
+  connectivity_plus: ^6.1.0
   signature: ^5.5.0
   flutter_typeahead: ^5.2.0
   image_picker: ^1.1.2

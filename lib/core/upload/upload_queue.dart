@@ -11,12 +11,24 @@ class UploadQueue {
   final List<UploadItem> _items = [];
 
   void adicionar(UploadItem item) {
-    _items.add(item);
+    // evita duplicados do mesmo uuid
+    if (!_items.any((i) => i.atividadeSync.uuid == item.atividadeSync.uuid)) {
+      _items.add(item);
+    }
   }
 
   UploadItem? proximo() {
     if (_items.isEmpty) return null;
-    return _items.removeAt(0);
+    // encontra o primeiro item elegível pela janela de backoff
+    final agora = DateTime.now();
+    for (int index = 0; index < _items.length; index++) {
+      final item = _items[index];
+      final podeProcessar = item.proximaTentativa == null || !item.proximaTentativa!.isAfter(agora);
+      if (podeProcessar) {
+        return _items.removeAt(index);
+      }
+    }
+    return null; // nenhum elegível no momento
   }
 
   void remover(String atividadeId) {
@@ -34,7 +46,9 @@ class UploadQueue {
   }
 
   void adicionarNoInicio(UploadItem item) {
-    _items.insert(0, item);
+    if (!_items.any((i) => i.atividadeSync.uuid == item.atividadeSync.uuid)) {
+      _items.insert(0, item);
+    }
   }
 
   bool contem(String atividadeId) {

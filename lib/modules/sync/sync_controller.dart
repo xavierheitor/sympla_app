@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
+import 'package:flutter/widgets.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/upload/background_sync_service.dart';
+import 'package:sympla_app/core/upload/upload_manager.dart';
 
 class SyncController extends GetxController {
   final BackgroundSyncService _backgroundService = Get.find<BackgroundSyncService>();
@@ -18,14 +20,28 @@ class SyncController extends GetxController {
   void onInit() {
     super.onInit();
     _initComputedRx();
-    _updateStatus();
+    // Evita disparar mudanças reativas durante a construção inicial da árvore
+    WidgetsBinding.instance.addPostFrameCallback((_) => _updateStatus());
   }
 
   void _initComputedRx() {
-    estaExecutandoRx = RxBool(status['executando'] ?? false);
-    temConexaoRx = RxBool(status['temConexao'] ?? false);
-    tamanhoFilaRx = RxInt(status['tamanhoFila'] ?? 0);
-    estaProcessandoRx = RxBool(status['estaProcessando'] ?? false);
+    // Usa reatividade direta dos serviços quando possível
+    try {
+      final bg = _backgroundService;
+      estaExecutandoRx = bg.executandoRx;
+      temConexaoRx = bg.temConexaoRx;
+    } catch (_) {
+      estaExecutandoRx = RxBool(status['executando'] ?? false);
+      temConexaoRx = RxBool(status['temConexao'] ?? false);
+    }
+    try {
+      final uploadManager = Get.find<UploadManager>();
+      tamanhoFilaRx = uploadManager.tamanhoFilaRx;
+      estaProcessandoRx = uploadManager.estaProcessandoRx;
+    } catch (_) {
+      tamanhoFilaRx = RxInt(status['tamanhoFila'] ?? 0);
+      estaProcessandoRx = RxBool(status['estaProcessando'] ?? false);
+    }
   }
 
   void _updateStatus() {
@@ -40,12 +56,7 @@ class SyncController extends GetxController {
         'estaProcessando': false,
       };
     }
-
-    // Atualiza os derivados
-    estaExecutandoRx.value = status['executando'] ?? false;
-    temConexaoRx.value = status['temConexao'] ?? false;
-    tamanhoFilaRx.value = status['tamanhoFila'] ?? 0;
-    estaProcessandoRx.value = status['estaProcessando'] ?? false;
+    // Não altere os Rx derivados aqui para evitar setState durante build
   }
 
   Future<void> iniciarServico() async {
@@ -98,6 +109,21 @@ class SyncController extends GetxController {
       AppLogger.d('✅ Sincronização manual executada');
     } catch (e, s) {
       AppLogger.e('❌ Erro na sincronização manual', error: e, stackTrace: s);
+      rethrow;
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> limparFila() async {
+    isLoading.value = true;
+    try {
+      final uploadManager = Get.find<UploadManager>();
+      uploadManager.limparFila();
+      _updateStatus();
+      AppLogger.d('🗑️ Fila limpa com sucesso');
+    } catch (e, s) {
+      AppLogger.e('❌ Erro ao limpar fila', error: e, stackTrace: s);
       rethrow;
     } finally {
       isLoading.value = false;

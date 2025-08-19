@@ -33,10 +33,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            _buildStatusRow('Status', _getStatusText()),
-            _buildStatusRow('Conexão', _getConexaoText()),
-            _buildStatusRow('Fila', _getFilaText()),
-            _buildStatusRow('Processando', _getProcessandoText()),
+            _buildReactiveStatusRows(),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -71,11 +68,24 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
     );
   }
 
+  Widget _buildReactiveStatusRows() {
+    // Evita triggers durante build juntando em um único Obx
+    return Obx(() {
+      return Column(
+        children: [
+          _buildStatusRow('Status', _getStatusText()),
+          _buildStatusRow('Conexão', _getConexaoText()),
+          _buildStatusRow('Fila', _getFilaText()),
+          _buildStatusRow('Processando', _getProcessandoText()),
+        ],
+      );
+    });
+  }
+
   String _getStatusText() {
     try {
       final service = Get.find<BackgroundSyncService>();
-      final status = service.status;
-      return status['executando'] ? 'Ativo' : 'Inativo';
+      return service.executandoRx.value ? 'Ativo' : 'Inativo';
     } catch (e) {
       return 'Indisponível';
     }
@@ -84,8 +94,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
   String _getConexaoText() {
     try {
       final service = Get.find<BackgroundSyncService>();
-      final status = service.status;
-      return status['temConexao'] ? 'Conectado' : 'Desconectado';
+      return service.temConexaoRx.value ? 'Conectado' : 'Desconectado';
     } catch (e) {
       return 'Verificando...';
     }
@@ -94,7 +103,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
   String _getFilaText() {
     try {
       final uploadManager = Get.find<UploadManager>();
-      return '${uploadManager.tamanhoFila} itens';
+      return '${uploadManager.tamanhoFilaRx.value} itens';
     } catch (e) {
       return '0 itens';
     }
@@ -103,7 +112,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
   String _getProcessandoText() {
     try {
       final uploadManager = Get.find<UploadManager>();
-      return uploadManager.estaProcessando ? 'Sim' : 'Não';
+      return uploadManager.estaProcessandoRx.value ? 'Sim' : 'Não';
     } catch (e) {
       return 'Não';
     }
@@ -148,42 +157,47 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
 class _CompactSyncStatusWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      decoration: BoxDecoration(
-        color: Colors.blue.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.blue.withOpacity(0.3)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.cloud_upload,
-            size: 16,
-            color: _getStatusColor(),
+    return Obx(() {
+        // Recalcula sempre que UploadManager notificar
+        final color = _getStatusColor();
+        final text = _getStatusText();
+        return Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: Colors.blue.withOpacity(0.3)),
           ),
-          const SizedBox(width: 8),
-          Text(
-            _getStatusText(),
-            style: TextStyle(
-              fontSize: 12,
-              color: _getStatusColor(),
-              fontWeight: FontWeight.w500,
-            ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.cloud_upload,
+                size: 16,
+                color: color,
+              ),
+              const SizedBox(width: 8),
+              Text(
+                text,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: color,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        );
+    });
   }
 
   String _getStatusText() {
     try {
       final uploadManager = Get.find<UploadManager>();
-      if (uploadManager.estaProcessando) {
+      if (uploadManager.estaProcessandoRx.value) {
         return 'Sincronizando...';
-      } else if (uploadManager.tamanhoFila > 0) {
-        return '${uploadManager.tamanhoFila} pendente(s)';
+      } else if (uploadManager.tamanhoFilaRx.value > 0) {
+        return '${uploadManager.tamanhoFilaRx.value} pendente(s)';
       } else {
         return 'Sincronizado';
       }
@@ -195,9 +209,9 @@ class _CompactSyncStatusWidget extends StatelessWidget {
   Color _getStatusColor() {
     try {
       final uploadManager = Get.find<UploadManager>();
-      if (uploadManager.estaProcessando) {
+      if (uploadManager.estaProcessandoRx.value) {
         return Colors.orange;
-      } else if (uploadManager.tamanhoFila > 0) {
+      } else if (uploadManager.tamanhoFilaRx.value > 0) {
         return Colors.red;
       } else {
         return Colors.green;

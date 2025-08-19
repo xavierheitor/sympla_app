@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -25,9 +27,19 @@ class BackgroundSyncService extends GetxService {
   bool _executando = false;
   bool _temConexao = false;
 
+  // Reatividade para UI
+  final RxBool executandoRx = false.obs;
+  final RxBool temConexaoRx = false.obs;
+  final Rx<ConnectivityResult?> ultimoTipoConexaoRx = Rx<ConnectivityResult?>(null);
+
+  // Política de rede
+  final bool _wifiApenas = true; // requisito padrão: apenas Wi‑Fi
+  static const bool permitirQualquerRedeEmDebug = true; // facilita testes em emulador
+
   // Configurações
   static const Duration _intervaloVerificacao = Duration(minutes: 15);
   static const Duration _intervaloSincronizacao = Duration(minutes: 5);
+  static const Duration _intervaloRetryCurto = Duration(seconds: 30);
 
   BackgroundSyncService({
     required AtividadeRepository atividadeRepository,
@@ -44,6 +56,7 @@ class BackgroundSyncService extends GetxService {
 
     AppLogger.d('🚀 Iniciando BackgroundSyncService');
     _executando = true;
+    executandoRx.value = true;
 
     // Verificar conectividade inicial
     await _verificarConectividade();
@@ -67,6 +80,7 @@ class BackgroundSyncService extends GetxService {
 
     AppLogger.d('⏹️ Parando BackgroundSyncService');
     _executando = false;
+    executandoRx.value = false;
 
     _verificacaoTimer?.cancel();
     _sincronizacaoTimer?.cancel();
@@ -76,25 +90,55 @@ class BackgroundSyncService extends GetxService {
 
   /// 🔄 Verifica conectividade com a internet
   Future<void> _verificarConectividade() async {
-    //TODO: melhorar a verificação de conectividade, ver se o usuário está conectado a internet por wifi apenas
+    // Melhoria: verificação simples de reachability (DNS) + tentativa leve ao backend
     try {
+      // Verifica tipo de rede
+      final connectivityResult = await Connectivity().checkConnectivity();
+      // ultimoTipoConexaoRx.value = connectivityResult;
+      final onWifi = connectivityResult.contains(ConnectivityResult.wifi);
+
+      // Checagem rápida de reachability
       final resultado = await InternetAddress.lookup('google.com');
-      final novaConectividade = resultado.isNotEmpty && resultado[0].rawAddress.isNotEmpty;
+      final dnsOk = resultado.isNotEmpty && resultado[0].rawAddress.isNotEmpty;
+
+      // Avalia requisito de rede
+      bool atendeTipoRede =
+          _wifiApenas ? onWifi : (!connectivityResult.contains(ConnectivityResult.none));
+      if (!atendeTipoRede && kDebugMode && permitirQualquerRedeEmDebug) {
+        // Em debug, permite qualquer rede diferente de none (útil para emulador)
+        atendeTipoRede = !connectivityResult.contains(ConnectivityResult.none);
+        AppLogger.d(
+            '🧪 Debug: liberando requisito de Wi‑Fi para testes (tipo: $connectivityResult)');
+      }
+
+      final novaConectividade = atendeTipoRede && dnsOk;
+
+      AppLogger.d(
+          '🌐 Check conectividade → tipo=$connectivityResult, wifiApenas=$_wifiApenas, dnsOk=$dnsOk, atendeTipo=$atendeTipoRede, novaConectividade=$novaConectividade');
 
       if (_temConexao != novaConectividade) {
         _temConexao = novaConectividade;
+        temConexaoRx.value = _temConexao;
         AppLogger.d('🌐 Conectividade alterada: ${_temConexao ? "Conectado" : "Desconectado"}');
 
-        // Se conectou, tentar sincronizar imediatamente
         if (_temConexao) {
-          await _processarFilaUpload();
+          // ao reconectar, agenda uma tentativa curta para escoar fila rapidamente
+          unawaited(_agendarRetryCurto());
         }
       }
     } catch (e) {
       if (_temConexao) {
         _temConexao = false;
+        temConexaoRx.value = _temConexao;
         AppLogger.d('🌐 Conectividade perdida');
       }
+    }
+  }
+
+  Future<void> _agendarRetryCurto() async {
+    await Future.delayed(_intervaloRetryCurto);
+    if (_executando && _temConexao) {
+      await _processarFilaUpload();
     }
   }
 

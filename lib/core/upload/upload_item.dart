@@ -13,7 +13,18 @@ class UploadItem {
   String? erro;
   DateTime? dataCriacao;
 
-  UploadItem(this.atividadeSync, {this.tentativas = 0, this.erro}) : dataCriacao = DateTime.now();
+  /// Próxima data/hora em que o item pode ser reprocessado (backoff)
+  DateTime? proximaTentativa;
+
+  /// Máximo de tentativas antes de desistir do reenvio
+  static const int maxTentativas = 3;
+
+  UploadItem(
+    this.atividadeSync, {
+    this.tentativas = 0,
+    this.erro,
+  })  : dataCriacao = DateTime.now(),
+        proximaTentativa = DateTime.now();
 
   // Opcional: métodos utilitários
   void marcarErro(String erro) {
@@ -27,7 +38,7 @@ class UploadItem {
 
   bool get possuiErro => erro != null;
 
-  bool get podeTentarNovamente => tentativas < 3;
+  bool get podeTentarNovamente => tentativas < maxTentativas;
 
   Duration get tempoNaFila => DateTime.now().difference(dataCriacao!);
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:sympla_app/core/upload/widgets/background_sync_status_widget.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:sympla_app/core/upload/background_sync_service.dart';
 import 'package:sympla_app/modules/sync/sync_controller.dart';
 
 class SyncStatusPage extends GetView<SyncController> {
@@ -14,13 +16,6 @@ class SyncStatusPage extends GetView<SyncController> {
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
         elevation: 2,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh),
-            onPressed: controller.atualizarStatus,
-            tooltip: 'Atualizar',
-          ),
-        ],
       ),
       body: _buildBody(),
       floatingActionButton: _buildFloatingActionButton(),
@@ -33,11 +28,6 @@ class SyncStatusPage extends GetView<SyncController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Widget de status do background sync
-            const BackgroundSyncStatusWidget(),
-
-            const SizedBox(height: 24),
-
             // Seção de controles manuais
             _buildManualControlsSection(),
 
@@ -74,11 +64,14 @@ class SyncStatusPage extends GetView<SyncController> {
               ],
             ),
             const SizedBox(height: 16),
+            // Linha 1: Iniciar / Parar serviço (mutuamente exclusivos)
             Row(
               children: [
                 Expanded(
                   child: Obx(() => ElevatedButton.icon(
-                        onPressed: controller.isLoading.value ? null : controller.iniciarServico,
+                        onPressed: controller.isLoading.value || controller.estaExecutando
+                            ? null
+                            : controller.iniciarServico,
                         icon: const Icon(Icons.play_arrow),
                         label: const Text('Iniciar Serviço'),
                         style: ElevatedButton.styleFrom(
@@ -90,7 +83,9 @@ class SyncStatusPage extends GetView<SyncController> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Obx(() => ElevatedButton.icon(
-                        onPressed: controller.isLoading.value ? null : controller.pararServico,
+                        onPressed: controller.isLoading.value || !controller.estaExecutando
+                            ? null
+                            : controller.pararServico,
                         icon: const Icon(Icons.stop),
                         label: const Text('Parar Serviço'),
                         style: ElevatedButton.styleFrom(
@@ -102,6 +97,7 @@ class SyncStatusPage extends GetView<SyncController> {
               ],
             ),
             const SizedBox(height: 12),
+            // Linha 2: Verificar atividades / Sincronizar fila
             Row(
               children: [
                 Expanded(
@@ -120,9 +116,26 @@ class SyncStatusPage extends GetView<SyncController> {
                   child: Obx(() => ElevatedButton.icon(
                         onPressed: controller.isLoading.value ? null : controller.sincronizarManual,
                         icon: const Icon(Icons.cloud_upload),
-                        label: const Text('Sincronizar Agora'),
+                        label: const Text('Sincronizar Fila'),
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.purple,
+                          foregroundColor: Colors.white,
+                        ),
+                      )),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            // Linha 3: Limpar fila
+            Row(
+              children: [
+                Expanded(
+                  child: Obx(() => ElevatedButton.icon(
+                        onPressed: controller.isLoading.value ? null : controller.limparFila,
+                        icon: const Icon(Icons.delete_sweep),
+                        label: const Text('Limpar Fila'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.grey[700],
                           foregroundColor: Colors.white,
                         ),
                       )),
@@ -157,11 +170,19 @@ class SyncStatusPage extends GetView<SyncController> {
             _buildInfoRow('Verificação Automática', 'A cada 15 minutos'),
             _buildInfoRow('Sincronização Automática', 'A cada 5 minutos'),
             _buildInfoRow('Tentativas Máximas', '3 por item'),
-            _buildInfoRow('Requer Conexão', 'WiFi'),
-            Obx(() =>
-                _buildInfoRow('Status Atual', controller.estaExecutando ? 'Ativo' : 'Inativo')),
-            Obx(() =>
-                _buildInfoRow('Conexão', controller.temConexao ? 'Conectado' : 'Desconectado')),
+            _buildInfoRow('Requer Conexão', 'Wi‑Fi'),
+            const SizedBox(height: 8),
+            // Status atual e compliance com política
+            Obx(() => _buildInfoRow('Serviço', controller.estaExecutando ? 'Ativo' : 'Inativo')),
+            Obx(() => _buildInfoRow('Conexão', controller.temConexao ? 'Conectado' : 'Desconectado')),
+            Obx(() {
+              // Mostra se o tipo de rede atual atende à política (Wi‑Fi)
+              final bg = Get.find<BackgroundSyncService>();
+              final tipo = bg.ultimoTipoConexaoRx.value;
+              final atende = (tipo == ConnectivityResult.wifi) || (kDebugMode);
+              final detalhe = tipo?.toString().split('.').last ?? 'desconhecido';
+              return _buildInfoRow('Tipo de Rede', '$detalhe${atende ? ' (ok)' : ' (não atende)'}');
+            }),
             Obx(() => _buildInfoRow('Fila de Upload', '${controller.tamanhoFila} itens')),
             Obx(() => _buildInfoRow('Processando', controller.estaProcessando ? 'Sim' : 'Não')),
           ],

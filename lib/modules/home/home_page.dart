@@ -35,8 +35,7 @@ class HomePage extends StatelessWidget {
                     onPressed: () async {
                       controller.sincronizacao.value = true;
                       try {
-                        await Get.find<SyncManager>()
-                            .sincronizarModulo('atividade', force: true);
+                        await Get.find<SyncManager>().sincronizarModulo('atividade', force: true);
                         // Recarrega as atividades após sincronização
                         await controller.atividadeController.carregarAtividades();
                       } finally {
@@ -62,9 +61,7 @@ class HomePage extends StatelessWidget {
 
         final atividadeEmAndamento = atividadeCtrl.atividadeEmAndamento.value;
         final outrasAtividades = atividadeCtrl.atividades
-            .where((a) =>
-                atividadeEmAndamento == null ||
-                a.uuid != atividadeEmAndamento.uuid)
+            .where((a) => atividadeEmAndamento == null || a.uuid != atividadeEmAndamento.uuid)
             .toList();
 
         return Column(
@@ -74,7 +71,7 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: BackgroundSyncStatusWidget.compact(),
             ),
-            
+
             //separa a lista de atividades em 2 listas, uma com as atividades em andamento e outra com as outras atividades
             //e mostra as atividades em andamento em um chip e as outras atividades em uma lista
             //o chip deve ser clicavel e deve abrir a tela de atividade em andamento

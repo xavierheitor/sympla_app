@@ -49,9 +49,8 @@ class AtividadeCard extends StatelessWidget {
         child: Opacity(
           opacity: isConcluida ? 0.6 : 1.0,
           child: InkWell(
-            onTap: isConcluida
-                ? null
-                : () async {
+            onTap: _podeAbrirAtividade(status)
+                ? () async {
                     final atual = controller.atividadeEmAndamento.value;
                     if (isEmExecucao) {
                       await controller.executarAtividade(atividade);
@@ -68,7 +67,8 @@ class AtividadeCard extends StatelessWidget {
                       return;
                     }
                     _mostrarDialogoConfirmacao(context, atividade, controller);
-                  },
+                  }
+                : null,
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
@@ -182,5 +182,10 @@ class AtividadeCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  /// Verifica se a atividade pode ser aberta baseado no status
+  bool _podeAbrirAtividade(StatusAtividade status) {
+    return status == StatusAtividade.pendente || status == StatusAtividade.emAndamento;
   }
 }
