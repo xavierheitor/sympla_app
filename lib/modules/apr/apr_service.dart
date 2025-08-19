@@ -67,7 +67,11 @@ class AprService with RepositoryHelper {
   Future<bool> aprJaPreenchida(String atividadeId) {
     return executar('aprJaPreenchida', () async {
       final apr = await aprRepository.buscarAprPreenchida(atividadeId);
-      return apr != null;
+      if (apr == null || apr.id == null) return false;
+
+      // 🔍 Verificação dupla: APR preenchida + respostas salvas
+      final respostas = await aprRepository.buscarRespostas(apr.id!);
+      return respostas.isNotEmpty;
     }, onErrorReturn: false);
   }
 
