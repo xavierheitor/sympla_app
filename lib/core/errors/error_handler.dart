@@ -3,6 +3,10 @@ import 'package:sympla_app/core/errors/app_exception.dart';
 import 'package:sympla_app/core/errors/mensagem_erro.dart';
 import 'package:sympla_app/core/errors/tipo_erro.dart';
 
+/// Tratador central de erros.
+///
+/// Converte erros de baixo nível (Dio, etc.) em exceções da camada de domínio
+/// (`AppException`) e expõe mensagens amigáveis ao usuário via `MensagemErro`.
 class ErrorHandler {
   static AppException tratar(dynamic error, [StackTrace? stack]) {
     if (error is AppException) return error;

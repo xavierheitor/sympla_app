@@ -14,9 +14,16 @@ analyzer:
 # Configurações específicas para o linter
 linter:
   rules:
-    # Desabilitar regras que podem gerar muitos avisos desnecessários
+    # Preferências e boas práticas
     prefer_const_constructors: true
     prefer_const_literals_to_create_immutables: true
     avoid_print: true
     prefer_single_quotes: true
     always_use_package_imports: true
+    directives_ordering: true
+    unawaited_futures: true
+    cancel_subscriptions: true
+    close_sinks: true
+    no_adjacent_strings_in_list: true
+    unnecessary_lambdas: true
+    prefer_final_locals: true

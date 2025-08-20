@@ -3,6 +3,11 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
+/// Logger centralizado da aplicação.
+///
+/// - Em modo debug, imprime mensagens coloridas no console
+/// - Persiste logs em arquivo (`app.log`) no diretório de documentos
+/// - Funções utilitárias (`i`, `d`, `w`, `e`, `v`) padronizam o uso
 enum LogLevel { verbose, debug, info, warning, error }
 
 const _reset = '\x1B[0m';

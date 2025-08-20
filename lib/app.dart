@@ -4,6 +4,12 @@ import 'package:sympla_app/core/core_app/bindings/global_bindings.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/routes/app_pages.dart';
 
+/// Widget raiz do aplicativo.
+///
+/// Usa `GetMaterialApp` para:
+/// - Rotas nomeadas centralizadas (`AppPages`)
+/// - Injeção de dependências inicial (`GlobalBinding`)
+/// - Observação de navegação para logging
 class SymplaApp extends StatelessWidget {
   const SymplaApp({super.key});
 

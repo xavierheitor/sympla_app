@@ -5,6 +5,12 @@ import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 
+/// Cliente HTTP central com `Dio`, incluindo:
+///
+/// - Base URL e timeouts padrão (ver `ApiConstants`)
+/// - Interceptor para anexar Bearer Token da sessão
+/// - Logging de request/response via `AppLogger`
+/// - Tratamento de erro padronizado e tentativa de refresh de token (401)
 class DioClient {
   final dio.Dio _dio;
   bool _isRefreshing = false;
@@ -34,7 +40,12 @@ class DioClient {
           AppLogger.v('➡️ [API REQUEST]');
           AppLogger.v('🔹 Method: ${options.method}');
           AppLogger.v('🔹 URL: ${options.uri}');
-          AppLogger.v('🔹 Headers: ${options.headers}');
+          // Evita logar tokens em claro
+          final headersSafe = Map.of(options.headers);
+          if (headersSafe.containsKey('Authorization')) {
+            headersSafe['Authorization'] = 'Bearer ***';
+          }
+          AppLogger.v('🔹 Headers: $headersSafe');
           AppLogger.v('🔹 Body: ${options.data}');
 
           handler.next(options);
@@ -56,6 +67,7 @@ class DioClient {
           // número de tentativas de refresh para esta request
           int retryCount = (options.extra['refreshAttempts'] ?? 0) as int;
 
+          // Autenticação expirada/negada → tenta fluxo de refresh controlado
           if (status == 401) {
             if (retryCount >= ApiConstants.maxRefreshAttempts) {
               AppLogger.e(
@@ -123,7 +135,7 @@ class DioClient {
             return handler.next(error);
           }
 
-          // Tratamento genérico
+          // Tratamento genérico de erros de rede
           String mensagem;
           switch (tipo) {
             case dio.DioExceptionType.connectionTimeout:

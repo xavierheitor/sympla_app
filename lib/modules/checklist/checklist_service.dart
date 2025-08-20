@@ -1,4 +1,3 @@
-import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/domain/dto/anomalia/anomalia_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/checklist/checklist_pergunta_table_dto.dart';
@@ -21,14 +20,16 @@ class ChecklistService {
   final EquipamentoRepository equipamentoRepository;
   final DefeitoRepository defeitoRepository;
   final AnomaliaRepository anomaliaRepository;
+  final SessionManager session;
 
-  ChecklistService(
-    this.checklistRepository,
-    this.atividadeRepository,
-    this.equipamentoRepository,
-    this.defeitoRepository,
-    this.anomaliaRepository,
-  );
+  ChecklistService({
+    required this.checklistRepository,
+    required this.atividadeRepository,
+    required this.equipamentoRepository,
+    required this.defeitoRepository,
+    required this.anomaliaRepository,
+    required this.session,
+  });
 
   Future<ChecklistTableDto> buscarChecklistPorTipoAtividade(
       String tipoAtividadeId) async {
@@ -231,7 +232,7 @@ Future<bool> checklistJaRespondido(String atividadeId) async {
         atividadeId: atividadeId,
         checklistId: checklistId,
         dataPreenchimento: DateTime.now(),
-        usuarioId: Get.find<SessionManager>().usuario!.uuid,
+        usuarioId: session.usuario!.uuid,
       );
       final id = await checklistRepository.criarChecklistPreenchido(dto);
       AppLogger.d('[ChecklistService] Checklist preenchido criado: $id');

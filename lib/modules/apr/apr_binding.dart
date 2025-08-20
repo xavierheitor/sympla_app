@@ -21,6 +21,7 @@ class AprBinding extends Bindings {
     Get.lazyPut(() => AprService(
           aprRepository: Get.find(),
           tecnicoRepository: Get.find(),
+          session: Get.find(),
         ));
 
     Get.lazyPut(() => AprController(

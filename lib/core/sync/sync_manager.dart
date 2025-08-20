@@ -1,14 +1,21 @@
 import 'package:sympla_app/core/domain/repositories/abstracts/syncable_repository.dart';
 import 'package:sympla_app/core/sync/sync_result.dart';
 
+/// Orquestrador de sincronização entre API e banco local.
+///
+/// - Mantém um registro de repositórios "sincronizáveis" (`SyncableRepository`)
+/// - Suporta sincronização total (todos os módulos) e por módulo específico
+/// - Implementa estratégia "inteligente": se o módulo já tem dados locais e
+///   não for forçado (`force=false`), pula a sincronização para economizar rede
 class SyncManager {
   final Map<String, SyncableRepository> _repos = {};
 
+  /// Registra um repositório sincronizável, indexado por `nomeEntidade`.
   void registrar<T>(SyncableRepository<T> repo) {
     _repos[repo.nomeEntidade] = repo;
   }
 
-  /// Lista os módulos disponíveis
+  /// Lista os nomes dos módulos registrados e disponíveis para sync.
   List<String> get modulosDisponiveis => _repos.keys.toList();
 
   /// Sincroniza tudo
@@ -43,7 +50,7 @@ class SyncManager {
     );
   }
 
-  /// Sincroniza um módulo específico
+  /// Sincroniza um módulo específico por nome (`nomeEntidade`).
   Future<void> sincronizarModulo(String nomeEntidade,
       {bool force = false}) async {
     final repo = _repos[nomeEntidade];
@@ -59,6 +66,8 @@ class SyncManager {
     await _executar(repo);
   }
 
+  /// Executa o ciclo de sincronização de um repositório: buscar da API e
+  /// persistir no banco local.
   Future<void> _executar(SyncableRepository repo) async {
     final dados = await repo.buscarDaApi();
     await repo.sincronizarComBanco(dados);

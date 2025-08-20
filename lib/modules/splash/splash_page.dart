@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/modules/splash/splash_controller.dart';
 
+/// Tela de Splash exibida durante inicialização e sincronização inicial.
 class SplashPage extends StatelessWidget {
   final controller = Get.find<SplashController>();
 

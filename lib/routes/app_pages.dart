@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/modules/apr/apr_binging.dart';
+import 'package:sympla_app/modules/apr/apr_binding.dart'; // TODO: renomear para apr_binding.dart
 import 'package:sympla_app/modules/apr/apr_page.dart';
 import 'package:sympla_app/modules/checklist/checklist_binding.dart';
 import 'package:sympla_app/modules/checklist/checklist_page.dart';
@@ -25,14 +25,19 @@ import 'package:sympla_app/modules/sync/sync_binding.dart';
 import 'package:sympla_app/modules/sync/sync_status_page.dart';
 import 'package:sympla_app/routes/middleware/auth_middleware.dart';
 
+/// Declaração central de rotas da aplicação.
+///
+/// - `initial` define a rota inicial do app
+/// - `routes` lista todas as páginas com seus bindings e middlewares
 class AppPages {
   static const initial = Routes.splash;
 
   static final routes = [
     GetPage(
       name: Routes.home,
-      page: () => HomePage(),
+      page: HomePage.new,
       binding: HomeBinding(),
+      // Protege a Home exigindo sessão autenticada
       middlewares: [AuthMiddleware()],
     ),
     GetPage(
@@ -42,7 +47,7 @@ class AppPages {
     ),
     GetPage(
       name: Routes.splash,
-      page: () => SplashPage(),
+      page: SplashPage.new,
       binding: SplashBinding(),
     ),
     GetPage(
@@ -51,12 +56,12 @@ class AppPages {
     ),
     GetPage(
       name: Routes.apr,
-      page: () => AprPage(),
+      page: AprPage.new,
       binding: AprBinding(),
     ),
     GetPage(
       name: Routes.checklist,
-      page: () => ChecklistPage(),
+      page: ChecklistPage.new,
       binding: ChecklistBinding(),
     ),
     GetPage(
@@ -102,6 +107,7 @@ class AppPages {
       name: Routes.syncStatus,
       page: () => const SyncStatusPage(),
       binding: SyncBinding(),
+      // A tela de status de sync também requer autenticação
       middlewares: [AuthMiddleware()],
     ),
 

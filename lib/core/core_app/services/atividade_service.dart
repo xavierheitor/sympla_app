@@ -5,8 +5,8 @@ import 'package:sympla_app/core/constants/etapas_atividade.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/constants/tipo_atividade_mobile.dart';
 import 'package:sympla_app/core/domain/dto/atividade/atividade_table_dto.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 
 class AtividadeService {
   final AtividadeRepository atividadeRepository;
@@ -72,19 +72,19 @@ class AtividadeService {
 
     switch (etapa) {
       case EtapaAtividade.apr:
-        Get.toNamed(Routes.apr);
+        await Get.toNamed(Routes.apr);
         break;
       case EtapaAtividade.checklist:
-        Get.toNamed(Routes.checklist);
+        await Get.toNamed(Routes.checklist);
         break;
       case EtapaAtividade.resumoAnomalias:
-        Get.toNamed(Routes.resumoAnomalias);
+        await Get.toNamed(Routes.resumoAnomalias);
         break;
       case EtapaAtividade.mpBbForm:
-        Get.toNamed(Routes.mpBbForm);
+        await Get.toNamed(Routes.mpBbForm);
         break;
       case EtapaAtividade.mpDjForm:
-        Get.toNamed(Routes.mpDjForm);
+        await Get.toNamed(Routes.mpDjForm);
         break;
       case EtapaAtividade.finalizada:
         await finalizar(atividade);

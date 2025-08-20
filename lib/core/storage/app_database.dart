@@ -1,5 +1,11 @@
 // ignore_for_file: override_on_non_overriding_member, unused_import
 
+/// Banco de dados local (SQLite) usando Drift.
+///
+/// - Define as tabelas em `tables/schema.dart`
+/// - Usa `LoggingExecutor` para logar statements (configurável)
+/// - `schemaVersion` controla migrações futuras
+
 import 'dart:io';
 
 import 'package:drift/drift.dart';

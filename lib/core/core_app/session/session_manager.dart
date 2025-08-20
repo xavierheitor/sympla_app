@@ -4,6 +4,12 @@ import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 
+/// Gerenciador de sessão do usuário.
+///
+/// - Carrega usuário localmente (SQLite) e verifica validade (24h)
+/// - Renova token automaticamente quando possível
+/// - Fornece `tokenSync` para consumo pelo `DioClient`
+/// - Executa logout limpando dados locais de sessão
 class SessionManager extends GetxService {
   final AuthService authService;
 
@@ -25,6 +31,7 @@ class SessionManager extends GetxService {
   String? get tokenSync => _usuario?.token;
   Future<String?> get token async => _usuario?.token;
 
+  /// Inicializa a sessão a partir do storage local.
   Future<void> init() async {
     AppLogger.d('[SessionManager] Inicializando sessão...');
     try {
@@ -60,6 +67,7 @@ class SessionManager extends GetxService {
     }
   }
 
+  /// Tenta renovar o token usando o `refreshToken` persistido.
   Future<void> renovarToken() async {
     if (_refreshing) return;
 
@@ -83,6 +91,7 @@ class SessionManager extends GetxService {
     }
   }
 
+  /// Finaliza a sessão atual e limpa o usuário em memória.
   Future<bool> logout() async {
     try {
       final result = await authService.logout();

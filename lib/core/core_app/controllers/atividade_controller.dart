@@ -28,8 +28,7 @@ class AtividadeController extends GetxController {
   final RxList<AtividadeTableDto> atividades = <AtividadeTableDto>[].obs;
 
   /// 🔥 A atividade que está atualmente em execução (pode ser nula)
-  final Rx<AtividadeTableDto?> atividadeEmAndamento =
-      Rx<AtividadeTableDto?>(null);
+  final Rx<AtividadeTableDto?> atividadeEmAndamento = Rx<AtividadeTableDto?>(null);
 
   /// 🔥 Etapa atual da atividade em andamento (pode ser nula)
   final Rx<EtapaAtividade?> etapaAtual = Rx<EtapaAtividade?>(null);
@@ -63,8 +62,7 @@ class AtividadeController extends GetxController {
       }
 
       for (final entry in porStatus.entries) {
-        AppLogger.d(
-            '🔢 ${entry.value} atividades com status ${entry.key.name}');
+        AppLogger.d('🔢 ${entry.value} atividades com status ${entry.key.name}');
       }
 
       await _carregarEmAndamento();
@@ -118,7 +116,7 @@ class AtividadeController extends GetxController {
     atividadeEmAndamento.value = null;
     etapaAtual.value = null;
     await carregarAtividades();
-    Get.offAllNamed(Routes.home);
+    await Get.offAllNamed(Routes.home);
   }
 
   /// 🚀 Inicia o processo de upload em background sem bloquear a interface
@@ -127,7 +125,7 @@ class AtividadeController extends GetxController {
     Future.microtask(() async {
       try {
         AppLogger.d('📤 Iniciando upload em background para atividade: $atividadeId');
-        
+
         // Adicionar atividade na fila de upload
         await Get.find<UploadManager>().adicionarNaFila(atividadeId);
         AppLogger.d('📤 Atividade $atividadeId adicionada na fila de upload');
@@ -138,7 +136,7 @@ class AtividadeController extends GetxController {
           await backgroundService.iniciar();
           AppLogger.d('🚀 BackgroundSyncService iniciado');
         }
-        
+
         AppLogger.d('✅ Upload em background iniciado com sucesso para: $atividadeId');
       } catch (e, s) {
         AppLogger.e('❌ Erro no upload em background para $atividadeId', error: e, stackTrace: s);
@@ -200,13 +198,11 @@ class AtividadeController extends GetxController {
     if (atividade != null) {
       atividadeEmAndamento.value = atividade;
       etapaAtual.value = await etapaService.etapaInicial(atividade);
-      AppLogger.d(
-          '🔄 Atividade em andamento: ${atividade.uuid}, etapa: ${etapaAtual.value}');
+      AppLogger.d('🔄 Atividade em andamento: ${atividade.uuid}, etapa: ${etapaAtual.value}');
     }
   }
 
   /// 🔗 Lista de atividades que não estão em andamento
-  List<AtividadeTableDto> get outrasAtividades => atividades
-      .where((a) => a.uuid != atividadeEmAndamento.value?.uuid)
-      .toList();
+  List<AtividadeTableDto> get outrasAtividades =>
+      atividades.where((a) => a.uuid != atividadeEmAndamento.value?.uuid).toList();
 }

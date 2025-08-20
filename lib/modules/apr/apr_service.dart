@@ -1,4 +1,3 @@
-import 'package:get/get.dart' as g;
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_assinatura_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/apr/apr_preenchida_table_dto.dart';
@@ -20,10 +19,12 @@ import 'package:sympla_app/core/domain/repositories/abstracts/tecnico_repository
 class AprService with RepositoryHelper {
   final AprRepository aprRepository;
   final TecnicoRepository tecnicoRepository;
+  final SessionManager session;
 
   AprService({
     required this.aprRepository,
     required this.tecnicoRepository,
+    required this.session,
   });
 
   /// 🔍 Busca o modelo de APR associado ao tipo de atividade.
@@ -86,7 +87,7 @@ class AprService with RepositoryHelper {
         atividadeId: atividadeId,
         aprId: aprId,
         dataPreenchimento: DateTime.now(),
-        usuarioId: g.Get.find<SessionManager>().usuario!.uuid,
+        usuarioId: session.usuario!.uuid,
       );
       return aprRepository.criarAprPreenchida(dto);
     });

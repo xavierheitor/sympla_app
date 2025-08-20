@@ -24,10 +24,16 @@ import 'package:sympla_app/core/upload/background_sync_service.dart';
 import 'package:sympla_app/core/upload/upload_manager.dart';
 import 'package:sympla_app/core/upload/upload_service.dart';
 
+/// Registro global de dependências do app.
+///
+/// - Inicializa serviços core (DB, HTTP, SESSÃO)
+/// - Registra repositórios e serviços de DOMÍNIO
+/// - Prepara serviços de upload/sincronização em background
 class GlobalBinding extends Bindings {
   @override
   void dependencies() {
     // === Core (DB, API) ===
+    // Banco local (Drift) e cliente HTTP (Dio)
     Get.put(AppDatabase(), permanent: true);
     Get.put(DioClient(), permanent: true);
 
@@ -62,11 +68,13 @@ class GlobalBinding extends Bindings {
     );
 
     // === Serviços ===
+    // Autenticação, regras de atividade e orquestração de etapas
     Get.lazyPut(() => AuthService(Get.find()), fenix: true);
     Get.lazyPut(() => AtividadeService(Get.find()), fenix: true);
     Get.lazyPut(() => AtividadeEtapaService(Get.find()), fenix: true);
 
     // === Upload Services ===
+    // Montagem e envio de dados de atividades
     Get.lazyPut(
         () => UploadService(
               atividadeRepository: Get.find(),
@@ -87,6 +95,7 @@ class GlobalBinding extends Bindings {
         fenix: true);
 
     // === Background Sync Service ===
+    // Verificação periódica e escoamento da fila de upload
     Get.lazyPut(
         () => BackgroundSyncService(
               atividadeRepository: Get.find(),
@@ -95,9 +104,11 @@ class GlobalBinding extends Bindings {
         fenix: true);
 
     // === Sessão ===
+    // Gerencia o usuário logado, token e refresh
     Get.put(SessionManager(authService: Get.find()), permanent: true);
 
     // === Atividade Controller ===
+    // Estado global de atividades disponíveis e em andamento
     Get.put(AtividadeController(Get.find(), Get.find()), permanent: true);
   }
 }

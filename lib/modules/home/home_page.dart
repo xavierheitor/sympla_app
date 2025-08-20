@@ -7,6 +7,12 @@ import 'package:sympla_app/modules/home/widgets/app_drawer.dart';
 import 'package:sympla_app/modules/home/widgets/atividade_card_widget.dart';
 import 'package:sympla_app/modules/home/widgets/status_chips.dart';
 
+/// Tela principal (Home) do aplicativo.
+///
+/// - Mostra o status de sincronização em background
+/// - Botão de sincronizar atividades manualmente (AppBar)
+/// - Destaque para atividade em andamento (se houver)
+/// - Lista as demais atividades disponíveis
 class HomePage extends StatelessWidget {
   /// Controller da página home
   final controller = Get.find<HomeController>();
@@ -66,7 +72,7 @@ class HomePage extends StatelessWidget {
 
         return Column(
           children: [
-            // Widget de status de upload
+            // Widget de status de upload/sync em background (compacto)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: BackgroundSyncStatusWidget.compact(),

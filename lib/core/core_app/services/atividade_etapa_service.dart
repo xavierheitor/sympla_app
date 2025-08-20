@@ -12,10 +12,8 @@ class AtividadeEtapaService {
   AtividadeEtapaService(this.atividadeRepository);
 
   /// 🔍 Retorna o tipoAtividadeMobile da atividade
-  Future<TipoAtividadeMobile> tipoAtividadeMobileDo(
-      AtividadeTableDto atividade) async {
-    final tipo = await atividadeRepository
-        .buscarTipoAtividadePorAtividadeId(atividade.uuid);
+  Future<TipoAtividadeMobile> tipoAtividadeMobileDo(AtividadeTableDto atividade) async {
+    final tipo = await atividadeRepository.buscarTipoAtividadePorAtividadeId(atividade.uuid);
     final tipoResult = tipo?.tipoAtividadeMobile ?? TipoAtividadeMobile.ivItIu;
     AppLogger.d('🔍 TipoAtividadeMobile: $tipoResult', tag: 'EtapaService');
     return tipoResult;
@@ -33,21 +31,17 @@ class AtividadeEtapaService {
   }
 
   /// ➡️ Retorna a próxima etapa, ou null se acabou
-  Future<EtapaAtividade?> proximaEtapa(
-      AtividadeTableDto atividade, EtapaAtividade atual) async {
+  Future<EtapaAtividade?> proximaEtapa(AtividadeTableDto atividade, EtapaAtividade atual) async {
     final tipo = await tipoAtividadeMobileDo(atividade);
     final fluxo = fluxoPorTipoAtividade[tipo] ?? [];
     final idx = fluxo.indexOf(atual);
-    final proxima =
-        (idx >= 0 && idx + 1 < fluxo.length) ? fluxo[idx + 1] : null;
-    AppLogger.d('🔄 Próxima etapa após $atual: ${proxima ?? "finalizada"}',
-        tag: 'EtapaService');
+    final proxima = (idx >= 0 && idx + 1 < fluxo.length) ? fluxo[idx + 1] : null;
+    AppLogger.d('🔄 Próxima etapa após $atual: ${proxima ?? "finalizada"}', tag: 'EtapaService');
     return proxima;
   }
 
   /// 🎯 Executa a etapa atual (com navegação)
-  Future<void> executar(
-      AtividadeTableDto atividade, EtapaAtividade etapa) async {
+  Future<void> executar(AtividadeTableDto atividade, EtapaAtividade etapa) async {
     AppLogger.d('🚀 Executando etapa: $etapa', tag: 'EtapaService');
 
     final sempreMostra = etapasSempreMostram[etapa] ?? false;
@@ -61,19 +55,19 @@ class AtividadeEtapaService {
 
     switch (etapa) {
       case EtapaAtividade.apr:
-        Get.toNamed(Routes.apr);
+        await Get.toNamed(Routes.apr);
         break;
       case EtapaAtividade.checklist:
-        Get.toNamed(Routes.checklist);
+        await Get.toNamed(Routes.checklist);
         break;
       case EtapaAtividade.resumoAnomalias:
-        Get.toNamed(Routes.resumoAnomalias);
+        await Get.toNamed(Routes.resumoAnomalias);
         break;
       case EtapaAtividade.mpBbForm:
-        Get.toNamed(Routes.mpBbForm);
+        await Get.toNamed(Routes.mpBbForm);
         break;
       case EtapaAtividade.mpDjForm:
-        Get.toNamed(Routes.mpDjForm);
+        await Get.toNamed(Routes.mpDjForm);
         break;
       case EtapaAtividade.finalizada:
         AppLogger.d('✅ Atividade finalizada.', tag: 'EtapaService');
@@ -83,8 +77,7 @@ class AtividadeEtapaService {
 
   /// 🔧 Define se deve pular etapa (poderá futuramente abrir dialog, config, etc)
   Future<bool> desejaPularEtapa(EtapaAtividade etapa) async {
-    AppLogger.d('🤔 Verificando se deve pular etapa $etapa',
-        tag: 'EtapaService');
+    AppLogger.d('🤔 Verificando se deve pular etapa $etapa', tag: 'EtapaService');
     return false;
   }
 }

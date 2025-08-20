@@ -4,6 +4,13 @@ import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
 
+/// Controla o fluxo de inicialização do app.
+///
+/// Passos principais durante o `onInit`:
+/// 1) Inicializa a sessão (carrega usuário local e tenta renovar token)
+/// 2) Se não há sessão válida, navega para `Routes.login`
+/// 3) Com sessão válida, dispara a sincronização inicial (`SyncManager`)
+/// 4) Em caso de sucesso (ou dados locais suficientes), segue para Home
 class SplashController extends GetxController {
   final carregando = true.obs;
 

@@ -1,3 +1,6 @@
+/// Rotas nomeadas utilizadas pelo aplicativo.
+///
+/// Mantenha sincronizado com `AppPages.routes`.
 abstract class Routes {
   static const login = '/login';
   static const splash = '/splash';

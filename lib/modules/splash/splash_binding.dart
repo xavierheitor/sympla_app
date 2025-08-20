@@ -17,15 +17,20 @@ import 'package:sympla_app/core/domain/repositories/implementations/sync/tipo_at
 import 'package:sympla_app/modules/splash/splash_controller.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
 
-// Repositórios de sincronização específicos
-
+/// Binding da tela de Splash.
+///
+/// Responsável por:
+/// - Instanciar o `SyncManager`
+/// - Registrar todos os repositórios sincronizáveis (módulos)
+/// - Disponibilizar `SplashController` para a view
+ 
 class SplashBinding extends Bindings {
   @override
   void dependencies() {
     // Instancia o SyncManager
     final syncManager = SyncManager();
 
-    // Registra os módulos de sincronização
+    // Registra os módulos de sincronização (ordem irrelevante)
     syncManager.registrar(AprPerguntaRelacionamentoTableSyncImpl(
       Get.find(),
       Get.find(),
@@ -102,7 +107,7 @@ class SplashBinding extends Bindings {
       Get.find(),
     ));
 
-    // Registra o SyncManager e o SplashController
+    // Disponibiliza o SyncManager e o SplashController no container do GetX
     Get.put<SyncManager>(syncManager, permanent: true);
     Get.put(SplashController(
       syncManager: syncManager,

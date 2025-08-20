@@ -1,8 +1,8 @@
 // ========================
 // auth_service.dart
 // ========================
-import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
+import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 

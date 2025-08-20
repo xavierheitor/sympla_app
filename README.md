@@ -1153,3 +1153,6 @@ A partir de agora, você pode instalar, depurar, logar (adb logcat), tudo via Wi
 
 ⸻
 ```
+
+executar sempre
+dart format . e flutter analyze.
