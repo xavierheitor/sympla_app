@@ -147,9 +147,7 @@ class _MpBbFormPageState extends State<MpBbFormPage> {
                 const SizedBox(height: 8),
                 MedicoesEditor(
                   medicoes: _medicoesTemp,
-                  onChanged: (novas) {
-                    _medicoesTemp.assignAll(novas);
-                  },
+                  onChanged: _medicoesTemp.assignAll,
                 ),
               ],
             ),

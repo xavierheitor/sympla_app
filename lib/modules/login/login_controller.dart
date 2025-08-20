@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
-import 'package:flutter/material.dart';
 import 'package:sympla_app/modules/login/login_service.dart';
 
 class LoginController extends GetxController {
@@ -19,7 +19,7 @@ class LoginController extends GetxController {
 
     try {
       await loginService.login(matricula.value, senha.value);
-      Get.offAllNamed('/splash');
+      await Get.offAllNamed('/splash');
     } catch (e, s) {
       final trat = ErrorHandler.tratar(e, s);
       erro.value = trat.mensagem;

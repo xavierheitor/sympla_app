@@ -14,8 +14,8 @@ import 'package:sympla_app/core/domain/repositories/implementations/sync/grupo_d
 import 'package:sympla_app/core/domain/repositories/implementations/sync/subgrupo_defeito_equipamento_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/tecnico_table_sync_impl.dart';
 import 'package:sympla_app/core/domain/repositories/implementations/sync/tipo_atividade_table_sync_impl.dart';
-import 'package:sympla_app/modules/splash/splash_controller.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
+import 'package:sympla_app/modules/splash/splash_controller.dart';
 
 /// Binding da tela de Splash.
 ///

@@ -5,6 +5,8 @@
 /// - Define as tabelas em `tables/schema.dart`
 /// - Usa `LoggingExecutor` para logar statements (configurável)
 /// - `schemaVersion` controla migrações futuras
+library;
+
 
 import 'dart:io';
 

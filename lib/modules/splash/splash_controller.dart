@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
 
 /// Controla o fluxo de inicialização do app.
@@ -30,7 +30,7 @@ class SplashController extends GetxController {
 
     if (!session.estaLogado) {
       AppLogger.w('🔐 Nenhum usuário logado. Indo para login.');
-      Get.offAllNamed(Routes.login);
+      await Get.offAllNamed(Routes.login);
       return;
     }
 
@@ -41,16 +41,16 @@ class SplashController extends GetxController {
       if (!resultado.podeContinuar) {
         AppLogger.e(
             '🚫 Sincronização falhou e não há dados locais suficientes');
-        Get.offAllNamed(Routes.erroSplash);
+        await Get.offAllNamed(Routes.erroSplash);
         return;
       }
     } catch (e) {
       AppLogger.e('❌ Erro inesperado durante sincronização: $e');
-      Get.offAllNamed(Routes.erroSplash);
+      await Get.offAllNamed(Routes.erroSplash);
       return;
     }
 
     AppLogger.d('🌀 Sincronização concluída. Indo para Home...');
-    Get.offAllNamed(Routes.home);
+    await Get.offAllNamed(Routes.home);
   }
 }

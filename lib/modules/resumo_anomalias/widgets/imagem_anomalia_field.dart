@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -134,7 +135,7 @@ class ImagemAnomaliaField extends StatelessWidget {
             left: 16,
             child: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white, size: 28),
-              onPressed: () => Get.back(),
+              onPressed: Get.back,
             ),
           ),
         ],

@@ -1,6 +1,6 @@
 import 'package:sympla_app/core/constants/api_constants.dart';
-import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
 import 'package:sympla_app/core/domain/dto/auth/login_response_dto.dart';
+import 'package:sympla_app/core/domain/dto/usuario_table_dto.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/usuario_repository.dart';
 import 'package:sympla_app/core/errors/error_handler.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
@@ -19,7 +19,7 @@ class UsuarioRepositoryImpl implements UsuarioRepository {
   Future<List<UsuarioTableDto>> buscarTodosUsuarios() async {
     try {
       final usuarios = await usuarioDao.buscarTodos();
-      return usuarios.map((e) => UsuarioTableDto.fromData(e)).toList();
+      return usuarios.map(UsuarioTableDto.fromData).toList();
     } catch (e, s) {
       final erro = ErrorHandler.tratar(e, s);
       AppLogger.e(

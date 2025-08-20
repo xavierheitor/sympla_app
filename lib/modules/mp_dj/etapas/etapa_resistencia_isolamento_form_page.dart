@@ -229,7 +229,7 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
         title: const Text('Resistência de Isolamento'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(), // Volta para tela anterior
+          onPressed: Get.back, // Volta para tela anterior
         ),
         actions: [
           IconButton(
@@ -368,9 +368,9 @@ class _EtapaResistenciaIsolamentoPageState extends State<EtapaResistenciaIsolame
                             final r10min = double.tryParse(m.resistencia10min.text.trim());
 
                             /// 📊 Calcula índices IA e IP
-                            double? ia =
+                            final double? ia =
                                 (r30s != null && r30s > 0 && r1min != null) ? r1min / r30s : null;
-                            double? ip = (r1min != null && r1min > 0 && r10min != null)
+                            final double? ip = (r1min != null && r1min > 0 && r10min != null)
                                 ? r10min / r1min
                                 : null;
 

@@ -39,7 +39,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () => _verificarManual(),
+                    onPressed: _verificarManual,
                     icon: const Icon(Icons.refresh),
                     label: const Text('Verificar'),
                     style: ElevatedButton.styleFrom(
@@ -51,7 +51,7 @@ class BackgroundSyncStatusWidget extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: ElevatedButton.icon(
-                    onPressed: () => _sincronizarManual(),
+                    onPressed: _sincronizarManual,
                     icon: const Icon(Icons.cloud_upload),
                     label: const Text('Sincronizar'),
                     style: ElevatedButton.styleFrom(

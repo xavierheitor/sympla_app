@@ -112,7 +112,7 @@ class _EtapaPressaoSf6PageState extends State<EtapaPressaoSf6Page> {
         title: const Text('Pressão SF6'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
+          onPressed: Get.back,
         ),
         actions: [
           IconButton(

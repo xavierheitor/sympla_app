@@ -10,6 +10,7 @@ analyzer:
     - "**/.dart_tool/**"
     - "**/ios/Pods/**"
     - "**/android/.gradle/**"
+    - README.md # provisório: ignora lints/erros no README
 
 # Configurações específicas para o linter
 linter:

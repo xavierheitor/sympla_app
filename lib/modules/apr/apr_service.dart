@@ -142,7 +142,7 @@ class AprService with RepositoryHelper {
   Future<List<TecnicoTableDto>> buscarTecnicos() {
     return executar(
       'buscarTecnicos',
-      () => tecnicoRepository.buscarTodosTecnicos(),
+      tecnicoRepository.buscarTodosTecnicos,
       onErrorReturn: [],
     );
   }

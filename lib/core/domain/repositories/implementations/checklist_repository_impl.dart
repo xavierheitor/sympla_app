@@ -35,7 +35,7 @@ class ChecklistRepositoryImpl
   @override
   Future<bool> checklistEstaVazio() {
     return executar(
-        'checklistEstaVazio', () => checklistDao.estaVazioChecklist(),
+        'checklistEstaVazio', checklistDao.estaVazioChecklist,
         onErrorReturn: false);
   }
 

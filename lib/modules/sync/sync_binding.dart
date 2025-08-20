@@ -10,6 +10,6 @@ class SyncBinding extends Bindings {
   void dependencies() {
     // O BackgroundSyncService já está registrado no GlobalBinding
     // Aqui apenas registramos o controller específico da página
-    Get.lazyPut(() => SyncController());
+    Get.lazyPut(SyncController.new);
   }
 } 

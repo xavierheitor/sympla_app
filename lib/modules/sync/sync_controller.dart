@@ -1,5 +1,5 @@
-import 'package:get/get.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/upload/background_sync_service.dart';
 import 'package:sympla_app/core/upload/upload_manager.dart';

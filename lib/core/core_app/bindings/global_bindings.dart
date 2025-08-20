@@ -35,7 +35,7 @@ class GlobalBinding extends Bindings {
     // === Core (DB, API) ===
     // Banco local (Drift) e cliente HTTP (Dio)
     Get.put(AppDatabase(), permanent: true);
-    Get.put(DioClient(), permanent: true);
+    Get.put(DioClient(Get.find()), permanent: true);
 
     // === Repositórios ===
     Get.lazyPut<UsuarioRepository>(

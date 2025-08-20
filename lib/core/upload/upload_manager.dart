@@ -1,5 +1,5 @@
-import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:get/get.dart';
+import 'package:sympla_app/core/constants/api_constants.dart';
 import 'package:sympla_app/core/domain/repositories/abstracts/atividade_repository.dart';
 import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/network/dio_client.dart';

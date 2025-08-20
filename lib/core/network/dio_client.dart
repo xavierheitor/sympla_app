@@ -1,9 +1,10 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart' as g;
 import 'package:sympla_app/core/constants/api_constants.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 
 /// Cliente HTTP central com `Dio`, incluindo:
 ///
@@ -15,8 +16,9 @@ class DioClient {
   final dio.Dio _dio;
   bool _isRefreshing = false;
   Completer<void>? _refreshCompleter;
+  final SessionManager _session;
 
-  DioClient()
+  DioClient(this._session)
       : _dio = dio.Dio(
           dio.BaseOptions(
             baseUrl: ApiConstants.baseUrl,
@@ -27,8 +29,7 @@ class DioClient {
     _dio.interceptors.add(
       dio.InterceptorsWrapper(
         onRequest: (options, handler) {
-          final sessionManager = g.Get.find<SessionManager>();
-          final token = sessionManager.tokenSync;
+          final token = _session.tokenSync;
 
           if (token != null && token.isNotEmpty) {
             options.headers['Authorization'] = 'Bearer $token';
@@ -62,10 +63,10 @@ class DioClient {
           final uri = error.requestOptions.uri;
           final tipo = error.type;
           final options = error.requestOptions;
-          final session = g.Get.find<SessionManager>();
+          final session = _session;
 
           // número de tentativas de refresh para esta request
-          int retryCount = (options.extra['refreshAttempts'] ?? 0) as int;
+          final int retryCount = (options.extra['refreshAttempts'] ?? 0) as int;
 
           // Autenticação expirada/negada → tenta fluxo de refresh controlado
           if (status == 401) {
@@ -73,7 +74,7 @@ class DioClient {
               AppLogger.e(
                   '❌ Máximo de tentativas de refresh atingido para $uri');
               await session.logout();
-              g.Get.offAllNamed('/login');
+              await g.Get.offAllNamed('/login');
               return handler.next(error);
             }
 
@@ -129,7 +130,7 @@ class DioClient {
               AppLogger.e('🚫 Falha ao renovar token. Forçando logout.',
                   error: e, stackTrace: s);
               await session.logout();
-              g.Get.offAllNamed('/login');
+              await g.Get.offAllNamed('/login');
             }
 
             return handler.next(error);

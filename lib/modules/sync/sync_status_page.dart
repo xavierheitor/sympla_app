@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/foundation.dart';
-import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sympla_app/core/upload/background_sync_service.dart';
 import 'package:sympla_app/modules/sync/sync_controller.dart';
 

@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sympla_app/core/core_app/services/auth_service.dart';
-import 'package:sympla_app/modules/login/login_service.dart';
 import 'package:sympla_app/modules/login/login_controller.dart';
+import 'package:sympla_app/modules/login/login_service.dart';
 
 /// Binding da tela de Login.
 ///

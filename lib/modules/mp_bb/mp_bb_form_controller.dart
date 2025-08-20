@@ -53,7 +53,7 @@ class MpBbFormController extends GetxController {
         AppLogger.d(
             '[MpBbFormController] Formulário já preenchido. Sinalizando conclusão da etapa MPBB');
         final atividadeController = Get.find<AtividadeController>();
-        atividadeController.avancar();
+        await atividadeController.avancar();
       }
     } catch (e, s) {
       AppLogger.e('[MpBbFormController] Erro ao carregar formulário',
@@ -74,7 +74,7 @@ class MpBbFormController extends GetxController {
       AppLogger.d('[MpBbFormController] Formulário salvo com sucesso');
 
       final atividadeController = Get.find<AtividadeController>();
-      atividadeController.avancar();
+      await atividadeController.avancar();
     } catch (e, s) {
       AppLogger.e('[MpBbFormController] Erro ao salvar formulário',
           error: e, stackTrace: s);

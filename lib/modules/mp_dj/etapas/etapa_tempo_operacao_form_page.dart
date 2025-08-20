@@ -113,7 +113,7 @@ class _EtapaTempoOperacaoPageState extends State<EtapaTempoOperacaoPage> {
         title: const Text('Tempo de Operação'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
+          onPressed: Get.back,
         ),
         actions: [
           IconButton(

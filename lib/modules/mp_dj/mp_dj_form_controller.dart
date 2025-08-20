@@ -281,23 +281,23 @@ class MpDjFormController extends GetxController {
   Future<void> _redirecionar() async {
     switch (etapaAtual.value) {
       case 1: // 🔌 Resistência de Contato
-        Get.toNamed(Routes.etapaIsolamento);
+        await Get.toNamed(Routes.etapaIsolamento);
         break;
       case 2: // 🔌 Resistência de Isolamento
-        Get.toNamed(Routes.etapaResistenciaContato);
+        await Get.toNamed(Routes.etapaResistenciaContato);
         break;
       case 3: // ⏱️ Tempo de Operação
-        Get.toNamed(Routes.etapaTempoOperacao);
+        await Get.toNamed(Routes.etapaTempoOperacao);
         break;
       case 4: // 💨 Pressão SF6
-        Get.toNamed(Routes.etapaPressaoSf6);
+        await Get.toNamed(Routes.etapaPressaoSf6);
         break;
       case 5: // ✅ MPDJ Concluído - Volta para fluxo principal
         await atividadeController.avancar();
         break;
       default: // 🔄 Fallback - Volta para primeira etapa
         etapaAtual.value = 1;
-        Get.toNamed(Routes.etapaResistenciaContato);
+        await Get.toNamed(Routes.etapaResistenciaContato);
     }
   }
 

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sympla_app/core/constants/route_names.dart';
 import 'package:sympla_app/core/core_app/controllers/atividade_controller.dart';
-import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/core_app/session/session_manager.dart';
+import 'package:sympla_app/core/logger/app_logger.dart';
 import 'package:sympla_app/core/sync/sync_manager.dart';
 
 /// Controlador da tela Home.
@@ -39,7 +39,7 @@ class HomeController extends GetxController {
     AppLogger.i('Saindo...', tag: 'HomeController');
     final result = await session.logout();
     if (result) {
-      Get.offAllNamed(Routes.login);
+      await Get.offAllNamed(Routes.login);
     } else {
       AppLogger.e('Erro ao deslogar', tag: 'HomeController');
       Get.snackbar('Erro', 'Erro ao sair',

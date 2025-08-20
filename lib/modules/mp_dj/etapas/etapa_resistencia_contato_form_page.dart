@@ -93,7 +93,7 @@ class _EtapaResistenciaContatoPageState
         title: const Text('Resistência de Contato'),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Get.back(),
+          onPressed: Get.back,
         ),
         actions: [
           IconButton(
